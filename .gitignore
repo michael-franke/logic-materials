@@ -1,0 +1,16 @@
+# LaTeX auxiliary files
+*.log
+*.aux
+*.bbl
+*.pdf
+*.blg
+*.gz
+*-blx.bib
+*.out
+*.rel
+*.bst
+*.run.xml
+auto
+
+# MacOS
+.DS_Store
