@@ -11,6 +11,7 @@
 *.bst
 *.run.xml
 auto
+.auctex-auto
 
 # MacOS
 .DS_Store
