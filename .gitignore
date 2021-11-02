@@ -1,6 +1,10 @@
 # LaTeX auxiliary files
 *.log
 *.aux
+*.bcf
+*.nav
+*.snm
+*.toc
 *.bbl
 *.blg
 *.gz
