@@ -3,9 +3,9 @@
 %\geometry{showframe} % display margins for debugging page layout
 
 %%% MF additions
-\usepackage[nographicx, nohyperref, nosubcaption, nogb4e, nobiblatex]{00-mypackages}
-\usepackage{00-mycommands}
-\usepackage{00-myenvironments}
+\usepackage[nographicx, nohyperref, nosubcaption, nogb4e, nobiblatex]{../99-auxiliary-files/00-mypackages}
+\usepackage{../99-auxiliary-files/00-mycommands}
+\usepackage{../99-auxiliary-files/00-myenvironments}
 
 \usepackage{titlesec}
 \usepackage{etoolbox}
@@ -256,6 +256,11 @@ Y$). Some examples:
   \end{enumerate}
 \end{multicols}
 
+\subsection{Operations on sets}
+
+Operations on sets take one or several sets as input and return another set.
+We consider here the power set operation and different kinds of logical operations.
+
 The \emph{power set} $\pow{X}$ of $X$ is the set of all subsets of $X$:
 \begin{align*}
   \pow{X} = \set{Y \setbar Y \subseteq X}
@@ -272,14 +277,14 @@ If $X$ is finite, the cardinality of $\pow{X}$ is $2^{\card{X}}$.\sidenote{This 
   \end{enumerate}
 \end{multicols}
 
-\subsection{Operations on sets}
 
 \begin{marginfigure}[2cm]
   \includegraphics{set_operations.png}
   \caption{Venn diagrams of set operations.}
 \end{marginfigure}
 
-We can use sets (as input) to create a new set (as output). For sets $X$ and $Y$:
+The following operations on sets correspond to logical operators (\emph{and}, \emph{or}, \emph{not}).
+For any sets $X$ and $Y$:
 \begin{enumerate}[]
 \item $X \cap Y = \set{z \setbar z \in X \text{ and } z \in Y}$ \hfill \mygray{[intersection]}
 \item $X \cup Y = \set{z \setbar z \in X \text{ or } z \in Y}$ \hfill \mygray{[union]}
