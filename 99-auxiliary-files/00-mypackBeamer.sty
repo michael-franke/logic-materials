@@ -1,0 +1,113 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mypackages}[2010/03/29 Personal Packages]
+
+\newif\ifpala
+\palafalse
+
+\newif\ifnobib
+\nobibtrue
+
+\newif\ifnogbex
+\nogbextrue
+
+% Fonts
+\DeclareOption{palatino}{
+  \palatrue
+}
+
+% BibLaTeX
+\DeclareOption{nobiblatex}{
+  \nobibfalse
+}
+
+% gb4e
+\DeclareOption{nogb}{
+  \nogbexfalse
+}
+
+\ProcessOptions\relax
+
+
+\RequirePackage{etex}
+
+\RequirePackage[ngerman,english]{babel}
+\RequirePackage[utf8]{inputenc}
+
+\RequirePackage{enumerate}
+\RequirePackage{booktabs}
+%\RequirePackage{amsfonts}           % Fonts for Formulas
+\RequirePackage{amsmath}            % Formeln
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{dsfont}
+\RequirePackage[all]{xy}            
+\RequirePackage{url}
+\RequirePackage{calc}
+
+
+
+% \RequirePackage{gb4e_micha}
+% \renewcommand{\eachwordtwo}{\relsize{-1}} % format translation in glosses
+% \renewcommand{\trans}{\vskip.15\baselineskip\relsize{-1}}
+
+\RequirePackage{lipsum}
+
+% \RequirePackage{ulem}
+\RequirePackage{relsize} % provides command \relsize{+/-x} for relative
+                     % font size changes
+
+\RequirePackage{tikz}
+\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri,fit}
+
+
+\RequirePackage{attrib} % for right-aligned references at the end of
+                    % quotes; part of Frankenstein bundle, but 
+\renewcommand\PreTrib {}   % overwrite these commands, from attrib.sty
+\renewcommand\PostTrib {}  % to suppress additional brackets around
+                           % attributions 
+
+\RequirePackage{stmaryrd}
+
+\RequirePackage{setspace}
+
+\RequirePackage{nicefrac}
+
+\RequirePackage{xspace}
+
+\RequirePackage{multicol}
+
+
+%\RequirePackage{pgf}
+
+\ifpala
+  \RequirePackage[sc,osf]{mathpazo}
+  \linespread{1.12}
+\fi
+
+\ifnobib
+  \RequirePackage[style=authoryear-comp, % Citation marks as [Jef65]
+            natbib=true,      % Natbib-style cite macros \citeauthor &c.
+            %hyperref=true,    % Cites in pdf are links to bib
+                              % (hyperref conf.)
+            maxnames=2,       % truncate name lists if more than 2
+                              % names appear
+            doi=false,        % no doi's
+            url=false,        % no url's
+            sortcites=false,  % do NOT sort cites in the style of the
+                              % bibliography 
+            %backref=true     % insert backrefs in reference section
+            ]{biblatex}
+  \bibhang0.5em % for proper indentation References
+\fi
+
+\ifnogbex
+  \RequirePackage{gb4e}
+  \noautomath
+  \renewcommand{\eachwordtwo}{\relsize{-1}} % format translation in glosses
+  % \renewcommand{\trans}{\vskip.15\baselineskip\relsize{-1}}
+  \renewcommand{\trans}{\vskip.15\baselineskip}
+
+\fi
+
+
+\bibliography{~/Desktop/icloud/MyRefGlobal}
