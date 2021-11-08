@@ -374,15 +374,15 @@ To conclusively show that something follows from a definition, we need the conce
 \subsection{Formal vs.~informal proofs}
 
 There are two general kinds of proofs.
-\emph{Formal proofs} are rigid rule-based derivations operating on a formal language in a specific proof system.\marginnote{Formal proofs will be dealt with later in the context of a logic.}
+\emph{Formal proofs} are rigid rule-based derivations operating on a formal language in a specific proof system.\sidenote{Formal proofs will be dealt with later in the context of a logic.}
 \emph{Informal proofs}, if done well, follow the structure of a formal proof but only describe the gist of it in more comprehensible language, usually a mix of natural language, specialized jargon and mathematical notation.
 When we speak of proofs from here on, think: informal proof.
 
 \subsection{Why proofs?}
 
-Nothing can be known for certain, except mathematical-logical truth.\marginnote{This is a strategically bold claim to clearly emphasize the significance of mathematical-logical knowledge. Please feel highly provoked and intrigued. Please push back, question and doubt!}
+Nothing can be known for certain, except mathematical-logical truth.\sidenote{This is a strategically bold claim to clearly emphasize the significance of mathematical-logical knowledge. Please feel highly provoked and intrigued. Please push back, question and doubt!}
 Proofs are the anchors of infallible, necessarily true knowledge.
-A proposition which has a valid proof must necessarily be true (in the system of logic / assumptions used to prove it).
+A proposition which has a valid proof must necessarily be true (in the system of logic and given the assumptions used to prove it).
 Therefore, proofs are the foundation of the only unshakable knowledge humankind is capable of.
 
 \subsection{Proof strategies}
@@ -421,7 +421,7 @@ it.\sidenote[][-0.75cm]{We should not confuse mathematical statements with stati
     \item $X = \set{a,b}$
     \item $Y = \set{c, d, X} = \set{c, d, \set{a,b}}$
   \end{enumerate}
-  Although $X \in Y$ and $a \in X$, it is not true that $a \in Y$.\sidenote{To mark the end of a proof, we here use the symbol $\Box$. Another common end-of-proof notation is ``QED'', short for \emph{quod erat demonstrandum} (what needed to be shown).}
+  Although $X \in Y$ and $a \in X$, it is not true that $a \in Y$.\sidenote{To mark the end of a proof, we here use the symbol $\Box$. Another common end-of-proof notation is ``QED'', short for \emph{quod erat demonstrandum} (what was to be shown).}
 \end{proof}
 
 Here is a second example.
@@ -431,7 +431,7 @@ Here is a second example.
 \end{proposition}
 
 \begin{proof}
-  A counterexample is $X = \set{a}$ and $Y=\set{b}$, because clearly $\set{a} \cup \set{b} = \set{a,b} \neq \es$, but $\set{a} \cap \set{b} = \es$.\sidenote[][-0.5cm]{Sometimes a little explanation as to \emph{why} a given example is a counterexample can be helpful.}
+  A counterexample is $X = \set{a}$ and $Y=\set{b}$, because clearly $\set{a} \cup \set{b} = \set{a,b} \neq \es$, but $\set{a} \cap \set{b} = \es$.
 \end{proof}
 
 \paragraph{Direct proof.}
@@ -455,16 +455,14 @@ If the statement to be proven is a conditional with \emph{if} and \emph{then}, t
 
 \begin{proof}
   Suppose that $X \cap Y \neq \es$. This means that there must be at least one element $z$ that
-  is in both $X$ and $Y$. But then the number of elements that are in both $X$ and $Y$ must be
-  at least one and so bigger than zero.\sidenote[][-1.5cm]{This is an example of a \emph{direct
-      proof}.  We did not reduce any additional
-    assumption to a contradiction (like in previous indirect proofs).}
+  is in both $X$ and $Y$. But then the number of elements that are in either $X$ or $Y$ must be
+  at least one and so bigger than zero.
 \end{proof}
 
 \paragraph{Indirect proof.}
 
 Direct proofs can sometimes be hard (even impossible), while a different strategy, namely an indirect proof is much easier.
-To indirectly prove a claim, we assume the logical opposite and derive from it a contradiction.
+To indirectly prove a claim, we assume the logical opposite of what needs to be shown and derive from it a contradiction.
 This strategy is therefore also called \emph{reductio ad absurdum} or \emph{proof by refutation}.
 This is best demonstrated with a series of examples.
 
@@ -472,7 +470,7 @@ Let us start with an indirect proof for Proposition~\ref{prop:emptyset-subset-of
 The proposition is that: For any $X$, $\es \subseteq X$.
 
 \begin{proof}
-  Assume that there is an $X$ for which $\es \not \subseteq X$.\sidenote{Here is the \emph{reductio} assumption. We simply assume the opposite of what we want to show.} Then there must be an element in $\es$ which is not in $X$. But there are no elements in $\es$. So, we have a contradiction.\sidenote{We derive a contradiction from the assumption that what needed to be shown in false. Hence, what needed to be shown must be true.}
+  Assume that there is an $X$ for which $\es \not \subseteq X$.\sidenote{Here is the \emph{reductio} assumption. We simply assume the opposite of what we want to show.} Then there must be an element in $\es$ which is not in $X$. But there are no elements in $\es$. So, we have a contradiction.\sidenote{We derive a contradiction from the assumption that what needed to be shown is false. Hence, what needed to be shown must be true.}
 \end{proof}
 
 Here is another example.
@@ -482,7 +480,7 @@ Here is another example.
 \end{proposition}
 
 \begin{proof}
-  Suppose that there are two empty sets.\sidenote{Here we make the assumption that the \emph{opposite} of
+  Suppose that there are two empty sets.\sidenote{This is the reductio assumption that the \emph{opposite} of
     what we want to show is true.} Call them $\es_1$ and $\es_2$. Sets are
   individuated by the elements that they contain. So for $\es_1$ and $\es_2$ to be different,
   there needs to be an entity $x$ such that $x \in \es_1$ and $x \not \in \es_2$ or
@@ -497,29 +495,62 @@ Notice that now the \emph{reductio} assumption is slightly more complicated.
   If $X \subseteq Y$ and $Y \subseteq X$, then $X = Y$.
 \end{proposition}
 \begin{proof}
-  Let us assume that $X \subseteq Y$ and $Y \subseteq X$ and also that
-  $X \neq Y$.\sidenote{We assume what we should assume (the
-    content of the \emph{if}-statement), but also assume, towards deriving a contradiction, that the content of the \emph{then}-statement is false, contrary to what the proposition says.} The latter means
-  that there must be some element $x \in X$ such that $x \not \in Y$ or some element $y \in Y$
-  such that $y \not \in X$. If there is an $x \in X$ with $x \not \in Y$, the it cannot be that
-  $X \subseteq Y$. If there is an $y \in Y$ with $y \not \in X$, it cannot be that
-  $Y \subseteq X$. This is a contradiction to our initial assumption.
+  Let us assume that $X \subseteq Y$ and $Y \subseteq X$ and also that $X \neq Y$.\sidenote{We assume that the content of the \emph{if}-statement is true and we also assume, towards deriving a contradiction, that the content of the \emph{then}-statement is false, contrary to what the proposition says.}
+  The latter means that there must be some element $x \in X$ such that $x \not \in Y$ or some element $y \in Y$ such that $y \not \in X$.
+  If there is an $x \in X$ with $x \not \in Y$, it cannot be that $X \subseteq Y$. If there is an $y \in Y$ with $y \not \in X$, it cannot be that $Y \subseteq X$. This is a contradiction to our initial assumption.
 \end{proof}
 
 \paragraph{Inductive proof.}
 There are also inductive proofs.
 These are more complicated, as they consist of three steps: the inductive base, the inductive assumption and the inductive step.
 
+Inductive proofs are often useful in connection with recursive definitions.
+Let us consider a very simple example first.
+We use the following recursive definition of a set $\mathcal{F}$ of (flowery) strings:
+
+\begin{enumerate}
+  \item \textbf{anchor:} the symbol ``*'' is part of $\mathcal{F}$
+  \item \textbf{step:} if $f \in \mathcal{F}$, then so is ``(x)''
+  \item \textbf{exhaustion:} nothing else is in $\mathcal{F}$
+\end{enumerate}
+
 
 \begin{proposition}
-  The cardinality of the power set of non-empty finite set $X$ is $\card{\pow{X}} = 2^{\card{X}}$.
+  Each $f \in \mathcal{F}$ contains the exact same number of opening and closing parentheses.
+\end{proposition}
+
+\begin{proof}
+  The inductive proof is over the number $n$ of opening parentheses.
+
+  \emph{Inductive base.}
+  Any element in $\mathcal{F}$ which has no opening parentheses is necessarily added to $\mathcal{F}$ by the recursive anchor. But since the recursive anchor introduces neither opening nor closing parentheses, the number of opening and closing parentheses for $n=0$ is equal.
+
+  \emph{Inductive assumption.} We assume that any string $f \in \mathcal{F}$ with $n = k-1$ opening parentheses has the same number of opening and closing parentheses.
+
+  \emph{Inductive step.}
+  We now need to show that a string $f \in \mathcal{F}$ with $n=k$ opening parentheses also has $n=k$ closing parentheses.
+  Indeed, the only way in which $f$ can have $n>0$ opening parentheses is by application of the recursive step.
+  Therefore, $f$ must be of the form $f = \text{``(g)''}$ where string $g \in \mathcal{F}$ has $k-1$ opening parentheses.
+  By inductive assumption, $g$ has the same amount of opening and closing parentheses.
+  But since $f = \text{``(g)''}$, and so exactly one parenthesis of each type is added to $g$, $f$ must have an equal number of parentheses, too.
+\end{proof}
+
+Here is another, more difficult application of an inductive proof.
+
+\begin{proposition}
+  The cardinality of the power set of finite set $X$ is $\card{\pow{X}} = 2^{\card{X}}$.
 \end{proposition}
 
 \begin{proof}
   The inductive proof is over the cardinality of set $X$.\\
-  \emph{Inductive base.} If $\card{X} = 1$, we know that $X = \set{x}$, so that $\pow{X} = \set{\emptyset, \set{x}}$, the cardinality is in indeed $2^{\card{X}} = 2$. \\
-  \emph{Inductive assumption.} Assume that the claim is true for any set with cardinality of at most $n > 1$.
-  \emph{Inductive step.} We need to show that the claim is true for any set $X$ with $\card{X} = 1$, given the inductive assumption. Let $x \in X$ and $Y = X \setminus \set{y}$. By inductive assumption, $\card{\pow{Y}} = 2^{\card{Y}}$. The power set of $X$ contains all sets in the power set of $Y$. It additionally also contains a version of each element in $\pow{Y}$ that also contains $x$.\sidenote{This may be intuitively clear, but it might also be proven (as a so-called \emph{lemma}). It is in this sense that these proofs are all informal: they do not spell each and every piece of the derivation which may be plausible enough to be left out.} But that means that the cardinality of $\pow{X}$ is $\card{\pow{X}} = 2 \times \card{\pow{Y}} = 2 \times 2^{{n-1}} = 2^{n}$.
+  \emph{Inductive base.} If $\card{X} = 0$, we know that $X = \emptyset$, so that $\pow{X} = \set{\emptyset}$. The cardinality of $\set{\emptyset}$ is indeed $2^{\card{X}} = 2^{0} = 1$.\sidenote{Though strictly speaking unnecessary, we might also check the case of $n=1$ just to be sure: If $\card{X} = 1$, we know that $X = \set{x}$, so that $\pow{X} = \set{\emptyset, \set{x}}$, the cardinality of which is $2^{\card{X}} = 2$. } \\
+  \emph{Inductive assumption.} Assume that the claim is true for any set with cardinality of at most $n > 0$.\\
+  \emph{Inductive step.} We need to show that the claim is true for any set $X$ with $\card{X} = n$, given the inductive assumption.
+  Let $X$ be an arbitrary set with $\card{X} = n$.
+  Let $x \in X$ and $Y = X \setminus \set{x}$. By inductive assumption, $\card{\pow{Y}} = 2^{\card{Y}}$.
+  The power set of $X$ contains all sets in the power set of $Y$.
+  It additionally also contains a version of each element in $\pow{Y}$ that also contains $x$.\sidenote{This may be intuitively clear, but it might also be proven (as a so-called \emph{lemma}). It is in this sense that these proofs are all informal: they do not spell out each and every piece of the derivation which may be plausible enough to be left out.}
+  But that means that the cardinality of $\pow{X}$ is $\card{\pow{X}} = 2 \times \card{\pow{Y}} = 2 \times 2^{{n-1}} = 2^{n}$.
 \end{proof}
 
 \bigskip
