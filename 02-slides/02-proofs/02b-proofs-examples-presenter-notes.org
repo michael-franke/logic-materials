@@ -1,0 +1,79 @@
+In this video, we are going to look at examples of different kinds of proof strategies.
+
+CLICK
+
+The proof strategies we will be looking at are: ...
+
+CLICK
+
+Let us start, then, with an example of a proof via refutation by counterexample.
+This strategy is applicable in cases where a so-called universal statement, e.g., statements that ALL members of some sort have a particular property.
+The strategy is to simply find an easy and illustrating counterexample, i.e., a single member of the relevant sort which does NOT have the property in question.
+
+Take the claim that for any sets X and Y ...
+This is a claim about, well, any sets.
+If we can find a single pair of sets for which the relevant property does NOT hold, we have proved the general claim to be false.
+
+CLICK
+
+There are infinitely many counterexamples for this particular case.
+Here is a relatively simple pair of X and Y that suffices to prove the claim false.
+X is the set ...
+Y is the set ...
+...
+
+CLICK
+
+Let us now look at a different proof strategy: direct proofs.
+Suppose we want to prove the following general claim: ...
+
+A direct proof proceeds by making just generally accepted facts, definitions and drawing conclusions about what follows from them in order to arrive at the statement to be proven.
+
+CLICK
+
+To illustrate, we first assume that there is an arbitrary set X.
+We do not assume much about X, just that it is a set.
+Next, we just remind ourselves (and our imagine audience) of the definition of "subsethood", namely that ...
+We then just rephrase that definition by saying that: ...
+We now apply this specifically to the case at hand, namely the empty set, by noting that ...
+
+CLICK
+
+to contrast the previous DIRECT proof, let's look at the same example proposition but try to give an INDIRECT proof for it.
+
+An indirect proof, unlike a direct one, assumes that what needs to be proven is false, and then derives a logical contradiction from this assumption by using nothing else than definitions and standard inference rules.
+
+CLICK
+
+For example, let's assume the logical opposite of the claim we want to proof.
+Then, by definition of subsethood, we can derive that ...
+But then we realize that this is in contradiction of the definition of an empty set.
+We have therefore derived a contradiction from the set of relevant definitions and the assumption that the claim to be shown was false.
+If the set of definitions is sound (i.e., itself contradiction-free, which we should assume and hope), this means that the claim to be shown must be true.
+
+CLICK
+
+Finally consider an example of an inductive proof.
+Inductive proofs work well in concert with recursively defined concepts.
+We therefore consider the example of a very simple set of symbols, called F here, which consists of ...
+
+CLICK
+
+The proposition to be shown is that ...
+
+CLICK
+
+An inductive proof has three parts.
+We start the argument at the recursive anchor or  the "atomic elements", so to speak.
+Here we would say that ...
+
+CLICK
+
+Next, we will make a large jump and make an assumption that many more complex elements already have the property to be shown.
+Concretely, ...
+
+CLICK
+
+The main work then happens in the inductive step, the last part of the proof.
+We use the inductive assumption to derive that the next elements not yet covered by the IA also have the property in question.
+For example, in the case at hand ...
