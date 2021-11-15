@@ -46,13 +46,14 @@
 \titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{0em}
 \titlespacing*{\subparagraph}{0pt}{3.25ex plus 1ex minus .2ex}{0em}
 
-\DefineNamedColor{named}{mygray2}{cmyk}{0.15,0.15,0.15,0.15}
+\DefineNamedColor{named}{mygray2}{cmyk}{0.55,0.25,0.25,0.25}
 \newcommand{\mygray}[1]{\textcolor{mygray2}{#1}}
 
 %%% Tufte style
 \usepackage{graphicx} % allow embedded images
   \setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
   \graphicspath{{graphics/}} % set of paths to search for images
+
 \usepackage{fancyvrb} % extended verbatim environments
   \fvset{fontsize=\normalsize}% default font size for fancy-verbatim environments
 
@@ -586,20 +587,20 @@ Here is another, more difficult application of an inductive proof.
 
 \section{Relations}
 
+While sets capture (what philosophers call) the \emph{extensional meaning} of a property like ``$x$ is red'', in terms of the set of all red objects (from a relevant universe), a relation captures the extensional meaning of expressions like ``$x$ is in love with $y$''.
+
 \subsection{Tuples, Cartesian products}
 
 Recall that sets are individuated by their elements, but not by the way in which these elements
-are picked out or arranged. In particular $\set{x,y} = \set{y,x}$. An \emph{ordered pair},
-written as $\tuple{x,y}$, is sensitive to ordering information, so that:
-$\tuple{x,y} \neq \tuple{y,x}$. We generalize the notion of an ordered pair to an $n$-tuple,
-written as $\tuple{x_1, x_2, \dots, x_n}$.\sidenote{We can allow for $1$-tuples as well
-  and think of them as just the element itself, i.e., $\tuple{a} = a$.}\sidenote{$3$-tuples are
-called triples; $4$-tuples quadruples; $5$-tuples quintuples \dots} An $n$-tuple contains
-more information than the set of elements in that $n$-tuple. For example, we might be
-interested in the unordered set of cities that Hans visited last summer:
+are picked out or arranged.
+In particular $\set{x,y} = \set{y,x}$.
+An \emph{ordered pair}, written as $\tuple{x,y}$, is sensitive to ordering information, so that:
+$\tuple{x,y} \neq \tuple{y,x}$.
+We generalize the notion of an ordered pair to an \emph{$n$-tuple}, written as $\tuple{x_1, x_2, \dots, x_n}$.\sidenote{We can allow for $1$-tuples as well and think of them as just the element itself, i.e., $\tuple{a} = a$.}\sidenote{$3$-tuples are also called triples; $4$-tuples quadruples; $5$-tuples quintuples \dots}
+An $n$-tuple contains more information than the set of elements in that $n$-tuple. For example, we might be interested in the unordered set of cities that Hans visited last summer:
 \begin{align*}
   \set{x \setbar \text{$x$ is a city Hans
-      visited last summer}} = \set{\text{London}, \text{Paris}, \text{Berlin}}\,;
+      visited last summer}} = \set{\text{London}, \text{Paris}, \text{Berlin}}
 \end{align*}
 or we might be interested in the cities that Hans visited in the order in
 which he actually visited them:
@@ -607,17 +608,17 @@ which he actually visited them:
   \tuple{\text{Berlin}, \text{London}, \text{Berlin}, \text{Paris}}
 \end{align*}
 The set does not give us information about the order, but also does not contain duplicates.
+The tuple does.
 
 
 The \emph{Cartesian product} of sets $X_1$, $X_2$, \dots, $X_n$ is the set of all $n$-tuples
-such that $x_i$ is any element from set $X_i$:\sidenote{The Cartesian product of a single set
-  $X$ is $X$ itself: $\set{\tuple{x} \setbar x \in X} = \set{x \setbar x \in X} = X$. }
+$\tuple{x_1, x_2, \dots, x_n}$ such that $x_i$ is an element from set $X_i$:\sidenote{If we identify 1-tuples with the single element itself (see sidenote above), the Cartesian product of a single set $X$ is $X$ itself: $\set{\tuple{x} \setbar x \in X} = \set{x \setbar x \in X} = X$. }
 \begin{align*}
   X_1 \times X_2 \times \ldots \times X_n  = \set{\tuple{x_1, x_2,
   \dots, x_n} \setbar x_1 \in X_1, x_2 \in X_2, \dots, x_n \in X_n}
 \end{align*}
-These sets $X_i$ need not be different from each other. Here are some examples for sets $X = \set{a,b}$ and $Y
-= \set{c,d}$:
+The sets forming a Cartesian product need not be different from each other.
+Here are some examples for sets $X = \set{a,b}$ and $Y = \set{c,d}$:
 \begin{enumerate}[]
   \item $X \times Y = \set{\tuple{a,c}, \tuple{a,d}, \tuple{b,c}, \tuple{b,d}}$
   \item $X \times X = \set{\tuple{a,a}, \tuple{a,b}, \tuple{b,a}, \tuple{b,b}}$
@@ -630,9 +631,9 @@ These sets $X_i$ need not be different from each other. Here are some examples f
 An \emph{$n$-place relation} $R$ is a set of $n$-tuples
 $R \subseteq X_1 \times \dots \times X_n$.\sidenote{Instead of ``$n$-place'' we might also say
   ``$n$-ary'' and speak of the \emph{arity} of a relation.}\sidenote{A 1-place relation on set
-  $X$ is just a subset of $X$; 2-place relation is called binary relation; a 3-place relation
-  is called ternary relation; \dots} For example, consider the set $P = \set{j,m,s}$ of John,
-Mary and Sue and the binary relation $L \subseteq P \times P$ which encodes who loves whom:
+  $X$ is just a subset of $X$; a 2-place relation is called binary relation; a 3-place relation
+  is called ternary relation; \dots}
+For example, consider the set of people $P = \set{j,m,s}$ of John, Mary and Sue and the binary relation $L \subseteq P \times P$ which encodes who loves whom:
 \begin{align*}
   L & = \set{\tuple{x,y} \in P \setbar \text{$x$ loves $y$}}
 \end{align*}
@@ -640,6 +641,9 @@ Suppose we live in a world in which these are the facts:
 \begin{align*}
   L  & = \set{\tuple{j,j}, \tuple{j,s}, \tuple{m,s}, \tuple{s,m}} \subset P \times P
 \end{align*}
+\noindent We can visualize relation $L$ in a diagram, like shown in Figure~\ref{fig:relationL}, where we
+draw elements as dots (possibly with labels) and where we draw an arrow from element $x$ to
+element $y$ whenever $\tuple{x,y}$ is part of the relation.
 \begin{marginfigure}
   \begin{tikzpicture}
 
@@ -664,50 +668,43 @@ Suppose we live in a world in which these are the facts:
 \caption{Diagram of relation $L$.}
 \label{fig:relationL}
 \end{marginfigure}
-\noindent We can visualize relation $L$ in a diagram, like shown in Figure~\ref{fig:relationL}, where we
-draw elements as dots (possibly with labels) and where we draw an arrow from element $x$ to
-element $y$ whenever $\tuple{x,y}$ is part of the relation.
 
-Another example is the binary relation ``$n_1$ is the predecessor of $n_2$'' on the set of
-natural numbers. It looks like this:
-\begin{figure}
+Another example is the binary relation ``$n_1$ is the predecessor of $n_2$'' on the set $\mathds{N}$ of natural numbers.
+The predecessor relation $P \subseteq \mathds{N} \times \mathds{N}$, shown in Figure~\ref{fig:successor}, is defined as:
+\begin{align*}
+  P = \set{\tuple{0,1}, \tuple{1,2}, \tuple{2,3}, \dots}
+\end{align*}
+\begin{marginfigure}
   \begin{tikzpicture}
 
   \node (0) at (0,0)   {$\bullet$};
   \node (1) at (1,0)   {$\bullet$};
   \node (2) at (2,0)   {$\bullet$};
-  \node (3) at (3,0)   {$\bullet$};
-  \node (4) at (4,0)   {$\bullet$};
-  \node (5) at (5,0)   {$\dots$};
+  \node (3) at (3,0)   {$\dots$};
 
   \node () at (0,0.35)   {0};
   \node () at (1,0.35)   {1};
   \node () at (2,0.35)   {2};
-  \node () at (3,0.35)   {3};
-  \node () at (4,0.35)   {4};
-  \node () at (5,0.35)   {};
+  \node () at (3,0.35)   {};
 
   % Arrows
   \draw[->, thick]  (0) -- (1);
   \draw[->, thick]  (1) -- (2);
   \draw[->, thick]  (2) -- (3);
-  \draw[->, thick]  (3) -- (4);
-  \draw[->, thick]  (4) -- (5);
 
 \end{tikzpicture}
 \caption{The predecessor relation on $\mathds{N}$.}
 \label{fig:successor}
-\end{figure}
+\end{marginfigure}
 
 
-For a binary relation $R\subseteq X \times Y$, there are several shortcut notations for
-$\tuple{x,y} \in R$:
+For a binary relation $R\subseteq X \times Y$, there are several shortcut notations to express the same content as when we write ``$\tuple{x,y} \in R$'':
 \begin{enumerate}
 \item[] \emph{prefix notation}: $Rxy$
 \item[] \emph{infix notation}: $xRy$
-\item[] \emph{postfix notation}: $xyR$ 
+\item[] \emph{postfix notation}: $xyR$
 \end{enumerate}
-We use prefix notation, except for known mathematical relations like $\le$ or $=$.
+From here on we will predominantly use prefix notation, except for known mathematical relations like $\le$ or $=$.
 
 If $R \subseteq X \times Y$ is a binary relation, the \emph{domain} of $R$ is
 \begin{align*}
@@ -727,14 +724,16 @@ The \emph{convervse} of $n$-place relation $R \subseteq X_1 \times \dots \times 
 \end{align*}
 
 \begin{claim}
-  If $R \subseteq X \times X$, then $\text{dom}(R) = \text{range}(R)$. 
+  The following is false: If $R \subseteq X \times X$, then $\text{dom}(R) = \text{range}(R)$.
 \end{claim}
 
-\noindent This is falls. A counterexample is $L' = L \setminus \set{\tuple{j,j}}$, with $L$ as
+\begin{proof}
+A counterexample is $L' = L \setminus \set{\tuple{j,j}}$, with $L$ being the ``love relation'' introduced
 above in Figure~\ref{fig:relationL}. Notice that: $L = \set{\tuple{j,j}, \tuple{j,s},
   \tuple{m,s}, \tuple{s,m}}$ and so $L' = \set{\tuple{j,s}, \tuple{m,s},
   \tuple{s,m}}$. According to $L'$ everybody loves someone so $\text{dom}(L') = \set{j,m,s}$,
 but nobody loves John, so $j \not \in \text{range}(L') = \set{m,s}$.
+\end{proof}
 
 
 \subsection{Properties of relations}
@@ -751,10 +750,10 @@ Binary relation $R \subseteq X \times X$ is
 \item[] \emph{connected} iff for all $x,y \in X$ either $Rxy$ or $Ryx$ or $x = y$
 \end{enumerate}
 
-The relation $L$ in Figure~\ref{fig:relationL} does not have any of the properties above. For
-example, it is not reflexive because there is an element, namely $m$, for $Lmm$ is false. It is
-also not irreflexive because there is an element, namely $j$, for which $Ljj$ is true. It is
-not transitive, because although $Ljs$ and $Lsm$ it is not the case that $Ljm$.
+The relation $L$ in Figure~\ref{fig:relationL} does not have any of the properties above.
+For example, it is not reflexive because there is an element, namely $m$, for which $Lmm$ is false.
+It is also not irreflexive because there is an element, namely $j$, for which $Ljj$ is true.
+It is not transitive, because although $Ljs$ and $Lsm$ it is not the case that $Ljm$.
 
 The relation ``$n_1$ is the predecessor of $n_2$'' from Figure~\ref{fig:successor} is
 irreflexive, asymmetric and intransitive. It is intransitive, because whenever $x$ is the
@@ -762,12 +761,12 @@ predecessor of $y$ we have $x + 1= y$, and whenever $y$ is the predecessor of $z
 $y + 1 = z$. But then $x + 2= z$, so $x$ is not the predecessor of $z$.
 
 \begin{proposition}
+  \label{prop:proof-reflexive-range}
   If $R \subseteq X \times X$ is reflexive, then $\text{dom}(R) = \text{range}(R)$.
 \end{proposition}
 
 \begin{proof}
-  Let $R \subseteq X \times X$ be reflexive and assume towards contradiction\sidenote{Indirect
-    proof.} that $\text{dom}(R) \neq \text{range}(R)$. The latter means that there is either an
+  Let $R \subseteq X \times X$ be reflexive and assume towards contradiction that $\text{dom}(R) \neq \text{range}(R)$. The latter means that there is either an
   $x \in \text{dom}(R)$ with $x \not \in \text{range}(R)$, or that there is $x \not \in
   \text{dom}(R)$ with $x \in \text{range}(R)$. But if we take an arbitrary $x \in X$, then by
   reflexivity $Rxx$. So $x \in \text{dom}(R)$ and $x \in \text{range}(R)$, which contradicts
@@ -818,20 +817,56 @@ are examples of equivalence relations:
   \hfill \mygray{[example: relation ``$<$'' on $\mathds{N}$]}
 \end{enumerate}
 
+
+\bigskip
+\noindent \colorbox{mygray}{\centering
+  \begin{minipage}{1.0\textwidth}
+
+    \begin{exercise}
+      Which proof strategy is used in the proof of Proposition~\ref{prop:proof-reflexive-range}?
+    \end{exercise}
+
+    \begin{exercise}
+      Which properties do the following binary relations, expressed here in natural language, on the set of all human beings have?
+      \begin{multicols}{2}
+      \begin{enumerate}[a.]
+        \item $x$ is taller than $y$
+        % \item $x$ is smaller than $y$
+        \item $x$ is the same person as $y$
+        % \item $x$ admires $y$
+        \item $x$ is the father of $y$
+        \item $x$ has the same first name as $y$
+      \end{enumerate}
+    \end{multicols}
+    \end{exercise}
+
+    \begin{exercise}
+      Consider the set $\mathds{N} = \set{0, 1, 2, \dots}$ of natural numbers and the binary relation $R \subseteq \mathds{N} \times \mathds{N}$ defined as follows:
+      \begin{align*}
+        R = \set{\tuple{x,y} \mid x, y \in \mathds{N} \text{ and } y = x^{2}}
+      \end{align*}
+      Which properties does $R$ have? Is $R$ a partial weak/strict order? Is it a linear weak/strict order? Is it an equivalence relation?
+    \end{exercise}
+
+  \end{minipage}
+}
+
 \newpage
 
 \section{Functions}
 
-\begin{marginfigure}[4cm]
+\begin{marginfigure}
   \includegraphics[]{function_example.png}
   \caption{Example of function corresponding to description ``the height of $x$''.}
   \label{fig:function_ex}
 \end{marginfigure}
 
 Intuitively, a function maps each element from set $X$ to exactly one element from some set $Y$
-(where $X = Y$ is a possibility). Functions capture meaningful uniquely referring expressions
+(where $X = Y$ is a possibility). Functions capture uniquely referring expressions
 such as ``the head of state $x$'' or ``the first name of $x$'' or ``the height of $x$'' (see
-Figure~\ref{fig:function_ex}). Formally, a function $f \mycolon X \rightarrow Y$ is a relation
+Figure~\ref{fig:function_ex}).
+
+Formally, a function $f \mycolon X \rightarrow Y$ is a relation
 $f \subseteq X \times Y$ such that for every $x \in X$ there is a unique $y \in Y$ with
 $\tuple{x,y} \in f$. We write $f(x)$ for the unique $y \in Y$ with $\tuple{x,y} \in
 f$. Alternative notation is $f \mycolon x \mapsto f(x)$. Examples of functions
@@ -870,8 +905,40 @@ $Y$ are arbitrary sets, we define:
 We can now prove that there are ``different infinities''. In particular,
 $\card{N} \not < \card{Q}$, but that $\card{N} < \card{R}$.
 
+\bigskip
+\noindent \colorbox{mygray}{\centering
+  \begin{minipage}{1.0\textwidth}
 
+    \begin{exercise}
+      Which of the following natural language expressions is such that its meaning could be
+      captured by a function $f \colon X \rightarrow Y$ (rather than just a relation which is \emph{not} a function)?
+      \begin{multicols}{2}
+      \begin{enumerate}[a.]
+        \item $x$ admires $y$
+        \item $x$ is the father of $y$
+        \item $x$ is the same person as $y$
+        \item $x$ self-identifies as gender $y$
+      \end{enumerate}
+    \end{multicols}
+    \end{exercise}
 
-% \printbibliography
+    \begin{exercise}
+      Look at the following relation $R \subseteq \set{a,b,c,d} \times \set{u,v,w,x,y,z}$:
+      \begin{align*}
+        R = \set{
+        \tuple{a,v},
+        \tuple{b,z},
+        \tuple{c,z},
+        \tuple{a,w}
+        }
+      \end{align*}
+      Is this a function? If so, is it an injection, surjection or a bijection? If not, can you make a minimal change so that it is a function (e.g., adding or subtracting some element in $R$)? Then, after any change, is it now an injection, surjection or a bijection?
+    \end{exercise}
+
+    \begin{exercise}
+      Consider the claim that any function $f$ which is not an injection is a surjection. Is this true or false? Whatever you think it is, can you prove it?
+    \end{exercise}
+  \end{minipage}
+}
 
 \end{document}
