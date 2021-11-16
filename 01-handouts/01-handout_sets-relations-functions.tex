@@ -626,6 +626,11 @@ Here are some examples for sets $X = \set{a,b}$ and $Y = \set{c,d}$:
     \item \ \ \ \ \ \ \ \ $\tuple{a,a,d}, \tuple{a,b,d}, \tuple{b,a,d}, \tuple{b,b,d}\}$
 \end{enumerate}
 
+The $n$-place Cartesian product with the same set $X$ can also be written as $X^{n}$:\sidenote{For example the set $\mathds{R}^{3}$ is a three dimensional vector space. Numerical tuples, like the elements of $\mathds{R}^{3}$ are \textit{vectors}.}
+    \begin{align*}
+      \underbrace{X \times X \times \dots \times X} _{n \text{ times }}= X^{n}
+    \end{align*}
+
 \subsection{Relations}
 
 An \emph{$n$-place relation} $R$ is a set of $n$-tuples
@@ -736,7 +741,7 @@ but nobody loves John, so $j \not \in \text{range}(L') = \set{m,s}$.
 \end{proof}
 
 
-\subsection{Properties of relations}
+\subsection{Properties of binary relations}
 
 Binary relation $R \subseteq X \times X$ is
 \begin{enumerate}
@@ -808,9 +813,9 @@ are examples of equivalence relations:
 ``ordering''. Binary relation $R \subseteq X \times X$ is a
 \begin{enumerate}
 \item[] \emph{partial weak order} iff $R$ is reflexive, anti-symmetric and transitive \\
-  \hfill \mygray{[example: relation ``$\subseteq$'' on $\pow{X}$]}
+  \hfill \mygray{[example: relation ``$\subseteq$'' on $\pow{Y}$]}
 \item[] \emph{partial strict order} iff $R$ is irreflexive, asymmetric and transitive \\
-  \hfill \mygray{[example: relation ``$\subset$'' on $\pow{X}$]}
+  \hfill \mygray{[example: relation ``$\subset$'' on $\pow{Y}$]}
 \item[] \emph{linear weak order} iff $R$ is a partial weak order and connected \\
   \hfill \mygray{[example: relation ``$\le$'' on $\mathds{N}$]}
 \item[] \emph{linear strict order} iff $R$ is a partial strict order and connected \\
