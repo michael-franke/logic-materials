@@ -204,7 +204,7 @@
 
 \begin{frame}
   \frametitle{Tuples}
-  \framesubtitle{Terminology}
+  \framesubtitle{Terminology \& notation}
 
   An \textit{$n$-tuple} is a tuple with $n$ elements (in order).
 
@@ -230,7 +230,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Cartesian product}
+  \frametitle{Cartesian products}
 
   The Cartesian product of two sets $X$ and $Y$ is a set of pairs:
   \begin{align*}
@@ -247,7 +247,7 @@
 
   \bigskip \pause
 
-  \textbf{{\color{themecolor}Examples}}\\
+  {\textbf{{\color{themecolor}Examples}}}
   \begin{align*}
     X &= \set{a,b} \\
     Y &= \set{c,d} \\
@@ -260,6 +260,19 @@
 
 
 \begin{frame}
+  \frametitle{Cartesian products}
+  \framesubtitle{Terminology \& Notation}
+
+  \begin{itemize}
+    \item the $n$-place Cartesian product with the same set $X$ can also be written as $X^{n}$:
+    \begin{align*}
+      \underbrace{X \times X \times \dots \times X} _{n \text{ times }}= X^{n}
+    \end{align*}
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
   \frametitle{Relations}
 
   \textbf{{\color{themecolor}Definition}}\\
@@ -269,8 +282,8 @@
 
   \textbf{{\color{themecolor}Example}}\\
   \begin{minipage}{0.65\linewidth}
-    $P = \set{j,m,s}$ --- a set of people\\
-    $L \subseteq P \times P$ --- binary relation encoding who loves whom:
+    $P = \set{j,m,s}$ is a set of people\\
+    $L \subseteq P \times P$ is binary relation encoding who loves whom:
     \begin{align*}
       L & = \set{\tuple{x,y} \in P \times P \setbar \text{$x$ loves $y$}} \\
         & = \set{\tuple{j,j}, \tuple{j,s}, \tuple{m,s}, \tuple{s,m}}
@@ -315,8 +328,84 @@
       \item \textcolor{themecolor}{infix notation:} $Rxy$
       \item \textcolor{themecolor}{postfix notation:} $xyR$
     \end{itemize}
-    \item
+    \item domain and range of binary relation $R \subseteq X \times X$:
+          \begin{align*}
+            \text{dom}(R) & = \set{x \in X \setbar \text{there is some $y \in Y$ with } Rxy} \\
+            \text{range}(R) & = \set{y \in Y \setbar \text{there is some $x \in X$ with } Rxy}
+          \end{align*}
   \end{itemize}
 
 \end{frame}
+
+\begin{frame}
+  \frametitle{Properties of binary relations}
+
+
+
+
+  \begin{minipage}{0.65\linewidth}
+    \begin{small}
+      Binary relation $R \subseteq X \times X$ is
+      \begin{enumerate}
+        \item[] \textit{reflexive} iff $Rxx$ for all $x \in X$
+        \item[] \textit{irreflexive} iff $Rxx$ for no $x \in X$
+        \item[] \textit{symmetric} iff for all $x,y \in X$ if $Rxy$ then also $Ryx$
+        \item[] \textit{asymmetric} iff for no $x,y \in X$ both $Rxy$ and $Ryx$
+        \item[] \textit{anti-symmetric} iff for all $x,y \in X$ if $Rxy$ and $Ryx$, then $x = y$
+        \item[] \textit{transitive} iff for all $x,y \in X$ if $Rxy$ and $Ryz$, then also $Rxz$
+        \item[] \textit{intransitive} iff for all $x,y \in X$ if $Rxy$ and $Ryz$, then not $Rxz$
+        \item[] \textit{connected} iff for all $x,y \in X$ either $Rxy$ or $Ryx$ or $x = y$
+      \end{enumerate}
+    \end{small}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.3\linewidth}
+    \begin{center}
+      \begin{tikzpicture}
+
+        \node (j) at (0,0)   {$\bullet$};
+
+        \node (m) at (2,0)   {$\bullet$};
+
+        \node (s) at (1,-1)  {$\bullet$};
+
+        \node at (0,0.35)   {$j$};
+
+        \node at (2,0.35)   {$m$};
+
+        \node at (1,-1.35)   {$s$};
+
+        % Arrows
+        \path[thick,-to] (j) edge [loop left] (j);
+        \draw[->, thick]  (j) -- (s);
+        \draw[<->, thick] (m) -- (s);
+
+      \end{tikzpicture}
+    \end{center}
+  \end{minipage}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Orders and equivalence relations}
+  Binary relation $R \subseteq X \times X$ is said to be:
+
+  \begin{itemize}
+
+    \item  a \textit{partial weak order} iff $R$ is reflexive, anti-symmetric and transitive \\
+    \hfill \mygray{[example: relation ``$\subseteq$'' on $\pow{Y}$]}
+    \item  a \textit{partial strict order} iff $R$ is irreflexive, asymmetric and transitive \\
+    \hfill \mygray{[example: relation ``$\subset$'' on $\pow{Y}$]}
+    \item  a \textit{linear weak order} iff $R$ is a partial weak order and connected \\
+    \hfill \mygray{[example: relation ``$\le$'' on $\mathds{N}$]}
+    \item  a \textit{linear strict order} iff $R$ is a partial strict order and connected \\
+    \hfill \mygray{[example: relation ``$<$'' on $\mathds{N}$]}
+    \item an \textit{equivalence relation} iff $R$ is reflexive, symmetric and transitive \\
+    \hfill \mygray{[example: relation ``has equal cardinality'' on $\pow{Y}$]}
+
+  \end{itemize}
+
+\end{frame}
+
 \end{document}
