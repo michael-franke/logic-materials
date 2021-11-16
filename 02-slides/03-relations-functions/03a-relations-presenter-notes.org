@@ -1,0 +1,69 @@
+In this video, we are going to look at relations.
+
+CLICK
+
+Concretely, we will be looking at the following notions:
+tuples, Cartesian products, relations and some common properties of relations.
+As usual, we will also get acquainted with the conventional mathematical notation surrounding relations.
+
+CLICK
+
+Since relations are basically sets of tuples, we will start by looking at the concept of a tuple.
+For a set, the only thing that matters is whether an element is inside it or not.
+Sets are agnostic to the order in which elements may be arranged, and they do not allow for multiple occurrences of the same element.
+In contrast, tuples are more specific.
+Think about tuples as order-sensitive collections, where multiple occurrences of elements make a difference.
+
+CLICK
+
+A tuple with $n$ elements (arranged in order) is also called an $n$-tuple.
+It is a common convention to identify a 1-tuple, so to speak, with the single element it contains.
+There are special words for $n$-tuples with a small number of elements, e.g., ordered pair, triple, etc.
+
+CLICK
+
+If tuples are just order-sensitive collections, the Cartesian product of some sets is, intuitively, the set of ALL tuples that can be formed from these sets (in the relevant order).
+Concretely, let's first consider the Cartesian product of just two sets X and Y.
+The Cartesian product of two sets X and Y is the set of all pairs (or: 2-tuples) such that the first element comes from set X and the second element comes from set Y.
+CLICK
+More generally, the Cartesian product of an ordered list of $n$ sets is the set of $n$-tuples such that each element comes from the right set, thus respecting the order in which elements should come from a set.
+CLICK
+For example, consider sets X and Y ...
+...
+
+CLICK
+
+Okay, so far we had tuples (ordered lists of elements) and Cartesian products (sets of all possible tuples from an ordered list of sets).
+A relation is just a subset (not necessarily proper) from some Cartesian product.
+Let's directly consider an example.
+Take a set P of people - John, Mary and Sue.
+The Cartesian product $P \times P$ is the set of all tuples formed by taking the first and second element from set $P$.
+The relation L, defined here, is just a subset of that Cartesian product.
+Think of it in this way.
+Our world only has three individuals.
+The relation L encodes "who loves whom".
+The set of all possible love relationships is the Cartesian product.
+Any subset of that Cartesian product is something like a "possible world", a way in which love relations might actually be.
+Indeed, everybody could love everybody, or nobody could love anybody, or anything in between.
+The actual world might, for example, look like this: ...
+We can also represent this in a diagram where ...
+
+CLICK
+
+Having defined what a relation is, let's look at some more specific terminology and notation.
+A relation between two sets is called a binary relation.
+For a binary relation, we can use special notation to express the idea that a pair belongs to it.
+...
+Also, sometimes it may be useful to refer to the domain and range of a binary relation.
+The domain is ...
+The range is ...
+
+CLICK
+
+Binary relations have a number of interesting properties for which there are special names.
+.... go through list and illustrate on the example ...
+
+CLICK
+
+Finally, when a binary relation has a certain /combination/ of properties, we might give it a special name altogether.
+For example, ...

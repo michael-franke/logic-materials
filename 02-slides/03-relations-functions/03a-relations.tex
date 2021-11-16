@@ -1,4 +1,4 @@
-\documentclass[fleqn,10pt,serif,xcolor=svgnames,xcolor=table,aspectratio=169,handout]{beamer}
+\documentclass[fleqn,10pt,serif,xcolor=svgnames,xcolor=table,aspectratio=169]{beamer}
 % \includeonlyframes{current}
 %========================================
 % Packages
@@ -241,7 +241,7 @@
 
   The Cartesian product of $n$ sets is a set of $n$-tuples:
   \begin{align*}
-    X_{1} \times X_{2}, \dots, \times X_{n} = \set{\tuple{x_{a},x_{2}, \dots, x_{n}} \mid x_{i} \in X_{i} \text{ for all } 1 \le i \le n}
+    X_{1} \times X_{2}, \dots, \times X_{n} = \set{\tuple{x_{1},x_{2}, \dots, x_{n}} \mid x_{i} \in X_{i} \text{ for all } 1 \le i \le n}
   \end{align*}
 
 
@@ -251,26 +251,26 @@
   \begin{align*}
     X &= \set{a,b} \\
     Y &= \set{c,d} \\
-    X \times X & = \set{\tuple{a,a}, \tuple{a,b}, \tuple{b,a}, \tuple{b,b}} \\
     X \times Y & = \set{\tuple{a,c}, \tuple{a,d}, \tuple{b,c}, \tuple{b,d}} \\
     Y \times X & = \set{\tuple{c,a}, \tuple{d,a}, \tuple{c,b}, \tuple{d,b}} \\
+    X \times X & = \set{\tuple{a,a}, \tuple{a,b}, \tuple{b,a}, \tuple{b,b}} \\
   \end{align*}
 
 \end{frame}
 
 
-\begin{frame}
-  \frametitle{Cartesian products}
-  \framesubtitle{Terminology \& Notation}
+% \begin{frame}
+%   \frametitle{Cartesian products}
+%   \framesubtitle{Terminology \& Notation}
 
-  \begin{itemize}
-    \item the $n$-place Cartesian product with the same set $X$ can also be written as $X^{n}$:
-    \begin{align*}
-      \underbrace{X \times X \times \dots \times X} _{n \text{ times }}= X^{n}
-    \end{align*}
-  \end{itemize}
+%   \begin{itemize}
+%     \item the $n$-place Cartesian product with the same set $X$ can also be written as $X^{n}$:
+%     \begin{align*}
+%       \underbrace{X \times X \times \dots \times X} _{n \text{ times }}= X^{n}
+%     \end{align*}
+%   \end{itemize}
 
-\end{frame}
+% \end{frame}
 
 \begin{frame}
   \frametitle{Relations}
@@ -322,13 +322,14 @@
   \framesubtitle{Terminology \& notation}
 
   \begin{itemize}
-    \item if $\tuple{x,y} \in R$, we can also use
+    \item $R \subseteq X \times Y$ is also called a \textit{binary} relation
+    \item if $\tuple{x,y} \in R \subseteq X \times Y$, we can also use
     \begin{itemize}
       \item \textcolor{themecolor}{prefix notation:} $Rxy$ \hfill \mygray{[used in this course; except for math stuff like $1\le2$]}
-      \item \textcolor{themecolor}{infix notation:} $Rxy$
+      \item \textcolor{themecolor}{infix notation:} $xRy$
       \item \textcolor{themecolor}{postfix notation:} $xyR$
     \end{itemize}
-    \item domain and range of binary relation $R \subseteq X \times X$:
+    \item domain and range of binary relation $R \subseteq X \times Y$:
           \begin{align*}
             \text{dom}(R) & = \set{x \in X \setbar \text{there is some $y \in Y$ with } Rxy} \\
             \text{range}(R) & = \set{y \in Y \setbar \text{there is some $x \in X$ with } Rxy}
@@ -339,9 +340,6 @@
 
 \begin{frame}
   \frametitle{Properties of binary relations}
-
-
-
 
   \begin{minipage}{0.65\linewidth}
     \begin{small}
