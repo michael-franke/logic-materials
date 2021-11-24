@@ -1,8 +1,10 @@
+\PassOptionsToPackage{table}{xcolor}
 \documentclass[nobib,nofonts]{tufte-handout}
 
 %\geometry{showframe} % display margins for debugging page layout
 
 %%% MF additions
+% \usepackage[table]{xcolor}
 \usepackage[nographicx, nohyperref, nosubcaption, nogb4e, nobiblatex]{../99-auxiliary-files/00-mypackages}
 \usepackage{../99-auxiliary-files/00-mycommands}
 \usepackage{../99-auxiliary-files/00-myenvironments}
@@ -91,14 +93,14 @@
 
 \begin{abstract}
 \noindent
-Syntax \& semantics of propositional logic; truth-tables; tautologies vs.~contraditions vs.~contingencies; translations from natural language into propositional logic; argument schemas \& logical validity.
+Syntax \& semantics of propositional logic; truth-tables; tautologies vs.~contraditions vs.~contingencies; logical equivalence; translations from natural language into propositional logic; argument schemas \& logical validity.
 \end{abstract}
 
 \section{The language of propositional logic}
 
 Propositional logic (\proplog) studies how propositions are combined by logical operators, which closely correspond to certain sentential connectives in natural language (such as \emph{and}, \emph{or}, \emph{if}, or \emph{not}).
-A \textit{proposition} in the sense of \proplog is a minimal unit of thought which can be evaluated as true or false independently of other propositions.\sidenote{The notion of a proposition in this sense is not unproblematic. For example, a case like ``\textit{This pixel is red.}'' seems like a minimal unit of truth-evaluable information about the color of a particular pixel, but it is not independent of another statement like ``\textit{This pixel is blue.}''. (Historically, this problem related to color was a problem brought up famously by Frank Ramsey in response to the early logical work of Ludwig Wittgenstein.)}
-For example, the logical structure of the following sentence:
+A \textit{proposition} in the sense of \proplog is a minimal unit of thought which can be evaluated as true or false independently of other propositions.\sidenote{The notion of a proposition in this sense is not unproblematic. For example, a case like ``\textit{This pixel is red.}'' seems like a minimal unit of truth-evaluable information about the color of a particular pixel, but it is not independent of another statement like ``\textit{This pixel is blue.}'' (Historically, this color-related problem was brought up famously by Frank Ramsey in response to the early logical work of Ludwig Wittgenstein.)}
+For example, the logical structure of the sentence:
 %
 \begin{align*}
   \underbrace{\text{The earth is round }}_{p}
@@ -106,8 +108,8 @@ For example, the logical structure of the following sentence:
   \underbrace{\text{ the moon is made of cheese.}}_{q}
 \end{align*}
 %
-could be analyzed as composed of two propositions, viz., the proposition denoted here with \emph{proposition letter} $p$ that the earth is round and the proposition denoted by $q$ that the moon is made of cheese.
-These two propositions are connected by a logical operator ``and'', for which we write $\wedge$ in \proplog.
+could be analyzed as composed of two propositions, viz., the proposition (denoted here with \emph{proposition letter} $p$) that the earth is round and the proposition (denoted by $q$) that the moon is made of cheese.
+These two propositions are connected by a logical operator ``and,'' for which we write $\wedge$ in \proplog.
 The logical structure of the complex sentence above can therefore be written as $p \wedge q$ in \proplog.
 
 \subsection{Proposition letters \& sentential connectives}
@@ -115,9 +117,9 @@ The logical structure of the complex sentence above can therefore be written as 
 The language of \proplog is formed by:
 \begin{enumerate}[(i)]
   \item a set of \emph{proposition letters} $\mathfrak{P} = \set{p, q, r, s, p_{1}, q_{27}, \dots}$, and
-  \item a set of \emph{sentential connectives} $\set{\neg, \wedge, \vee, \rightarrow, \leftrightarrow}$\sidenote{You will also find terminology like \emph{logical connectives} or \emph{logical operators}. There may be additional connectives used by some logicians or textbooks, and you might find slightly different symbols for the same notions in some places}
+  \item a set of \emph{sentential connectives} $\set{\neg, \wedge, \vee, \rightarrow, \leftrightarrow}$.\sidenote{You will also find terminology like \emph{logical connectives} or \emph{logical operators}. There may be additional connectives used by some logicians or textbooks, and you might find slightly different symbols for the same notions in some places}
 \end{enumerate}
-The sentential connectives have names and are intended to correspond (approximately) to natural language paraphrases:\sidenote{The names and the (approximate) correspondence are earned by the \emph{semantics} which we will give to these symbols later on.}
+The sentential connectives have names and are intended to correspond (approximately) to natural language paraphrases:
 
 \begin{center}
   \begin{tabular}{llc}
@@ -151,23 +153,23 @@ The language $\mathfrak{L}$ of \proplog is the set of all \emph{formulas} which 
 \end{enumerate}
 Examples for formulas of \proplog are:\sidenote{We conventionally omit the outermost parentheses of a formula.}
 \begin{align*}
-  p & p \wedge p \\
-  p \rightarrow \neg q & (p \vee q) \leftrightarrow r
+  & p && p \wedge p \\
+  & p \rightarrow \neg q && (p \vee q) \leftrightarrow r
 \end{align*}
 Examples of strings made of proposition letters and logical connectives which are \emph{not} formulas of \proplog are:
 \begin{align*}
-  (p) && \neg pq \\
-  p \neg \rightarrow \neg q && p \vee q \leftrightarrow r
+  & (p) && \neg pq \\
+  & p \neg \rightarrow \neg q && p \vee q \leftrightarrow r
 \end{align*}
 
 \subsection{Syntactic trees}
 
 The recursive definition for formulas of \proplog gives an internal structure to each formula.
 Take the example $p \wedge \neg q$.
-There is only one way in which this formulas could have been generated by a constructive process that follows the recursive definition above.
-In the last step of that process, the two subformulas $\varphi = p$ and $\psi = \neg q$ have been combined to form an expression of the form $\varphi \wedge \psi$ using the rule (iii) part a.
+There is only one way in which this formula could have been generated by a constructive process that follows the recursive definition above.
+In the last step of that process, the two subformulas $\varphi = p$ and $\psi = \neg q$ have been combined to form an expression of the form $\varphi \wedge \psi$ using rule (iii) part a.
 The first subformula  $\varphi = p$ is constructed by rule (i).
-The second formula can only be constructed by first using rule (i) to introduce $q$ and then using rule (ii) to introduce the negation sign.
+The second formula $\psi = \neg q$ can only be constructed by first using rule (i) to introduce $q$ and then using rule (ii) to introduce the negation sign.
 
 A \emph{syntactic tree} is a useful visual illustration of the internal structure of a formula.
 The syntactic tree of formula $p \wedge \neg q$ is this:
@@ -179,7 +181,7 @@ The syntactic tree of formula $p \wedge \neg q$ is this:
 \end{center}
 
 The construction of a complex formula, and therefore its syntactic tree, is always recoverable by following the introduction of the parentheses in step (iii).
-This is illustrated by the minimal pair in Figure~\ref{fig:syntactic-trees}.
+This is illustrated by the minimal pair in Figure~\ref{fig:syntactic-trees}.\sidenote{This is why at most the outer parentheses may be omitted, but never any other pair of parentheses.}
 
 \begin{figure}
   \centering
@@ -204,15 +206,16 @@ This is illustrated by the minimal pair in Figure~\ref{fig:syntactic-trees}.
 
 \subsection{Terminology}
 
-A formula of \proplog which consist of a single proposition letter is also called \emph{atomic formula.}
-Any formula of \proplog which is not atomic is also called a \emph{complex formula}.
+A formula of \proplog which consist of a single proposition letter is called \emph{atomic formula.}
+Any formula of \proplog which is not atomic is called a \emph{complex formula}.
+
 Each complex formula has a \emph{main connective}.
 The main connective is the last sentential connector introduced during the construction of the formula.
 A complex formula is also often called by the name of its main connective.
-For example, the formula $p \wedge \neg q$ has a conjunction as its main operator and could therefore be called a conjunction.
+For example, the formula $p \wedge \neg q$ has a conjunction as its main operator and would therefore be called a conjunction.
 The formula $(p \vee q) \rightarrow r$ from Figure~\ref{fig:syntactic-trees}(a) is an implication, while the formula $p \vee (q \rightarrow r)$ from Figure~\ref{fig:syntactic-trees}(b) is a disjunction.
 
-For some two-place connectives, the subformulas can have special names as well.
+For some connectives, the subformulas that they contain may have special names as well.
 In the conjunction $\varphi \wedge \psi$, the subformulas $\varphi$ and $\psi$ are called \emph{conjuncts}.
 In the disjunction $\varphi \vee \psi$, the subformulas $\varphi$ and $\psi$ are called \emph{disjuncts}.
 In the implication $\varphi \rightarrow \psi$, the subformula $\varphi$ is called \emph{antecedent} and the subformula $\psi$ is called \emph{consequent}.
@@ -254,9 +257,9 @@ In the implication $\varphi \rightarrow \psi$, the subformula $\varphi$ is calle
 \section{The semantics of propositional logic}
 
 The language of \proplog defines rules of systematically combining proposition letters with sentential connectives.
-The \emph{semantics} \proplog gives a meaning to each formula.
+The \emph{semantics} of \proplog gives a meaning to each formula.
 Yet, \proplog is not concerned with the meaning of the proposition letters.
-Whether the proposition $p$ that the earth is round or the proposition $q$ that the moon is made of cheese is true or false in this world we live in, is of no concern to the logician.
+Whether the proposition $p$ corresponding to ``The earth is round.'' is true or false in this world we live in, is of no concern to the logician.
 The (propositional) logician cares only about the meaning of the sentential connectives.
 More specifically, \proplog pays attention to a specific kind of meaning, namely \emph{truth-conditional meaning}.
 Concretely, \proplog analyzes the meaning of a sentential connective $\odot \in \set{\wedge,\vee,\rightarrow,\leftrightarrow}$ in terms of how the truth or falsity of the complex sentence $\varphi \odot \psi$ depends on the truth or falsity of its components $\varphi$ and $\psi$; and how the meaning of $\neg \varphi$ depends on the truth or falsity of $\varphi$.
@@ -266,15 +269,14 @@ Concretely, \proplog analyzes the meaning of a sentential connective $\odot \in 
 One way of defining the semantics of the sentential connectives is by \emph{truth tables}.
 Truth tables are also handy for systematically calculating the conditions under which complex formulas are true.
 
-Take the complex formula $\neg \varphi$.
-We use $\varphi$ here as a variable which could represent any formula, no matter if it is a proposition letter or extremely long and complex.
+Take the complex formula $\neg \varphi$.\sidenote{We use $\varphi$ here as a variable which could represent any formula, no matter if it is a proposition letter or extremely long and complex.}
 For all we know, $\varphi$ could be either true or false.
 There are just these two possibilities.\sidenote{That \proplog only considers two truth values is also referred to as the \emph{principle of bivalence}. There are other logics, so-called many-valued logics, which allow for more than two truth values, e.g., to represent degrees of truth or uncertainty.}
 To give a truth-conditional meaning to the operator $\neg$ we need to define whether $\neg \varphi$ is true or false for each case: when $\varphi$ is true, and when $\varphi$ is false.
-The truth table that defines the meaning of negation is given in Table~\ref{tab:semantics-binary-connectives}(a):\sidenote{We here write 1 for the truth value ``true'' and 0 for ``false.'' It is also common to use letters $T$ and $F$, or yet other symbols in truth tables. }
+The truth table that defines the meaning of negation is given in Table~\ref{tab:semantics-binary-connectives}(a).\sidenote{We here write 1 for the truth value ``true'' and 0 for ``false.'' It is also common to use letters $T$ and $F$, or yet other symbols in truth tables. }
 \proplog treats negation like a switch: take a formula $\varphi$ as input, look at its truth value, and swap it for the other (since there are only two truth values).
 
-Other sentential connectives than negation take two formulas as input, so to speak, and may therefore be conceived of as functions that take a pair of truth values as input.
+Other sentential connectives than negation take two formulas as input, so to speak, and may therefore be conceived of as functions that take a pair of truth values as input to return a single truth-value.
 The semantics of the binary connectives is given in Table~\ref{tab:semantics-binary-connectives}(b):
 
 \begin{table}
@@ -309,7 +311,7 @@ The semantics of the binary connectives is given in Table~\ref{tab:semantics-bin
 Truth tables are useful for systematically working out the conditions under which complex formulas are true.
 Consider the complex formula $(\varphi \wedge \psi) \rightarrow \neg \chi$.
 We do not know whether the subformula $\varphi$, $\psi$ and $\chi$ are atomic or themselves complex.
-But we want to know under which circumstances, i.e., truth value assignments to $\varphi$, $\psi$ and $\chi$, the formula $(\varphi \wedge \psi) \rightarrow \neg \chi$ is true or false.
+But we want to know under which truth value assignments to $\varphi$, $\psi$ and $\chi$ the formula $(\varphi \wedge \psi) \rightarrow \neg \chi$ is true or false.
 In order to find out, we can construct a truth table that starts by enumerating all logical possibilities of truth-value assignments for the formulas $\varphi$, $\psi$ and $\chi$ (the first three columns in the table below).
 We then work towards the ``goal formula'' $(\varphi \wedge \psi) \rightarrow \neg \chi$ by following the recursive definition of formulas of \proplog.
 At each step we apply the definition of the semantics of the relevant sentential connective until we arrive at the ``goal formula''.
@@ -342,9 +344,9 @@ A common application of truth tables is to find out whether a given formula is a
 The truth table in Table~\ref{tab:truth-table-contingency} shows that the formula $(\varphi \wedge \psi) \rightarrow \neg \chi$ belongs to the last category: there are cases, i.e., assignments of truth values to its components (= rows in the table), where it is true, and there are cases where it is false.
 A formula which can become true and false for different assignments of truth values to its components is called a \emph{contingency}.
 A formula which is always true under any constellation of truth values for its components is called a \emph{tautology}.
-A formula which is false for all ways of assigning truth to its subformulas is a \emph{contradiction}.
+A formula which is false for all ways of assigning truth values to its subformulas is a \emph{contradiction}.
 We say that a tautology is a formula that is \emph{necessarily true}, or \emph{true by logical necessity}.
-Similarly, a contradiction can be said to be \emph{necessarily false}, or \emph{false by logical necessity}.
+Similarly, a contradiction can be said to be \emph{necessarily false}, or \emph{false by logical necessity}.\sidenote{Another way of thinking about this is to imagine that you know nothing at all about some foreign universe. You don't know at all which proposition letters are true or not. Given a tautology you can nevertheless be sure that it is true, no matter what the world is like. Of a contradiction you are sure that it is false. And for a contingency you know that you don't know whether it is true or false, before you learn facts about the world.}
 
 To show that any formula of the form $\varphi \vee \neg \varphi$ is a tautology, we can construct the relevant truth table, shown in Table~\ref{tab:truth-tables-tautology-contradiction}(a), and check whether the column for the ``goal formula'' contains only ones, no zeros.
 Similarly, the truth table in Table~\ref{tab:truth-tables-tautology-contradiction}(b) reveals that any formula of the logical form $\varphi \wedge \neg \varphi$ is a contradiction.
@@ -352,7 +354,7 @@ Similarly, the truth table in Table~\ref{tab:truth-tables-tautology-contradictio
 \begin{table}
   \begin{subfigure}[b]{0.45\textwidth}
     \centering
-    \begin{tabular}{ccc}
+    \begin{tabular}{cc>{\columncolor{olive!15}}c}
       $\varphi$ & $\neg \varphi$ & $\varphi \vee \neg \varphi$ \\ \midrule
       1  & 0 & 1\\
       0  & 1 & 1
@@ -363,7 +365,7 @@ Similarly, the truth table in Table~\ref{tab:truth-tables-tautology-contradictio
   \hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \centering
-    \begin{tabular}{ccc}
+    \begin{tabular}{cc>{\columncolor{olive!15}}c}
         $\varphi$ & $\neg \varphi$ & $\varphi \wedge \neg \varphi$ \\ \midrule
         1  & 0 & 0\\
         0  & 1 & 0
@@ -374,6 +376,54 @@ Similarly, the truth table in Table~\ref{tab:truth-tables-tautology-contradictio
   \caption{Truth tables for a tautology and a contradiction}
   \label{tab:truth-tables-tautology-contradiction}
 \end{table}
+
+\subsection{Logical equivalence}
+
+Two formulas $\varphi$ and $\psi$ are logically equivalent if they have exactly the same truth value no matter how we assign meanings to all subformulas of $\varphi$ and $\psi$, as long as we assign any subformula that occurs in both $\varphi$ and $\psi$ the same truth value.
+We can use truth table to test when or demonstrate that two formulas are logically equivalent.
+To do this, we just have to make a combined truth table in which we have one column for $\varphi$ and another for $\psi$.
+$\varphi$ and $\psi$ are logically equivalent exactly when the truth values in the columns that correspond to them are identical in each row.
+The truth table in Table~\ref{tab:truth-table-equivalence} shows that $\varphi \wedge \neg \psi$ and $\neg (\varphi \rightarrow \psi)$ are in fact logically equivalent.
+
+\begin{table}
+  \centering
+  \begin{center}
+    \begin{tabular}{ccc>{\columncolor{olive!15}}cc>{\columncolor{olive!15}}c}
+      $\varphi$ & $\psi$ & $\neg \psi$ & $\varphi \wedge \neg \psi$ & $\varphi \rightarrow \psi$ & $\neg (\varphi \rightarrow \psi)$ \\ \midrule
+      1  & 1 & 0 & 0 & 1 & 0 \\
+      1  & 0 & 1 & 1 & 0 & 1 \\
+      0  & 1 & 0 & 0 & 1 & 0 \\
+      0  & 0 & 1 & 0 & 1 & 0 \\
+    \end{tabular}
+  \end{center}
+
+  \caption{Truth table showing the equivalence of $\varphi \wedge \neg \psi$ and $\neg (\varphi \rightarrow \psi)$}
+  \label{tab:truth-table-equivalence}
+\end{table}
+
+If two formulas $\varphi$ and $\psi$ are \emph{not} logically equivalent, we can also show this with a truth table.
+In that case, there must be at least one row in which their truth values differ.
+In practice it may help to mark one such row as the refuting counterexample against the assumption of logical equivalence.
+This is shown in Table XYZ
+
+\begin{table}
+  \centering
+  \begin{center}
+    \begin{tabular}{cc>{\columncolor{olive!15}}c>{\columncolor{olive!15}}cc}
+      $\varphi$ & $\psi$ & $\varphi \rightarrow \psi$ & $\varphi \leftrightarrow \psi$ & counterexample \\ \midrule
+      1  & 1 & 1 & 1 \\
+      1  & 0 & 0 & 0 \\
+      0  & 1 & 1 & 0 & $\Leftarrow$\\
+      0  & 0 & 1 & 1 \\
+    \end{tabular}
+  \end{center}
+
+  \caption{Truth table showing the non-equivalence of $\varphi \rightarrow \psi$ and $\varphi \leftrightarrow \psi$}
+  \label{tab:truth-table-}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \bigskip
 \noindent \colorbox{mygray}{\centering
@@ -391,15 +441,29 @@ Similarly, the truth table in Table~\ref{tab:truth-tables-tautology-contradictio
       \end{multicols}
     \end{exercise}
 
+    \begin{exercise}
+      For each of the following pairs of formulas, try to intuit whether they are logically equivalent of not. Write down you guess. Then use truth tables to determine whether they are. Highlight the relevant columns in your truth table. Mark a row as a counterexample if they are not.
+      \begin{multicols}{2}
+        \begin{enumerate}[a.]
+          \item $\varphi$, \ $\neg \neg \varphi$
+          \item $\varphi \leftrightarrow \phi$, \ $\varphi \wedge \psi$
+          \item $\neg \varphi \vee  \psi$, \  $\varphi \rightarrow \psi$
+          \item $\varphi \vee (\ch \rightarrow \neg \varphi)$, \ $\psi \vee (\ch \rightarrow \neg \psi)$
+        \end{enumerate}
+      \end{multicols}
+    \end{exercise}
+
   \end{minipage}
 }
 
 \newpage
-\subsection{Excavating the (propositional) logical structure of natural language sentences}
+
+\section{Excavating the (propositional) logical structure of natural language sentences}
 \label{sec:excav-prop-logic}
 
 The logical operators of \proplog bear a close correspondence to natural language expressions \emph{and}, \emph{or}, \emph{if} and \emph{if and only if}.
 But the correspondence is not a perfect match.
+
 Logical conjunction is order-insensitive: $\varphi \wedge \psi$ and $\psi \wedge \varphi$ are the same.\sidenote{In fact, they are \emph{logically equivalent}, a notion we will define later.}
 But natural language conjunctions are not necessarily.
 Saying that
@@ -410,14 +474,44 @@ might be understood differently from saying that
 \begin{quote}
   \textit{They had children and got married.}
 \end{quote}
+
 Logical disjunction is \emph{inclusive}: $\varphi \vee \psi$ is true when $\varphi$ and $\psi$ are both true.
-Yet natural language disjunctions \emph{can} be understood as exclusive disjunction according to which exactly one, but not both disjuncts are true:
+Yet natural language disjunctions \emph{can} be understood as exclusive disjunction according to which exactly one, but not both disjuncts are true.
+For example, if I say:
 \begin{quote}
  \textit{She owns a Porsche or a Ferrari.}
 \end{quote}
-\proplog analyzes implication as so-called \emph{material implication}, but it is controversial whether natural language conditional sentences might not have a much richer meaning, e.g., requiring a discernible causal-inferential relation between antecedent and consequent.
+you might take that to mean that she doesn't own both.
+But did I \emph{literally} say that?
+--- The logical meaning of that sentence is more plausibly just analyzed as inclusive disjunction.
+This is because it is not contradictory to say:
+\begin{quote}
+ \textit{She owns a Porsche or a Ferrari and possibly both.}
+\end{quote}
+This contrasts with the weirdness of saying:
+\begin{quote}
+ \textit{She owns \emph{either} a Porsche or a Ferrari and possibly both.}
+\end{quote}
+suggesting that natural language ``either \dots or \dots'' \emph{does} have an exclusive disjunctive meaning, but not simple ``or''.
 
-These superficial discrepancies notwithstanding, it is possible and highly informative to try to lay bare the logical structure of natural language sentences.\sidenote{There are least two attitudes you can adopt to approach this endeavour. You can think that there \emph{is} a true logical structure to be found, so that, if you struggle or find mismatches, it must mean that you are learning something about the nature of the true underlying logic. Or you can realize that trying to find the logical structure, even though you do not believe that there is single true one, is informative because it tells you something about the limits of logic and the aspects of natural language which cannot (easily) be captured by logical analysis (of the kind we use here).}
+\proplog analyzes implication as so-called \emph{material implication}, but it is controversial whether natural language conditional sentences might not have a much richer meaning, e.g., requiring a discernible causal-inferential relation between antecedent and consequent.
+Moreover, similar to the case of inclusive vs.~exclusive disjunctions, many natural language conditionals are read like an ``if and only if'' statement, even though their logical meaning might just be that of a simple implication.
+For example, the conditional statement:
+\begin{quote}
+ \textit{If Bubu comes, Kiki comes.}
+\end{quote}
+does suggest to a certain degree that Kiki \emph{only} comes when Bubu does.
+But that is not the logical core meaning of this sentence, but rather a \emph{pragmatic enrichment} on top of the logical meaning of the sentence.
+To see this, compare the difference in weirdness between saying
+\begin{quote}
+ \textit{If Bubu comes, Kiki comes, and maybe Kiki comes no matter what.}
+\end{quote}
+which seems fine, especially when compared to the much weirder:
+\begin{quote}
+ \textit{Kiki comes only if Bubu comes, and maybe Kiki comes not matter what.}
+\end{quote}
+
+Despite superficial discrepancies, it is therefore possible and highly informative to try to lay bare the logical structure of natural language sentences.% \sidenote{There are least two attitudes you can adopt to approach this endeavour. You can think that there \emph{is} a true logical structure to be found, so that, if you struggle or find mismatches, it must mean that you are learning something about the nature of the true underlying logic. Or you can realize that trying to find the logical structure, even though you do not believe that there is single true one, is informative because it tells you something about the limits of logic and the aspects of natural language which cannot (easily) be captured by logical analysis (of the kind we use here).}
 Take the following example sentence:
 \begin{quote}
   \emph{If drawing a red card means that I lost, I lost.}
@@ -488,5 +582,10 @@ Here are a few other examples.
   \end{minipage}
 }
 
+\newpage
+
+\section{Valuation functions, possible worlds \& logical entailment}
+
+TBD
 
 \end{document}
