@@ -93,7 +93,7 @@
 
 \begin{abstract}
 \noindent
-Syntax \& semantics of propositional logic; truth-tables; tautologies vs.~contraditions vs.~contingencies; logical equivalence; translations from natural language into propositional logic; argument schemas \& logical validity.
+Syntax \& semantics of propositional logic; truth-tables; tautologies vs.~contraditions vs.~contingencies; logical equivalence; translations from natural language into propositional logic; semantic meaning vs.~pragmatic enrichment; argument schemas \& logical validity.
 \end{abstract}
 
 \section{The language of propositional logic}
@@ -448,7 +448,7 @@ This is shown in Table XYZ
           \item $\varphi$, \ $\neg \neg \varphi$
           \item $\varphi \leftrightarrow \phi$, \ $\varphi \wedge \psi$
           \item $\neg \varphi \vee  \psi$, \  $\varphi \rightarrow \psi$
-          \item $\varphi \vee (\ch \rightarrow \neg \varphi)$, \ $\psi \vee (\ch \rightarrow \neg \psi)$
+          \item $\varphi \vee (\chi \rightarrow \neg \varphi)$, \ $\psi \vee (\chi \rightarrow \neg \psi)$
         \end{enumerate}
       \end{multicols}
     \end{exercise}
@@ -458,13 +458,24 @@ This is shown in Table XYZ
 
 \newpage
 
-\section{Excavating the (propositional) logical structure of natural language sentences}
+\section{Logical structure of meaning}
 \label{sec:excav-prop-logic}
 
-The logical operators of \proplog bear a close correspondence to natural language expressions \emph{and}, \emph{or}, \emph{if} and \emph{if and only if}.
-But the correspondence is not a perfect match.
+Linguistic theory distinguishes between \emph{semantic meaning} of a sentence or an expression and additional \emph{pragmatic enrichments} to the literal meaning.
+The literal meaning is the context-independent logical core meaning.
+Pragmatic enrichments arise in context by taking into account general world knowledge or the reasons why a speaker used language in the way that they did.
+Pragmatic enrichments may be part of what we ``perceive'' to be the most likely interpretation of a sentence; they may be what the speaker meant to say, but not what the sentence means literally.\sidenote{The most obvious example is an utterance of a sentence like \emph{The weather is so nice today!} when clearly meant ironically.}
 
-Logical conjunction is order-insensitive: $\varphi \wedge \psi$ and $\psi \wedge \varphi$ are the same.\sidenote{In fact, they are \emph{logically equivalent}, a notion we will define later.}
+Our current goal is to learn to excavate the logical structure of natural language sentences.
+Therefore, we have to learn to ``strip off the pragmatic layer,'' so to speak.
+Indeed, the logical operators of \proplog bear a close correspondence to natural language expressions \emph{and}, \emph{or}, \emph{if} and \emph{if and only if}.
+But the correspondence is not a perfect match.
+This is partly due to the difference between semantic meaning and pragmatic enrichment.\sidenote{There are also arguments suggesting that the logical operators of \proplog are \emph{not} good enough for analyzing the semantic meaning of their corresponding natural language expressions. Most importantly, this concerns the semantic meaning of conditional sentences, i.e., natural language sentences with \emph{if dots, then \dots}.}
+Let us look at a few interesting cases.
+
+\subsection{Conjunction \& order-sensitivity}
+
+Logical conjunction is order-insensitive: $\varphi \wedge \psi$ and $\psi \wedge \varphi$ are logically equivalent.
 But natural language conjunctions are not necessarily.
 Saying that
 \begin{quote}
@@ -474,6 +485,10 @@ might be understood differently from saying that
 \begin{quote}
   \textit{They had children and got married.}
 \end{quote}
+Still, we would analyze both of these sentences as having a logical-conjunctive meaning,
+additional inferences about the temporal order of events notwithstanding.
+
+\subsection{Disjunction: inclusive vs.~exclusive}
 
 Logical disjunction is \emph{inclusive}: $\varphi \vee \psi$ is true when $\varphi$ and $\psi$ are both true.
 Yet natural language disjunctions \emph{can} be understood as exclusive disjunction according to which exactly one, but not both disjuncts are true.
@@ -492,16 +507,18 @@ This contrasts with the weirdness of saying:
 \begin{quote}
  \textit{She owns \emph{either} a Porsche or a Ferrari and possibly both.}
 \end{quote}
-suggesting that natural language ``either \dots or \dots'' \emph{does} have an exclusive disjunctive meaning, but not simple ``or''.
+suggesting that natural language \emph{either \dots or \dots} \emph{does} have an exclusive disjunctive meaning, but simple \emph{or} does not.
+
+\subsection{Conditional perfection}
 
 \proplog analyzes implication as so-called \emph{material implication}, but it is controversial whether natural language conditional sentences might not have a much richer meaning, e.g., requiring a discernible causal-inferential relation between antecedent and consequent.
-Moreover, similar to the case of inclusive vs.~exclusive disjunctions, many natural language conditionals are read like an ``if and only if'' statement, even though their logical meaning might just be that of a simple implication.
+Moreover, similar to the case of inclusive vs.~exclusive disjunctions, many natural language conditionals receive a so-called \emph{conditional perfection reading}, i.e., they are read like an ``if and only if'' statement which would correspond to logical operator $\leftrightarrow$, even though their logical meaning might just be that of a simple implication $\rightarrow$.
 For example, the conditional statement:
 \begin{quote}
  \textit{If Bubu comes, Kiki comes.}
 \end{quote}
 does suggest to a certain degree that Kiki \emph{only} comes when Bubu does.
-But that is not the logical core meaning of this sentence, but rather a \emph{pragmatic enrichment} on top of the logical meaning of the sentence.
+But that is not the logical core meaning of this sentence, but rather a pragmatic enrichment on top of the logical meaning of the sentence.
 To see this, compare the difference in weirdness between saying
 \begin{quote}
  \textit{If Bubu comes, Kiki comes, and maybe Kiki comes no matter what.}
@@ -511,18 +528,23 @@ which seems fine, especially when compared to the much weirder:
  \textit{Kiki comes only if Bubu comes, and maybe Kiki comes not matter what.}
 \end{quote}
 
-Despite superficial discrepancies, it is therefore possible and highly informative to try to lay bare the logical structure of natural language sentences.% \sidenote{There are least two attitudes you can adopt to approach this endeavour. You can think that there \emph{is} a true logical structure to be found, so that, if you struggle or find mismatches, it must mean that you are learning something about the nature of the true underlying logic. Or you can realize that trying to find the logical structure, even though you do not believe that there is single true one, is informative because it tells you something about the limits of logic and the aspects of natural language which cannot (easily) be captured by logical analysis (of the kind we use here).}
+\subsection{Excavating the logical structure of natural language sentences}
+
+Despite superficial discrepancies, it is possible and highly informative to try to lay bare the logical structure of natural language sentences.% \sidenote{There are least two attitudes you can adopt to approach this endeavour. You can think that there \emph{is} a true logical structure to be found, so that, if you struggle or find mismatches, it must mean that you are learning something about the nature of the true underlying logic. Or you can realize that trying to find the logical structure, even though you do not believe that there is single true one, is informative because it tells you something about the limits of logic and the aspects of natural language which cannot (easily) be captured by logical analysis (of the kind we use here).}
+The logical relation between propositions contained in a natural language sentence may sometimes be opaque.
 Take the following example sentence:
 \begin{quote}
   \emph{If drawing a red card means that I lost, I lost.}
 \end{quote}
 This sentences does have a propositional-logical structure, even though it is not at all apparent from the way it is realized in natural language.
 There are two atomic (truth-evaluable) propositions involved here:
-\begin{itemize}
-  \item $p$: I drew a red card.
-  \item $q$: I lost.
-\end{itemize}
-With this \emph{translation key}, we can then determine the logical structure of the sentence above as:
+\begin{multicols}{2}
+  \begin{itemize}[]
+    \item $p$: I drew a red card.
+    \item $q$: I lost.
+  \end{itemize}
+\end{multicols}
+\noindent With this \emph{translation key}, we can then determine the logical structure of the sentence above as:
 \begin{align*}
   (p \rightarrow q) \rightarrow q
 \end{align*}
@@ -549,11 +571,11 @@ Here are a few other examples.
         $q$: Berlin is east of Bremen.\\
         \emph{Logical form:} $p \wedge q$
 
-  \item Call me `honey' or `sweetie' once more and, no kidding, I'll step on your toe.\\
+  \item Call me `sweetie' once more and, no kidding, I'll step on your toe.\\
         \emph{Key:}
         $p$: I'm not kidding. \ \ \ \
         $q$: I'll step on your toe. \\
-        $r$: You call me `honey' or `sweetie' once more.\\
+        \textcolor{white}{\emph{Key:}} $r$: You call me `sweetie' once more.\\
         \emph{Logical form:} $p \wedge (r \rightarrow q)$
 
   \item  I will only play salsa, if you give me earplugs.\sidenote{There is a likely inclination to analyze this as $p \leftrightarrow q$, but it is not clear whether this is part of the semantic/logical content here. Suppose you know that the sentence is true. Now you learn that earplugs have been handed over. Does that \emph{logically} entail that salsa was played? No, because the sentence only says that earplugs are a \emph{necessary} but not necessarily \emph{sufficient} condition for salsa.}\\
