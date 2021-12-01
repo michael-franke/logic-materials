@@ -470,7 +470,7 @@ Our current goal is to learn to excavate the logical structure of natural langua
 Therefore, we have to learn to ``strip off the pragmatic layer,'' so to speak.
 Indeed, the logical operators of \proplog bear a close correspondence to natural language expressions \emph{and}, \emph{or}, \emph{if} and \emph{if and only if}.
 But the correspondence is not a perfect match.
-This is partly due to the difference between semantic meaning and pragmatic enrichment.\sidenote{There are also arguments suggesting that the logical operators of \proplog are \emph{not} good enough for analyzing the semantic meaning of their corresponding natural language expressions. Most importantly, this concerns the semantic meaning of conditional sentences, i.e., natural language sentences with \emph{if dots, then \dots}.}
+This is partly due to the difference between semantic meaning and pragmatic enrichment.\sidenote{There are also arguments suggesting that the logical operators of \proplog are \emph{not} good enough for analyzing the semantic meaning of their corresponding natural language expressions. Most importantly, this concerns the semantic meaning of conditional sentences, i.e., natural language sentences with \emph{if \dots, then \dots}.}
 Let us look at a few interesting cases.
 
 \subsection{Conjunction \& order-sensitivity}
@@ -518,7 +518,8 @@ For example, the conditional statement:
  \textit{If Bubu comes, Kiki comes.}
 \end{quote}
 does suggest to a certain degree that Kiki \emph{only} comes when Bubu does.
-But that is not the logical core meaning of this sentence, but rather a pragmatic enrichment on top of the logical meaning of the sentence.
+But that is not the logical core meaning of this sentence.
+It is rather a pragmatic enrichment on top of the logical meaning of the sentence.
 To see this, compare the difference in weirdness between saying
 \begin{quote}
  \textit{If Bubu comes, Kiki comes, and maybe Kiki comes no matter what.}
@@ -530,7 +531,7 @@ which seems fine, especially when compared to the much weirder:
 
 \subsection{Excavating the logical structure of natural language sentences}
 
-Despite superficial discrepancies, it is possible and highly informative to try to lay bare the logical structure of natural language sentences.% \sidenote{There are least two attitudes you can adopt to approach this endeavour. You can think that there \emph{is} a true logical structure to be found, so that, if you struggle or find mismatches, it must mean that you are learning something about the nature of the true underlying logic. Or you can realize that trying to find the logical structure, even though you do not believe that there is single true one, is informative because it tells you something about the limits of logic and the aspects of natural language which cannot (easily) be captured by logical analysis (of the kind we use here).}
+Despite superficial discrepancies, it is possible and highly informative to try to lay bare the logical structure of natural language sentences.
 The logical relation between propositions contained in a natural language sentence may sometimes be opaque.
 Take the following example sentence:
 \begin{quote}
@@ -591,7 +592,7 @@ Here are a few other examples.
 
     \begin{exercise}
       For each of the following sentences give the translation key and the (propositional) logical form.
-      \begin{enumerate}[(a.)]
+      \begin{enumerate}[(i)]
         \item If John is hungry, then Mary likes John.
         \item If John is hungry and Bill runs, then Mary doesn't likes John.
         \item John is hungry or it's false that Bill runs.
@@ -631,7 +632,7 @@ Once we know the truth or falsity of all proposition letters, the truth or falsi
   \label{tab:proplog-semantics-valuation-functions}
 \end{table}
 
-A valuation function is analogous to a row in a truth table, when we use proposition letters, not variables for formulas like $\varphi$ or \(\psi\).\sidenote{If we use truth tables for complex formulas built with Greek letters like $\varphi$ or $\psi$, we cannot say that a row corresponds to a valuation function because we do not know what the variables like $\varphi$ or \(\psi\) represent. For example, $\varphi$ might be a tautology or a contradiction. We would still write out all possible truth-value assignments for $\varphi$, but we just cannot be sure if there is a valuation function that would correspond to each row. For this reason, when we look at argument schemas below, using truth tables to check for logical validity, we use proposition letters instead of variables for formulas.}
+A valuation function is analogous to a row in a truth table.
 
 \subsection{Possible worlds \& truth-conditional meaning}
 
@@ -660,7 +661,7 @@ We say that $\varphi$ and \(\psi\) are logically equivalent, iff for all valuati
 
 \subsection{Logical entailment \& informativity}
 
-Similarly, we can now give a proper definition of logical entailment.
+We can now also give a definition of logical entailment.
 Formula $\varphi$ logically entails $\psi$ iff for all valuation functions $V$, if $V(\varphi)=1$, then $V(\psi)=1$.
 An alternative formulation is this: $\varphi$ logically entails $\psi$ iff $\den{\varphi} \subseteq \den{\psi}$.
 
@@ -669,12 +670,12 @@ We say that $\varphi$ is at least as informative as $\psi$ iff $\den{\varphi} \s
 
 This notion of logical informativity is a relative one.
 It does not give an absolute measure of information for each formula, but only compares two formulas in terms of their relative informativity.
-It also only compares some formulas; in fact, the ordering induced by this definition of logical informativity is a \emph{partial order}.\sidenote{Probabilistic notions of information, e.g., as given by information-theory extend the notion of logical information to an absolute measure of information which yields a total order.}
+It also only compares some formulas; in fact, the ordering induced by this definition of logical informativity is a \emph{partial order}.\sidenote{Probabilistic notions of information, e.g., as given by information theory extend the notion of logical information to an absolute measure of information which yields a total order.}
 
 \subsection{Argument schemas \& validity}
 
-The important concept of logical validity can be thought, at least for \proplog, of as an extension of the notion of logical entailment to more than two formulas.
-Concretely, we defined logical validity of so-called argument schemas.
+The important concept of logical validity can be thought of, at least for \proplog, as an extension of the notion of logical entailment to more than two formulas.
+Concretely, we define logical validity of so-called argument schemas.
 If $\varphi_1, \varphi_2, \dots, \varphi_n$ and $\psi$ are forumlas of propositional logic, then $\varphi_1, \varphi_2, \dots, \varphi_n / \psi$ is an \markdef{argument schema}.
 Formulas $\varphi_1, \varphi_2, \dots, \varphi_n$ are the \markdef{premisses}, formula $\psi$ is the \markdef{conclusion}.
 
@@ -684,7 +685,7 @@ that $V(\psi) = 1$.
 If valid, we write $\varphi_1, \varphi_2, \dots, \varphi_n \models \psi$.
 
 We can use truth tables again to check whether any given argument schema is valid or not.
-Consider the argument schema: $p \vee q$, $\neg q$ / $p$.
+Consider the argument schema: $\varphi \vee \psi$, $\neg \psi$ / $\varphi$.
 A natural language analogue would be the following.
 We know or assume the following premisses:
 \begin{quote}
@@ -701,25 +702,25 @@ Table~\ref{tab:truth-table-valid} tells us that it does: in all rows (=valuation
 \begin{table}
   \centering
   \begin{tabular}{cc>{\columncolor{olive!15}}c>{\columncolor{olive!15}}cc>{\columncolor{olive!15}}c}
-    $p$ & $q$ & $p \vee q$ & $\neg q$ & / & $q$ \\ \midrule
+    $\varphi$ & $\psi$ & $\varphi \vee \psi$ & $\neg \psi$ & / & $\psi$ \\ \midrule
     1  & 1 & 1 & 0 &   & 1  \\
     1  & 0 & 1 & 1 & * & 1  \\
     0  & 1 & 1 & 0 &   & 0  \\
     0  & 0 & 0 & 1 &   & 0  \\
   \end{tabular}
-  \caption{Truth table for checking the validity of argument schema}
+  \caption{Truth table for checking the validity of argument schema $\varphi \vee \psi$, $\neg \psi$ / $\varphi$}
   \label{tab:truth-table-valid}
 \end{table}
 
-Table~\ref{tab:arg-schema-invalid} shows a more extensive example of the truth-table method for the argument schema  $\neg p \rightarrow (q \wedge \neg r)$, $\neg q \rightarrow \neg r$ / $p$, which is not valid.
-The table also introduces names for each row, in terms of (types of) possible worlds, so that we can conveniently say that a possible world like $w_{6}$ in which $p$ and $r$ are false and $q$ is true is a counterexample to validity: both premises are true, but the conclusion is false.
+Table~\ref{tab:arg-schema-invalid} shows a more extensive example of the truth-table method for the argument schema $\neg \varphi  \rightarrow (\psi \wedge \neg \chi)$, $\neg \psi \rightarrow \neg \chi$ / $\varphi$, which is not valid.
+The table also introduces names for each row, in terms of (types of) possible worlds, so that we can conveniently say that a possible world like $w_{6}$ in which $\varphi$ and $\chi$ are false and $\psi$ is true is a counterexample to validity: both premises are true, but the conclusion is false.
 
 \begin{table*}
   \centering
   \begin{tabular}{ccccccc>{\columncolor{olive!15}}cc>{\columncolor{olive!15}}cc>{\columncolor{olive!15}}ccl}
-    & $p$ & $q$ & $r$ & $\neg p$ & $\neg r$ & $q \wedge \neg r$
-    & $\neg p \rightarrow (q \wedge \neg r)$ & $\neg q$
-    & $\neg q \rightarrow \neg r$ & $/$ & $p$ & \\ \midrule
+    & $\varphi$ & $\psi$ & $\chi$ & $\neg \varphi$ & $\neg \chi$ & $\psi \wedge \neg \chi$
+    & $\neg \varphi \rightarrow (\psi \wedge \neg \chi)$ & $\neg \psi$
+    & $\neg \psi \rightarrow \neg \chi$ & $/$ & $\varphi$ & \\ \midrule
     $w_{1}$ & 1  & 1 & 1 & 0 & 0 & 0 & 1 & 0 & 1 & * & 1  & \\
     $w_{2}$ & 1  & 1 & 0 & 0 & 1 & 1 & 1 & 0 & 1 & * & 1  & \\
     $w_{3}$ & 1  & 0 & 1 & 0 & 0 & 0 & 1 & 1 & 0 &   & 1  & \\
@@ -735,7 +736,7 @@ The table also introduces names for each row, in terms of (types of) possible wo
 
 \subsection{Theorems of propositional logic}
 
-Based on the definitions we have seen so far, we can make prove illuminating facts about \proplog.
+Based on the definitions we have seen so far, we can prove illuminating facts about \proplog.
 Here are some examples.
 
 \begin{proposition}
@@ -743,7 +744,7 @@ Here are some examples.
 \end{proposition}
 
 \begin{proof}
-  If $\varphi$ is a tautology, then for all valuation functions $V$ we have $V(\varphi) = 1$. For any valuation function $V$ if $V(\varphi) = 1$, by definition also $V(\neg \varphi) = 0$. Therefore, $V(\neg \varphi) = 0$ for all $V$, which means that $\varphi$ is a contradiction.
+  If $\varphi$ is a tautology, then for all valuation functions $V$ we have $V(\varphi) = 1$. For any valuation function $V$ if $V(\varphi) = 1$ then, by definition, $V(\neg \varphi) = 0$. Therefore, $V(\neg \varphi) = 0$ for all $V$, which means that $\varphi$ is a contradiction.
 \end{proof}
 
 \begin{proposition}
