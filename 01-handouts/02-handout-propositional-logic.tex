@@ -404,7 +404,7 @@ The truth table in Table~\ref{tab:truth-table-equivalence} shows that $\varphi \
 If two formulas $\varphi$ and $\psi$ are \emph{not} logically equivalent, we can also show this with a truth table.
 In that case, there must be at least one row in which their truth values differ.
 In practice it may help to mark one such row as the refuting counterexample against the assumption of logical equivalence.
-This is shown in Table XYZ
+This is shown in Table~\ref{tab:truth-table-}.
 
 \begin{table}
   \centering
@@ -608,6 +608,179 @@ Here are a few other examples.
 
 \section{Valuation functions, possible worlds \& logical entailment}
 
-TBD
+\subsection{Valuation functions}
+
+The truth-tables method introduced above is very practical, but a proper definition of the semantics of \proplog should better not rely on vocabulary like ``rows'' and ``columns,'' but use mathematical notions like ``function'' or ``set.''
+The proper definition of the semantics of \proplog is therefore formulated in terms of so-called valuation functions.
+
+A \emph{valuation function} $V$ is a function that assigns to every formula of propositional logic a unique truth value (0 or 1).
+More specifically, think of a valuation function as a way of assigning truth-values to all proposition letters.
+Once we know the truth or falsity of all proposition letters, the truth or falsity of all complex formulas is non-arbitrary, because it is fixed by the meaning of the sentential connectives.
+
+\begin{table}
+  \centering
+  \begin{tabular}{lcl}
+    $V(p)$, $V(q)$, \dots && arbitrary\\
+    $V(\neg \phi) = 1$ & iff & $V(\phi) =0$\\
+    $V(\phi \wedge \psi) = 1$ & iff & $V(\phi) =1$ and $V(\psi) = 1$\\
+    $V(\phi \vee \psi) = 1$ & iff & $V(\phi) =1$ or $V(\psi) = 1$\\
+    $V(\phi \rightarrow \psi) = 0$ & iff & $V(\phi) =1$ and $V(\psi) = 0$\\
+    $V(\phi \leftrightarrow \psi) = 1$ & iff & $V(\phi) = V(\psi)$
+  \end{tabular}
+  \caption{Semantics of propositional logic in terms of valuation functions}
+  \label{tab:proplog-semantics-valuation-functions}
+\end{table}
+
+A valuation function is analogous to a row in a truth table, when we use proposition letters, not variables for formulas like $\varphi$ or \(\psi\).\sidenote{If we use truth tables for complex formulas built with Greek letters like $\varphi$ or $\psi$, we cannot say that a row corresponds to a valuation function because we do not know what the variables like $\varphi$ or \(\psi\) represent. For example, $\varphi$ might be a tautology or a contradiction. We would still write out all possible truth-value assignments for $\varphi$, but we just cannot be sure if there is a valuation function that would correspond to each row. For this reason, when we look at argument schemas below, using truth tables to check for logical validity, we use proposition letters instead of variables for formulas.}
+
+\subsection{Possible worlds \& truth-conditional meaning}
+
+A valuation function can also be thought of as a \emph{possible world}.\sidenote{This terminology is widely used in formal semantics and philosophy.}
+A possible world is a way in which things could be.
+A possible world conforms to the rules of logic, but otherwise allows all atomic propositions to be different from the facts in the \emph{actual world}.
+
+Using valuation functions or, equivalently, possible worlds, we can give a clear definition of the meaning of a formula (and, therefore by extension, to the logical meaning of a natural language sentence).
+The truth-conditional meaning of formula $\varphi$ is the set of all valuation functions, or possible worlds, for which $\varphi$ is true.
+Formal semantics often uses notation $\den{\varphi}$ to denote the meaning of a formula in this sense:
+\begin{align*}
+  \den{\varphi} = \set{V \mid V \text{ is a valuation function such that } V(\varphi)=1 }
+\end{align*}
+Alternatively, we could say that the meaning of a formula is the set of possible worlds in which it is true.\sidenote{Compare the famous passage from Wittgenstein's \emph{Tractatus Logica Philosophicus}: ``Einen Satz verstehen, heißt, wissen was der Fall ist, wenn er wahr ist.
+(Man kann ihn also verstehen, ohne zu wissen, ob er wahr ist.)'' [TLP 4.024]
+}
+
+\subsection{Tautologies, contradictions, contingencies \& equivalence (revisited)}
+
+Using valuation functions and/or possible worlds, we can also give a proper definition of notions we used previously in the context of truth tables.
+We say that $\varphi$ is a tautology iff $V(\varphi) = 1$ for all valuation functions $V$.
+We say that $\varphi$ is a contradiction iff $V(\varphi) = 0$ for all valuation functions $V$.
+We say that $\varphi$ is a contingency iff there is at least one valuation function $V_{1}$ such that $V_{1}(\varphi) = 1$ and there is at least one valuation function $V_{2}$ such that $V_{2}(\varphi) = 0$.
+We say that $\varphi$ and \(\psi\) are logically equivalent, iff for all valuation functions $V(\varphi) = V(\psi)$.
+
+
+\subsection{Logical entailment \& informativity}
+
+Similarly, we can now give a proper definition of logical entailment.
+Formula $\varphi$ logically entails $\psi$ iff for all valuation functions $V$, if $V(\varphi)=1$, then $V(\psi)=1$.
+An alternative formulation is this: $\varphi$ logically entails $\psi$ iff $\den{\varphi} \subseteq \den{\psi}$.
+
+Based on the notion of logical meaning in terms of sets of possible worlds, we can also tackle another otherwise extremely elusive concept, namely that of \emph{informativity}, i.e., the amount of information given.
+We say that $\varphi$ is at least as informative as $\psi$ iff $\den{\varphi} \subseteq \den{\psi}$, and that $\varphi$ is strictly more informative than $\psi$ iff $\den{\varphi} \subset \den{\psi}$.
+
+This notion of logical informativity is a relative one.
+It does not give an absolute measure of information for each formula, but only compares two formulas in terms of their relative informativity.
+It also only compares some formulas; in fact, the ordering induced by this definition of logical informativity is a \emph{partial order}.\sidenote{Probabilistic notions of information, e.g., as given by information-theory extend the notion of logical information to an absolute measure of information which yields a total order.}
+
+\subsection{Argument schemas \& validity}
+
+The important concept of logical validity can be thought, at least for \proplog, of as an extension of the notion of logical entailment to more than two formulas.
+Concretely, we defined logical validity of so-called argument schemas.
+If $\varphi_1, \varphi_2, \dots, \varphi_n$ and $\psi$ are forumlas of propositional logic, then $\varphi_1, \varphi_2, \dots, \varphi_n / \psi$ is an \markdef{argument schema}.
+Formulas $\varphi_1, \varphi_2, \dots, \varphi_n$ are the \markdef{premisses}, formula $\psi$ is the \markdef{conclusion}.
+
+The argument schema $\varphi_1, \varphi_2, \dots, \varphi_n / \psi$ is \markdef{valid} iff for all
+valuation functions $V$ such that $V(\varphi_1)=V(\varphi_2)= \dots = V(\varphi_n)=1$ it also holds
+that $V(\psi) = 1$.
+If valid, we write $\varphi_1, \varphi_2, \dots, \varphi_n \models \psi$.
+
+We can use truth tables again to check whether any given argument schema is valid or not.
+Consider the argument schema: $p \vee q$, $\neg q$ / $p$.
+A natural language analogue would be the following.
+We know or assume the following premisses:
+\begin{quote}
+  The murderer is the butler or the gardener. \\
+  The gardener is not the murderer.
+\end{quote}
+And the putative conclusion is:
+\begin{quote}
+  The butler is the murderer.
+\end{quote}
+We would like to find out whether the conclusion logically follows from the premisses.
+Table~\ref{tab:truth-table-valid} tells us that it does: in all rows (=valuation functions or possible worlds) in which all the premisses are true, which are marked with an asterisk (*) in Table~\ref{tab:truth-table-valid}, the conclusion (in the last column) is also true.
+
+\begin{table}
+  \centering
+  \begin{tabular}{cccccc}
+    $p$ & $q$ & $p \vee q$ & $\neg q$ & / & $q$ \\ \midrule
+    1  & 1 & 1 & 0 &   & 1  \\
+    1  & 0 & 1 & 1 & * & 1  \\
+    0  & 1 & 1 & 0 &   & 0  \\
+    0  & 0 & 0 & 1 &   & 0  \\
+  \end{tabular}
+  \caption{Truth table for checking the validity of argument schema}
+  \label{tab:truth-table-valid}
+\end{table}
+
+Table~\ref{tab:arg-schema-invalid} shows a more extensive example of the truth-table method for the argument schema  $\neg p \rightarrow (q \wedge \neg r)$, $\neg q \rightarrow \neg r$ / $p$, which is not valid.
+The table also introduces names for each row, in terms of (types of) possible worlds, so that we can conveniently say that a possible world like $w_{6}$ in which $p$ and $r$ are false and $q$ is true is a counterexample to validity: both premises are true, but the conclusion is false.
+
+\begin{table*}
+  \centering
+  \begin{tabular}{ccccccc>{\columncolor{olive!15}}cc>{\columncolor{olive!15}}cc>{\columncolor{olive!15}}ccl}
+    & $p$ & $q$ & $r$ & $\neg p$ & $\neg r$ & $q \wedge \neg r$
+    & $\neg p \rightarrow (q \wedge \neg r)$ & $\neg q$
+    & $\neg q \rightarrow \neg r$ & $/$ & $p$ & \\ \midrule
+    $w_{1}$ & 1  & 1 & 1 & 0 & 0 & 0 & 1 & 0 & 1 & * & 1  & \\
+    $w_{2}$ & 1  & 1 & 0 & 0 & 1 & 1 & 1 & 0 & 1 & * & 1  & \\
+    $w_{3}$ & 1  & 0 & 1 & 0 & 0 & 0 & 1 & 1 & 0 &   & 1  & \\
+    $w_{4}$ & 1  & 0 & 0 & 0 & 1 & 0 & 1 & 1 & 1 & * & 1  & \\
+    $w_{5}$ & 0  & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 1 &   & 0  & \\
+    $w_{6}$ & 0  & 1 & 0 & 1 & 1 & 1 & 1 & 0 & 1 & * & 0  & $\leftarrow$\\
+    $w_{7}$ & 0  & 0 & 1 & 1 & 0 & 0 & 0 & 1 & 0 &   & 0  & \\
+    $w_{8}$ & 0  & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1 &   & 0  & \\
+  \end{tabular}
+  \caption{Example of the truth-table method applied to an argument schema that is not valid}
+  \label{tab:arg-schema-invalid}
+\end{table*}
+
+\subsection{Theorems of propositional logic}
+
+Based on the definitions we have seen so far, we can make prove illuminating facts about \proplog.
+Here are some examples.
+
+\begin{proposition}
+ If $\varphi$ is a tautology, then $\neg \varphi$ is a contradiction.
+\end{proposition}
+
+\begin{proof}
+  If $\varphi$ is a tautology, then for all valuation functions $V$ we have $V(\varphi) = 1$. For any valuation function $V$ if $V(\varphi) = 1$, by definition also $V(\neg \varphi) = 0$. Therefore, $V(\neg \varphi) = 0$ for all $V$, which means that $\varphi$ is a contradiction.
+\end{proof}
+
+\begin{proposition}
+ $\varphi \rightarrow \psi$ is a tautology iff $\varphi$ logically entails $\psi$.\sidenote{Notice that this may seem trivial, but there are really two notions that are related by this proposition. One is the definition of the sentential connective $\rightarrow$, the other is a high-level notion of logical entailment defined on top of the semantics for \emph{all} formulas.}
+\end{proposition}
+
+\begin{proof}
+  First assume that $\varphi \rightarrow \psi$ is a tautology. We need to show that it follows that $\varphi$ logically entails $\psi$. Towards contradiction, let us assume that $\varphi$ does not logically entail $\psi$. This can only be the case if there is at least one valuation function $V$ for which $V(\varphi) = 1$ and $V(\psi) = 0$. For this valuation function, by definition of the meaning of $\rightarrow$, it holds that $V(\varphi \rightarrow \psi)=0$. So, we contradict our assumption that $\varphi \rightarrow \psi$ is a tautology. \\
+  Next, we assume that $\varphi$ logically entails $\psi$. We need to show that $\varphi \rightarrow \psi$ is a tautology. If $\varphi$ logically entails $\psi$, this means that there is no valuation function $V$ for which $V(\varphi)=1$ and $V(\psi)=0$. But, from the definition of the semantics of $\rightarrow$, we know that the only possibility for $\varphi \rightarrow \psi$ to be false is if $V(\varphi)=1$ and $V(\psi)=0$. Since this is ruled out by our assumption, $\varphi \rightarrow \psi$ must be a tautology.
+\end{proof}
+
+\bigskip
+\noindent \colorbox{mygray}{\centering
+  \begin{minipage}{1.0\textwidth}
+
+    \begin{exercise}
+      Use the truth-table method to check whether the following argument schemas are valid:
+      \begin{enumerate}[(i)]
+        \item $p \rightarrow q$, $p$ / $q$ \hfill [\mygray{modus ponens}]
+        \item $p \rightarrow q$, $q$ / $p$ \hfill [\mygray{affirmation of the consequent}]
+        \item $p \rightarrow q$, $\neg q$/ $\neg p$ \hfill [\mygray{modus tollens}]
+        \item $\neg(p \wedge q)$, $\neg q$ / $p$
+      \end{enumerate}
+    \end{exercise}
+
+    \begin{exercise}
+      For each of the following claims, determine whether it is true or false. If it is true prove it. If it is false, give a refutation by counterexample.
+      \begin{enumerate}[(i)]
+        \item If $\varphi$ is a tautology and $\psi$ is a contradiction,  $\varphi \rightarrow \psi$ is a contradiction.
+        \item If $\psi$ is a tautology,  $\varphi \rightarrow \psi$ is a tautology.
+        \item If $\varphi$ is a tautology,  $\varphi \rightarrow \psi$ is a tautology.
+        \item If $\varphi \vee \psi$ is a contradiction,  $\varphi$ is a contradiction.
+      \end{enumerate}
+    \end{exercise}
+  \end{minipage}
+}
 
 \end{document}
+
+information
