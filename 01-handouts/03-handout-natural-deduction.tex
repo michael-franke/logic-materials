@@ -168,20 +168,21 @@ Why would we want to have two things that do the same thing? ---
 Good question.
 Several reasons.
 
-First of all, the definitions of $\models$ and $\vdash$ are nicely complementary: one is a universal statement (all valuations \dots), the other is an existential statement (there exists a derivation \dots):
+First, the definitions of $\models$ and $\vdash$ are nicely complementary: one is a universal statement (all valuations \dots), the other is an existential statement (there exists a derivation \dots):
 
-  \begin{center}
-    \begin{tabular}{ccc}.
-      $\varphi_{1}, \dots, \varphi_{n} \vdash \psi$ &
-      iff &
-      $\varphi_{1}, \dots, \varphi_{n} \models \psi$ \\
-      $\Updownarrow$ & & $\Updownarrow$ \\
-      for all valuations \dots && there is a derivation \dots
-    \end{tabular}
-  \end{center}
+\begin{center}
+  \begin{tabular}{ccc}.
+    $\varphi_{1}, \dots, \varphi_{n} \vdash \psi$ &
+    iff &
+    $\varphi_{1}, \dots, \varphi_{n} \models \psi$ \\
+    $\Updownarrow$ & & $\Updownarrow$ \\
+    for all valuations \dots && there is a derivation \dots
+  \end{tabular}
+\end{center}
 
-
-
+If $\psi$ is not a good inference from $\varphi_{1}, \dots, \varphi_{n}$, it suffices to give a counterexample in terms of a single valuation function which makes all premises true and the conclusion false.
+We do not need to argue why there is \emph{no} derivation.
+If $\psi$ is a good inference from $\varphi_{1}, \dots, \varphi_{n}$, we do not need to reason about all valuation functions, but can simply produce a single derivation.
 
 \section{Derivation rules of natural deduction}
 
@@ -349,7 +350,6 @@ A disjunction $\varphi \vee \psi$ can be introduced whenever at least one disjun
 }
 \bigskip
 
-\textcolor{red}{insert example}
 
 \subsection{Eliminiation rule for disjunction $E_{\vee}$}
 
@@ -375,7 +375,18 @@ Intuitively, we can conclude $\chi$ from a disjunction $\varphi \vee \psi$ when 
 }
 \bigskip
 
-\textcolor{red}{insert example}
+Here is an example derivation using $E_{\vee}$ showing that $p \vee q \vdash q \vee p$:
+
+\begin{tabular}{cclcl}
+                     & 1. & $p \vee q$                  & & ass. \\
+  \cline{1-2} \vline & 2. & $p$                         & & add. ass. \\
+  \vline             & 3. & $q \vee p$                  & & $I_{\vee}$, 2  \\ \hline
+                     & 4. & $p \rightarrow (q \vee p)$  & & $I_{\rightarrow}$  \\
+  \cline{1-2} \vline & 5. & $q$                         & & add. ass. \\
+  \vline             & 6. & $q \vee p$                  & & $I_{\vee}$, 5  \\ \hline
+                     & 7. & $q \rightarrow (q \vee p) $ & & $I_{\rightarrow}$  \\
+  & 8. & $q \vee p $ & & $E_{\vee}, 1, 4, 7$  \\
+\end{tabular}
 
 \subsection{Elimination rule for negation $E_{\neg}$}
 
