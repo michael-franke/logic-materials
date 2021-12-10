@@ -73,6 +73,7 @@
 \newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
 
 \newcommand{\proplog}{\acro{PropLog}}
+\newcommand{\EFSQ}{\ensuremath{\mathit{EFSQ}}\xspace}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -210,6 +211,7 @@ The idea is this.
 We can introduce $\varphi \rightarrow \psi$ if it is possible to derive $\psi$ from the additional assumption that $\varphi$.
 We therefore allow \emph{additional, temporary assumptions} to be introduced in order to make ``thought experiments'' like imagining that some formula was given as well.
 We use special notation to note where such an additional assumption was made and where this assumption is dropped again.\sidenote{Notice that we do not need to write down which previous lines this rule operates on as this is implicit in the notation used for marking the ``thought experiment'' or better put: the scope of the additional assumption.}
+We are \emph{not} allowed to use any of the formulas derived in lines $m$ to $n-1$ after dismissing the additional assumption in line $n$.
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
@@ -248,90 +250,197 @@ Another example, with explicit assumptions given is the following derivation sho
                      & 7. & $(q \wedge p) \rightarrow r$ & & $I_{\rightarrow}$
 \end{tabular}
 
+\subsection{Introduction rule for disjunction $I_{\vee}$}
 
+A disjunction $\varphi \vee \psi$ can be introduced whenever at least one disjunct is available in the derivation.
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Disjunction Intro $I_{\vee}$}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    \begin{tabular}{clcl}
+      $\vdots$ & $\vdots$                   & \\
+      m & $\varphi$  &  \\
+      $\vdots$ & $\vdots$                   & \\
+      n$_{1}$ & $\varphi \vee \psi$ & & $I_{\vee}$, m \\
+      n$_{2}$ & $\psi \vee \varphi$ & & $I_{\vee}$, m
+    \end{tabular}
+  \end{minipage}
+}
+\bigskip
+
+\textcolor{red}{insert example}
+
+\subsection{Eliminiation rule for disjunction $E_{\vee}$}
+
+Intuitively, we can conclude $\chi$ from a disjunction $\varphi \vee \psi$ when $\chi$ follows from $\varphi$ and also follows from $\psi$.
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Disjunction Elim $E_{\vee}$}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    \begin{tabular}{clcl}
+            $\vdots$ & $\vdots$                   & \\
+      m$_{1}$        & $\varphi \vee \psi$        &  \\
+            $\vdots$ & $\vdots$                   & \\
+      m$_{2}$        & $\varphi \rightarrow \chi$ &  \\
+            $\vdots$ & $\vdots$                   & \\
+      m$_{3}$        & $\psi  \rightarrow \chi$   &  \\
+            $\vdots$ & $\vdots$                   & \\
+      n             & $\chi$                     & & $E_{\vee}$, m$_{1}$, m$_{2}$, m$_{3}$
+    \end{tabular}
+  \end{minipage}
+}
+\bigskip
+
+\textcolor{red}{insert example}
+
+\subsection{Elimination rule for negation $E_{\neg}$}
+
+Negation is tricky in natural deduction.
+Though we will speak of an elimination rule for negation, strictly speaking we cannot just eliminate negation if we just have a formula $\neg \varphi$.
+But we can draw inferences from a negation like $\neg \varphi$ which are ``reductive'' in a sense: if we have derived both $\neg \varphi$ and $\varphi$ we have derived a contradiction, which can be very informative.\sidenote{Remember that the strategy of an indirect proof is to make a certain assumption in order to show that this will result in a contradiction.}
+So, the elimination rule for negation can best be thought of as an introduction rule for the sign $\bot$ which we use as a special symbol for a contradiction.\sidenote{Strictly speaking, we should introduce $\bot$ into the language of \proplog as a special formula, which can be used exactly like a proposition letter. We should the say that for all $V$ it's always the case that $V(\bot) = 0$.}
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Negation Elim $E_{\neg}$}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    \begin{tabular}{clcl}
+            $\vdots$ & $\vdots$       & \\
+      m$_{1}$        & $\neg \varphi$ &  \\
+            $\vdots$ & $\vdots$       & \\
+      m$_{2}$        & $\varphi$      &  \\
+            $\vdots$ & $\vdots$       & \\
+      n             & $\bot$         & & $E_{\neg}$, m$_{1}$, m$_{2}$
+    \end{tabular}
+  \end{minipage}
+}
+\bigskip
+
+
+\textcolor{red}{insert example}
+
+\subsection{Introduction rule for negation $I_{\neg}$}
+
+The rule for introducing a negation follows the idea of an indirect proof.
+We make an additional assumption that $\varphi$.
+If we manage to derive from this assumption a contradiction (denoted as $\bot$), we have derived $\neg \varphi$.\sidenote{Negation introduction is essentially a derivation of $\varphi \rightarrow \bot$ which is logically equivalent to $\neg \varphi$.}
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Negation Intro $I_{\neg}$}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    \begin{tabular}{cclcl}
+                         &                   $\vdots$ & $\vdots$       & \\
+      \cline{1-2} \vline & m                          & $\varphi$      & & add. ass.  \\
+      \vline             &                   $\vdots$ & $\vdots$       & \\
+      \vline             & n-1                        & $\bot$         & & \\ \hline
+                         & n.                         & $\neg \varphi$ & & $I_{\neg}$
+    \end{tabular}
+  \end{minipage}
+}
+\bigskip
+
+\textcolor{red}{insert example}
+
+\subsection{Repetition rule $R$}
+
+We allow to just repeat any previously derived formula.
+This is really just for readability of a derivation.
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Repetition}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    \begin{tabular}{clcl}
+            $\vdots$ & $\vdots$  & \\
+      m              & $\varphi$ &  \\
+            $\vdots$ & $\vdots$  & \\
+      n              & $\bot$    & & $R$, m
+    \end{tabular}
+  \end{minipage}
+}
+\bigskip
+
+\subsection{Ex Falso Sequitor Quodlibet Rule $\EFSQ$}
+
+The derivation rules introduced so far are still not enough to produce a derivation for every valid argument schema.
+One example is the logically valid argument schema $p \vee q$, $\neg p$ / $q$.
+In order to obtain a system in which $p \vee q, \neg p \vdash q$, we need to introduce another rule, such as the (in)famous \emph{ex falso sequitur quodlibet} (\EFSQ) rule.\sidenote{It is rather difficult to prove that there cannot be a derivation without this (or an equivalent rule). For our purposes, let's just accept that this is so.}
+The \EFSQ rule allows for the derivation of \emph{any} formula if a contradiction has been derived.
+This is useful, of course, particularly when the contradiction is derived from an additional assumption, as in the introduction of implication (see example below).
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Repetition}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    \begin{tabular}{clcl}
+            $\vdots$ & $\vdots$  & \\
+      m              & $\bot$ &  \\
+            $\vdots$ & $\vdots$  & \\
+      n              & $\varphi$    & & $\EFSQ$, m
+    \end{tabular}
+  \end{minipage}
+}
+\bigskip
+
+Here is a derivation showing that $p \vee q, \neg p \vdash q$:
+
+\begin{tabular}{cclcl}
+                     & 1. & $p \vee   q$                        & & ass.  \\
+                     & 1. & $\neg p$                            & & ass.  \\
+  \cline{1-2} \vline & 3. & $p$                                 & & add. ass.  \\
+  \vline             & 4. & $\bot$                              & & $E_{\neg}$, 2,3 \\
+  \vline             & 5. & $q$                                 & & $\EFSQ$, 4\\ \hline
+                     & 6. & $p \rightarrow q $ & & $I_{\rightarrow}$ \\
+  \cline{1-2} \vline & 7. & $q$                                 & & add. ass.  \\
+  \vline             & 8. & $q$                                 & & $R$, 7\\ \hline
+                     & 9. & $q \rightarrow q $ & & $I_{\rightarrow}$ \\
+                     & 10. & $q$ & & $E_{\vee}, 1,6,9$ \\
+\end{tabular}
+
+
+\subsection{Double-negation elimination rule $E_{\neg\neg}$}
+
+While it may seem innocuous to conclude $\varphi$ from a doubly negated statement like $\neg\neg\varphi$, from the point of view of derivations (think: proofs), this is not so.
+In fact, the rules introduced so far do not allow for the elimination of double negation.
+We have to introduce a separate rule for this.
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Double-Neg Elim $E_{\neg\neg}$}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    \begin{tabular}{clcl}
+            $\vdots$ & $\vdots$  & \\
+      m              & $\neg \neg \varphi$ &  \\
+            $\vdots$ & $\vdots$  & \\
+      n              & $\varphi$    & & $E_{\neg \neg}$, m
+    \end{tabular}
+  \end{minipage}
+}
+\bigskip
+
+\textcolor{red}{derive excluded middle}
 
 \newpage
 
-\noindent \textbf{\underline{Introductieregel $I_{\rightarrow}$}}:
 
 
-
-\noindent $I_{\rightarrow}$ mag alleen met de laatste assumptie worden gebruikt.
-\bigskip
-\bigskip
-\bigskip
-
-\noindent \textbf{\underline{Introductieregel $I_{\vee}$}}:
-
-\fbox{\begin{tabular}{clcl}
-  1. & . &  \\
-   & . &  \\
-   & . &  \\
-  m & $\varphi$  &  \\
-   & . & \\
-   & . &  \\
-   n. & $\varphi \vee \psi$ & & $I_{\vee}$, m
-\end{tabular}}
-\bigskip
-\fbox{\begin{tabular}{clcl}
-  1. & . &  \\
-   & . &  \\
-   & . &  \\
-  m & $\varphi$  &  \\
-   & . & \\
-   & . &  \\
-   n. & $\psi \vee \varphi$  & & $I_{\vee}$, m
-\end{tabular}}
-\newpage
-
-\noindent \textbf{\underline{Eliminatieregel $E_{\vee}$}}:
-
-\fbox{\begin{tabular}{clcl}
-  1. & . &  \\
-   & . &  \\
-   & . &  \\
-  m$_{1}$ & $\varphi \vee \psi$  &  \\
-  & . &  \\
-   & . &  \\
-  m$_{2}$ & $\varphi \rightarrow \chi$  &  \\
-   & . &  \\
-   & . &  \\
-  m$_{3}$ & $\psi  \rightarrow \chi$  &  \\
-   & . & \\
-   & . &  \\
-   n. & $\chi$ & & $E_{\vee}$, m$_{1}$, m$_{2}$, m$_{3}$
-\end{tabular}}
-\bigskip
-
-\noindent \textbf{\underline{Eliminatieregel $E_{\neg}$}}:
-
-\fbox{\begin{tabular}{clcl}
-  1. & . &  \\
-   & . &  \\
-   & . &  \\
-  m$_{1}$ & $\neg \varphi$  &  \\
-  & . &  \\
-   & . &  \\
-  m$_{2}$ & $\varphi$  &  \\
-   & . & \\
-   & . &  \\
-   n. & $\bot$ & & $E_{\neg}$, m$_{1}$, m$_{2}$
-\end{tabular}}
-\bigskip
-
-\noindent \textbf{\underline{Introductieregel $I_{\neg}$}}:
-
-\fbox{\begin{tabular}{cclcl}
-  & 1. & . &  \\
-  & & . &  \\
-  & & . &  \\
- \cline{1-2} \vline & m & $\varphi$  & & ass.  \\
- \vline & & . & &  \\
- \vline & & . &  &  \\
- \vline & n-1 & $\bot$ & & \\ \hline
- & n. & $\neg \varphi$ & & $I_{\neg}$
-\end{tabular}}
-\bigskip
 
 \noindent \textbf{\underline{dubbelnegatie regel $\neg\neg$}}:
 
@@ -344,32 +453,6 @@ Another example, with explicit assumptions given is the following derivation sho
    & . & \\
    & . &  \\
    n. & $\varphi$ & & $\neg\neg$, m
-\end{tabular}}
-
-\noindent \textbf{\underline{Introductieregel $I_{\exists}$}}:
-
-\fbox{
-\begin{tabular}{clcl}
-  1. & . &  \\
-   & . &  \\
-   & . &  \\
-  m & $[a/x] \varphi$  &  \\
-   & . & \\
-   & . &  \\
-   n. & $\exists x \varphi$ & & $I_{\exists}$, m
-\end{tabular}}
-
-\noindent \textbf{\underline{Eliminatieregel $E_{\forall}$}}:
-
-\fbox{
-\begin{tabular}{clcl}
-  1. & . &  \\
-   & . &  \\
-   & . &  \\
-  m & $\forall x \varphi$  &  \\
-   & . & \\
-   & . &  \\
-   n. & $[a/x] \varphi$ & & $E_{\forall}$, m
 \end{tabular}}
 
 
