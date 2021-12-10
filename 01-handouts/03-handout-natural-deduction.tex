@@ -1,0 +1,379 @@
+\PassOptionsToPackage{table}{xcolor}
+\documentclass[nobib,nofonts]{tufte-handout}
+
+%\geometry{showframe} % display margins for debugging page layout
+
+%%% MF additions
+% \usepackage[table]{xcolor}
+\usepackage[nographicx, nohyperref, nosubcaption, nogb4e, nobiblatex]{../99-auxiliary-files/00-mypackages}
+\usepackage{../99-auxiliary-files/00-mycommands}
+\usepackage{../99-auxiliary-files/00-myenvironments}
+
+\usepackage{titlesec}
+\usepackage{etoolbox}
+\usepackage{tikz-qtree}
+\usepackage{subcaption}
+
+% \titleformat{\section}
+% {\large\bfshape}{\thesection}{1em}{}
+
+\setcounter{secnumdepth}{5}
+\renewcommand\thesection{\arabic{section}}
+
+% this length controls tha hanging indent for titles
+% change the value according to your needs
+\newlength\titleindent
+\setlength\titleindent{0.7cm}
+
+\pretocmd{\paragraph}{\stepcounter{subsection}}{}{}
+\pretocmd{\subparagraph}{\stepcounter{subsubsection}}{}{}
+
+\titleformat{\chapter}[block]
+  {\normalfont\huge\bfseries}{}{0pt}{\hspace*{-\titleindent}}
+
+\titleformat{\section}
+  {\normalfont\Large\itshape}{\llap{\parbox{\titleindent}{\thesection\hfill}}}{0em}{}
+
+\titleformat{\subsection}
+  {\normalfont\itshape}{\llap{\parbox{\titleindent}{\thesubsection\hfill}}}{0em}{}
+
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\itshape}{\llap{\parbox{\titleindent}{\thesubsubsection}}}{0em}{}
+
+\titleformat{\paragraph}[runin]
+  {\normalfont\normalsize\itshape}{}{-0.7cm}{}[\xspace \ \ \ \ ]
+
+\titleformat{\subparagraph}[runin]
+  {\normalfont\normalsize}{\llap{\parbox{\titleindent}{\thesubsubsection\hfill}}}{0em}{}
+
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+\titlespacing*{\subsubsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{0em}
+\titlespacing*{\subparagraph}{0pt}{3.25ex plus 1ex minus .2ex}{0em}
+
+\DefineNamedColor{named}{mygray2}{cmyk}{0.55,0.25,0.25,0.25}
+\newcommand{\mygray}[1]{\textcolor{mygray2}{#1}}
+
+%%% Tufte style
+\usepackage{graphicx} % allow embedded images
+  \setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+  \graphicspath{{graphics/}} % set of paths to search for images
+
+\usepackage{fancyvrb} % extended verbatim environments
+  \fvset{fontsize=\normalsize}% default font size for fancy-verbatim environments
+
+% Standardize command font styles and environments
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+
+\newcommand{\proplog}{\acro{PropLog}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \usepackage[sc,osf]{mathpazo}
+% \linespread{1.05}
+
+
+
+\title{Natural deduction for propositional logic}
+
+\author[M.~Franke]{Michael Franke}
+
+\date{} % without \date command, current date is supplied
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent
+natural deduction; soundness \& completeness
+\end{abstract}
+
+\begin{itemize}
+  \item derivation (proof): chain of legitimate rewrite steps
+  \item legitimate steps are: introduction and elimination of connectives
+\end{itemize}
+
+A derivation is a finite set of formulas
+
+
+\newpage
+
+\subsection{Introduction rule for conjunction $I_{\wedge}$}
+
+We may introduce the conjunction $\varphi \wedge \psi$ whenever both the conjuncts $\varphi$ and $\psi$ are available at previous lines $m_{1}$ and $m_{2}$. It does not matter whether $m_{1}$ occurs before $m_{2}$ or the other way around.\sidenote{We adopt the same convention of omitting the outermost parentheses. Strictly speaking, we should write $(\varphi \wedge \psi)$ in line n. of this derivation.}
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Conjunction Intro $I_{\wedge}$}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    \begin{tabular}{clcl}
+      $\vdots$ & $\vdots$ & \\
+      m$_{1}$ & $\varphi$  &  \\
+      $\vdots$ & $\vdots$ & \\
+      m$_{2}$ & $\psi$ & \\
+      $\vdots$ & $\vdots$ & \\
+      n. & $\varphi \wedge \psi$ & & $I_{\wedge}$, m$_{1}$, m$_{2}$
+    \end{tabular}
+  \end{minipage}
+}
+\bigskip
+
+We can use this rule to show that $p, q, r \vdash (r \wedge p) \wedge q$ like so:
+
+\begin{tabular}{clcl}
+  1. & $p$ & & ass. \\
+  2. & $q$ & & ass. \\
+  3. & $r$ & & ass. \\
+  4. & $r \wedge p$ & & $I_{\wedge}$, 3, 1  \\
+  5. & $(r \wedge p) \wedge q$ & & $I_{\wedge}$, 4, 2  \\
+\end{tabular}
+
+
+\subsection{Elimination rule for conjunction $E_{\wedge}$}
+
+If we have the conjunction $\varphi \wedge \psi$, we are allowed to also derive each conjunct.\sidenote{It is not necessary to derive both, we can also only derive one of the disjuncts.}
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Conjunction Elim $E_{\wedge}$}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    \begin{tabular}{clcl}
+      $\vdots$ & $\vdots$              & \\
+      m        & $\varphi \wedge \psi$ &  \\
+      $\vdots$ & $\vdots$              & \\
+      n$_{1}$  & $\varphi$             & & $E_{\wedge}$, m \\
+      n$_{2}$  & $\psi$                & & $E_{\wedge}$, m
+    \end{tabular}
+  \end{minipage}
+}
+\bigskip
+
+We can use this new rule to show that $p \wedge q \vdash q \wedge p$ like so:
+
+\begin{tabular}{clcl}
+  1. & $p \wedge q$ & & ass. \\
+  2. & $p$          & & $E_{\wedge}$, 1 \\
+  3. & $q$          & & $E_{\wedge}$, 1 \\
+  4. & $q \wedge p$ & & $I_{\wedge}$, 3, 2
+\end{tabular}
+
+
+\subsection{Elimination rule for implication $E_{\rightarrow}$}
+
+If we have $\varphi \rightarrow \psi$ and $\varphi$ somewhere in our derivation (no matter which one comes first), we can derive $\psi$.
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Implication Elim $E_{\rightarrow}$}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    \begin{tabular}{clcl}
+      $\vdots$ & $\vdots$                   & \\
+      m$_{1}$  & $\varphi \rightarrow \psi$ &  \\
+      $\vdots$ & $\vdots$                   & \\
+      m$_{2}$  & $\varphi$                  &  \\
+      $\vdots$ & $\vdots$                   & \\
+      n        & $\psi$                     & & $E_{\rightarrow}$, m$_{1}$, m$_{2}$
+    \end{tabular}
+  \end{minipage}
+}
+\bigskip
+
+Using this rule, we can show that $p \wedge r, r \rightarrow q \vdash p \wedge q$:
+
+\begin{tabular}{clcl}
+  1. & $p \wedge r$      & & ass. \\
+  2. & $r \rightarrow q$ & & ass.  \\
+  3. & $p$               & & $E_{\wedge}$, 1  \\
+  4. & $r$               & & $E_{\wedge}$, 1  \\
+  5. & $q$               & & $E_{\rightarrow}$, 2, 4 \\
+  6. & $p \wedge q$      & & $I_{\wedge}$, 3, 5
+\end{tabular}
+
+\subsection{Introduction rule for implication $I_{\rightarrow}$}
+
+The introduction rule for implication is slightly more complex.
+The idea is this.
+We can introduce $\varphi \rightarrow \psi$ if it is possible to derive $\psi$ from the additional assumption that $\varphi$.
+We therefore allow \emph{additional, temporary assumptions} to be introduced in order to make ``thought experiments'' like imagining that some formula was given as well.
+We use special notation to note where such an additional assumption was made and where this assumption is dropped again.\sidenote{Notice that we do not need to write down which previous lines this rule operates on as this is implicit in the notation used for marking the ``thought experiment'' or better put: the scope of the additional assumption.}
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Implication Elim $E_{\rightarrow}$}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    \begin{tabular}{cclcl}
+                         & $\vdots$  & $\vdots$                   & \\
+      \cline{1-2} \vline & m         & $\varphi$                  & & add. ass.  \\
+      \vline             & $ \vdots$ & $\vdots$                   & \\
+      \vline             & n-1       & $\psi$                     & & \\ \hline
+                         & n         & $\varphi \rightarrow \psi$ & & $I_{\rightarrow}$
+    \end{tabular}
+  \end{minipage}
+}
+\bigskip
+
+We can use this rule to show that $\vdash (p \wedge q) \rightarrow q$:
+
+\begin{tabular}{cclcl}
+   \cline{1-2} \vline & 1. & $p \wedge q$                        & & ass.  \\
+   \vline             & 2. & $q$                                 & & $E_{\wedge}$, 1 \\ \hline
+                      & 3. & $\vdash (p \wedge q) \rightarrow q$ & & $I_{\rightarrow}$ \\
+\end{tabular}
+
+Another example, with explicit assumptions given is the following derivation showing that  $(p \wedge q) \rightarrow r \vdash (q \wedge p) \rightarrow r$:
+
+\begin{tabular}{cclcl}
+                     & 1. & $(p \wedge q) \rightarrow r$ & & ass. \\
+  \cline{1-2} \vline & 2. & $q \wedge p$                 & & ass. \\
+  \vline             & 3. & $q$                          & & $E_{\wedge}$, 2  \\
+  \vline             & 4. & $p$                          & & $E_{\wedge}$, 3  \\
+  \vline             & 5. & $p \wedge q$                 & & $I_{\wedge}$, 4, 3  \\
+  \vline             & 6. & $r$                          & & $E_{\rightarrow}$, 1, 5  \\ \hline
+                     & 7. & $(q \wedge p) \rightarrow r$ & & $I_{\rightarrow}$
+\end{tabular}
+
+
+
+\newpage
+
+\noindent \textbf{\underline{Introductieregel $I_{\rightarrow}$}}:
+
+
+
+\noindent $I_{\rightarrow}$ mag alleen met de laatste assumptie worden gebruikt.
+\bigskip
+\bigskip
+\bigskip
+
+\noindent \textbf{\underline{Introductieregel $I_{\vee}$}}:
+
+\fbox{\begin{tabular}{clcl}
+  1. & . &  \\
+   & . &  \\
+   & . &  \\
+  m & $\varphi$  &  \\
+   & . & \\
+   & . &  \\
+   n. & $\varphi \vee \psi$ & & $I_{\vee}$, m
+\end{tabular}}
+\bigskip
+\fbox{\begin{tabular}{clcl}
+  1. & . &  \\
+   & . &  \\
+   & . &  \\
+  m & $\varphi$  &  \\
+   & . & \\
+   & . &  \\
+   n. & $\psi \vee \varphi$  & & $I_{\vee}$, m
+\end{tabular}}
+\newpage
+
+\noindent \textbf{\underline{Eliminatieregel $E_{\vee}$}}:
+
+\fbox{\begin{tabular}{clcl}
+  1. & . &  \\
+   & . &  \\
+   & . &  \\
+  m$_{1}$ & $\varphi \vee \psi$  &  \\
+  & . &  \\
+   & . &  \\
+  m$_{2}$ & $\varphi \rightarrow \chi$  &  \\
+   & . &  \\
+   & . &  \\
+  m$_{3}$ & $\psi  \rightarrow \chi$  &  \\
+   & . & \\
+   & . &  \\
+   n. & $\chi$ & & $E_{\vee}$, m$_{1}$, m$_{2}$, m$_{3}$
+\end{tabular}}
+\bigskip
+
+\noindent \textbf{\underline{Eliminatieregel $E_{\neg}$}}:
+
+\fbox{\begin{tabular}{clcl}
+  1. & . &  \\
+   & . &  \\
+   & . &  \\
+  m$_{1}$ & $\neg \varphi$  &  \\
+  & . &  \\
+   & . &  \\
+  m$_{2}$ & $\varphi$  &  \\
+   & . & \\
+   & . &  \\
+   n. & $\bot$ & & $E_{\neg}$, m$_{1}$, m$_{2}$
+\end{tabular}}
+\bigskip
+
+\noindent \textbf{\underline{Introductieregel $I_{\neg}$}}:
+
+\fbox{\begin{tabular}{cclcl}
+  & 1. & . &  \\
+  & & . &  \\
+  & & . &  \\
+ \cline{1-2} \vline & m & $\varphi$  & & ass.  \\
+ \vline & & . & &  \\
+ \vline & & . &  &  \\
+ \vline & n-1 & $\bot$ & & \\ \hline
+ & n. & $\neg \varphi$ & & $I_{\neg}$
+\end{tabular}}
+\bigskip
+
+\noindent \textbf{\underline{dubbelnegatie regel $\neg\neg$}}:
+
+\fbox{
+\begin{tabular}{clcl}
+  1. & . &  \\
+   & . &  \\
+   & . &  \\
+  m & $\neg\neg \varphi$  &  \\
+   & . & \\
+   & . &  \\
+   n. & $\varphi$ & & $\neg\neg$, m
+\end{tabular}}
+
+\noindent \textbf{\underline{Introductieregel $I_{\exists}$}}:
+
+\fbox{
+\begin{tabular}{clcl}
+  1. & . &  \\
+   & . &  \\
+   & . &  \\
+  m & $[a/x] \varphi$  &  \\
+   & . & \\
+   & . &  \\
+   n. & $\exists x \varphi$ & & $I_{\exists}$, m
+\end{tabular}}
+
+\noindent \textbf{\underline{Eliminatieregel $E_{\forall}$}}:
+
+\fbox{
+\begin{tabular}{clcl}
+  1. & . &  \\
+   & . &  \\
+   & . &  \\
+  m & $\forall x \varphi$  &  \\
+   & . & \\
+   & . &  \\
+   n. & $[a/x] \varphi$ & & $E_{\forall}$, m
+\end{tabular}}
+
+
+
+
+\end{document}
+
