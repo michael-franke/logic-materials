@@ -94,26 +94,27 @@
 
 \begin{abstract}
 \noindent
-Semantic vs. syntactic approach; derivation; derivation rule; soundness \& completeness.
+Semantic vs. syntactic approach to logical inference; derivation; derivation rule; soundness \& completeness; natural deduction system.
 \end{abstract}
 
 \section{Semantic vs.~syntactic approach to logical inference}
 
-A logic usually consists of three major ingredients:
-\begin{enumerate}[(i)]
-  \item a \emph{syntax} defining the formulas of the language,
-  \item a \emph{semantics} that assigns a meaning to each formula, and
-  \item an \emph{axiomatic proof system}.
-\end{enumerate}
-We have already seen (i) and (ii) for \proplog.
-Now we are going to look at the final ingredient: an axiomatic proof system.
-There are many different kinds of proof systems for \proplog.
-The specific one we consider here is called \emph{natural deduction}.
+% A logic usually consists of three major ingredients:
+% \begin{enumerate}[(i)]
+%   \item a \emph{syntax} defining the formulas of the language,
+%   \item a \emph{semantics} that assigns a meaning to each formula, and
+%   \item an \emph{axiomatic proof system}.
+% \end{enumerate}
+% We have already seen (i) and (ii) for \proplog.
+% Now we are going to look at the final ingredient: an axiomatic proof system.
+% There are many different kinds of proof systems for \proplog.
+% The specific one we consider here is called \emph{natural deduction}.
 
 The most central notion of logic is to capture which inferences are correct and which are not.
-Given premises $\varphi_{1}, \dots, \varphi_{n}$ we want to know whether conclusion $\psi$ follows.
-The notion of logical validity is one way of answering this question.\sidenote{Remember that we write the \emph{argument schema} in question as $\varphi_{1}, \dots, \varphi_{n} / \psi$ and we write  $\varphi_{1}, \dots, \varphi_{n} \models \psi$ if that argument schema is indeed logically valid. Concretely, we said that $\varphi_{1}, \dots, \varphi_{n} \models \psi$ iff any valuation function $V$ that makes the premisses true also makes the conclusion true.}
-The definition of logical validity was a semantic one, referring to \emph{valuation functions}, i.e., constructions that are meant to capture the meaning of formulas.
+Given premises $\varphi_{1}, \dots, \varphi_{n}$ and conclusion $\psi$ we want to know the argument schema $\varphi_{1}, \dots, \varphi_{n} / \psi$ is an instance of ``good logical reasoning.''
+The notion of logical validity is one way of addressing this issue.
+We said that the argument schema $\varphi_{1}, \dots, \varphi_{n} / \psi$ is logically valid, for which we wrote $\varphi_{1}, \dots, \varphi_{n} \models \psi$, iff any valuation function $V$ that makes the premisses true also makes the conclusion true.
+The definition of logical validity takes a \emph{semantic approach} to logical inference in the sense that it uses the semantic notion of \emph{valuation functions}, i.e., constructions that are meant to capture the meaning of formulas.
 
 \begin{figure}
   \centering
@@ -127,8 +128,10 @@ The definition of logical validity was a semantic one, referring to \emph{valuat
 \label{fig:deduction-schema}
 \end{figure}
 
-We can also take a syntactic approach to delineating what is good logical reasoning and what is not.
+We can also take a \emph{syntactic approach} to delineating what is good logical reasoning and what is not.
 In this approach we would characterize the $\varphi_{1}, \dots, \varphi_{n} / \psi$ as an instance of good logical reasoning if and only if there exists a derivation (or proof) which, intuitively speaking, starts with the premisses as assumptions and then leads to $\psi$, following only acceptable rules of inference.
+This approach is syntactic in the sense that the derivation rules used in the derivation are simple rewrite-rules that do not depend on the meaning (truth or falsity) of the formulas involved but only look at their syntactic form.
+
 Figure~\ref{fig:deduction-schema} gives a sketch of a natural deduction derivation for argument schema $p \vee (q \wedge \neg q)$, $p \rightarrow r$ / $r$.
 Starting with the premisses as assumptions, we use a finite set of derivation steps to end up with the desired conclusion $r$.
 Generally speaking, a \emph{derivation} of natural deduction is a finite sequence of formulas such that every formula is either
@@ -151,12 +154,12 @@ In other words, we would really like to have a theorem that tells us that, for a
 \end{align*}
 
 The left-to-right direction (``if $\vdash$, then $\models$'') is called \emph{soundness} of the derivation system.
-Soundness requires that what ever can be syntactically derived (what can be proved in the system) is actually logically valid.
+Soundness requires that whatever can be syntactically derived (what can be proved in the system) is actually logically valid.
 In other words, soundness requires that \emph{only} logically valid conclusions can be derived.
 Proving soundness is usually easy: we just need to make sure that each derivation rule is ``correct.''
 
 The right-to-left direction (``if $\models$, then $\vdash$'') is called \emph{completeness} of the derivation system.
-Completeness requires that we have enough derivation rules to make sure that we can provide a derivation for all logically valid argument schemes.
+Completeness requires that we have enough derivation rules to make sure that we can provide a derivation for all logically valid argument schemas.
 In other words, completeness requires that \emph{all} logically valid conclusions can be derived.
 Proving completeness is usually much more difficult than proving soundness.
 
@@ -180,9 +183,19 @@ First, the definitions of $\models$ and $\vdash$ are nicely complementary: one i
   \end{tabular}
 \end{center}
 
-If $\psi$ is not a good inference from $\varphi_{1}, \dots, \varphi_{n}$, it suffices to give a counterexample in terms of a single valuation function which makes all premises true and the conclusion false.
+\noindent If $\psi$ is not a good inference from $\varphi_{1}, \dots, \varphi_{n}$, it suffices to give a counterexample in terms of a single valuation function which makes all premises true and the conclusion false.
 We do not need to argue why there is \emph{no} derivation.
 If $\psi$ is a good inference from $\varphi_{1}, \dots, \varphi_{n}$, we do not need to reason about all valuation functions, but can simply produce a single derivation.
+
+Second, characterizing a logical system as a set of derivation rules provides a different and highly useful perspective.
+We can explore alternative systems by just omitting one or several derivation rules.\sidenote{This is important for the foundational question in the Philosophy of Mathematics regarding which kinds of proof strategies should be accepted to base our mathematical knowledge on.}
+In the natural deduction system to be introduced below, dropping the controversial derivation rules \EFSQ and $E_{\neg\neg}$ gives a system called \emph{minimal logic}.
+Adding just \EFSQ but not $E_{\neg\neg}$ gives \emph{intuitionistic logic}.
+
+Third, a proof or derivation system opens doors for a computational, algorithmic approach to logical inference.
+Finding a derivation is essentially a search problem is a large but well-defined search space.
+Classical Artificial Intelligence therefore was inspired, if not enabled, by modern logic because the latter provided a way to capture the basic workings of the rational mind ---drawing correct inferences from a given body of knowledge--- based on the syntactic manipulation of symbolic representations.
+
 
 \section{Derivation rules of natural deduction}
 
