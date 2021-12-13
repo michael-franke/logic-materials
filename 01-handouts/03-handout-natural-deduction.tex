@@ -194,10 +194,13 @@ Adding just \EFSQ but not $E_{\neg\neg}$ gives \emph{intuitionistic logic}.
 
 Third, a proof or derivation system opens doors for a computational, algorithmic approach to logical inference.
 Finding a derivation is essentially a search problem is a large but well-defined search space.
-Classical Artificial Intelligence therefore was inspired, if not enabled, by modern logic because the latter provided a way to capture the basic workings of the rational mind ---drawing correct inferences from a given body of knowledge--- based on the syntactic manipulation of symbolic representations.
+Classical Artificial Intelligence therefore was inspired, if not enabled, by modern logic because the latter provided a way to capture the basic workings of the rational mind ---drawing correct inferences from a given body of knowledge--- based on the syntactic manipulation of symbolic representations.\sidenote{The computability of logical inference with syntactic rewrite rules is, admittedly, less impressive for \proplog where we can also use the truth tables. But for other more complex logics, like predicate logic, this is a real non-trivial non-trivial non-trivial non-trivial non-trivial non-trivial non-trivial non-trivial non-trivial asset.}
 
 
 \section{Derivation rules of natural deduction}
+
+The derivation rules for natural deduction correspond ---for the most part--- to rules either introducing of eliminating a sentential connectives.
+The following exposition moves from easier to more difficult derivation rules.
 
 \subsection{Introduction rule for conjunction $I_{\wedge}$}
 
@@ -234,7 +237,7 @@ We can use this rule to show that $p, q, r \vdash (r \wedge p) \wedge q$ like so
 
 \subsection{Elimination rule for conjunction $E_{\wedge}$}
 
-If we have the conjunction $\varphi \wedge \psi$, we are allowed to also derive each conjunct.\sidenote{It is not necessary to derive both, we can also only derive one of the disjuncts.}
+If we have the conjunction $\varphi \wedge \psi$, we are allowed to also derive each conjunct.\sidenote{It is not necessary to derive both, we can also derive only one of the disjuncts.}
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
@@ -322,7 +325,7 @@ We are \emph{not} allowed to use any of the formulas derived in lines $m$ to $n-
 }
 \bigskip
 
-We can use this rule to show that $\vdash (p \wedge q) \rightarrow q$:
+We can use this rule to show that $\vdash (p \wedge q) \rightarrow q$:\sidenote{Notice that we do not have any premisses here. It can be shown that $\vdash \psi$ iff $\psi$ is a tautology (see exercises below).}
 
 \begin{tabular}{cclcl}
    \cline{1-2} \vline & 1. & $p \wedge q$                        & & ass.  \\
@@ -330,7 +333,7 @@ We can use this rule to show that $\vdash (p \wedge q) \rightarrow q$:
                       & 3. & $\vdash (p \wedge q) \rightarrow q$ & & $I_{\rightarrow}$ \\
 \end{tabular}
 
-Another example, with explicit assumptions given is the following derivation showing that  $(p \wedge q) \rightarrow r \vdash (q \wedge p) \rightarrow r$:
+Another example, with explicit assumptions is the following derivation showing that  $(p \wedge q) \rightarrow r \vdash (q \wedge p) \rightarrow r$:
 
 \begin{tabular}{cclcl}
                      & 1. & $(p \wedge q) \rightarrow r$ & & ass. \\
@@ -366,7 +369,7 @@ A disjunction $\varphi \vee \psi$ can be introduced whenever at least one disjun
 
 \subsection{Eliminiation rule for disjunction $E_{\vee}$}
 
-Intuitively, we can conclude $\chi$ from a disjunction $\varphi \vee \psi$ when $\chi$ follows from $\varphi$ and also follows from $\psi$.
+Intuitively, we can conclude $\chi$ from a disjunction $\varphi \vee \psi$ when $\chi$ follows from $\varphi$ and then $\chi$ also follows from $\psi$.
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
@@ -404,8 +407,8 @@ Here is an example derivation using $E_{\vee}$ showing that $p \vee q \vdash q \
 \subsection{Elimination rule for negation $E_{\neg}$}
 
 Negation is tricky in natural deduction.
-Though we will speak of an elimination rule for negation, strictly speaking we cannot just eliminate negation if we just have a formula $\neg \varphi$.
-But we can draw inferences from a negation like $\neg \varphi$ which are ``reductive'' in a sense: if we have derived both $\neg \varphi$ and $\varphi$ we have derived a contradiction, which can be very informative.\sidenote{Remember that the strategy of an indirect proof is to make a certain assumption in order to show that this will result in a contradiction.}
+Though we will speak of an elimination rule for negation, strictly speaking we cannot just eliminate negation if we have a formula $\neg \varphi$.
+But we can draw inferences from the negation $\neg \varphi$ which are ``reductive'' in a sense: if we have derived both $\neg \varphi$ and $\varphi$ we have derived a contradiction, which can be very informative.\sidenote{Remember that the strategy of an indirect proof is to make a certain assumption in order to show that this will result in a contradiction.}
 So, the elimination rule for negation can best be thought of as an introduction rule for the sign $\bot$ which we use as a special symbol for a contradiction.\sidenote{Strictly speaking, we should introduce $\bot$ into the language of \proplog as a special formula, which can be used exactly like a proposition letter. We should the say that for all $V$ it's always the case that $V(\bot) = 0$.}
 
 \bigskip
@@ -426,14 +429,11 @@ So, the elimination rule for negation can best be thought of as an introduction 
 }
 \bigskip
 
-
-\textcolor{red}{insert example}
-
 \subsection{Introduction rule for negation $I_{\neg}$}
 
 The rule for introducing a negation follows the idea of an indirect proof.
 We make an additional assumption that $\varphi$.
-If we manage to derive from this assumption a contradiction (denoted as $\bot$), we have derived $\neg \varphi$.\sidenote{Negation introduction is essentially a derivation of $\varphi \rightarrow \bot$ which is logically equivalent to $\neg \varphi$.}
+If we manage to derive from this assumption a contradiction (denoted as $\bot$), we derive $\neg \varphi$.\sidenote{Negation introduction is essentially a derivation of $\varphi \rightarrow \bot$ which is logically equivalent to $\neg \varphi$.}
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
@@ -452,7 +452,18 @@ If we manage to derive from this assumption a contradiction (denoted as $\bot$),
 }
 \bigskip
 
-\textcolor{red}{insert example}
+Here is an example derivation using $E_{\neg}$ and $I_{\neg}$ showing that $\vdash \neg(p \wedge \neg p)$:
+
+\bigskip
+
+\begin{tabular}{cclcl}
+  \cline{1-2} \vline & 1. & $p \wedge \neg p$       & & add. ass. \\
+  \vline             & 2. & $p$                     & & $E_{\wedge}$, 1  \\
+  \vline             & 3. & $\neg p$                & & $E_{\wedge}$, 1  \\
+  \vline             & 4. & $\bot$                  & & $E_{\neg}$, 2,3  \\ \hline
+                     & 5. & $\neg(p \wedge \neg p)$ & & $I_{\neg}$   \\
+\end{tabular}
+
 
 \subsection{Repetition rule $R$}
 
@@ -486,7 +497,7 @@ This is useful, of course, particularly when the contradiction is derived from a
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Repetition}
+    \textbf{EFSQ}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
     \begin{tabular}{clcl}
@@ -503,7 +514,7 @@ Here is a derivation showing that $p \vee q, \neg p \vdash q$:
 
 \begin{tabular}{cclcl}
                      & 1. & $p \vee   q$                        & & ass.  \\
-                     & 1. & $\neg p$                            & & ass.  \\
+                     & 2. & $\neg p$                            & & ass.  \\
   \cline{1-2} \vline & 3. & $p$                                 & & add. ass.  \\
   \vline             & 4. & $\bot$                              & & $E_{\neg}$, 2,3 \\
   \vline             & 5. & $q$                                 & & $\EFSQ$, 4\\ \hline
@@ -537,9 +548,45 @@ We have to introduce a separate rule for this.
 }
 \bigskip
 
-\textcolor{red}{derive excluded middle}
+Using double-negation elimination we can show that $\vdash p \vee \neg p$:
+
+\begin{tabular}{ccclcl}
+ \cline{1-3}\vline  &         & 1. & $\neg (p \vee \neg p)$      & & add. ass.  \\
+ \vline             &         & 2. & $p$                         & & add. ass.  \\
+ \cline{2-3} \vline &  \vline & 3. & $p \vee \neg p$             & & $I_{\vee}$, 2  \\
+ \vline             &  \vline & 4. & $\bot$                      & & $E_{\neg}$, 1,3 \\
+ \cline{2-6} \vline &         & 5. & $\neg p$                    & & $I_{\neg}$\\
+ \vline             &         & 6. & $p \vee \neg p $            & & $I_{\vee}$, 5 \\
+ \vline             &         & 7. & $\bot$                      & & $E_{\neg}, 1, 6$  \\ \hline
+                    &         & 8. & $\neg \neg (p \vee \neg p)$ & & $I_{\neg}$\\
+                    &         & 9. & $p \vee \neg p$             & & $E_{\neg\neg}$, 8 \\
+\end{tabular}
 
 
+\bigskip
+\noindent \colorbox{mygray}{\centering
+  \begin{minipage}{1.0\textwidth}
+
+    \begin{exercise}
+      Given a derivation in natural deduction for each of the following argument schemas.
+      \begin{enumerate}[(i)]
+        \item $p, q, r \vdash (p \wedge q) \wedge r$
+        \item $\vdash p \rightarrow p$
+        \item $p \rightarrow (q \rightarrow r), p, q \vdash r$
+        \item $p \vee (p \wedge q) \vdash p$
+      \end{enumerate}
+    \end{exercise}
+
+    \begin{exercise}
+      Assuming soundness and completeness of natural deduction, prove the following claims:
+      \begin{enumerate}[(i)]
+        \item $\vdash \psi$ iff $\psi$ is a tautology
+        \item $\varphi \vdash \bot$ iff $\varphi$ is a contradiction
+      \end{enumerate}
+    \end{exercise}
+  \end{minipage}
+
+}
 
 
 \end{document}
