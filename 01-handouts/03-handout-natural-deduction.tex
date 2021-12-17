@@ -110,11 +110,30 @@ Semantic vs. syntactic approach to logical inference; derivation; derivation rul
 % There are many different kinds of proof systems for \proplog.
 % The specific one we consider here is called \emph{natural deduction}.
 
-The most central notion of logic is to capture which inferences are correct and which are not.
-Given premises $\varphi_{1}, \dots, \varphi_{n}$ and conclusion $\psi$ we want to know the argument schema $\varphi_{1}, \dots, \varphi_{n} / \psi$ is an instance of ``good logical reasoning.''
+The most central goal of logic is to capture which inferences are correct and which are not.
+Given premises $\varphi_{1}, \dots, \varphi_{n}$ and conclusion $\psi$ we want to know whether the argument schema $\varphi_{1}, \dots, \varphi_{n} / \psi$ is an instance of ``good'' logical reasoning.
+
 The notion of logical validity is one way of addressing this issue.
-We said that the argument schema $\varphi_{1}, \dots, \varphi_{n} / \psi$ is logically valid, for which we wrote $\varphi_{1}, \dots, \varphi_{n} \models \psi$, iff any valuation function $V$ that makes the premisses true also makes the conclusion true.
-The definition of logical validity takes a \emph{semantic approach} to logical inference in the sense that it uses the semantic notion of \emph{valuation functions}, i.e., constructions that are meant to capture the meaning of formulas.
+We said that the argument schema $\varphi_{1}, \dots, \varphi_{n} / \psi$ is logically valid (notation: $\varphi_{1}, \dots, \varphi_{n} \models \psi$) iff any valuation function $V$ that makes all premisses $\varphi_{1}, \dots, \varphi_{n}$ true also makes the conclusion $\psi$ true.
+The definition of logical validity takes a \emph{semantic approach} to logical inference in the sense that it uses the semantic notion of \emph{valuation functions}, i.e., constructions that are meant to capture the \emph{meaning} of formulas.
+
+We can also take a \emph{syntactic approach} to delineating what is ``good'' logical reasoning and what is not.
+In this approach we would characterize the argument schema $\varphi_{1}, \dots, \varphi_{n} / \psi$ as an instance of good logical reasoning iff there exists a derivation\sidenote{In the following use the terms derivation and (formal) proof interchangeably.} which, intuitively speaking, starts with the premisses as assumptions and then leads to $\psi$, following only acceptable rules of inference.
+This approach is syntactic in the sense that the rules used in the derivation are in a sense blind to the semantic meaning of formulas.
+They are simple rewrite-rules that do not depend on the meaning (truth or falsity) of the formulas involved but only look at their syntactic form.\sidenote{They are rules that a computer could carry out, say, also on a fragment of natural language sentences without having to have any idea of what these sentences mean.}
+
+
+
+Figure~\ref{fig:deduction-schema} gives a sketch of a natural deduction derivation for argument schema $p \vee (q \wedge \neg q)$, $p \rightarrow r$ / $r$.
+Starting with the premisses as assumptions, we use a finite set of derivation steps to end up with the desired conclusion $r$.
+Generally speaking, a \emph{derivation} of natural deduction is a finite sequence of formulas such that every formula is either
+\begin{enumerate}[(i)]
+  \item an assumption,
+  \item an additional assumption, or
+  \item it is introduced by a legitimate \emph{derivation rule} based on previous formulas in the sequence.
+\end{enumerate}
+If a derivation of $\psi$ from premisses $\varphi_{1}, \dots, \varphi_{n}$ exists, we write $\varphi_{1}, \dots, \varphi_{n} \vdash \psi$.
+We will introduce the set of derivation rules for our system of natural deduction presently. But first we want to concentrate on the conceptual motivation for having such a system in the first place.
 
 \begin{figure}
   \centering
@@ -127,20 +146,6 @@ The definition of logical validity takes a \emph{semantic approach} to logical i
 \caption{Sketch of a natural deduction derivation for argument schema $p \vee (q \wedge \neg q)$, $p \rightarrow r$ / $r$.}
 \label{fig:deduction-schema}
 \end{figure}
-
-We can also take a \emph{syntactic approach} to delineating what is good logical reasoning and what is not.
-In this approach we would characterize the $\varphi_{1}, \dots, \varphi_{n} / \psi$ as an instance of good logical reasoning if and only if there exists a derivation (or proof) which, intuitively speaking, starts with the premisses as assumptions and then leads to $\psi$, following only acceptable rules of inference.
-This approach is syntactic in the sense that the derivation rules used in the derivation are simple rewrite-rules that do not depend on the meaning (truth or falsity) of the formulas involved but only look at their syntactic form.
-
-Figure~\ref{fig:deduction-schema} gives a sketch of a natural deduction derivation for argument schema $p \vee (q \wedge \neg q)$, $p \rightarrow r$ / $r$.
-Starting with the premisses as assumptions, we use a finite set of derivation steps to end up with the desired conclusion $r$.
-Generally speaking, a \emph{derivation} of natural deduction is a finite sequence of formulas such that every formula is either
-\begin{enumerate}[(i)]
-  \item an assumption,
-  \item an additional assumption, or
-  \item it is introduced by a legitimate derivation rule\sidenote{We will introduce the set of derivation rules for our system of natural deduction presently. But first we want to concentrate on the conceptual motivation for having such a system in the first place.} based on previous formulas in the sequence.
-\end{enumerate}
-If a derivation of $\psi$ from premisses $\varphi_{1}, \dots, \varphi_{n}$ exists, we write $\varphi_{1}, \dots, \varphi_{n} \vdash \psi$.
 
 \section{Soundness \& completeness}
 
@@ -164,10 +169,11 @@ In other words, completeness requires that \emph{all} logically valid conclusion
 Proving completeness is usually much more difficult than proving soundness.
 
 The system of natural deduction introduced in the following is both sound and complete.
+A proof of either is beyond the scope of this introductory course.
 
 \section{Symbiosis of semantic \& syntactic approach}
 
-Why would we want to have two things that do the same thing? ---
+Why would we want to have two tools that do the same thing? ---
 Good question.
 Several reasons.
 
@@ -179,7 +185,7 @@ First, the definitions of $\models$ and $\vdash$ are nicely complementary: one i
     iff &
     $\varphi_{1}, \dots, \varphi_{n} \models \psi$ \\
     $\Updownarrow$ & & $\Updownarrow$ \\
-    for all valuations \dots && there is a derivation \dots
+    there is a derivation \dots && for all valuations \dots
   \end{tabular}
 \end{center}
 
@@ -194,12 +200,12 @@ Adding just \EFSQ but not $E_{\neg\neg}$ gives \emph{intuitionistic logic}.
 
 Third, a proof or derivation system opens doors for a computational, algorithmic approach to logical inference.
 Finding a derivation is essentially a search problem is a large but well-defined search space.
-Classical Artificial Intelligence therefore was inspired, if not enabled, by modern logic because the latter provided a way to capture the basic workings of the rational mind ---drawing correct inferences from a given body of knowledge--- based on the syntactic manipulation of symbolic representations.\sidenote{The computability of logical inference with syntactic rewrite rules is, admittedly, less impressive for \proplog where we can also use the truth tables. But for other more complex logics, like predicate logic, this is a real non-trivial non-trivial non-trivial non-trivial non-trivial non-trivial non-trivial non-trivial non-trivial asset.}
+Classical Artificial Intelligence therefore was inspired, if not enabled, by modern logic because the latter provided a way to capture the basic workings of the rational mind ---drawing correct inferences from a given body of knowledge--- based on the syntactic manipulation of symbolic representations.\sidenote{The computability of logical inference with syntactic rewrite rules is, admittedly, less impressive for \proplog where we can also use truth tables. But for other more complex logics, like predicate logic, this is a non-trivial asset.}
 
 
 \section{Derivation rules of natural deduction}
 
-The derivation rules for natural deduction correspond ---for the most part--- to rules either introducing of eliminating a sentential connectives.
+The derivation rules for natural deduction correspond ---for the most part--- to rules either introducing or eliminating a sentential connective.
 The following exposition moves from easier to more difficult derivation rules.
 
 \subsection{Introduction rule for conjunction $I_{\wedge}$}
@@ -237,7 +243,7 @@ We can use this rule to show that $p, q, r \vdash (r \wedge p) \wedge q$ like so
 
 \subsection{Elimination rule for conjunction $E_{\wedge}$}
 
-If we have the conjunction $\varphi \wedge \psi$, we are allowed to also derive each conjunct.\sidenote{It is not necessary to derive both, we can also derive only one of the disjuncts.}
+If we have the conjunction $\varphi \wedge \psi$, we are allowed to also derive each conjunct.\sidenote{It is not necessary to derive both, we can also derive only one of the conjuncts.}
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
@@ -409,7 +415,7 @@ Here is an example derivation using $E_{\vee}$ showing that $p \vee q \vdash q \
 Negation is tricky in natural deduction.
 Though we will speak of an elimination rule for negation, strictly speaking we cannot just eliminate negation if we have a formula $\neg \varphi$.
 But we can draw inferences from the negation $\neg \varphi$ which are ``reductive'' in a sense: if we have derived both $\neg \varphi$ and $\varphi$ we have derived a contradiction, which can be very informative.\sidenote{Remember that the strategy of an indirect proof is to make a certain assumption in order to show that this will result in a contradiction.}
-So, the elimination rule for negation can best be thought of as an introduction rule for the sign $\bot$ which we use as a special symbol for a contradiction.\sidenote{Strictly speaking, we should introduce $\bot$ into the language of \proplog as a special formula, which can be used exactly like a proposition letter. We should the say that for all $V$ it's always the case that $V(\bot) = 0$.}
+So, the elimination rule for negation can best be thought of as an introduction rule for the sign $\bot$ which we use as a special symbol for a contradiction.\sidenote{Strictly speaking, we should introduce $\bot$ into the language of \proplog as a special formula, which can be used exactly like a proposition letter. We should then say that for all $V$ it holds that $V(\bot) = 0$.}
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
@@ -548,7 +554,7 @@ We have to introduce a separate rule for this.
 }
 \bigskip
 
-Using double-negation elimination we can show that $\vdash p \vee \neg p$:
+Using double-negation elimination we can show that $\vdash p \vee \neg p$:\bigskip
 
 \begin{tabular}{ccclcl}
  \cline{1-3}\vline  &         & 1. & $\neg (p \vee \neg p)$      & & add. ass.  \\
@@ -568,7 +574,7 @@ Using double-negation elimination we can show that $\vdash p \vee \neg p$:
   \begin{minipage}{1.0\textwidth}
 
     \begin{exercise}
-      Given a derivation in natural deduction for each of the following argument schemas.
+      Give a derivation in natural deduction for each of the following argument schemas.
       \begin{enumerate}[(i)]
         \item $p, q, r \vdash (p \wedge q) \wedge r$
         \item $\vdash p \rightarrow p$
