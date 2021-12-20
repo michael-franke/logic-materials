@@ -180,7 +180,7 @@ Several reasons.
 First, the definitions of $\models$ and $\vdash$ are nicely complementary: one is a universal statement (all valuations \dots), the other is an existential statement (there exists a derivation \dots):
 
 \begin{center}
-  \begin{tabular}{ccc}.
+  \begin{tabular}{ccc}
     $\varphi_{1}, \dots, \varphi_{n} \vdash \psi$ &
     iff &
     $\varphi_{1}, \dots, \varphi_{n} \models \psi$ \\
@@ -317,7 +317,7 @@ We are \emph{not} allowed to use any of the formulas derived in lines $m$ to $n-
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Implication Elim $E_{\rightarrow}$}
+    \textbf{Implication Intro $I_{\rightarrow}$}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
     \begin{tabular}{cclcl}
@@ -334,7 +334,7 @@ We are \emph{not} allowed to use any of the formulas derived in lines $m$ to $n-
 We can use this rule to show that $\vdash (p \wedge q) \rightarrow q$:\sidenote{Notice that we do not have any premisses here. It can be shown that $\vdash \psi$ iff $\psi$ is a tautology (see exercises below).}
 
 \begin{tabular}{cclcl}
-   \cline{1-2} \vline & 1. & $p \wedge q$                        & & ass.  \\
+   \cline{1-2} \vline & 1. & $p \wedge q$                        & & add. ass.  \\
    \vline             & 2. & $q$                                 & & $E_{\wedge}$, 1 \\ \hline
                       & 3. & $\vdash (p \wedge q) \rightarrow q$ & & $I_{\rightarrow}$ \\
 \end{tabular}
@@ -343,7 +343,7 @@ Another example, with explicit assumptions is the following derivation showing t
 
 \begin{tabular}{cclcl}
                      & 1. & $(p \wedge q) \rightarrow r$ & & ass. \\
-  \cline{1-2} \vline & 2. & $q \wedge p$                 & & ass. \\
+  \cline{1-2} \vline & 2. & $q \wedge p$                 & & add. ass. \\
   \vline             & 3. & $q$                          & & $E_{\wedge}$, 2  \\
   \vline             & 4. & $p$                          & & $E_{\wedge}$, 3  \\
   \vline             & 5. & $p \wedge q$                 & & $I_{\wedge}$, 4, 3  \\
@@ -558,8 +558,8 @@ Using double-negation elimination we can show that $\vdash p \vee \neg p$:\bigsk
 
 \begin{tabular}{ccclcl}
  \cline{1-3}\vline  &         & 1. & $\neg (p \vee \neg p)$      & & add. ass.  \\
- \vline             &         & 2. & $p$                         & & add. ass.  \\
- \cline{2-3} \vline &  \vline & 3. & $p \vee \neg p$             & & $I_{\vee}$, 2  \\
+ \cline{2-3}\vline             & \vline        & 2. & $p$                         & & add. ass.  \\
+  \vline &  \vline & 3. & $p \vee \neg p$             & & $I_{\vee}$, 2  \\
  \vline             &  \vline & 4. & $\bot$                      & & $E_{\neg}$, 1,3 \\
  \cline{2-6} \vline &         & 5. & $\neg p$                    & & $I_{\neg}$\\
  \vline             &         & 6. & $p \vee \neg p $            & & $I_{\vee}$, 5 \\
