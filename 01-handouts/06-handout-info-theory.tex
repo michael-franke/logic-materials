@@ -102,6 +102,9 @@
 Surprisal, entropy, Kullback-Leibler divergence, mutual information.
 \end{abstract}
 
+The goal of this primer on information theory is to introduce the most salient notions of information theory relevant to common applications in fields like machine learning, computational linguistics or theoretical linguistics.
+Rather than appealing to deeper mathematical results (such as related to noisy communication channels and efficient coding), this primer explains and motivates the relevant notions from the perspective of (subjective) beliefs.
+
 \begin{figure}
   \centering
   \begin{tikzpicture}
@@ -166,20 +169,22 @@ Surprisal, entropy, Kullback-Leibler divergence, mutual information.
 
 \section{Information content (surprisal)}
 
-Let $X$ be a random variable with support $\mathcal{X}$. For event $x \in \mathcal{X}$, the \emph{information content} $I_{X}(x)$ of $x$ (a.k.a.~\emph{surprisal} of $x$) under random variable $X$ is defined as:
+Let $P\in \Delta(X)$ be a probability distribution over (finite) set $X$.
+For event $x \in \mathcal{X}$, the \emph{information content} $I_{X}(x)$ of $x$ (a.k.a.~\emph{surprisal} of $x$) under random variable $X$ is defined as:
 \begin{align*}
-  I_{X}(x) = - \log_{2} P(X = x)
+  I_{P}(x) = - \log_{2} P(x)
 \end{align*}
-Intuitively speaking, the information content $I_{X}(x)$ is a measure of how surprised an agent with beliefs $X$ is (alternatively: how much the agent learns) when they observe $x$.
+Intuitively speaking, the information content $I_{P}(x)$ is a measure of how surprised an agent with beliefs $P$ is (alternatively: how much the agent learns) when they observe $x$.
 
 \section{Entropy}
 
-The \emph{entropy} $\mathcal{H}(X)$ of a random variable is the expected information content under the assumption that the true distribution is $X$:\sidenote{Here and below, writing ``true distribution'' or similar formulations does not necessarily entail a strong commitment to actual truth. It is shorthand for more careful but cumbersome language like ``the distribution used as a reference or baseline which we assume to be true or treat as-if true.'' }
+Let $P\in \Delta(X)$ be a probability distribution over (finite) set $X$.
+The \emph{entropy} $\mathcal{H}(P)$ of probability distribution $P$ is the expected information content under the assumption that the true distribution is $P$:\sidenote{Here and below, writing ``true distribution'' or similar formulations does not necessarily entail a strong commitment to actual truth. It is shorthand for more careful but cumbersome language like ``the distribution used as a reference or baseline which we assume to be true or treat as-if true.'' }
 \begin{align*}
-  \mathcal{H}(X) & = \sum_{x \in \mathcal{X}} P(X = x) \ I_{X}(x) \\
-                 & = - \sum_{x \in \mathcal{X}} P(X = x) \ \log P(X = x)
+  \mathcal{H}(P) & = \sum_{x \in \mathcal{X}} P(x) \ I_{P}(x) \\
+                 & = - \sum_{x \in \mathcal{X}} P(x) \ \log P(x)
 \end{align*}
-Intuitively speaking, the entropy $\mathcal{H}(X)$ measures the expected (or average) surprisal of an agent whose beliefs are $X$ when the true distribution is $X$.
+Intuitively speaking, the entropy $\mathcal{H}(P)$ measures the expected (or average) surprisal of an agent whose beliefs are $P$ when the true distribution is $P$.
 
 \begin{itemize}
   \item example
@@ -188,26 +193,28 @@ Intuitively speaking, the entropy $\mathcal{H}(X)$ measures the expected (or ave
 
 \section{Cross entropy}
 
-The \emph{cross entropy} $\mathcal{H}(X,Y)$ of random variables $X$ and $Y$ measures the expectation of information content given $Y$ from the point of view of (assumed true) distribution $X$:
+Let $P, Q \in \Delta(X)$ be probability distributions over (finite) set $X$.
+The \emph{cross entropy} $\mathcal{H}(P,Q)$ of probability distributions $P$ and $Q$ measures the expectation of information content given $Q$ from the point of view of (assumed true) distribution $P$:
 \begin{align*}
-  \mathcal{H}(X,Y) & = \sum_{x \in \mathcal{X}} P(X = x) \ I_{Y}(x) \\
-                   & = - \sum_{x \in \mathcal{X}} P(X = x) \ \log P(Y = x)
+  \mathcal{H}(P,Y) & = \sum_{x \in \mathcal{X}} P(x) \ I_{Q}(x) \\
+                   & = - \sum_{x \in \mathcal{X}} P(x) \ \log Q(x)
 \end{align*}
-Intuitively speaking, the cross entropy $\mathcal{H}(X,Y)$ measures the expected (or average) surprisal of an agent whose beliefs are $Y$ when the true distribution is $X$.
+Intuitively speaking, the cross entropy $\mathcal{H}(P,Q)$ measures the expected (or average) surprisal of an agent whose beliefs are $Q$ when the true distribution is $P$.
 
 \section{Kullback-Leibler divergence (relative entropy)}
 
-The \emph{Kullback-Leibler (KL) divergence} (also known as \emph{relative entropy}) measures the expected (or average) difference in information content between the distribution $Y$ and the true distribution $X$:
+The \emph{Kullback-Leibler (KL) divergence} (also known as \emph{relative entropy}) measures the expected (or average) difference in information content between the distribution $Q \in \Delta(X)$ and the true distribution $P \in \Delta(X)$:
 \begin{align*}
-  D_{KL}(X || Y) & = \sum_{x \in \mathcal{X}} P(X = x) \ \left ( I_{Y}(x) - I_{X}(x) \right ) \\
-  & = \sum_{x \in \mathcal{X}} P(X = x) \ \log  \frac{P(X=x)}{P(Y=x)}
+  D_{KL}(P || Q) & = \sum_{x \in \mathcal{X}} P(x) \ \left ( I_{Q}(x) - I_{P}(x) \right ) \\
+  & = \sum_{x \in \mathcal{X}} P(x) \ \log  \frac{P(x)}{Q(x)}
 \end{align*}
-Intuitively speaking, the KL-divergence $D_{KL}(X || Y)$ measures how much more surprised an agent is, on average, when they hold beliefs described by $Y$ instead of the true distribution $X$.
+Intuitively speaking, the KL-divergence $D_{KL}(P || Q)$ measures how much more surprised an agent is, on average, when they hold beliefs described by $Q$ instead of the true distribution $P$.
 
-KL-divergence $D_{KL}(X || Y)$ can be equivalently written in terms of the entropy $\mathcal{H}(X)$ of $X$ and the cross entropy $\mathcal{H}(X,Y)$ of $X$ and $Y$:
+KL-divergence $D_{KL}(P || Q)$ can be equivalently written in terms of the entropy $\mathcal{H}(P)$ of $P$ and the cross entropy $\mathcal{H}(P,Q)$:
 \begin{align*}
-  D_{KL}(X || Y) = \mathcal{H}(X,Y) - \mathcal{H}(X)
+  D_{KL}(P || Q) = \mathcal{H}(P,Q) - \mathcal{H}(P)
 \end{align*}
+% include this as exercise
 
 \begin{itemize}
   \item examples
