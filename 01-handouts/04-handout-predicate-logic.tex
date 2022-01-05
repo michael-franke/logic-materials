@@ -95,17 +95,20 @@
 
 \begin{abstract}
 \noindent
-Formulas of predicate logic; atomic sentences, predicate letters \& individual constants;
+Formulas of predicate logic;
+predicate letters, variables \& individual constants;
+domain of quantification;
 quantifier scope and binding;
+atomic sentences;
 predicate-logical meaning of natural language sentences;
 semantics of predicate logic;
 \end{abstract}
 
 \section{Motivation}
 
+\dots fill me \dots
 
-
-\section{Formulas of predicate logic}
+\section{The language of predicate logic}
 
 \subsection{Basic ingredients of predicate-logical formulas}
 
@@ -114,10 +117,9 @@ The formulas of \predlog consist of a number of building blocks.
   \item individual constants \hfill $a,b,c, \dots, v$
   \item predicate letters \hfill $A, B, C, D \dots$
   \item variables \hfill $w, x,y,z$
-  \item quantifiers \hfill $\exists, \forall$
   \item brackets \hfill ( \ \ )
-  \item sentential connectives (like \proplog) \hfill $\neg, \wedge, \vee,
-  \rightarrow, \leftrightarrow$
+  \item sentential connectives (like \proplog) \hfill $\neg, \wedge, \vee, \rightarrow, \leftrightarrow$
+  \item quantifiers \hfill $\exists, \forall$
 \end{itemize}
 
 \emph{Individual constants} are denoted by lower-case Roman letters ($a, b, c, \dots, v $) up to $v$.\sidenote{If need be, we can also use additional indices like $a_{1}$, $a_{2}$ etc. This also holds for variables and predicate letters.}
@@ -139,15 +141,173 @@ For every boy it holds that \emph{he} \dots \hfill \mygray{[\emph{he} = some boy
 There is a boy for which it holds that \emph{he} \dots \hfill \mygray{[\emph{he} = some boy]}\\
 \end{quote}
 
+To build formulas, \predlog also uses \emph{brackets} and exactly the same \emph{sentential connectives} as \proplog does.
+
 \emph{Quantifiers} are special functional elements of the language of \predlog.
 The quantifier $\exists$ is the \emph{existential quantifier}.
 It is read as ``there is'' or ``there exists.''
+For example, the formula $\exists x (Bx \wedge Ix)$ would be read as ``there is an $x$ such that $x$ has property $B$ and $I$.''
+It would mean that there is an individual which has the property denoted by $B$ (e.g., it is a book) and the property denoted by $I$ (e.g., it is interesting).
+This formula would express that there is at least one interesting book.
 The quantifier $\forall$ is the \emph{universal quantifier}.
 It is read as ``for all.''
-For example, the formula $\exists x (Bx \wedge Ix)$ could mean that there is an individual which has the property denoted by $B$ (e.g., it is a book) and the property denoted by $I$ (e.g., it is interesting).
-This formula would express that there is at least one interesting book.
+For example, the formula $\forall x (Bx \rightarrow Ix)$ would be read as ``for all $x$ it holds that if $x$ has property $B$, then it also has property $I$.''
+This would express that all books are interesting.
 
+\subsection{Formulas}
+
+The language $\mathfrak{L}$ of \predlog is the set of all \emph{formulas} which are recursively defined as follows:
+
+\begin{enumerate}[(i)]
+  \item If $A$ is an $n$-ary predicate letter and if $t_1, \dots, t_n$ are individual constants     or variables, then $At_1 \dots t_n$ is a formula.
+  \item If $\varphi$ is a formula, then so is $\neg \varphi$.
+  \item If $\varphi$ and $\psi$ are formulas, so are:\sidenote{We allow ourselves to omit the outermost pair of brackets as in \proplog.}
+    \vspace*{-0.4cm}
+    \begin{multicols}{4}
+      \begin{enumerate}[a.]
+        \item ($\varphi \wedge \psi$)
+        \item ($\varphi \vee \psi$)
+        \item ($\varphi \rightarrow \psi$)
+        \item ($\varphi \leftrightarrow \psi$)
+      \end{enumerate}
+    \end{multicols}
+    \vspace*{-0.4cm}
+  \item If $\varphi$ is a formula and if $x$ is a variable, then these are formulas:
+    \vspace*{-0.4cm}
+    \begin{multicols}{2}
+      \begin{enumerate}[a.]
+        \item $\forall x \myts \varphi$ \ \ \ [\emph{universal statement}]
+        \item $\exists x \myts \varphi$ \ \ \ [\emph{existential statement}]
+      \end{enumerate}
+    \end{multicols}
+    \vspace*{-0.4cm}
+  \item Anything that cannot be constructed by (i)--(iv) is not a formula.
+\end{enumerate}
+
+Here are examples of formulas of \predlog, together with intuitive paraphrases based on the interpretation that $a$ is Alex, $b$ is Bo, $m$ is the book \emph{Moby Dick}, $Lxy$ means ``$x$ likes $y$,'' $Bx$ means ``$x$ is a book'' and ``$x$ owns $y$.''
+\begin{align*}
+  & Lam                           && \text{Alex likes Moby Dick.} \\
+  & Lab \wedge Lba                && \text{Alex likes Bo and Bo likes Alex.} \\
+  & \exists x (Bx \wedge Oax)                && \text{Alex owns a book.} \\
+  & \forall x \myts ((Bx \wedge Obx) \rightarrow  Lax) && \text{Alex likes every book Bo owns.} \\
+\end{align*}
+
+If $A$ is an $n$-ary predicate letter and if $t_1, \dots, t_n$ are individual constants, then $At_1 \dots t_n$ is an \markdef{atomic sentence}.
+Atomic sentences are minimal truth-evaluable units of the language of \predlog, akin to the proposition letters of \proplog.
+
+\section{Domain of quantification}
+
+In order to be able to interpret ---even if only intuitively--- what a formula of \predlog could mean, we need information about the \emph{domain of quantification} $D$.
+Take the formula $\forall x (Lxa)$ with the interpretation of $a$ and $Lxy$ as before.
+We might take this to mean that everybody likes Alex, or that everything on earth (including the book \emph{Moby Dick}) likes Alex.
+So, when we write down a formula with quantifiers in \predlog, it will only be interpretable if we specify which individuals the quantification should range over.
+We call this the \emph{domain of quantification} $D$.
+Remember that you must always specify the domain of quantification $D$ in translation exercises or other applications where your formulas are supposed to be meaningfully interpretable.
 
 \section{Quantifier scope \& binding}
+
+Even with an explicit domain of quantification, not every formula of \predlog is interpretable.
+Consider the formula $Lax$.
+We might paraphrase this as ``Alex likes them, us, him, her or it.''
+Without knowing what $x$ refers to, this formula ---though a formula of \predlog--- is not interpretable.
+We therefore introduce terminology to speak about which occurrences of variables are interpretable, which are not, and how a variable that is interpretable is to be interpreted.
+The relevant technical terms are \emph{scope}, as well as \emph{bound} and \emph{free} occurrence of a variable.
+
+If $\forall x \myts \psi$ is a subformula of $\varphi$, then $\psi$ is the \emph{scope} of this occurrence of the quantifier $\forall x$ in $\varphi$. The same holds for $\exists x$.
+An occurrence of a variable $x$ in a formula $\varphi$ (outside of a quantifier $\forall x$ or $\exists x$), is \emph{free} in $\varphi$ if $x$ is not in the scope of a quantifier $\forall x$ or $\exists x$.
+If $\forall x \myts \psi$ (or $\exists x \myts \psi$) is a subformula of $\varphi$ and if an occurrence of $x$ is free in $\psi$, then this occurrence of $x$ is \emph{bound} by the quantifier $\forall x$ (or $\exists x$).
+
+Here are examples:\sidenote{The last formula is well-formed and interpretable, but not very cooperative for an interpreter. In practice, we would rather like to write $\exists x (\myts Px \wedge \forall y \myts Qy)$}
+\begin{align*}
+  & Px && \text{$x$ is free} \\
+  & Px \wedge \forall x \myts Qx && \text{the first occurrence of $x$ is free, the second bound} \\
+  & \exists x (\myts Px \wedge Qx) && \text{both occurrences of $x$ are existentially bound}\\
+  & \exists x \myts Px \wedge \forall x \myts Qx && \text{first occur.~existentially bound, second universally bound}\\
+  & \exists x (\myts Px \wedge \forall \myts x Qx) && \text{first occur.~existentially bound, second universally bound}
+\end{align*}
+
+
+\section{Translations from natural langauge to \predlog}
+
+Just like \proplog, \predlog is useful for uncovering the logical structure of sentences.
+Unlike \proplog, \predlog can lay bare the internal structure of atomic propositions and aspects of quantification.
+
+Suppose we want to translate this sentences to predicate logic:
+\begin{quote}
+Alex likes Bo but if Bo likes Alex, Bo likes everyone.
+\end{quote}
+
+A formula that captures the logical structure of this sentence is:
+\begin{align*}
+  Lab \wedge (Lba \rightarrow \forall x \myts Lbx)
+\end{align*}
+Such a translation is only complete, strictly speaking, when we also explicitly state the \emph{translation key}, which defines what each individual constant and predicate letter refers to, as well as the arity of each predicate letter.
+In the example at hand, the translation key would be:\sidenote{Notice that the arity of the predicate $L$ is fixed by the notation $Lxy$ and that it is crucial for the translation key to specify exactly what a predicate like $L$ means, i.e., is first argument the slot for the person doing or receiving the liking?}
+\begin{enumerate}[(i)]
+  \item $a$: Alex
+  \item $b$: Bo
+  \item $Lxy$: $x$ likes $y$
+\end{enumerate}
+The domain of quantification should be the set of all human beings.
+If the domain of quantification should also include non-humans, we would have to adapt the formula:
+\begin{align*}
+  Lab \wedge (Lba \rightarrow \forall x \myts (Hx \rightarrow Lbx))
+\end{align*}
+and also include the predicate letter $H$ in the translation key like so:
+\begin{enumerate}[(iv)]
+  \item $Hx$: $x$ is a human being
+\end{enumerate}
+
+\bigskip
+\noindent \colorbox{mygray}{\centering
+  \begin{minipage}{1.0\textwidth}
+
+    \begin{exercise}
+      For each of the following strings, determine whether they are formulas of \predlog or not. Assume that $P$ and $Q$ are unary predicate letters, and that $R$ is a binary predicate letter.
+      \begin{multicols}{2}
+      \begin{enumerate}[(i)]
+        \item $Px \rightarrow \exists \myts x$
+        \item $\forall x (Px)$
+        \item $\forall x Px$
+        \item $(\forall x Px)$
+        \item $Px \vee \exists \myts x Px$
+        \item $\forall y Px \vee \exists \myts x Px$
+        \item $\forall y (Rxy \vee \exists \myts x Px)$
+        \item $\forall y (Rxy \vee \exists \myts x Px)$
+      \end{enumerate}
+    \end{multicols}
+    \end{exercise}
+
+    \begin{exercise}
+      Translate the following sentences into the language of predicate logic. Preserve as much of   the logical structure as possible and give the translation key and the domain of   quantification (here: $D: \text{people}$).
+      \begin{enumerate}[(i)]
+        \item Everybody is friendly.
+        \item Everybody loves somebody.
+        \item Every pilot loves Bill.
+        \item If Mary is a pilot, someone loves her.
+        \item Every pilot is unfriendly.
+        \item Some pilots are friendly.
+        \item No pilot is friendly.
+        \item Nobody loves anyone who is in love with a pilot.
+      \end{enumerate}
+    \end{exercise}
+
+    \begin{exercise}
+      For each of the following formulas of predicate logic, determine whether each occurrence of a variable is a free or bound occurrence. If it is a bound occurrence, determine which quantifier binds it.
+      \begin{multicols}{2}
+      \begin{enumerate}[(i)]
+        \item $Px$
+        \item $\exists x \myts Lxj$
+        \item $\exists x \myts Lxy$
+        \item $\exists x \myts Px \wedge Lxj$
+        \item $\exists x \myts (Px \wedge Lxj)$
+        \item $\exists x \myts (Px \wedge \forall x \myts Lxj)$
+      \end{enumerate}
+    \end{multicols}
+    \end{exercise}
+  \end{minipage}
+
+}
+
 
 \end{document}
