@@ -1,0 +1,153 @@
+\PassOptionsToPackage{table}{xcolor}
+\documentclass[nobib,nofonts]{tufte-handout}
+
+%\geometry{showframe} % display margins for debugging page layout
+
+%%% MF additions
+% \usepackage[table]{xcolor}
+\usepackage[nographicx, nohyperref, nosubcaption, nogb4e, nobiblatex]{../99-auxiliary-files/00-mypackages}
+\usepackage{../99-auxiliary-files/00-mycommands}
+\usepackage{../99-auxiliary-files/00-myenvironments}
+
+\usepackage{titlesec}
+\usepackage{etoolbox}
+\usepackage{tikz-qtree}
+\usepackage{subcaption}
+
+% \titleformat{\section}
+% {\large\bfshape}{\thesection}{1em}{}
+
+\setcounter{secnumdepth}{5}
+\renewcommand\thesection{\arabic{section}}
+
+% this length controls tha hanging indent for titles
+% change the value according to your needs
+\newlength\titleindent
+\setlength\titleindent{0.7cm}
+
+\pretocmd{\paragraph}{\stepcounter{subsection}}{}{}
+\pretocmd{\subparagraph}{\stepcounter{subsubsection}}{}{}
+
+\titleformat{\chapter}[block]
+  {\normalfont\huge\bfseries}{}{0pt}{\hspace*{-\titleindent}}
+
+\titleformat{\section}
+  {\normalfont\Large\itshape}{\llap{\parbox{\titleindent}{\thesection\hfill}}}{0em}{}
+
+\titleformat{\subsection}
+  {\normalfont\itshape}{\llap{\parbox{\titleindent}{\thesubsection\hfill}}}{0em}{}
+
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\itshape}{\llap{\parbox{\titleindent}{\thesubsubsection}}}{0em}{}
+
+\titleformat{\paragraph}[runin]
+  {\normalfont\normalsize\itshape}{}{-0.7cm}{}[\xspace \ \ \ \ ]
+
+\titleformat{\subparagraph}[runin]
+  {\normalfont\normalsize}{\llap{\parbox{\titleindent}{\thesubsubsection\hfill}}}{0em}{}
+
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+\titlespacing*{\subsubsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{0em}
+\titlespacing*{\subparagraph}{0pt}{3.25ex plus 1ex minus .2ex}{0em}
+
+\DefineNamedColor{named}{mygray2}{cmyk}{0.55,0.25,0.25,0.25}
+\newcommand{\mygray}[1]{\textcolor{mygray2}{#1}}
+
+%%% Tufte style
+\usepackage{graphicx} % allow embedded images
+  \setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+  \graphicspath{{graphics/}} % set of paths to search for images
+
+\usepackage{fancyvrb} % extended verbatim environments
+  \fvset{fontsize=\normalsize}% default font size for fancy-verbatim environments
+
+% Standardize command font styles and environments
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+
+\newcommand{\proplog}{\acro{PropLog}}
+\newcommand{\predlog}{\acro{PredLog}}
+\newcommand{\EFSQ}{\ensuremath{\mathit{EFSQ}}\xspace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \usepackage[sc,osf]{mathpazo}
+% \linespread{1.05}
+
+
+
+\title{Predicate Logic}
+
+\author[M.~Franke]{Michael Franke}
+
+\date{} % without \date command, current date is supplied
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent
+Formulas of predicate logic; atomic sentences, predicate letters \& individual constants;
+quantifier scope and binding;
+predicate-logical meaning of natural language sentences;
+semantics of predicate logic;
+\end{abstract}
+
+\section{Motivation}
+
+
+
+\section{Formulas of predicate logic}
+
+\subsection{Basic ingredients of predicate-logical formulas}
+
+The formulas of \predlog consist of a number of building blocks.
+\begin{itemize}
+  \item individual constants \hfill $a,b,c, \dots, v$
+  \item predicate letters \hfill $A, B, C, D \dots$
+  \item variables \hfill $w, x,y,z$
+  \item quantifiers \hfill $\exists, \forall$
+  \item brackets \hfill ( \ \ )
+  \item sentential connectives (like \proplog) \hfill $\neg, \wedge, \vee,
+  \rightarrow, \leftrightarrow$
+\end{itemize}
+
+\emph{Individual constants} are denoted by lower-case Roman letters ($a, b, c, \dots, v $) up to $v$.\sidenote{If need be, we can also use additional indices like $a_{1}$, $a_{2}$ etc. This also holds for variables and predicate letters.}
+Individual constants are like proper names: they refer to exactly one individual.\sidenote{Individuals in the sense of predicate logic need not be humans or animals. An individual is any kind of entity that can have properties or stand in some kind of relation to any other property. For example, constant $m$ may denote Michael's copy of \emph{Moby Dick}.}
+
+\emph{Predicate letters} are denoted with upper-case Roman letters ($A, B, C, D \dots$).
+Predicate letters will be used to denote relations.
+Each predicate letter has a unique \emph{arity}, i.e., the number of elements that the relevant relation requires.
+For example, the predicate letter $L$ may stand for a two-place relations such as ``$x$ loves $y$''.
+The arity of $L$ would therefore be 2.
+We expect $L$ to have two arguments, so that $Lab$, $Lax$ or $Lxy$ would be well-formed expressions (see below), while $Labc$ or $La$ would not be.
+
+\emph{Variables} are denoted by lower-case Roman letters ($w, x,y,z$), starting from $w$.
+Variables are only interpretable in the \emph{scope} of a quantifier, a technical concept we will introduce later.
+As a first intuitive guide, think of variables as similar to pronouns which are used to refer to an unnamed individual introduced by a quantifying expression like in these examples:
+
+\begin{quote}
+For every boy it holds that \emph{he} \dots \hfill \mygray{[\emph{he} = some boy]}\\
+There is a boy for which it holds that \emph{he} \dots \hfill \mygray{[\emph{he} = some boy]}\\
+\end{quote}
+
+\emph{Quantifiers} are special functional elements of the language of \predlog.
+The quantifier $\exists$ is the \emph{existential quantifier}.
+It is read as ``there is'' or ``there exists.''
+The quantifier $\forall$ is the \emph{universal quantifier}.
+It is read as ``for all.''
+For example, the formula $\exists x (Bx \wedge Ix)$ could mean that there is an individual which has the property denoted by $B$ (e.g., it is a book) and the property denoted by $I$ (e.g., it is interesting).
+This formula would express that there is at least one interesting book.
+
+
+\section{Quantifier scope \& binding}
+
+\end{document}
