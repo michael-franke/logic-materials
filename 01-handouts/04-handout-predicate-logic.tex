@@ -106,7 +106,50 @@ semantics of predicate logic;
 
 \section{Motivation}
 
-\dots fill me \dots
+We can think of propositional logic as a system that formalizes the meaning of important functional terms, namely the sentential connectives (negation, conjunction, disjunction, implication).
+This carries a long way towards capturing what sound logical inference is.
+But it also fails to capture crucial patterns of inference.
+For example, if we know that
+\begin{quote}
+  Alex is as tall as Bo
+\end{quote}
+we also know that
+\begin{quote}
+  Bo is as tall as Alex
+\end{quote}
+in virtue of our knowledge of what the predicate ``being as tall as'' means.
+Propositional logic cannot capture this.
+It can model the first sentences as $p$ (= ``Alex is as tall as Bo'') and the second as $q$ (= ``Bo is as tall as Alex''), but since we cannot look inside the structure of a simple proposition, there is no way in which we can say that $p$, based on its internal form and relatedness to the internal form of $q$, must necessarily entail $q$.\sidenote{We can, of course, make the additional premise by writing down that $p \rightarrow q$, but that clearly does not explain the general relationship.}
+
+Predicate logic (\predlog) is an extension of \proplog which adds two things.
+Firstly, \predlog models the internal structure of atomic propositions in terms of \emph{predicates} and \emph{individual constants}.
+For example, we could have a (two-place) predicate $T$ meaning (``being as tall as'') and two symbols, so-called individual constants, $a$ and $b$ which represent Alex and Bo respectively.
+We can then translate the sentence ``Alex is as tall as Bo'' into the formula $Tab$, which is a minimal truth-evaluable unit, but does have internal structure.
+Similarly, the sentence ``Bo is as tall as Alex'' would translate into $Tba$.
+
+Secondly, \predlog allows to capture \emph{quantification}, which is extremely important in order to capture general rules, generalizations and key aspects of our semantic and world knowledge.\sidenote{Semantic knowledge is what we know about the meaning of words and expressions. For example, semantic knowledge tells us that ``being taller than'' is a transitive relation, and that ``being as tall as'' is an equivalence relation. World knowledge is what we know about the world. For example, we know that Berlin is the capital of Germany.}
+Imagine that you have a reasoning machine (computer, robot, friend \dots) able to compute logical inferences in predicate logic.
+Even though we have not introduced any of the formal machinery (syntax, semantics, definition of validity, deduction system) necessary to make such formal reasoning precise, imagine you give this machine the information $Tab$.
+You want it to represent ``Alex is as tall as Bo,'' but the machine only has the string of symbols to work with.
+Would that machine be able to conclude that $Tba$?
+No, it wouldn't because it doesn't know that you want the symbol $T$ to mean ``being as tall as'' and not ``being taller than'' or anything else.
+But, using predicate logic, you \emph{can} tell the system about the fundamental structural properties of the relation ``being as tall as,'' such as that it is reflexive.
+In other words, you can express that ``being as tall as'' is a symmetric predict directly in \predlog with the formula:
+\begin{align*}
+ \forall x \myts \forall y \myts (Txy \rightarrow Tyx)
+\end{align*}
+which can be read as ``for all objects $x$ and $y$, if $x$ stands in relation $T$ to $y$, then so does $y$ to $x$.''
+This formulas uses the quantifier \(\forall\) to express a generalization: something that holds of any pair of objects.
+Generalizations of this kind are essential for human reasoning and \predlog captures the most basic aspects of quantification in a system of logical reasoning.
+To be clear, the inference schema:
+\begin{align*}
+ Tab, \forall x \myts \forall y \myts (Txy \rightarrow Tyx) / Tba
+\end{align*}
+is logically valid in \predlog, but the schema:
+\begin{align*}
+ Tab / Tba
+\end{align*}
+is not.
 
 \section{The language of predicate logic}
 
