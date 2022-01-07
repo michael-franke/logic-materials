@@ -155,45 +155,52 @@ is not.
 
 \subsection{Basic ingredients of predicate-logical formulas}
 
-The formulas of \predlog consist of a number of building blocks.
+The formulas of \predlog consist:
+\begin{multicols}{2}
 \begin{itemize}
-  \item individual constants \hfill $a,b,c, \dots, v$
-  \item predicate letters \hfill $A, B, C, D \dots$
-  \item variables \hfill $w, x,y,z$
-  \item brackets \hfill ( \ \ )
-  \item sentential connectives (like \proplog) \hfill $\neg, \wedge, \vee, \rightarrow, \leftrightarrow$
-  \item quantifiers \hfill $\exists, \forall$
+  \item individual constants $a,b,c, \dots, v$
+  \item predicate letters $A, B, C, D \dots$
+  \item variables $w, x,y,z$
+  \item parentheses ( \ \ )
+  \item sentential connectives $\neg, \wedge, \vee, \rightarrow, \leftrightarrow$
+  \item quantifiers $\exists, \forall$
 \end{itemize}
-
-\emph{Individual constants} are denoted by lower-case Roman letters ($a, b, c, \dots, v $) up to $v$.\sidenote{If need be, we can also use additional indices like $a_{1}$, $a_{2}$ etc. This also holds for variables and predicate letters.}
-Individual constants are like proper names: they refer to exactly one individual.\sidenote{Individuals in the sense of predicate logic need not be humans or animals. An individual is any kind of entity that can have properties or stand in some kind of relation to any other property. For example, constant $m$ may denote Michael's copy of \emph{Moby Dick}.}
+\end{multicols}
+\emph{Individual constants} are denoted by lower-case Roman letters ($a, b, c, \dots, v $) up to $v$.\sidenote{If need be, we can also use indices like $a_{1}$, $a_{2}$ etc. This also holds for variables and predicate letters.}
+Individual constants are like proper names: they refer to exactly one individual.
+For example, the individual constant $a$ may be interpreted as referring to Alex and $b$ as referring to Bo.
+Individuals in the sense of predicate logic need not be humans or animals. An individual is any kind of entity that can have properties or stand in some kind of relation to any other property. For example, constant $m$ may denote a particular copy of \emph{Moby Dick}.
 
 \emph{Predicate letters} are denoted with upper-case Roman letters ($A, B, C, D \dots$).
-Predicate letters will be used to denote relations.
-Each predicate letter has a unique \emph{arity}, i.e., the number of elements that the relevant relation requires.
-For example, the predicate letter $L$ may stand for a two-place relations such as ``$x$ loves $y$''.
-The arity of $L$ would therefore be 2.
-We expect $L$ to have two arguments, so that $Lab$, $Lax$ or $Lxy$ would be well-formed expressions (see below), while $Labc$ or $La$ would not be.
+Predicate letters will be used to denote properties or relations.
+Each predicate letter has a unique \emph{arity}.
+The arity of a predicate letter is always an integer bigger than zero.
+It gives the number of elements that the predicate letter expects as an argument.
+A predicate letter with arity one is also called \emph{unary} predicate letter and will be interpreted to refer to a property.
+For example, if $B$ is a unary predicate letter denoting the property ``$x$ is a book'', then the expression $Bm$ can be interpreted as expressing that \emph{Moby Dick} is a book.
+A predicate letter with arity bigger than one will be interpreted to denote a relation.
+For example, if the predicate letter $L$ has arity two, it may stand for a two-place relations such as ``$x$ loves $y$''.
+Consequently, we expect $L$ to have two arguments, so that $Lab$, $Lam$ or $Lmb$ would be well-formed expressions (no matter whether true or meaningful), while $Labm$, $Laaaa$ or $Lb$ would not be.
 
 \emph{Variables} are denoted by lower-case Roman letters ($w, x,y,z$), starting from $w$.
-Variables are only interpretable in the \emph{scope} of a quantifier, a technical concept we will introduce later.
-As a first intuitive guide, think of variables as similar to pronouns which are used to refer to an unnamed individual introduced by a quantifying expression like in these examples:
+Variables are only interpretable in the \emph{scope} of a quantifier, an important technical concept we will introduce later.
+As a first intuitive guide, think of variables as similar to pronouns\sidenote{A proper logical treatment of pronouns in natural language requires more sophisticated logical systems, like \emph{dynamic logics} or \emph{discourse representation theory}.} which are used to refer to an unnamed individual introduced by a quantifying expression like in these examples:
 
 \begin{quote}
 For every boy it holds that \emph{he} \dots \hfill \mygray{[\emph{he} = some boy]}\\
 There is a boy for which it holds that \emph{he} \dots \hfill \mygray{[\emph{he} = some boy]}\\
 \end{quote}
 
-To build formulas, \predlog also uses \emph{brackets} and exactly the same \emph{sentential connectives} as \proplog does.
+To build formulas, \predlog also uses \emph{parentheses} and exactly the same \emph{sentential connectives} as \proplog does.
 
 \emph{Quantifiers} are special functional elements of the language of \predlog.
 The quantifier $\exists$ is the \emph{existential quantifier}.
 It is read as ``there is'' or ``there exists.''
 For example, the formula $\exists x (Bx \wedge Ix)$ would be read as ``there is an $x$ such that $x$ has property $B$ and $I$.''
 It would mean that there is an individual which has the property denoted by $B$ (e.g., it is a book) and the property denoted by $I$ (e.g., it is interesting).
-This formula would express that there is at least one interesting book.
+In short, this formula would express that there is at least one interesting book.
 The quantifier $\forall$ is the \emph{universal quantifier}.
-It is read as ``for all.''
+It is read as ``for all,'' ``all'' or ``every.''
 For example, the formula $\forall x (Bx \rightarrow Ix)$ would be read as ``for all $x$ it holds that if $x$ has property $B$, then it also has property $I$.''
 This would express that all books are interesting.
 
@@ -204,7 +211,7 @@ The language $\mathfrak{L}$ of \predlog is the set of all \emph{formulas} which 
 \begin{enumerate}[(i)]
   \item If $A$ is an $n$-ary predicate letter and if $t_1, \dots, t_n$ are individual constants     or variables, then $At_1 \dots t_n$ is a formula.
   \item If $\varphi$ is a formula, then so is $\neg \varphi$.
-  \item If $\varphi$ and $\psi$ are formulas, so are:\sidenote{We allow ourselves to omit the outermost pair of brackets as in \proplog.}
+  \item If $\varphi$ and $\psi$ are formulas, so are:\sidenote{We allow ourselves to omit the outermost pair of parentheses as in \proplog.}
     \vspace*{-0.4cm}
     \begin{multicols}{4}
       \begin{enumerate}[a.]
@@ -227,37 +234,69 @@ The language $\mathfrak{L}$ of \predlog is the set of all \emph{formulas} which 
   \item Anything that cannot be constructed by (i)--(iv) is not a formula.
 \end{enumerate}
 
-Here are examples of formulas of \predlog, together with intuitive paraphrases based on the interpretation that $a$ is Alex, $b$ is Bo, $m$ is the book \emph{Moby Dick}, $Lxy$ means ``$x$ likes $y$,'' $Bx$ means ``$x$ is a book'' and ``$x$ owns $y$.''
+Here are examples of formulas of \predlog, together with intuitive paraphrases based on the interpretation that $a$ is Alex, $b$ is Bo, $m$ is the book \emph{Moby Dick}, $Lxy$ means ``$x$ likes $y$,'' $Bx$ means ``$x$ is a book'' and $Oxy$ means that ``$x$ owns $y$.''
 \begin{align*}
   & Lam                           && \text{Alex likes Moby Dick.} \\
   & Lab \wedge Lba                && \text{Alex likes Bo and Bo likes Alex.} \\
+  & \neg Oba                && \text{Bo does not own Alex.} \\
   & \exists x (Bx \wedge Oax)                && \text{Alex owns a book.} \\
   & \forall x \myts ((Bx \wedge Obx) \rightarrow  Lax) && \text{Alex likes every book Bo owns.} \\
+  & \neg \exists x \myts (Bx \wedge Oax) && \text{Alex does not own any books.} \\
+  & \forall x \myts (Bx \rightarrow \neg Oax) && \text{Alex does not own any books.}
 \end{align*}
+
+\subsection{Syntactic trees}
+
+The recursive definition for formulas of \predlog gives an internal structure to each formula which we can represent using \emph{syntactic trees}, just like for \proplog.
+For \predlog the syntactic structure of a formula is particularly important for the important concept of the \emph{scope of a quantifier} and the crucial notion of \emph{variable binding} (see below).
+The syntactic structure, and with it the scope of a quantifier, depends on proper use of parentheses.
+
+To illustrate, assume that we want to explicate the logical structure of the sentence:
+\begin{quote}
+  Alex owns a book.
+\end{quote}
+Here are two candidate formulas, of which the left one is correct, the right one incorrect:
+\begin{align*}
+ & \exists x \myts (Bx \wedge Oax) && \exists x \myts Bx \wedge Oax
+\end{align*}
+A paraphrase of the second (incorrect) formula is, roughly: ``There is a book and Alex owns them, him, her, it.''
+The point is that in the second formula the $x$ might but need not refer to the book, because it is not part of the formula ``dominated by \(\exists\),'' so to speak.
+This shows in the different syntactic trees.
+
+\begin{center}
+  \begin{tikzpicture}[sibling distance=20pt, level distance=30pt]
+    \Tree [.{$\exists x \myts (Bx \wedge Oax)$} [. $\exists x$ ] [. {$(Bx \wedge Oax)$} [. $Bx$ ] [. $\wedge$ ] [. $Oax$ ] ] ]
+  \end{tikzpicture}
+  \hfill
+    \begin{tikzpicture}[sibling distance=20pt, level distance=30pt]
+    \Tree [.{$\exists x \myts Bx \wedge Oax$} [. {$\exists x \myts Bx$} [. $\exists x$ ] [. $Bx$ ] ] [. {$\wedge$} ] [. $Oax$ ] ]
+  \end{tikzpicture}
+\end{center}
+
+\subsection{Terminology}
+
+Just like in \proplog, formulas of \predlog can be named by their main operator.
+For example, the following formulas can be called \emph{conjunctions}:\sidenote{The second example here expresses the idea that Alex owns a book, and that Alex likes a book, where these could be the same or different books.}
+\begin{align*}
+  & Oam \wedge Lam && \exists x \myts (Bx \wedge Oax) \wedge \exists x \myts (Bx \wedge Lax)
+\end{align*}
+A formula whose main operator is a universal quantifier can be called a \emph{universal formula} or a \emph{universal statement}; a formula whose main operator is an existential quantifier can be called an \emph{existential formula} or an \emph{existential statement}.
+For example, the formula $\exists x \myts (Bx \wedge Oax)$ from above is an existential statement, but the formula $\exists x \myts Bx \wedge Oax$ is a conjunction (as evidenced by the syntactic trees given above).
 
 If $A$ is an $n$-ary predicate letter and if $t_1, \dots, t_n$ are individual constants, then $At_1 \dots t_n$ is an \markdef{atomic sentence}.
 Atomic sentences are minimal truth-evaluable units of the language of \predlog, akin to the proposition letters of \proplog.
 
-\section{Domain of quantification}
-
-In order to be able to interpret ---even if only intuitively--- what a formula of \predlog could mean, we need information about the \emph{domain of quantification} $D$.
-Take the formula $\forall x (Lxa)$ with the interpretation of $a$ and $Lxy$ as before.
-We might take this to mean that everybody likes Alex, or that everything on earth (including the book \emph{Moby Dick}) likes Alex.
-So, when we write down a formula with quantifiers in \predlog, it will only be interpretable if we specify which individuals the quantification should range over.
-We call this the \emph{domain of quantification} $D$.
-Remember that you must always specify the domain of quantification $D$ in translation exercises or other applications where your formulas are supposed to be meaningfully interpretable.
-
 \section{Quantifier scope \& binding}
 
-Even with an explicit domain of quantification, not every formula of \predlog is interpretable.
+Not every well-formed formula of \predlog is interpretable.
 Consider the formula $Lax$.
 We might paraphrase this as ``Alex likes them, us, him, her or it.''
 Without knowing what $x$ refers to, this formula ---though a formula of \predlog--- is not interpretable.
 We therefore introduce terminology to speak about which occurrences of variables are interpretable, which are not, and how a variable that is interpretable is to be interpreted.
-The relevant technical terms are \emph{scope}, as well as \emph{bound} and \emph{free} occurrence of a variable.
+The relevant technical terms are \emph{scope}, as well as \emph{bound} and \emph{free} occurrences of a variable.
 
 If $\forall x \myts \psi$ is a subformula of $\varphi$, then $\psi$ is the \emph{scope} of this occurrence of the quantifier $\forall x$ in $\varphi$. The same holds for $\exists x$.
-An occurrence of a variable $x$ in a formula $\varphi$ (outside of a quantifier $\forall x$ or $\exists x$), is \emph{free} in $\varphi$ if $x$ is not in the scope of a quantifier $\forall x$ or $\exists x$.
+An occurrence of a variable $x$ in a formula $\varphi$ (in a place where also an individual constant could appear, so not the $x$ in ``$\forall x$'' and ``$\exists x$''), is \emph{free} in $\varphi$ if $x$ is not in the scope of a quantifier $\forall x$ or $\exists x$.
 If $\forall x \myts \psi$ (or $\exists x \myts \psi$) is a subformula of $\varphi$ and if an occurrence of $x$ is free in $\psi$, then this occurrence of $x$ is \emph{bound} by the quantifier $\forall x$ (or $\exists x$).
 
 Here are examples:\sidenote{The last formula is well-formed and interpretable, but not very cooperative for an interpreter. In practice, we would rather like to write $\exists x (\myts Px \wedge \forall y \myts Qy)$}
@@ -269,6 +308,14 @@ Here are examples:\sidenote{The last formula is well-formed and interpretable, b
   & \exists x (\myts Px \wedge \forall \myts x Qx) && \text{first occur.~existentially bound, second universally bound}
 \end{align*}
 
+\section{Domain of quantification}
+
+Even if all variables in a formula are bound, in order to be able to interpret ---even if only intuitively--- what a formula of \predlog could mean, we need information about the \emph{domain of quantification} $D$.
+Take the formula $\forall x \myts (Lxa)$ with the interpretation of $a$ and $Lxy$ as before.
+We might take this to mean that everybody likes Alex, or that everything on earth (including the book \emph{Moby Dick}) likes Alex.
+So, when we write down a formula with quantifiers in \predlog, it will only be interpretable if we specify which individuals the quantification should range over.
+We call this the \emph{domain of quantification} $D$.
+Remember that you must always specify the domain of quantification $D$ in translation exercises or other applications where your formulas are supposed to be meaningfully interpretable.
 
 \section{Translations from natural langauge to \predlog}
 
@@ -322,20 +369,6 @@ and also include the predicate letter $H$ in the translation key like so:
     \end{exercise}
 
     \begin{exercise}
-      Translate the following sentences into the language of predicate logic. Preserve as much of   the logical structure as possible and give the translation key and the domain of   quantification (here: $D: \text{people}$).
-      \begin{enumerate}[(i)]
-        \item Everybody is friendly.
-        \item Everybody loves somebody.
-        \item Every pilot loves Bill.
-        \item If Mary is a pilot, someone loves her.
-        \item Every pilot is unfriendly.
-        \item Some pilots are friendly.
-        \item No pilot is friendly.
-        \item Nobody loves anyone who is in love with a pilot.
-      \end{enumerate}
-    \end{exercise}
-
-    \begin{exercise}
       For each of the following formulas of predicate logic, determine whether each occurrence of a variable is a free or bound occurrence. If it is a bound occurrence, determine which quantifier binds it.
       \begin{multicols}{2}
       \begin{enumerate}[(i)]
@@ -348,8 +381,21 @@ and also include the predicate letter $H$ in the translation key like so:
       \end{enumerate}
     \end{multicols}
     \end{exercise}
-  \end{minipage}
 
+    \begin{exercise}
+      Translate the following sentences into the language of predicate logic. Preserve as much of   the logical structure as possible and give the translation key and the domain of   quantification (here: $D: \text{people}$).
+      \begin{enumerate}[(i)]
+        \item Everybody is friendly.
+        \item Everybody loves somebody.
+        \item Every pilot loves Bill.
+        \item If Mary is a pilot, someone loves her.
+        \item Every pilot is unfriendly.
+        \item Some pilots are friendly.
+        \item No pilot is friendly.
+        \item Nobody loves anyone who is in love with a pilot.
+      \end{enumerate}
+    \end{exercise}
+  \end{minipage}
 }
 
 
