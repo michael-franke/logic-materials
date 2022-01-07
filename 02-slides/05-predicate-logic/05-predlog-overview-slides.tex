@@ -204,7 +204,7 @@
       \\
       %
       \textcolor{signal2}{Kimbi} is an \textcolor{signal3}{elephant}.
-      & $r$
+      & $q$
       & $\textcolor{signal3}{E}\textcolor{signal2}{k}$
       \\
       %
@@ -214,7 +214,7 @@
       \\
       %
       \textcolor{signal1}{Dumbo} is a \textcolor{signal4}{mammal}.
-      & $q$
+      & $r$
       & $\textcolor{signal4}{M}\textcolor{signal1}{d}$
       \\
       %
@@ -317,7 +317,7 @@
       \item[] $Fx$: $x$ is friendly
       \item[] $Lxy$: $x$ likes $y$
       \item[] $Px$: $x$ is a pilot
-      \item[] $Sxy$: $x$ is a sibling of $y$
+      \item[] $Sxy$: $x$ \& $y$ are siblings
     \end{enumerate}
   \end{multicols}
 \end{minipage}
@@ -330,7 +330,7 @@
     & \text{Alex is a pilot.}
     && Pa
     \\
-    & \text{Bo is an friendly pilot.}
+    & \text{Bo is a friendly pilot.}
     && Fb \wedge Pb
     \\
     & \text{No pilot is friendly.}
@@ -340,7 +340,7 @@
     && \neg \exists x \myts \exists y \myts (Py \wedge Lxy)
     \\
     & \text{Bo has a friendly sibling.}
-    && \exists x \myts (Sx \wedge Sbx)
+    && \exists x \myts (Fx \wedge Sbx)
     \\
     & \text{Every pilot has a friendly sibling.}
     && \forall x \myts (Px \rightarrow (\exists y \myts (Fy \wedge Sxy)))
