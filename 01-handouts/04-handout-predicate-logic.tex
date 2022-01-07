@@ -322,11 +322,10 @@ Remember that you must always specify the domain of quantification $D$ in transl
 Just like \proplog, \predlog is useful for uncovering the logical structure of sentences.
 Unlike \proplog, \predlog can lay bare the internal structure of atomic propositions and aspects of quantification.
 
-Suppose we want to translate this sentences to predicate logic:
+Suppose we want to translate this sentence to predicate logic:
 \begin{quote}
-Alex likes Bo but if Bo likes Alex, Bo likes everyone.
+Alex likes Bo but if Bo likes Alex, Bo likes everybody.
 \end{quote}
-
 A formula that captures the logical structure of this sentence is:
 \begin{align*}
   Lab \wedge (Lba \rightarrow \forall x \myts Lbx)
@@ -338,8 +337,8 @@ In the example at hand, the translation key would be:\sidenote{Notice that the a
   \item $b$: Bo
   \item $Lxy$: $x$ likes $y$
 \end{enumerate}
-The domain of quantification should be the set of all human beings.
-If the domain of quantification should also include non-humans, we would have to adapt the formula:
+Since the sentence to translate includes the word ``everybody,'' the domain of quantification should be the set of all human beings for the above formula to be correct.
+If the domain of quantification also includes non-humans, we would have to adapt the formula like so:
 \begin{align*}
   Lab \wedge (Lba \rightarrow \forall x \myts (Hx \rightarrow Lbx))
 \end{align*}
@@ -347,6 +346,46 @@ and also include the predicate letter $H$ in the translation key like so:
 \begin{enumerate}[(iv)]
   \item $Hx$: $x$ is a human being
 \end{enumerate}
+
+Let us consider a few examples.
+The domain of quantification $D$ is the set of all human beings.
+\begin{multicols}{2}
+  \begin{enumerate}
+    \item[] $a$: Alex
+    \item[] $b$: Bo
+    \item[] $Fx$: $x$ is friendly
+    \item[] $Lxy$: $x$ likes $y$
+    \item[] $Px$: $x$ is a pilot
+    \item[] $Sxy$: $x$ is a sibling of $y$
+  \end{enumerate}
+\end{multicols}
+Here is a list with  sentences and potential translations into \predlog.\sidenote{For some sentences, more than one translation is given. These alternatives are logically equivalent under the semantics of \predlog which we will introduce later.}
+\begin{align*}
+  & \text{Alex is a pilot.}
+  && Pa
+  \\
+  & \text{Bo is an friendly pilot.}
+  && Fb \wedge Pb
+  \\
+  & \text{No pilot is friendly.}
+  && \forall x \myts (Px \rightarrow \neg Fx)
+  \\
+  &&& \neg \exists x \myts (Px \wedge Fx)
+  \\
+  & \text{Nobody likes pilots.}
+  && \neg \exists x \myts \exists y \myts (Py \wedge Lxy)
+  \\
+  & \text{Bo has a friendly sibling.}
+  && \exists x \myts (Sx \wedge Sbx)
+  \\
+  & \text{Every pilot has a friendly sibling.}
+  && \forall x \myts (Px \rightarrow (\exists y \myts (Fy \wedge Sxy)))
+  \\
+  &&& \forall x \myts \exists y \myts (Px \rightarrow (Fy \wedge Sxy)) \\
+  &&& \neg \exists x \myts (Px \wedge \exists y \myts (Fy \wedge Sxy)) \\
+  &&& \neg \exists x \myts \exists y \myts (Px \wedge (Fy \wedge Sxy)) \\
+\end{align*}
+
 
 \bigskip
 \noindent \colorbox{mygray}{\centering
