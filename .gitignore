@@ -18,3 +18,5 @@ auto
 
 # MacOS
 .DS_Store
+*.md5
+*.auxlock
