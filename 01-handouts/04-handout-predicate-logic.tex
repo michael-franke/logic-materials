@@ -625,6 +625,8 @@ But there is also an element $d \in D$, namely 2, such that $V_{M, g[x/d]} Px$ i
 \subsection{Demonstrating validity with an informal proof}
 \label{sec:demonstr-valid-with}
 
+Here are two examples for informal proofs demonstrating validity of an argument schema.
+
 \begin{claim}
   $\forall x \myts Px \ \models \ \neg \exists x \myts \neg Px$
 \end{claim}
@@ -638,6 +640,21 @@ But there is also an element $d \in D$, namely 2, such that $V_{M, g[x/d]} Px$ i
   But that contradicts the inference we drew from our premise that for all $d \in D$, $d \in I(P)$.
   Consequently, there cannot be a model $M$ which makes the premise true and the conclusion false.
   The argument schema must be valid.
+\end{proof}
+
+\begin{claim}
+  $\neg \forall x \ (Ax \rightarrow Bx) \models \exists x \ Ax$
+\end{claim}
+
+\begin{proof}
+  Assume that the $\neg \forall x \ (Ax \rightarrow Bx)$ is true in a model $M = \langle D, I \rangle$.
+  From $V_M(\neg \forall x \ (Ax \rightarrow Bx))=1$ we know that $V_M(\forall x \ (Ax \rightarrow Bx))=0$.
+  But if $\forall x \ (Ax \rightarrow Bx)$ is false in $M$, it follows that there is least
+  one element $d \in D$ such that $V_{M, g_{[x/d]}} (Ax \rightarrow Bx) = 0$, for arbitrary $g$.
+  We know that an implication is only false if the antecedent is true and the consequent is false (from propositional logic, definition of $\rightarrow$).
+  That means that it must be the case that $V_{M, g_{[x/d]}}( Ax ) = 1$.
+  This entails that $V_{M, g} (\exists x \myts Ax)=1$, by definition of truth of existential statements.
+  But since $g$ was completely arbitrary and nothing hinges on any specifics of $g$, we have actually shown that $V_M(\exists x \ Ax) =1$.
 \end{proof}
 
 \section{Equivalences, tautologies and contradictions}
@@ -708,7 +725,6 @@ In order to demonstrate that two formulas are logically equivalent, or that a fo
         \begin{enumerate}[(i)]
           \item $\forall x \ (Ax \vee Bx \vee Cx), \ \ \forall x \ (Ax \rightarrow Bx), \ \ \neg \exists Bx \models \exists x \ Cx$
           \item $\exists x \, Ax, \ \exists x \, Bx \models \exists x \, (Ax \wedge Bx)$
-          \item $\neg \forall x \ (Ax \rightarrow Bx) \models \exists x \ Ax$
           \item $\forall x \forall y \forall z \ ((Rxy \wedge Ryz) \rightarrow
           Rxz), \ \ \exists x \exists y \ (x \neq y \wedge Rxy \wedge Ryx) \
           \ / \ \ \exists x \ Rxx$
