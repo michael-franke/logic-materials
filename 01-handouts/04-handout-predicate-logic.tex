@@ -102,6 +102,10 @@ quantifier scope and binding;
 atomic sentences;
 predicate-logical meaning of natural language sentences;
 semantics of predicate logic;
+model, domain and interpretation function;
+assignment and valuation functions;
+validity;
+predicate logic with identity
 \end{abstract}
 
 \section{Motivation}
@@ -205,6 +209,7 @@ For example, the formula $\forall x (Bx \rightarrow Ix)$ would be read as ``for 
 This would express that all books are interesting.
 
 \subsection{Formulas}
+\label{sec:formulas}
 
 The language $\mathfrak{L}$ of \predlog is the set of all \emph{formulas} which are recursively defined as follows:
 
@@ -298,6 +303,7 @@ The relevant technical terms are \emph{scope}, as well as \emph{bound} and \emph
 If $\forall x \myts \psi$ is a subformula of $\varphi$, then $\psi$ is the \emph{scope} of this occurrence of the quantifier $\forall x$ in $\varphi$. The same holds for $\exists x$.
 An occurrence of a variable $x$ in a formula $\varphi$ (in a place where also an individual constant could appear, so not the $x$ in ``$\forall x$'' and ``$\exists x$''), is \emph{free} in $\varphi$ if $x$ is not in the scope of a quantifier $\forall x$ or $\exists x$.
 If $\forall x \myts \psi$ (or $\exists x \myts \psi$) is a subformula of $\varphi$ and if an occurrence of $x$ is free in $\psi$, then this occurrence of $x$ is \emph{bound} by the quantifier $\forall x$ (or $\exists x$).
+A formula of predicate logic without any free occurrences of variables is called a \emph{sentence}.
 
 Here are examples:\sidenote{The last formula is well-formed and interpretable, but not very cooperative for an interpreter. In practice, we would rather like to write $\exists x (\myts Px \wedge \forall y \myts Qy)$}
 \begin{align*}
@@ -436,6 +442,396 @@ Here is a list with  sentences and potential translations into \predlog.\sidenot
     \end{exercise}
   \end{minipage}
 }
+
+\newpage
+
+\section{Semantics of predicate logic}
+\label{sec:semant-pred-logic}
+
+The semantics of propositional logic was formulated in terms of valuation functions, which mapped each formula to a truth value, true or false.
+We thought of these are possible worlds, possible states the world could be in.
+The semantics of \predlog is slightly more complicated because in order to say which formulas are true or false, we need to interpret not just atomic propositions, but their internal structure, so to speak; we need to interpret all terms (individual constants and variables) and the predicate letters.
+This is done in a so-called \emph{model}, which can similarly be thought of as a possible world.
+Given a model, we can derive a valuation function.
+The model fixes the domain (which individuals are there) and the meaning of all predicates.
+
+\subsection{Model, domain \& interpretation function}
+\label{sec:model}
+
+Let $C$ be set of individual constants and $\mathcal{P}$ the set of predicate letters our language $\mathfrak{L}$ of \predlog.
+A \emph{model} $M = \tuple{D,I}$ for $\mathfrak{L}$ consists of:
+\begin{multicols}{2}
+  \begin{itemize}
+    \item[] a \emph{domain} $D \neq \emptyset$, and
+    \item[] an \emph{interpretation function} $I$.
+  \end{itemize}
+\end{multicols}
+\noindent The domain $D$ is a set of entities.\sidenote{We will always assume that the domain has at least one element.}
+The interpretation function $I$ maps each element of $C$ and $\mathcal{P}$ to a suitable relation on $D$:
+\begin{itemize}
+  \item[] if $c \in C$, then $I(c) \in D$, and
+  \item[] if $P \in \mathcal{P}$ is an $n$-ary predicate letter, then $I(P) \subseteq D^n$.\sidenote{$D^n$ is the set of all $n$-tuples with elements from $D$.}
+\end{itemize}
+The interpretation $I(c)$ of a constant $c$ is the entity in the domain that $c$ stands for (e.g., its name or identifier).
+The interpretation $I(P)$ of an $n$-ary predicate letter, is the set of all $n$-tuples which stand in the relation $P$ to each other.
+For example, if $R$ is the one-place predicate letter denoting the property ``red,'' then $I(P)$ is the set of all red things (in the possible world we are modeling with the help of $I$).
+Of, if $L$ is the two-place predicate letter denoting the relation ``$x$ likes $y$,'' then $I(L)$ is the set of all pairs of elements from the domain, e.g., $\tuple{d_{1}, d_{2}}$, such that the first likes the second (in the possible world we are modeling with the help of $I$).
+
+\subsection{Assignment functions}
+\label{sec:assignments--term}
+
+A model $M = \tuple{D,I}$ interprets individual constants and predicate letters.
+But we also need a way to assign meaning to variables.
+This needs to take quantifier binding into account.
+For this purpose we can use assignment functions.
+Assignment functions and the interpretation function together allow us to interpret all terms (variables and individual constants).
+
+An \emph{assignment function} $g$ for model $M = \tuple{D,I}$ and language $\mathfrak{L}$ maps all variables in $\mathfrak{L}$ to elements in $D$.
+We write $g_{[x/d]}$ and read ``$g$ with $x$ mapped to $d$'', for the assignment function which is like $g$ except that $x$ is mapped to $d \in D$.
+We will use this latter construct, $g_{[x/d]}$ to define the semantics of existential and universal formulas (see below).
+
+If $t$ is a term of $\mathfrak{L}$, then $\den{t}_{M,g}$ is the \emph{term interpretation} relative to $M = \tuple{D,I}$ and $g$:
+\begin{multicols}{2}
+  \begin{itemize}
+    \item[] $\den{t}_{M,g} = I(t)$ if $t$ is a constant, and
+    \item[] $\den{t}_{M,g} = g(t)$ otherwise.
+  \end{itemize}
+\end{multicols}
+
+\subsection{Valuation functions}
+\label{sec:valuation--truth}
+
+We now can use a model $M = \tuple{D, I}$ and an assignment function $g$ to define a valuation function $V_{M,g}$, which uses $M$ and $g$, to give a truth value for every formula of predicate logic.
+Here is the full definition, which we will go through systematically below.
+
+\medskip
+
+\begin{tabular}{lcl}
+  $V_{M,g}(At_1\dots t_n) =1$ & iff & $\tuple{\den{t_1}_{M,g}, \dots, \den{t_1}_{M,g}} \in I(A)$\\
+  $V_{M,g}(\neg \phi) = 1$ & iff & $V_{M,g}(\phi) =0$\\
+  $V_{M,g}(\phi \wedge \psi) = 1$ & iff & $V_{M,g}(\phi) =1$ and $V_{M,g}(\psi) = 1$\\
+  $V_{M,g}(\phi \vee \psi) = 1$ & iff & $V_{M,g}(\phi) =1$ or $V_{M,g}(\psi) = 1$\\
+  $V_{M,g}(\phi \rightarrow \psi) = 0$ & iff & $V_{M,g}(\phi) =1$ en $V_{M,g}(\psi) = 0$\\
+  $V_{M,g}(\phi \leftrightarrow \psi) = 1$ & iff & $V_{M,g}(\phi) = V_{M,g}(\psi)$\\
+  $V_{M,g}(\forall x \myts \phi) = 1$ & iff & $V_{M,g_{[x/d]}}(\phi) = 1$ for all $d \in D$\\
+  $V_{M,g}(\exists x \myts \phi) = 1$ & iff & $V_{M,g_{[x/d]}}(\phi) = 1$ for at least one $d \in D$
+\end{tabular}
+
+\medskip
+
+For the most basic kind of formula, built from an $n$-ary predicate letter $A$ with $n$ terms $t_{1}, \dots, t_{n}$ (where each $t_{i}$ is either a variable or an individual constant), the formula $At_1\dots t_n$ is true, given $M = \tuple{D, I}$ and $g$, if the $n$-tuple of entities picked out by the interpretation of all terms, using $I$ and $g$, is contained in the interpretation of $A$.
+
+\medskip
+
+\begin{tabular}{lcl}
+  $V_{M,g}(At_1\dots t_n) =1$ & iff & $\tuple{\den{t_1}_{M,g}, \dots, \den{t_n}_{M,g}} \in I(A)$
+\end{tabular}
+
+\medskip
+
+For sentential connectives, valuation functions work exactly like in \proplog.
+
+\medskip
+
+\begin{tabular}{lcl}
+  $V_{M,g}(\neg \phi) = 1$ & iff & $V_{M,g}(\phi) =0$\\
+  $V_{M,g}(\phi \wedge \psi) = 1$ & iff & $V_{M,g}(\phi) =1$ and $V_{M,g}(\psi) = 1$\\
+  $V_{M,g}(\phi \vee \psi) = 1$ & iff & $V_{M,g}(\phi) =1$ or $V_{M,g}(\psi) = 1$\\
+  $V_{M,g}(\phi \rightarrow \psi) = 0$ & iff & $V_{M,g}(\phi) =1$ en $V_{M,g}(\psi) = 0$\\
+  $V_{M,g}(\phi \leftrightarrow \psi) = 1$ & iff & $V_{M,g}(\phi) = V_{M,g}(\psi)$
+\end{tabular}
+
+\medskip
+
+Finally, to assign a truth-value to existential or universal formulas, we use the construction $g_{[x/d]}$, which represents an assignment function which is exactly like $g$ but with a special, possibly different interpretation for the variable $x$.
+
+\medskip
+
+\begin{tabular}{lcl}
+  $V_{M,g}(\forall x \myts \phi) = 1$ & iff & $V_{M,g_{[x/d]}}(\phi) = 1$ for all $d \in D$\\
+  $V_{M,g}(\exists x \myts \phi) = 1$ & iff & $V_{M,g_{[x/d]}}(\phi) = 1$ for at least one $d \in D$
+\end{tabular}
+
+\section{Truth in a model}
+
+Assignment functions are just auxiliary constructs.
+At the end of the day, we are interested in whether a formula is true in a possible world, i.e., a model $M = \tuple{D,I}$, no matter what assignment function is used.
+
+If $V_{M,g}(\varphi) = 1$ for all $g$, we write $V_{M}(\varphi) = 1$ and say ``$\varphi$ is true in $M$.''
+If $V_{M,g}(\varphi) = o$ for all $g$, we write $V_{M}(\varphi) = 0$ and say ``$\varphi$ is false in $M$.''
+
+Notice that any \emph{sentence} of \predlog (i.e., any formula without free variables) is either true or false in any given model $M$.
+In other words, formulas without free occurrences of variables are interpretable just with respect to a model, and these formulas are ---usually--- what we care about.
+
+Let's consider a simple example of a model and the way it makes certain sentences true or false.
+The model $M = \tuple{D, I}$ is for a language with just one individual constant $a$, two one-place predicate letters, $P$ and $Q$, as well as one two-place predicate letter $R$.
+The following lines are a complete specification of a model for this language, fixing a domain and an interpretation of all relevant ingredients:
+\begin{align*}
+  D    & = \set{1,2,3,4,5}\\
+  I(a) & = 3 \\
+  I(P) & = \set{1,2,5} \\
+  I(Q) & = \set{2,5} \\
+  I(R) & = \set{\tuple{1,2},\tuple{2,2}, \tuple{1,4}, \tuple{1,5}}
+\end{align*}
+
+For better visual grasp, small models (with at most two-place predicate letters) can often be represented economically as a graph.
+Figure~\ref{fig:predlog-exmple-model} is an example for the model at hand.
+The two-place relation is represented in terms of arrows, small letters ornamenting the elements of the domain show the interpretation of individual constants and one-place predicate letters.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{00-pics/predlog-example-model.png}
+  \caption{Example of a graphical representation of a simple model for predicate logic}
+  \label{fig:predlog-exmple-model}
+\end{figure}
+
+A graphical representation like in Figure~\ref{fig:predlog-exmple-model} greatly facilitates checking whether a model makes certain sentences true or false.
+For example, in order to decide whether a formula like $\exists x \ (Px \wedge Qx)$ is true or false in this model, we need to check whether there is an element that has both property $P$ and property $Q$.
+Looking at the diagram in Figure~\ref{fig:predlog-exmple-model}, we see that this is true.
+Elements 2 and 5 both have both properties.
+To write this down in a formally correct way with reference to the model's mathematical structure and the definition of the semantics of \predlog, we would say that $V_{M}(\exists x \ (Px \wedge Qx)) = 1$ because, not matter which $g$ we use, there exists an element in $D$, namely 2, such that $V_{M,g[x/d]}(Px \wedge Qx) = 1$. This is because $2 \in I(P)$ and $2 \in I(Q)$.
+
+Take another example.
+What is the truth value that the model assigns to formula $Pa$?
+Well, that formula is false in the given model.
+The individual referred to by constant $a$ is 3, but 3 does not have property $P$.
+In formal terms, we would then say that $V_{M}(Pa) = 0$, because, for any valuation function $g$, since $I(a) = 3$ and $3 \not \in I(P)$, we have $V_{M,g}(P(a)) = 0$.
+
+
+
+\section{Validity}
+\label{sec:validity}
+
+Validity is defined in the same way in \predlog as it was in \proplog.
+
+If $\varphi_1, \dots, \varphi_n$ and $\psi$ are sentences of predicate logic, $\varphi_1, \dots, \varphi_n / \psi$ is an \emph{argument schema}.
+The argument schema $\varphi_1, \varphi_2, \dots, \varphi_n / \psi$ is \emph{valid} iff for all models $M$ such that $V_M(\varphi_1)=V_M(\varphi_2)= \dots = V_M(\varphi_n)=1$ it also holds that $V_M(\psi) = 1$.
+If valid, we write $\varphi_1, \varphi_2, \dots, \varphi_n \models \psi$.
+
+In order to demonstrate that an argument schema is not valid, it suffices to give a single counterexample.
+In order to demonstrate that a given argument schema is valid, we need to give an informal proof, since we must reason over \emph{all} models. %\sidenote{Notice that the later, demonstrating validity with an informal proof, is much more difficult and should be consider as a skill that is not necessary to pass an introductory logic course, but one that is only required for an excellent grade.}
+The following gives examples for each.
+
+
+\subsection{Demonstrating invalidity with a counterexample}
+\label{sec:demonstr-inval-with}
+
+The argument schema $\exists x \myts Px  \ / \ \forall x \myts Px$ is not valid.
+Intuitively, just because there is a tall person, it does not mean that everybody is tall.
+A minimal counterexample for this case is a model $M$ with domain $D = \set{1,2}$ and interpretation function $I(P) = \set{1}$.
+It is clear that there is an element $d \in D$, namely 1, such that $V_{M,g[x/d]}(Px)$ is true, so that the premise $\exists x \myts Px$ is true in $M$.
+But there is also an element $d \in D$, namely 2, such that $V_{M, g[x/d]} Px$ is false, so that the conclusion $\forall x \myts Px$ is false in $M$.
+
+\subsection{Demonstrating validity with an informal proof}
+\label{sec:demonstr-valid-with}
+
+\begin{claim}
+  $\forall x \myts Px \ \models \ \neg \exists x \myts \neg Px$
+\end{claim}
+
+\begin{proof}
+  We need to show that for all models $M$, if $V_{M}(\forall x \myts Px) = 1$, then $V_{M}(\neg \exists x \myts \neg Px) = 1$.
+  So suppose that we have an arbitrary model $M = \tuple{D,I}$, such that $V_{M}(\forall x \myts Px) = 1$.
+  This entails that for all $d \in D$, $d \in I(P)$.
+  Suppose further, towards contradiction, using an indirect proof strategy, that for the same $M$ we have $V_{M}(\neg \exists x \myts \neg Px) = 0$.
+  The latter means that $V_{M}(\exists x \myts \neg Px) = 1$, which is the case when there is an element $d \in D$ such that $d \not \in I(P)$.
+  But that contradicts the inference we drew from our premise that for all $d \in D$, $d \in I(P)$.
+  Consequently, there cannot be a model $M$ which makes the premise true and the conclusion false.
+  The argument schema must be valid.
+\end{proof}
+
+\section{Equivalences, tautologies and contradictions}
+\label{sec:equivl-taut-contr}
+
+The notions of \emph{logical equivalence}, \emph{tautology} and \emph{contradiction} for \predlog are all analogous to their counterparts in \proplog.
+
+Two formulas $\varphi$ and $\psi$ of \predlog are logically equivalent iff for all models $M$ we have $V_{M}(\varphi) = V_{M}(\psi)$. A formula $\varphi$ of \predlog is a tautology iff for all models $M$ we have $V_{M}(\varphi)=1$. It is a contradiction iff for all models $M$ we have $V_{M}(\varphi)=0$.
+
+In order to demonstrate that two formulas are logically equivalent, or that a formula is a tautology or contradiction, we can give informal proofs. For example, the previous section showed that $\forall x \myts Px \ \models \ \neg \exists x \myts \neg Px$. In fact, $\forall x \myts Px$ and $\neg \exists x \myts \neg Px$ are logically equivalent. Here is an informal proof for this:
+
+\begin{claim}
+  $\forall x \myts Px$ and $\neg \exists x \myts \neg Px$ are logically equivalent.
+\end{claim}
+
+\begin{proof}
+  Let $M$ be a model in which $\neg \exists x \myts \neg Px$ is true.
+  This means that there is not a single element $d \in D$, such that $d \not \in I(P)$.
+  In other words, $I(P) = D$, i.e., all elements in the domain have property $P$.
+  So $M$ also makes $\forall x \myts Px$ true.
+  The reverse direction has already been shown when proving $\forall x \myts Px \ \models \ \neg \exists x \myts \neg Px$.
+\end{proof}
+
+\newpage
+
+\bigskip
+\noindent \colorbox{mygray}{\centering
+  \begin{minipage}{1.0\textwidth}
+
+    \begin{exercise}
+      Use the model from the example in Figure~\ref{fig:predlog-exmple-model} to check the truth value of the following formulas.
+      \begin{multicols}{2}
+        \begin{enumerate}
+          \item $\neg Qa$
+          \item $\forall x \ (Qx \rightarrow Px)$
+          \item $\neg \exists x \ Rxx$
+          \item $\exists x \exists y \ (Qx \wedge Py \wedge Rxy)$
+          \item $\forall x \exists  y \ Rxy$
+          \item $\forall x \forall y \ (Rxy \rightarrow (Px \vee Qy))$
+        \end{enumerate}
+      \end{multicols}
+    \end{exercise}
+
+    \begin{exercise}
+      Consider a model $M = \tuple{D,I}$ for a language with two unary predicate letters $P$ and $Q$ and a two-place predicate letter $R$, given as follows.
+      \begin{align*}
+        D    & = \set{1,2,3,4,5}\\
+        I(P) & = \set{1,2,5} \\
+        I(Q) & = \set{2,5} \\
+        I(R) & = \set{\tuple{1,2},\tuple{2,2}, \tuple{1,4}, \tuple{1,5}}
+      \end{align*}
+      Evaluate for each of the following formulas whether they are true or false in the model.
+      (Hint: It is highly recommended that you draw a graphical representation for yourself similar to Figure~\ref{fig:predlog-exmple-model}, even if that is not required to obtain points and/or a correct solution.)
+      \begin{multicols}{2}
+        \begin{enumerate}
+          \item $\exists x \ (Px \wedge Qx)$
+          \item $\forall x \ (Qx \rightarrow Px)$
+          \item $\neg \exists x \ Rxx$
+          \item $\exists x \exists y \ (Qx \wedge Py \wedge Rxy)$
+          \item $\forall x \exists  y \ Rxy$
+          \item $\forall x \forall y \ (Rxy \rightarrow (Px \vee Qy))$
+        \end{enumerate}
+    \end{multicols}
+    \end{exercise}
+
+    \begin{exercise}
+      Give informal proofs or counterexamples for these claims:
+        \begin{enumerate}[(i)]
+          \item $\forall x \ (Ax \vee Bx \vee Cx), \ \ \forall x \ (Ax \rightarrow Bx), \ \ \neg \exists Bx \models \exists x \ Cx$
+          \item $\exists x \, Ax, \ \exists x \, Bx \models \exists x \, (Ax \wedge Bx)$
+          \item $\neg \forall x \ (Ax \rightarrow Bx) \models \exists x \ Ax$
+          \item $\forall x \forall y \forall z \ ((Rxy \wedge Ryz) \rightarrow
+          Rxz), \ \ \exists x \exists y \ (x \neq y \wedge Rxy \wedge Ryx) \
+          \ / \ \ \exists x \ Rxx$
+          \item $\forall x \, (Ax \vee Bx) \models \forall x \, Ax \vee \forall x \, Bx$
+          \item $\forall x \ (Ax \leftrightarrow Rxx), \ \exists x \forall y \
+          (Ryy \leftrightarrow x=y) \models \exists x \ Ax$
+          \item $\exists x \forall y \ Rxy, \ \forall x \forall y \ (Rxy
+          \rightarrow Ryx) \models \forall x \ \exists y \ Rxy$
+          \item $\forall x \, (Ax \rightarrow Bx),  \exists x \, Bx \models  \neg \exists x \, Ax$
+        \end{enumerate}
+
+    \end{exercise}
+
+  \end{minipage}
+}
+
+\newpage
+
+\section{Predicate logic with identity}
+\label{sec:predicate-logic-with}
+
+Suppose we want to translate the meaning of the following sentence into predicate logic:
+\begin{quote}
+  Only Alex is a pilot.
+\end{quote}
+We can write $Pa$ (with the obvious translation key), expressing that Alex is a pilot.
+But we also want to express that nobody else is.
+We can express that nobody is a pilot: $\ne\forall x \myts \neg Px$, but that's not actually true because Alex is.
+So writing $Pa \wedge \forall x \myts \neg Px$ is a contradiction that does not express the meaning of ``Only Alex is a pilot.''
+Indeed, \predlog as we defined it so far is not expressive enough to capture the meaning of this sentence.
+We need to add something.
+We will add a special predicate: identity.
+
+\subsection{Adding identity to \predlog}
+
+We change clause (i) of the definition of formulas of predicate logic, given in Section~\ref{sec:formulas}, to also allow the use the special predicate two-place predicate symbol ``='' for which we use infix notation.
+
+\begin{enumerate}[(i)]
+  \item If $A$ is an $n$-ary predicate letter and if $t_1, \dots, t_n$ are terms, then $At_1 \dots t_n$ is a formula. \textbf{If $t_1$ and $t_2$ are terms, then $t_1 = t_2$ and $t_1 \neq t_2$ are formulas.}
+\end{enumerate}
+
+This is a special symbol also in the semantics, because it is interpreted in the same manner in every model.
+(Identity is the same concept in all possible worlds.)
+Concretely, we just add the following clause to the definition of the semantics or predicate logic:\sidenote{
+  Notice that there are three occurrences of the symbol ``='' in the first line of this definition.
+  The first occurrences refers to the two-place predicate letter of \predlog with identity.
+  The latter two refer to our usual understanding of ``='' as identity.
+  Basically, this is a complicated way of saying that ``='' is supposed to mean the same same thing in \predlog as what it means outside of it.
+  Similarly, for the last line in the definition.
+}
+
+\medskip
+
+\begin{tabular}{lcl}
+  $V_{M,g}(t_1 = t_1) = 1$ & iff & $\den{t_1} = \den{t_{2}}$ \\
+  $V_{M,g}(t_1 \neq t_1) = 1$ & iff & $\den{t_1} \neq \den{t_{2}}$
+\end{tabular}
+
+\medskip
+
+\subsection{Translations with \predlog with identity}
+
+Using identity in the logical language, we can express the meaning of
+\begin{quote}
+  Only Alex is a pilot.
+\end{quote}
+in terms of the formula:
+\begin{align*}
+  Pa \wedge \forall x \myts (x \neq a \rightarrow \neg Px)
+\end{align*}
+which can we read as: ``Alex is a pilot, and everybody who is not Alex is not a pilot.''\sidenote{This is not the only paraphrase and formula we can give to this example. See the first example in the list that follows, for instance.}
+
+Here are further examples for translations, making use of identity:\sidenote{Translation key as before.}
+
+\begin{enumerate}[(i)]
+  \item Alex is friendly but nobody else is.
+  \hfill {\mygray{$Fa \wedge \forall x \, (Fx \rightarrow x = a)$}}
+  \item At least two people are friendly.
+  \hfill {\mygray{$\exists x \exists y \, (Fx \wedge Fy \wedge x \neq y)$}}
+  \item Alex likes only pilots, except for Bo.
+  \hfill {\mygray{$\forall x \, (Lax \rightarrow (Px \vee x = b))$}}
+  \item Exactly two people are pilots.\\
+  \hfill {\mygray{$\exists x \exists y \, (x \neq y \wedge
+  Px \wedge Py \wedge \forall z \, (Pz \rightarrow (z = x \vee z = y)))$}}
+  \item Bo likes at most two people. \\
+  \hfill {\mygray{$\forall x \forall y \, (((Lbx \wedge Lby) \wedge x \neq y) \rightarrow \forall z \,
+  (Lbz \rightarrow (z = x \vee z = y)))$}}
+\end{enumerate}
+
+Translations of quantified expressions like ``at most two people,'' as in the last example, can be difficult.
+Is this translation also adequate for the last example of ``Bo likes at most two people?''
+\begin{enumerate}[(v)]
+  \item Bo likes at most two people. \\
+  \hfill {\mygray{$\forall x \forall y \, ((Lbx \wedge Lby)
+  \rightarrow \forall z \, (Lbz \rightarrow (z = x \vee z = y)))$}}
+\end{enumerate}
+No, because that one is false in a world in which Bo loves two people.
+Suppose Bo loves Alex and Charley, and that Alex, Bo and Charley are three different people.
+Let $x$ and $y$ refer to Alex.
+Then the antecedent $(Lbx \wedge Lby)$ becomes true.
+Let $z$ refer to Charley.
+Bo loves Charley, but Charley is not identical to Alex (by assumption).
+
+\bigskip
+\noindent \colorbox{mygray}{\centering
+  \begin{minipage}{1.0\textwidth}
+
+    \begin{exercise}
+      Translate the following sentences into predicate logic with identity.
+      \begin{enumerate}[(i)]
+        \item Only Alex and Bo are friendly.
+        \item If Alex is friendly, nobody else is.
+        \item Alex is the only friendly pilot.
+        \item There is a pilot but it is not Alex.
+        \item There is at most one pilot.
+        \item Alex likes nobody but Bo and Alex.
+      \end{enumerate}
+    \end{exercise}
+
+  \end{minipage}
+}
+
+
 
 
 \end{document}
