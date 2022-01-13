@@ -586,10 +586,10 @@ The two-place relation is represented in terms of arrows, small letters ornament
 \end{figure}
 
 A graphical representation like in Figure~\ref{fig:predlog-exmple-model} greatly facilitates checking whether a model makes certain sentences true or false.
-For example, in order to decide whether a formula like $\exists x \ (Px \wedge Qx)$ is true or false in this model, we need to check whether there is an element that has both property $P$ and property $Q$.
+For example, in order to decide whether a formula like $\exists x \myts (Px \wedge Qx)$ is true or false in this model, we need to check whether there is an element that has both property $P$ and property $Q$.
 Looking at the diagram in Figure~\ref{fig:predlog-exmple-model}, we see that this is true.
 Elements 2 and 5 both have both properties.
-To write this down in a formally correct way with reference to the model's mathematical structure and the definition of the semantics of \predlog, we would say that $V_{M}(\exists x \ (Px \wedge Qx)) = 1$ because, not matter which $g$ we use, there exists an element in $D$, namely 2, such that $V_{M,g[x/d]}(Px \wedge Qx) = 1$. This is because $2 \in I(P)$ and $2 \in I(Q)$.
+To write this down in a formally correct way with reference to the model's mathematical structure and the definition of the semantics of \predlog, we would say that $V_{M}(\exists x \myts (Px \wedge Qx)) = 1$ because, not matter which $g$ we use, there exists an element in $D$, namely 2, such that $V_{M,g[x/d]}(Px \wedge Qx) = 1$. This is because $2 \in I(P)$ and $2 \in I(Q)$.
 
 Take another example.
 What is the truth value that the model assigns to formula $Pa$?
