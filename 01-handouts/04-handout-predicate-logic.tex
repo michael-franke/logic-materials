@@ -388,8 +388,8 @@ Here is a list with  sentences and potential translations into \predlog.\sidenot
   && \forall x \myts (Px \rightarrow (\exists y \myts (Fy \wedge Sxy)))
   \\
   &&& \forall x \myts \exists y \myts (Px \rightarrow (Fy \wedge Sxy)) \\
-  &&& \neg \exists x \myts (Px \wedge \exists y \myts (Fy \wedge Sxy)) \\
-  &&& \neg \exists x \myts \exists y \myts (Px \wedge (Fy \wedge Sxy)) \\
+  &&& \neg \exists x \myts (Px \wedge \neg \exists y \myts (Fy \wedge Sxy)) \\
+  &&& \neg \exists x \myts \neg \exists y \myts (Px \rightarrow (Fy \wedge Sxy)) \\
 \end{align*}
 
 
@@ -473,7 +473,7 @@ The interpretation function $I$ maps each element of $C$ and $\mathcal{P}$ to a 
 \end{itemize}
 The interpretation $I(c)$ of a constant $c$ is the entity in the domain that $c$ stands for (e.g., its name or identifier).
 The interpretation $I(P)$ of an $n$-ary predicate letter, is the set of all $n$-tuples which stand in the relation $P$ to each other.
-For example, if $R$ is the one-place predicate letter denoting the property ``red,'' then $I(P)$ is the set of all red things (in the possible world we are modeling with the help of $I$).
+For example, if $R$ is the one-place predicate letter denoting the property ``red,'' then $I(R)$ is the set of all red things (in the possible world we are modeling with the help of $I$).
 Or, if $L$ is the two-place predicate letter denoting the relation ``$x$ likes $y$,'' then $I(L)$ is the set of all pairs of elements from the domain, e.g., $\tuple{d_{1}, d_{2}}$, such that the first likes the second (in the possible world we are modeling with the help of $I$).
 
 \subsection{Assignment functions}
