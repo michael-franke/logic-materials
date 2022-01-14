@@ -449,16 +449,15 @@ Here is a list with  sentences and potential translations into \predlog.\sidenot
 \label{sec:semant-pred-logic}
 
 The semantics of propositional logic was formulated in terms of valuation functions, which mapped each formula to a truth value, true or false.
-We thought of these are possible worlds, possible states the world could be in.
+We thought of these are possible worlds, or possible states the world could be in.
 The semantics of \predlog is slightly more complicated because in order to say which formulas are true or false, we need to interpret not just atomic propositions, but their internal structure, so to speak; we need to interpret all terms (individual constants and variables) and the predicate letters.
 This is done in a so-called \emph{model}, which can similarly be thought of as a possible world.
 Given a model, we can derive a valuation function.
-The model fixes the domain (which individuals are there) and the meaning of all predicates.
+The model fixes the domain (which individuals are there) and the meaning of the basic vocabulary of our language, i.e., the meaning of all individual constants and all predicate letters.
 
 \subsection{Model, domain \& interpretation function}
 \label{sec:model}
 
-Let $C$ be set of individual constants and $\mathcal{P}$ the set of predicate letters our language $\mathfrak{L}$ of \predlog.
 A \emph{model} $M = \tuple{D,I}$ for $\mathfrak{L}$ consists of:
 \begin{multicols}{2}
   \begin{itemize}
@@ -469,13 +468,13 @@ A \emph{model} $M = \tuple{D,I}$ for $\mathfrak{L}$ consists of:
 \noindent The domain $D$ is a set of entities.\sidenote{We will always assume that the domain has at least one element.}
 The interpretation function $I$ maps each element of $C$ and $\mathcal{P}$ to a suitable relation on $D$:
 \begin{itemize}
-  \item[] if $c \in C$, then $I(c) \in D$, and
-  \item[] if $P \in \mathcal{P}$ is an $n$-ary predicate letter, then $I(P) \subseteq D^n$.\sidenote{$D^n$ is the set of all $n$-tuples with elements from $D$.}
+  \item[] if $c$ is an individual constant, then $I(c) \in D$, and
+  \item[] if $P$ is an $n$-ary predicate letter, then $I(P) \subseteq D^n$.\sidenote{$D^n$ is the set of all $n$-tuples with elements from $D$.}
 \end{itemize}
 The interpretation $I(c)$ of a constant $c$ is the entity in the domain that $c$ stands for (e.g., its name or identifier).
 The interpretation $I(P)$ of an $n$-ary predicate letter, is the set of all $n$-tuples which stand in the relation $P$ to each other.
 For example, if $R$ is the one-place predicate letter denoting the property ``red,'' then $I(P)$ is the set of all red things (in the possible world we are modeling with the help of $I$).
-Of, if $L$ is the two-place predicate letter denoting the relation ``$x$ likes $y$,'' then $I(L)$ is the set of all pairs of elements from the domain, e.g., $\tuple{d_{1}, d_{2}}$, such that the first likes the second (in the possible world we are modeling with the help of $I$).
+Or, if $L$ is the two-place predicate letter denoting the relation ``$x$ likes $y$,'' then $I(L)$ is the set of all pairs of elements from the domain, e.g., $\tuple{d_{1}, d_{2}}$, such that the first likes the second (in the possible world we are modeling with the help of $I$).
 
 \subsection{Assignment functions}
 \label{sec:assignments--term}
@@ -488,7 +487,7 @@ Assignment functions and the interpretation function together allow us to interp
 
 An \emph{assignment function} $g$ for model $M = \tuple{D,I}$ and language $\mathfrak{L}$ maps all variables in $\mathfrak{L}$ to elements in $D$.
 We write $g_{[x/d]}$ and read ``$g$ with $x$ mapped to $d$'', for the assignment function which is like $g$ except that $x$ is mapped to $d \in D$.
-We will use this latter construct, $g_{[x/d]}$ to define the semantics of existential and universal formulas (see below).
+We will use this latter construct, $g_{[x/d]}$ to define the semantics of existential and universal formulas (see below).\sidenote{If needed, this notation can also be extended to cover more than one variable, like so: $g_{[x/d_{1}, y/d_{2}, y/d_{3}]}$.}
 
 If $t$ is a term of $\mathfrak{L}$, then $\den{t}_{M,g}$ is the \emph{term interpretation} relative to $M = \tuple{D,I}$ and $g$:
 \begin{multicols}{2}
@@ -511,7 +510,7 @@ Here is the full definition, which we will go through systematically below.
   $V_{M,g}(\neg \phi) = 1$ & iff & $V_{M,g}(\phi) =0$\\
   $V_{M,g}(\phi \wedge \psi) = 1$ & iff & $V_{M,g}(\phi) =1$ and $V_{M,g}(\psi) = 1$\\
   $V_{M,g}(\phi \vee \psi) = 1$ & iff & $V_{M,g}(\phi) =1$ or $V_{M,g}(\psi) = 1$\\
-  $V_{M,g}(\phi \rightarrow \psi) = 0$ & iff & $V_{M,g}(\phi) =1$ en $V_{M,g}(\psi) = 0$\\
+  $V_{M,g}(\phi \rightarrow \psi) = 0$ & iff & $V_{M,g}(\phi) =1$ and $V_{M,g}(\psi) = 0$\\
   $V_{M,g}(\phi \leftrightarrow \psi) = 1$ & iff & $V_{M,g}(\phi) = V_{M,g}(\psi)$\\
   $V_{M,g}(\forall x \myts \phi) = 1$ & iff & $V_{M,g_{[x/d]}}(\phi) = 1$ for all $d \in D$\\
   $V_{M,g}(\exists x \myts \phi) = 1$ & iff & $V_{M,g_{[x/d]}}(\phi) = 1$ for at least one $d \in D$
@@ -537,7 +536,7 @@ For sentential connectives, valuation functions work exactly like in \proplog.
   $V_{M,g}(\neg \phi) = 1$ & iff & $V_{M,g}(\phi) =0$\\
   $V_{M,g}(\phi \wedge \psi) = 1$ & iff & $V_{M,g}(\phi) =1$ and $V_{M,g}(\psi) = 1$\\
   $V_{M,g}(\phi \vee \psi) = 1$ & iff & $V_{M,g}(\phi) =1$ or $V_{M,g}(\psi) = 1$\\
-  $V_{M,g}(\phi \rightarrow \psi) = 0$ & iff & $V_{M,g}(\phi) =1$ en $V_{M,g}(\psi) = 0$\\
+  $V_{M,g}(\phi \rightarrow \psi) = 0$ & iff & $V_{M,g}(\phi) =1$ and $V_{M,g}(\psi) = 0$\\
   $V_{M,g}(\phi \leftrightarrow \psi) = 1$ & iff & $V_{M,g}(\phi) = V_{M,g}(\psi)$
 \end{tabular}
 
@@ -564,8 +563,8 @@ Notice that any \emph{sentence} of \predlog (i.e., any formula without free vari
 In other words, formulas without free occurrences of variables are interpretable just with respect to a model, and these formulas are ---usually--- what we care about.
 
 Let's consider a simple example of a model and the way it makes certain sentences true or false.
-The model $M = \tuple{D, I}$ is for a language with just one individual constant $a$, two one-place predicate letters, $P$ and $Q$, as well as one two-place predicate letter $R$.
-The following lines are a complete specification of a model for this language, fixing a domain and an interpretation of all relevant ingredients:
+The language we are interested in has just one individual constant $a$, two one-place predicate letters, $P$ and $Q$, as well as one two-place predicate letter $R$.
+An example model $M = \tuple{D, I}$ for this language, fixing a domain and an interpretation of all basic vocabulary, can be written out like this:
 \begin{align*}
   D    & = \set{1,2,3,4,5}\\
   I(a) & = 3 \\
@@ -574,22 +573,22 @@ The following lines are a complete specification of a model for this language, f
   I(R) & = \set{\tuple{1,2},\tuple{2,2}, \tuple{1,4}, \tuple{1,5}}
 \end{align*}
 
-For better visual grasp, small models (with at most two-place predicate letters) can often be represented economically as a graph.
+For better visual grasp, small models can often be represented economically as a graph.
 Figure~\ref{fig:predlog-exmple-model} is an example for the model at hand.
 The two-place relation is represented in terms of arrows, small letters ornamenting the elements of the domain show the interpretation of individual constants and one-place predicate letters.
 
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{00-pics/predlog-example-model.png}
-  \caption{Example of a graphical representation of a simple model for predicate logic}
+  \caption{Example of a graphical representation of a simple model for predicate logic.}
   \label{fig:predlog-exmple-model}
 \end{figure}
 
 A graphical representation like in Figure~\ref{fig:predlog-exmple-model} greatly facilitates checking whether a model makes certain sentences true or false.
 For example, in order to decide whether a formula like $\exists x \myts (Px \wedge Qx)$ is true or false in this model, we need to check whether there is an element that has both property $P$ and property $Q$.
-Looking at the diagram in Figure~\ref{fig:predlog-exmple-model}, we see that this is true.
+Looking at Figure~\ref{fig:predlog-exmple-model}, we see that this is true.
 Elements 2 and 5 both have both properties.
-To write this down in a formally correct way with reference to the model's mathematical structure and the definition of the semantics of \predlog, we would say that $V_{M}(\exists x \myts (Px \wedge Qx)) = 1$ because, not matter which $g$ we use, there exists an element in $D$, namely 2, such that $V_{M,g[x/d]}(Px \wedge Qx) = 1$. This is because $2 \in I(P)$ and $2 \in I(Q)$.
+To write this down in a formally correct way with reference to the model's mathematical structure and the definition of the semantics of \predlog, we would say that $V_{M}(\exists x \myts (Px \wedge Qx)) = 1$ because, no matter which $g$ we use, there exists an element in $D$, namely 2, such that $V_{M,g[x/2]}(Px \wedge Qx) = 1$. This is because $2 \in I(P)$ and $2 \in I(Q)$.
 
 Take another example.
 What is the truth value that the model assigns to formula $Pa$?
@@ -616,11 +615,14 @@ The following gives examples for each.
 \subsection{Demonstrating invalidity with a counterexample}
 \label{sec:demonstr-inval-with}
 
-The argument schema $\exists x \myts Px  \ / \ \forall x \myts Px$ is not valid.
-Intuitively, just because there is a tall person, it does not mean that everybody is tall.
+\begin{claim}
+ $\exists x \myts Px  \not \models \ \forall x \myts Px$\sidenote{Intuitively, just because there is a tall person, we cannot conclude that everybody is tall.}
+\end{claim}
+\begin{proof}
 A minimal counterexample for this case is a model $M$ with domain $D = \set{1,2}$ and interpretation function $I(P) = \set{1}$.
-It is clear that there is an element $d \in D$, namely 1, such that $V_{M,g[x/d]}(Px)$ is true, so that the premise $\exists x \myts Px$ is true in $M$.
-But there is also an element $d \in D$, namely 2, such that $V_{M, g[x/d]} Px$ is false, so that the conclusion $\forall x \myts Px$ is false in $M$.
+It is clear that there is an element $d \in D$, namely 1, such that $V_{M,g[x/1]}(Px)$ is true, so that the premise $\exists x \myts Px$ is true in $M$.
+But there is also an element $d \in D$, namely 2, such that $V_{M, g[x/2]} Px$ is false, so that the conclusion $\forall x \myts Px$ is false in $M$.
+\end{proof}
 
 \subsection{Demonstrating validity with an informal proof}
 \label{sec:demonstr-valid-with}
@@ -667,6 +669,7 @@ Two formulas $\varphi$ and $\psi$ of \predlog are logically equivalent iff for a
 In order to demonstrate that two formulas are logically equivalent, or that a formula is a tautology or contradiction, we can give informal proofs. For example, the previous section showed that $\forall x \myts Px \ \models \ \neg \exists x \myts \neg Px$. In fact, $\forall x \myts Px$ and $\neg \exists x \myts \neg Px$ are logically equivalent. Here is an informal proof for this:
 
 \begin{claim}
+  \label{claim:equivalence-universal-existential}
   $\forall x \myts Px$ and $\neg \exists x \myts \neg Px$ are logically equivalent.
 \end{claim}
 
@@ -752,7 +755,8 @@ Suppose we want to translate the meaning of the following sentence into predicat
 \end{quote}
 We can write $Pa$ (with the obvious translation key), expressing that Alex is a pilot.
 But we also want to express that nobody else is.
-We can express that nobody is a pilot: $\ne\forall x \myts \neg Px$, but that's not actually true because Alex is.
+We can express that nobody is a pilot with a formula like $\forall x \myts \neg Px$ or, equivalently (see Claim~\ref{claim:equivalence-universal-existential}), $\neg \exists \myts Px$.
+But that's not actually true because Alex is.
 So writing $Pa \wedge \forall x \myts \neg Px$ is a contradiction that does not express the meaning of ``Only Alex is a pilot.''
 Indeed, \predlog as we defined it so far is not expressive enough to capture the meaning of this sentence.
 We need to add something.
@@ -760,20 +764,21 @@ We will add a special predicate: identity.
 
 \subsection{Adding identity to \predlog}
 
-We change clause (i) of the definition of formulas of predicate logic, given in Section~\ref{sec:formulas}, to also allow the use the special predicate two-place predicate symbol ``='' for which we use infix notation.
+We change clause (i) of the definition of formulas of predicate logic, given in Section~\ref{sec:formulas}, to also allow the use the special two-place predicate symbols ``='' and ``$\neq$'' for which we use infix notation.
 
 \begin{enumerate}[(i)]
   \item If $A$ is an $n$-ary predicate letter and if $t_1, \dots, t_n$ are terms, then $At_1 \dots t_n$ is a formula. \textbf{If $t_1$ and $t_2$ are terms, then $t_1 = t_2$ and $t_1 \neq t_2$ are formulas.}
 \end{enumerate}
 
-This is a special symbol also in the semantics, because it is interpreted in the same manner in every model.
-(Identity is the same concept in all possible worlds.)
+These are special symbols also in the semantics, because they are interpreted in the same manner in every model.\sidenote{
+  Identity is the same concept in all possible worlds.
+  It is a logical concept that has a fixed meaning in all (logically) possible worlds.
+}
 Concretely, we just add the following clause to the definition of the semantics or predicate logic:\sidenote{
   Notice that there are three occurrences of the symbol ``='' in the first line of this definition.
-  The first occurrences refers to the two-place predicate letter of \predlog with identity.
+  The first occurrence refers to the two-place predicate letter of \predlog with identity.
   The latter two refer to our usual understanding of ``='' as identity.
   Basically, this is a complicated way of saying that ``='' is supposed to mean the same same thing in \predlog as what it means outside of it.
-  Similarly, for the last line in the definition.
 }
 
 \medskip
@@ -795,7 +800,7 @@ in terms of the formula:
 \begin{align*}
   Pa \wedge \forall x \myts (x \neq a \rightarrow \neg Px)
 \end{align*}
-which can we read as: ``Alex is a pilot, and everybody who is not Alex is not a pilot.''\sidenote{This is not the only paraphrase and formula we can give to this example. See the first example in the list that follows, for instance.}
+which can be read as: ``Alex is a pilot, and everybody who is not Alex is not a pilot.''\sidenote{This is not the only paraphrase and formula we can give to this example. See the first example in the list that follows, for instance.}
 
 Here are further examples for translations, making use of identity:\sidenote{Translation key as before.}
 
@@ -803,7 +808,10 @@ Here are further examples for translations, making use of identity:\sidenote{Tra
   \item Alex is friendly but nobody else is.
   \hfill {\mygray{$Fa \wedge \forall x \, (Fx \rightarrow x = a)$}}
   \item At least two people are friendly.
-  \hfill {\mygray{$\exists x \exists y \, (Fx \wedge Fy \wedge x \neq y)$}}
+  \hfill {\mygray{$\exists x \exists y \, (Fx \wedge Fy \wedge x \neq y)$}}\sidenote{
+    We omit parentheses here, even though they would be strictly speaking required by the definition of a formula.
+    Instead of writing $\varphi \wedge (\psi \wedge \chi)$ or $(\varphi \wedge \psi) \wedge \chi$, given that these two formulas are logically equivalent (in \proplog and in \predlog), we simply write $\varphi \wedge \psi \wedge \chi$.
+  }
   \item Alex likes only pilots, except for Bo.
   \hfill {\mygray{$\forall x \, (Lax \rightarrow (Px \vee x = b))$}}
   \item Exactly two people are pilots.\\
@@ -813,6 +821,9 @@ Here are further examples for translations, making use of identity:\sidenote{Tra
   \hfill {\mygray{$\forall x \forall y \, (((Lbx \wedge Lby) \wedge x \neq y) \rightarrow \forall z \,
   (Lbz \rightarrow (z = x \vee z = y)))$}}
 \end{enumerate}
+
+\subsection{Translating modified numerals}
+\label{sec:transl-modif-numer}
 
 Translations of quantified expressions like ``at most two people,'' as in the last example, can be difficult.
 Is this translation also adequate for the last example of ``Bo likes at most two people?''
@@ -827,6 +838,19 @@ Let $x$ and $y$ refer to Alex.
 Then the antecedent $(Lbx \wedge Lby)$ becomes true.
 Let $z$ refer to Charley.
 Bo loves Charley, but Charley is not identical to Alex (by assumption).
+
+Expressions like ``at most two'' or ``exactly one'' are called \emph{modified numerals}.
+Here are some templates for translating these kinds of expressions into predicate logic with identity.
+The following are example translation for modified numerals applied to a unary predicate $P$.
+\begin{align*}
+  \text{at least one} &&& \exists x \myts Px \\
+  \text{at least two} &&& \exists x \myts  \exists y \myts (Px \wedge Py \wedge x \neq y) \\
+  \text{exactly one}  &&& \exists x \myts (Px \wedge \forall y \myts (Py \rightarrow x = y) )\\
+  \text{exactly two}  &&& \exists x \myts \exists y \myts (Py \wedge \forall z \myts ((Pz \wedge Pz) \rightarrow (z = x \vee z = y))) \\
+  \text{at most one}  &&& \forall x \myts \forall y \myts ((Px \wedge Py) \rightarrow x = y) \\
+  \text{at most two}  &&& \forall x \myts \forall y \myts ((Px \wedge Py \wedge x \neq y) \rightarrow \forall z \myts (Pz \rightarrow (z =x \vee z = y)) )
+\end{align*}
+
 
 \bigskip
 \noindent \colorbox{mygray}{\centering
