@@ -20,3 +20,4 @@ auto
 .DS_Store
 *.md5
 *.auxlock
+*.Rhistory
