@@ -86,7 +86,7 @@
 % \linespread{1.05}
 
 
-\title{Probability theory basics}
+\title{Probability theory}
 
 \author[M.~Franke]{Michael Franke}
 
@@ -113,63 +113,25 @@ stochastic independence.
 Random variables \& expected values.
 \end{abstract}
 
+
+\noindent Classical logic explores which conclusions follow from a set of premises.
+The Premises are assumed to be true.
+The conclusion must follow necessarily from the premises, based on the logical structure of premises and conclusions, not based on additional knowledge about the world and the things and processes that reside in it.
+
+In contrast, much of human knowledge and reasoning revolves around \emph{statistical knowledge}: since most birds can fly, if I learn that Tweety is a bird, it is reasonable to conclude that Tweety is \emph{likely} to fly (unless I have more information about Tweety that might provide evidence against this uncertain inference).
+Probability theory is a formal framework to capture such \emph{reasoning under uncertainty}.
+
+Just like there are several logics, there are also several formalizations for reasoning with uncertainty, some of which are simpler and some of which are way more complex than standard probability theory.
+Some alternative systems are argued to be more empirically adequate for capturing human reasoning than probability theory.
+However, what singles out probability theory is that it strikes a good between simplicity, adequacy and applicability, and that it lies at the heart of much of modern statistics and machine learning, with a plethora of mathematical results and algorithms supporting its wide-spread applications in all areas of science.
+% add some historical notes maybe in the margin?
+
 \section{Probability}
 
-\subsection{Relative degrees of credence}
-
-What is the weather going to be like tomorrow: sunny, misty or rainy?\sidenote{
-  Let's assume that there are only these three options and that these are mutually exclusive.
-}
-We do not know, but we may have different beliefs.
-Our beliefs might or might not agree in as much as that all three states of the weather are possible, i.e., could actually happen tomorrow.
-But even if they do, our beliefs might differ (drammaticallly) regarding the question of how likely each possibility is.
-
-Probabilities are one way of formally representing such beliefs.
-Probability distributions assign numbers to possible states of affairs (think: sets of possible worlds).
-What matters most about these numbers are the \emph{relative degrees of credence} they express.
-Concretely, the information we really care about is that ``sunny'' is deemed to be twice as likely as ``rainy.''
-Take an example.
-
-Jones, the optimist, does not know what the weather will bring, but believes that it is most likely to be sunny.
-In fact, Jones believes ---for whatever reason--- that it is three times as likely to be sunny than that it is going to be misty.
-Jones also believes that being misty and being rainy is equallly likely.
-This information about Jones' \emph{relative degrees of credence} alone, is enough to know that, according to Jones, the probability of the three weather conditions are identical to the probability of outcome when turing the wheel of fortune on the left-hand side in Figure~\ref{fig:belief-wheels}.
-The area covered by the option ``sunny'' in Jones' wheel of fortune is exactly 60\%, while that of both ``misty'' and ``rainy'' is exactly 20\% each.
-
-Smith is more pessimistic.
-Smith's believes that ``misty'' is twice as likely as ``sunny'' and that ``rainy'' is seven times more likely than ``sunny.''
-Smith's wheel of fortune is shown on the right-hand side in Figure~\ref{fig:belief-wheels}.
-
-\begin{figure}
-  \centering
-  \begin{minipage}{0.45\linewidth}
-    \centering
-    \textbf{Jones}
-    \includegraphics[width=0.9\textwidth]{00-pics/pie-chart-beliefs-Jones.pdf}
-  \end{minipage}
-  \hfill
-  \begin{minipage}{0.45\linewidth}
-    \centering
-    \textbf{Smith}
-    \includegraphics[width=0.9\textwidth]{00-pics/pie-chart-beliefs-Smith.pdf}
-  \end{minipage}
-  \caption{Two beliefs about the weather, represented as wheels of fortune.}
-  \label{fig:belief-wheels}
-\end{figure}
-
-
-Smith, the pessimist, believes that it is surely not going to be sunny.
-Probability theory offers a formal representation of uncertainty.
-
-\begin{center}
-  \begin{tabular}{lccc}
-                    & sunny & cloudy & rainy \\ \midrule
-    Jones' beliefs  & 0.6   & 0.2    & 0.2   \\
-    Smith's beliefs & 0.1   & 0.2    & 0.7   \\
-  \end{tabular}
-\end{center}
-
-
+The most central concept of probability theory is that of a probability distribution.
+A probability distribution captures a state of uncertainty regarding which of a number of relevant events might hold or will occur.
+It assigns a number to each relevant event.
+This number indicates how likely the event is supposed to be.
 
 \subsection{Outcomes, events, observations}
 
@@ -218,8 +180,8 @@ $A \subseteq \Omega$ a real number (from the unit interval, see A1), such that t
 \begin{enumerate}[{A}1.]
 \item $0 \le P(A) \le 1$
 \item $P(\Omega) = 1$
-\item $P(A_1 \cup A_2 \cup A_3 \cup \dots) = P(A_1) + P(A_2) + P(A_3) + \dots $ whenever $A_1, A_2,
-  A_3, \dots$ are mutually exclusive\sidenote{A3 is the axiom of \emph{countable
+\item $P(A_1 \cup A_2 \cup A_3 \cup \dots) = P(A_1) + P(A_2) + P(A_3) + \dots $
+\item[] whenever $A_1, A_2, A_3, \dots$ are mutually exclusive\sidenote{A3 is the axiom of \emph{countable
       additivity}. Finite additivity may be enough for finite or countable sets $\Omega$, but
     infinite additivity is necessary for full generality in the uncountable case.}
 \end{enumerate}
@@ -229,13 +191,25 @@ distribution over $\Omega$.\sidenote{E.g., in physics, theoretical economics or 
 we often write $P(\omega)$ as a shorthand for $P(\set{\omega})$. In fact, if $\Omega$ is
 finite, it suffices to assign probabilities to elementary outcomes.
 
-A number of rules follow immediately from of this definition:\sidenote[][1em]{Prove this!}
-\begin{enumerate}[{C}1.]
-\item $P(\emptyset) = 0$
-\item $P(\overline{A}) = 1 - P(A)$
-\item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$ for any $A, B \subseteq \Omega$
-\end{enumerate}
+A number of useful rules follows immediately from of this definition.
+Here we prove one (see exercises for more).
 
+\begin{claim}
+  \label{theorem:sum-of-elementary-outcomes}
+  If $\Omega = \set{\omega_{1}, \dots, \omega_{n}}$ is a finite set of elementary outcomes and $P \in \Delta(\Omega)$ a probability distribution over $\Omega$, then the sum of the probabilities of all elementary outcomes is equal to 1:
+  \begin{align*}
+    \sum_{i = 1}^{n} P(\omega_{i}) = 1
+  \end{align*}
+\end{claim}
+\begin{proof}
+  From A3 we know that:
+  \begin{align*}
+  \sum_{i = 1}^{n} P(\omega_{i}) = P(\set{w_{1} \cup \dots \cup \set{w_{n}}})
+  \end{align*}
+  Since $\Omega = \set{w_{1} \cup \dots \cup \set{w_{n}}}$, it follows from A2 that $\sum_{i = 1}^{n} P(\omega_{i}) = 1$.
+\end{proof}
+
+It follows from Claim~\ref{theorem:sum-of-elementary-outcomes} that, in order to fully determine a probability distribution $P \in \Delta(\Omega)$ over a finite $\Omega$ with $n$ elements, we only need to specify $n-1$ probabilities, since the unspecified can be retrieved as ``one minus the sum of all others.''
 
 \subsection{Interpretations of probability}
 
@@ -246,12 +220,83 @@ like so:
 \begin{enumerate}[1.]
 \item \markdef{Frequentist:} Probabilities are generalizations of intuitions/facts about frequencies of events in
   repeated executions of a random event.
-\item \markdef{Subjectivist:} Probabilities are subjective beliefs by a rational agent who is
+\item \markdef{Subjectivist:} Probabilities are subjective beliefs by an agent who is
   uncertain about the outcome of a random event.
 \item \markdef{Realist:} Probabilities are a property of an intrinsically random world.
 \end{enumerate}
 
+While trying to stay away from philosophical quibbles, we will adopt a subjectivist interpretation of probabilities, since this interpretation is most encompassing and ---arguably--- intuitive.
+But note that frequentist considerations should affect what a rational agent should believe (see the urns scenario below).
+
+\begin{example}[Subjective beliefs about the weather]
+  Consider the set of elementary outcomes $\Omega_{\text{weather}} = \set{\text{sunny}, \text{misty}, \text{rainy}}$ of potential weather condition for tomorrow at noon.\sidenote{
+    We assume that these states are independent and that these are all the states the weather might be in (for simplicity of an example).
+  }
+Jones, the optimist, does not know what the weather will bring, but believes that it is most likely to be sunny.
+In fact, Jones believes ---for whatever reason--- that it is three times as likely to be sunny than that it is going to be misty.
+Jones also believes that being misty and being rainy is equallly likely.
+This information about Jones' \emph{relative degrees of credence} alone, is enough to know that, according to Jones, the probability of the three weather conditions are given in the first line of Table~\ref{tab:beliefs-weather}.
+
+Smith is more pessimistic.
+Smith's believes that ``misty'' is twice as likely as ``sunny'' and that ``rainy'' is seven times more likely than ``sunny.''
+This information about relative probabilities is enough to know that Smith's beliefs are those represented in the second line of Table~\ref{tab:beliefs-weather}.
+
+Notice that, in the case of beliefs about the weather, it is fairly unproblematic to imagine that two agents, even rational ones, might have quite different (subjective) beliefs about the same set of elementary outcomes.
+This is not always the case (see Section~\ref{sec:urns-frequencies}).
+
+\begin{table}
+  \centering
+  \begin{tabular}{lccc}
+    & sunny & cloudy & rainy \\ \midrule
+    Jones' beliefs  & 0.6   & 0.2    & 0.2   \\
+    Smith's beliefs & 0.1   & 0.2    & 0.7   \\
+  \end{tabular}
+
+  \caption{Subjective beliefs about the weather.}
+  \label{tab:beliefs-weather}
+\end{table}
+\end{example}
+
+\subsection{Odds \& wheels of fortune}
+
+The previous example demonstrated how the probabilities of a space with three elementary outcomes, like $\Omega_{\text{weather}} = \set{\text{sunny}, \text{misty}, \text{rainy}}$, is completely determined by two numbers describing \emph{relative probabilities}, so-called \emph{odds}, e.g.:
+\begin{align*}
+  \frac{P(\text{sunny})}{P(\text{rainy})} & = o_{1} & \frac{P(\text{misty})}{P(\text{rainy})} & = o_{2}
+\end{align*}
+
+Indeed, odds are actually much more meaningful than absolute numbers for probabilities.
+A nice way to see this is to think of probabilities like those in Table~\ref{tab:beliefs-weather} are outcomes on a wheel of fortune (see Figure~\ref{fig:belief-wheels}).
+A wheel of fortune is spun and the outcome is determined by whatever area is on top (usually indicated by a marker or needle).
+The wheel of fortune that corresponds to Jones' beliefs, shown on the left-hand side in Figure~\ref{fig:belief-wheels}, has areas that correspond to the three elementary outcomes.
+Notice that neither the absolute size of any area, nor the absolute length of the circumference that area covers is important.
+In order for the wheel of fortunes in Figure~\ref{fig:belief-wheels} to match the probabilities in Table~\ref{tab:beliefs-weather}, what matters is only that the areas have the right proportion.
+In other words, relative areas (odds) are what matters most.
+
+\begin{figure}
+  \centering
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \textbf{Jones}
+    \includegraphics[width=0.9\textwidth]{00-pics/pie-chart-beliefs-Jones.pdf}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \textbf{Smith}
+    \includegraphics[width=0.9\textwidth]{00-pics/pie-chart-beliefs-Smith.pdf}
+  \end{minipage}
+  \caption{Two beliefs about the weather, represented as wheels of fortune.}
+  \label{fig:belief-wheels}
+\end{figure}
+
+\subsection{Non-normalized probabilities}
+
+If what matters most are odds, not absolute numbers, we can also specify probability distributions in terms of non-normalized probabilities, which can sometimes be very convenient.
+
+% example: P(x) \propto x^2 (for 1 \le x \le 5)
+
 \subsection{Urns and frequencies}
+\label{sec:urns-frequencies}
 
 Think of an urn as a container which contains a number of $N > 1$ balls. Balls can be of
 different color. For example, let us suppose that our urn has $k > 0$ black balls and $N-k$
@@ -264,6 +309,23 @@ statement about frequency is what motivates saying that the probability of drawi
 on a single trial is (or should be\sidenote{If probabilities are subjective beliefs, a rational
   agent is, in a sense, normatively required to assign exactly this probability.})
 $P(\text{black}) = \frac{k}{N}$.
+
+\bigskip
+\noindent \colorbox{mygray}{\centering
+  \begin{minipage}{1.0\textwidth}
+
+    \begin{exercise}
+      Using the rules of probability theory, prove that the following claims hold.
+      \begin{enumerate}[{C}1.]
+        \item $P(\emptyset) = 0$
+        \item $P(\overline{A}) = 1 - P(A)$
+        \item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$ for any $A, B \subseteq \Omega$
+      \end{enumerate}
+    \end{exercise}
+  \end{minipage}
+}
+
+\newpage
 
 \section{Structured events \& marginal distributions}
 
