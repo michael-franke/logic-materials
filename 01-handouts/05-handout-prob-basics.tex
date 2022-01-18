@@ -291,9 +291,19 @@ In other words, relative areas (odds) are what matters most.
 
 \subsection{Non-normalized probabilities}
 
-If what matters most are odds, not absolute numbers, we can also specify probability distributions in terms of non-normalized probabilities, which can sometimes be very convenient.
+Since what matters most are odds, not absolute numbers, we can also specify probability distributions in terms of non-normalized probabilities, which can sometimes be very convenient.
+Concretely, the following is a complete and sufficient alternative way of specifying Jones' beliefs as in Table~\ref{tab:beliefs-weather}:
+\begin{align*}
+  P(\text{sunny})   & \propto 120
+  & P(\text{misty}) & \propto 40
+  & P(\text{rainy}) & \propto 40 &
+\end{align*}
+Here, the operator $\propto$ (read: ``proportional to'') is used.
+More generally, if $f \colon \Omega \rightarrow \mathbb{R}^{\ge 0}$ is a function that maps each elementary outcome of $\Omega$ onto a non-negative real number, then writing $P(\omega) \propto f(\omega)$ fully and unambiguously defines a probability distribution in terms of the non-normalized probabilities assigned to each $\omega$ by $f$.
+
 
 % example: P(x) \propto x^2 (for 1 \le x \le 5)
+
 
 \subsection{Urns and frequencies}
 \label{sec:urns-frequencies}
@@ -322,6 +332,22 @@ $P(\text{black}) = \frac{k}{N}$.
         \item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$ for any $A, B \subseteq \Omega$
       \end{enumerate}
     \end{exercise}
+
+    \begin{exercise}
+      Write down the probability distributions over $\Omega_{\text{weather}} = \set{\text{sunny}, \text{misty}, \text{rainy}}$ that are defined in terms of the following pieces of information
+      \begin{enumerate}[(i)]
+        \item Miller believes that ``rainy'' is impossible, and that ``sunny'' is three times as likely as ``misty.''
+        \item Ford has beliefs given by the following non-normalized probabilities:
+        \begin{align*}
+          P(\text{sunny})   & \propto 3
+          & P(\text{misty}) & \propto 9
+          & P(\text{rainy}) & \propto 27 &
+        \end{align*}
+        \item Johnson believes that ``sunny'' is as likely as not and that the odds in favor of ``rainy'' over ``misty'' are 3 to 2.
+      \end{enumerate}
+
+    \end{exercise}
+
   \end{minipage}
 }
 
