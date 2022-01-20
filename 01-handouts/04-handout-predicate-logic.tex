@@ -846,7 +846,7 @@ The following are example translation for modified numerals applied to a unary p
   \text{at least one} &&& \exists x \myts Px \\
   \text{at least two} &&& \exists x \myts  \exists y \myts (Px \wedge Py \wedge x \neq y) \\
   \text{exactly one}  &&& \exists x \myts (Px \wedge \forall y \myts (Py \rightarrow x = y) )\\
-  \text{exactly two}  &&& \exists x \myts \exists y \myts (Py \wedge \forall z \myts ((Pz \wedge Pz) \rightarrow (z = x \vee z = y))) \\
+  \text{exactly two}  &&& \exists x \myts \exists y \myts (x \neq y \wedge Px \times Py \wedge \forall z \myts (Pz \rightarrow (z = x \vee z = y))) \\
   \text{at most one}  &&& \forall x \myts \forall y \myts ((Px \wedge Py) \rightarrow x = y) \\
   \text{at most two}  &&& \forall x \myts \forall y \myts ((Px \wedge Py \wedge x \neq y) \rightarrow \forall z \myts (Pz \rightarrow (z =x \vee z = y)) )
 \end{align*}
