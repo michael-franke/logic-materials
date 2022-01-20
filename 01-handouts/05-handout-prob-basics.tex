@@ -80,6 +80,8 @@
 \newcommand{\proplog}{\acro{PropLog}}
 \newcommand{\EFSQ}{\ensuremath{\mathit{EFSQ}}\xspace}
 
+\renewcommand{\markdef}[1]{\emph{#1}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \usepackage[sc,osf]{mathpazo}
@@ -115,15 +117,15 @@ Random variables \& expected values.
 
 
 \noindent Classical logic explores which conclusions follow from a set of premises.
-The Premises are assumed to be true.
-The conclusion must follow necessarily from the premises, based on the logical structure of premises and conclusions, not based on additional knowledge about the world and the things and processes that reside in it.
+The conclusion must follow necessarily from the premises, based on the logical structure of the premises and the conclusions, not based on additional knowledge about the actual world, not on things that could (logically) have been different.
 
 In contrast, much of human knowledge and reasoning revolves around \emph{statistical knowledge}: since most birds can fly, if I learn that Tweety is a bird, it is reasonable to conclude that Tweety is \emph{likely} to fly (unless I have more information about Tweety that might provide evidence against this uncertain inference).
 Probability theory is a formal framework to capture such \emph{reasoning under uncertainty}.
 
 Just like there are several logics, there are also several formalizations for reasoning with uncertainty, some of which are simpler and some of which are way more complex than standard probability theory.
 Some alternative systems are argued to be more empirically adequate for capturing human reasoning than probability theory.
-However, what singles out probability theory is that it strikes a good between simplicity, adequacy and applicability, and that it lies at the heart of much of modern statistics and machine learning, with a plethora of mathematical results and algorithms supporting its wide-spread applications in all areas of science.
+However, what singles out probability theory is that it strikes a good balance between simplicity, adequacy and applicability.
+As such, it lies at the heart of much of modern statistics and machine learning, with a plethora of mathematical results and algorithms supporting its wide-spread applications in all areas of science.
 % add some historical notes maybe in the margin?
 
 \section{Probability}
@@ -131,7 +133,7 @@ However, what singles out probability theory is that it strikes a good between s
 The most central concept of probability theory is that of a probability distribution.
 A probability distribution captures a state of uncertainty regarding which of a number of relevant events might hold or will occur.
 It assigns a number to each relevant event.
-This number indicates how likely the event is supposed to be.
+This number indicates how likely the event is supposed to be (relative to others).
 
 \subsection{Outcomes, events, observations}
 
@@ -139,21 +141,20 @@ We are interested in the space $\Omega$ of all \markdef{elementary outcomes} $\o
 \omega_2, \dots$ of a process or event whose execution is (partially) random or
 unknown. Elementary outcomes are mutually exclusive. The set $\Omega$ exhausts all
 possibilities.\sidenote{For simplicity of exposure, we gloss over subtleties arising when
-  dealing with infinite sets $\Omega$. We make up for this when we define probability
-  \emph{density} functions for continuous random variables, which is all the uncountable
-  infinity that we will usually be concerned with in applied statistics.}
+  dealing with infinite sets $\Omega$.}
 
 \begin{example}
   The set of elementary outcomes of a single coin flip is $\Omega_{\text{coin flip}} =
   \set{\text{heads}, \text{tails}}$. The elementary outcomes of tossing a six-sided die is
   $\Omega_{\text{standard die}} = \set{\epsdice{1}, \epsdice{2}, \epsdice{3}, \epsdice{4},
-    \epsdice{5}, \epsdice{6}}$.\sidenote{Think of $\Omega$ as a partition of the space of all possible ways in
-  which the world could be, where we lump together into one partition cell all ways in which
-  the world could be that are equivalent regarding those aspects of reality that we are
-  interested in. We do not care whether the coin lands in the mud or in the sand. It only
-  matters whether it came up heads or tails. Each elementary event can be realized in myriad
-  ways. $\Omega$ is our, the modellers', first crude simplification of nature, abstracting away aspects we
-  currently do not care about.}
+    \epsdice{5}, \epsdice{6}}$.\sidenote{
+    Think of $\Omega$ as a partition of the space of all possible worlds, i.e., ways in which the world could be, where we lump together into one partition cell all ways in which the world could be that are equivalent regarding those aspects of reality that we are interested in.
+    We do not care whether the coin lands in the mud or in the sand.
+    It only matters whether it came up heads or tails.
+    Each elementary event can be realized in myriad ways.
+    $\Omega$ is our, the modellers', first crude simplification of nature, abstracting away aspects we
+    currently do not care about.
+  }
 \end{example}
 
 An \markdef{event} $A$ is a subset of $\Omega$. Think of an event as a (possibly partial)
@@ -180,10 +181,11 @@ $A \subseteq \Omega$ a real number (from the unit interval, see A1), such that t
 \begin{enumerate}[{A}1.]
 \item $0 \le P(A) \le 1$
 \item $P(\Omega) = 1$
-\item $P(A_1 \cup A_2 \cup A_3 \cup \dots) = P(A_1) + P(A_2) + P(A_3) + \dots $
-\item[] whenever $A_1, A_2, A_3, \dots$ are mutually exclusive\sidenote{A3 is the axiom of \emph{countable
-      additivity}. Finite additivity may be enough for finite or countable sets $\Omega$, but
-    infinite additivity is necessary for full generality in the uncountable case.}
+\item $P(A_1 \cup A_2 \cup A_3 \cup \dots) = P(A_1) + P(A_2) + P(A_3) + \dots $ \\
+  whenever $A_1, A_2, A_3, \dots$ are mutually exclusive\sidenote{
+  A3 is the axiom of \emph{countable additivity}.
+  Finite additivity may be enough for finite or countable sets $\Omega$, but infinite additivity is necessary for full generality in the uncountable case.
+  }
 \end{enumerate}
 Occasionally we encounter notation $P \in \Delta(\Omega)$ to express that $P$ is a probability
 distribution over $\Omega$.\sidenote{E.g., in physics, theoretical economics or game
@@ -204,12 +206,12 @@ Here we prove one (see exercises for more).
 \begin{proof}
   From A3 we know that:
   \begin{align*}
-  \sum_{i = 1}^{n} P(\omega_{i}) = P(\set{w_{1} \cup \dots \cup \set{w_{n}}})
+  \sum_{i = 1}^{n} P(\omega_{i}) = P(\set{w_{1}} \cup \dots \cup \set{w_{n}})
   \end{align*}
-  Since $\Omega = \set{w_{1} \cup \dots \cup \set{w_{n}}}$, it follows from A2 that $\sum_{i = 1}^{n} P(\omega_{i}) = 1$.
+  Since $\Omega = \set{w_{1}} \cup \dots \cup \set{w_{n}}$, it follows from A2 that $\sum_{i = 1}^{n} P(\omega_{i}) = 1$.
 \end{proof}
 
-It follows from Claim~\ref{theorem:sum-of-elementary-outcomes} that, in order to fully determine a probability distribution $P \in \Delta(\Omega)$ over a finite $\Omega$ with $n$ elements, we only need to specify $n-1$ probabilities, since the unspecified can be retrieved as ``one minus the sum of all others.''
+It follows from Claim~\ref{theorem:sum-of-elementary-outcomes} that, in order to fully determine a probability distribution $P \in \Delta(\Omega)$ over a finite $\Omega$ with $n$ elements, we only need to specify $n-1$ probabilities, since the $n$th probability can be retrieved as ``one minus the sum of all others.''
 
 \subsection{Interpretations of probability}
 
@@ -226,7 +228,7 @@ like so:
 \end{enumerate}
 
 While trying to stay away from philosophical quibbles, we will adopt a subjectivist interpretation of probabilities, since this interpretation is most encompassing and ---arguably--- intuitive.
-But note that frequentist considerations should affect what a rational agent should believe (see the urns scenario below).
+But note that frequentist considerations should affect what a rational agent should believe (see the urns scenario in Section~\ref{sec:urns-frequencies}).
 
 \begin{example}[Subjective beliefs about the weather]
   Consider the set of elementary outcomes $\Omega_{\text{weather}} = \set{\text{sunny}, \text{misty}, \text{rainy}}$ of potential weather condition for tomorrow at noon.\sidenote{
@@ -265,10 +267,10 @@ The previous example demonstrated how the probabilities of a space with three el
 \end{align*}
 
 Indeed, odds are actually much more meaningful than absolute numbers for probabilities.
-A nice way to see this is to think of probabilities like those in Table~\ref{tab:beliefs-weather} are outcomes on a wheel of fortune (see Figure~\ref{fig:belief-wheels}).
+A nice way to see this is to think of probabilities like those in Table~\ref{tab:beliefs-weather} as the probabilities of outcomes on a wheel of fortune (see Figure~\ref{fig:belief-wheels}).
 A wheel of fortune is spun and the outcome is determined by whatever area is on top (usually indicated by a marker or needle).
 The wheel of fortune that corresponds to Jones' beliefs, shown on the left-hand side in Figure~\ref{fig:belief-wheels}, has areas that correspond to the three elementary outcomes.
-Notice that neither the absolute size of any area, nor the absolute length of the circumference that area covers is important.
+Notice that neither the absolute size of any area, nor the absolute length of the circumference which is covered by that area is important.
 In order for the wheel of fortunes in Figure~\ref{fig:belief-wheels} to match the probabilities in Table~\ref{tab:beliefs-weather}, what matters is only that the areas have the right proportion.
 In other words, relative areas (odds) are what matters most.
 
@@ -291,7 +293,7 @@ In other words, relative areas (odds) are what matters most.
 
 \subsection{Non-normalized probabilities}
 
-Since what matters most are odds, not absolute numbers, we can also specify probability distributions in terms of non-normalized probabilities, which can sometimes be very convenient.
+Since what matters most are odds, not absolute numbers, we can also specify probability distributions in terms of non-normalized probabilities.
 Concretely, the following is a complete and sufficient alternative way of specifying Jones' beliefs as in Table~\ref{tab:beliefs-weather}:
 \begin{align*}
   P(\text{sunny})   & \propto 120
@@ -299,7 +301,10 @@ Concretely, the following is a complete and sufficient alternative way of specif
   & P(\text{rainy}) & \propto 40 &
 \end{align*}
 Here, the operator $\propto$ (read: ``proportional to'') is used.
-More generally, if $f \colon \Omega \rightarrow \mathbb{R}^{\ge 0}$ is a function that maps each elementary outcome of $\Omega$ onto a non-negative real number, then writing $P(\omega) \propto f(\omega)$ fully and unambiguously defines a probability distribution in terms of the non-normalized probabilities assigned to each $\omega$ by $f$.
+More generally, if $f \colon \Omega \rightarrow \mathbb{R}^{\ge 0}$ is a function that maps each elementary outcome of $\Omega$ onto a non-negative real number, then writing $P(\omega) \propto f(\omega)$ fully and unambiguously defines a probability distribution in terms of the non-normalized probabilities assigned to each $\omega$ by $f$, namely:
+\begin{align*}
+  P(\omega) = \frac{f(\omega)}{\sum_{\omega'}f(\omega')}
+\end{align*}
 
 
 % example: P(x) \propto x^2 (for 1 \le x \le 5)
@@ -308,17 +313,36 @@ More generally, if $f \colon \Omega \rightarrow \mathbb{R}^{\ge 0}$ is a functio
 \subsection{Urns and frequencies}
 \label{sec:urns-frequencies}
 
+Another way of  thinking about probabilities for discrete sets $\Omega$, is in terms of urns.
 Think of an urn as a container which contains a number of $N > 1$ balls. Balls can be of
 different color. For example, let us suppose that our urn has $k > 0$ black balls and $N-k$
 white balls. (There is at least one black and one white ball.) For a single random draw from
-our urn we have: $\Omega_{\text{our urn}} = \set{\text{white}, \text{black}}$. If we imagine an
-infinite sequence of single draws from our urn, putting whichever ball we drew back in after
-every draw, the limiting proportion with which we draw a black ball is
-$\frac{k}{N}$.\sidenote{If in doubt, execute this experiment. By hand or by computer.} This
-statement about frequency is what motivates saying that the probability of drawing a black ball
-on a single trial is (or should be\sidenote{If probabilities are subjective beliefs, a rational
-  agent is, in a sense, normatively required to assign exactly this probability.})
-$P(\text{black}) = \frac{k}{N}$.
+our urn we have: $\Omega_{\text{urn}} = \set{\text{white}, \text{black}}$.
+Figure~\ref{fig:urn-3-7} shows such an urn with $k=7$ and $N=10$.
+
+
+\begin{marginfigure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{00-pics/05-01-urn-3-7.png}
+  \caption{Urn with $k=7$ black balls out of $N=10$ balls in total.}
+  \label{fig:urn-3-7}
+\end{marginfigure}
+
+Imagine a long sequence of single draws from the urn in Figure~\ref{fig:urn-3-7}, putting whichever ball we drew back in after every draw.
+We keep a record of how many times we drew a black ball, and divide this number by the number of times we drew a ball.
+Figure~\ref{fig:limiting-frequencies} shows the results from a computer simulation of this process.
+In general, the limiting proportion with which we draw a black ball is $\frac{k}{N}$.
+Another way of saying this is that the \emph{objective} probability is $P(\text{black}) = \frac{k}{N}$.
+Consequently, a rational agent's subjective beliefs should conform to the objective probability $P(\text{black}) = \frac{k}{N}$, unlike in other cases like the weather.
+
+
+\begin{figure*}
+  \centering
+  \includegraphics[width=0.8\textwidth]{00-pics/05-02-limiting-frequencies.png}
+  \caption{Temporal development of the proportion of drawing a black ball from the urn.}
+  \label{fig:limiting-frequencies}
+\end{figure*}
+
 
 \bigskip
 \noindent \colorbox{mygray}{\centering
