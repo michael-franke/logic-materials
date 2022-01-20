@@ -335,14 +335,12 @@ In general, the limiting proportion with which we draw a black ball is $\frac{k}
 Another way of saying this is that the \emph{objective} probability is $P(\text{black}) = \frac{k}{N}$.
 Consequently, a rational agent's subjective beliefs should conform to the objective probability $P(\text{black}) = \frac{k}{N}$, unlike in other cases like the weather.
 
-
 \begin{figure*}
   \centering
   \includegraphics[width=0.8\textwidth]{00-pics/05-02-limiting-frequencies.png}
   \caption{Temporal development of the proportion of drawing a black ball from the urn.}
   \label{fig:limiting-frequencies}
 \end{figure*}
-
 
 \bigskip
 \noindent \colorbox{mygray}{\centering
@@ -385,12 +383,23 @@ Suppose we have two urns. Both have $N=10$ balls. Urn 1 has $k_1=2$ black and $N
 balls. Urn 2 has $k_2=4$ black and $N-k_2=6$ white balls. We sometimes draw from urn 1,
 sometimes from urn 2. To decide, we flip a fair coin. If it comes up heads, we draw from urn 1;
 if it comes up tails, we draw from urn 2.
+A schematic representation of this \emph{flip-\&-draw scenario} is shown in Figure~\ref{fig:flip-draw}.
+
+\begin{figure}
+  \includegraphics[width=1.0\textwidth]{00-pics/05-03-flip-draw.png}
+  \caption{The flip-\&-draw scenario, illustrating structured event spaces and conditional probabilities.}
+  \label{fig:flip-draw}
+\end{figure}
 
 An elementary outcome of this two-step process of flip-\&-draw is a pair
-$\tuple{\text{outcome-flip}, \text{outcome-draw}}$. The set of all possible such outcomes is
-$\Omega_{\text{flip-\&-draw}} = \set{\tuple{\text{heads}, \text{black}}, \tuple{\text{heads},
+$\tuple{\text{outcome-flip}, \text{outcome-draw}}$.
+The set of all possible such outcomes is
+\begin{align*}
+\Omega_{\text{flip-\&-draw}} & = \set{\tuple{\text{heads}, \text{black}}, \tuple{\text{heads},
     \text{white}}, \tuple{\text{tails}, \text{black}}, \tuple{\text{tails},
-    \text{white}}}$. The probability of event $\tuple{\text{heads}, \text{black}}$ is given by
+    \text{white}}}
+\end{align*}
+The probability of event $\tuple{\text{heads}, \text{black}}$ is given by
 multiplying the probability of seeing ``heads'' on the first flip, which happens with
 probability $0.5$, and then drawing a black ball, which happens with probability $0.2$, so that
 $P(\tuple{\text{heads}, \text{black}}) = 0.5 \cdot 0.2 = 0.1$. The probability distribution
@@ -430,14 +439,15 @@ i \le n$ is the probability distribution that assigns to all $A_i \subseteq \Ome
   notation, using $\sum$, assumes that subspaces are countable. In other cases, a parallel
   definition with integrals can be used.}
 \begin{align*}
-  P(A_i) = \sum_{A_1 \subseteq \Omega_{1}, \dots , A_{i-1} \subseteq \Omega_{i-1}, A_{i+1} \subseteq \Omega_{i+1}, \dots, A_n \subseteq
-    \Omega_n} P(A_1, \dots, A_{i-1}, A_{i}, A_{i+1}, \dots A_n)
+  P(A_i) = \sum_{A_1 \subseteq \Omega_{1}, \dots , A_{i-1} \subseteq \Omega_{i-1}, A_{i+1} \subseteq \Omega_{i+1}, \dots, A_n \subseteq \Omega_n} P(A_1, \dots, A_{i-1}, A_{i}, A_{i+1}, \dots A_n)
+  % P(A_i) = \sum_{A_1 \subseteq \Omega_{1}, \dots , A_{i-1} \subseteq \Omega_{i-1}, A_{i+1} \subseteq \Omega_{i+1}, \dots, A_n \subseteq
+  %   \Omega_n} P(A_1, \dots, A_{i-1}, A_{i}, A_{i+1}, \dots A_n)
 \end{align*}
 For example, the marginal distribution over coin flips derivable from the joint probability
 distribution in Table~\ref{tab:flip-and-draw:probabilities} gives $P(\text{heads}) = P(\text{tails}) =
 0.5$, since the sum of each row is exactly $0.5$. The marginal distribution over flips
 derivable from Table~\ref{tab:flip-and-draw:probabilities} has $P(\text{black}) = 0.3$ and
-$P(\text{black}) = 0.7$.\sidenote{The term ``marginal distribution'' derives from such
+$P(\text{white}) = 0.7$.\sidenote{The term ``marginal distribution'' derives from such
   probability tables, where traditionally the sum of each row/column was written in the
   margins.}
 
@@ -450,10 +460,10 @@ $A$ on the assumption that $B$ is true.\sidenote{We also verbalize this as ``the
 \begin{align*}
   P(A \mid B) = \frac{P(A \cap B)}{P(B)}
 \end{align*}
-Conditional probabilities are only defined when $P(B) > 0$.\sidenote{Updating with events which have
-probability zero entails far more severe adjustments of the underlying belief system than just
-ruling out information hitherto considered possible. Formal systems that capture such
-\emph{belief revision} are studied in formal epistemology.}
+Conditional probabilities are only defined when $P(B) > 0$.\sidenote{
+  Updating with events which have probability zero entails far more severe adjustments of the underlying belief system than just ruling out information hitherto considered possible.
+  Formal systems that capture such \emph{belief revision} are studied in formal epistemology.
+}
 
 
 \begin{example}
@@ -498,7 +508,7 @@ to speak.
 \begin{align*}
   P(B \mid A) = \frac{P(A \mid B) \mult P(B)}{P(A)}
 \end{align*}
-Bayes rule is straightforward corollary of the definition of conditional probabilities,
+Bayes rule follows directly from the definition of conditional probabilities,
 according to which $P(A \cap B) = P(A \mid B) \mult P(B)$, so that:
 \begin{align*}
   P(B \mid A) = \frac{P(A \cap B)}{P(A)} = \frac{P(A \mid B) \cdot P(B)}{P(A)}
@@ -527,6 +537,100 @@ This result is quite intuitive. Drawing a black ball from urn 2 (i.e., after see
 as likely as drawing a black ball from urn 1 (i.e., after seeing heads). Consequently, after
 seeing a black ball drawn, with equal probabilities of heads and tails, the probability that
 the coin landed tails is also twice as large as that it landed heads.
+
+\subsection{Stochastic (in-)dependence}
+
+Event $A$ is \emph{stochastically independent} of $B$ if, intuitively speaking, learning $B$ does not change one's beliefs about $A$, i.e., $P(A \mid B) = P(A)$.
+If $A$ is stochastically independent of $B$, then $B$ is stochastically independent of $A$ because:
+
+\begin{align*}
+ P(B \mid A)
+ & =
+ \frac{P(A \mid B) \ P(B)}{P(A)} && \text{[Bayes rule]}
+ \\
+ & =
+ \frac{P(A) \ P(B)}{P(A)} && \text{[by ass. of independence]}
+ \\
+ & =
+ P(B) && \text{[cancellation]}
+\end{align*}
+
+For example, imagine a flip-and-draw scenario like in Figure~\ref{fig:flip-draw} where the initial coin flip has a bias of $0.8$ towards heads, but each of the two urns has the same number of black balls, namely $3$ black and $7$ white balls.
+Intuitively and formally, the probability of drawing a black ball is then \emph{independent} of the outcome of the coin flip; learning that the coin landed heads, does not change our beliefs about how likely the subsequent draw will result in a black ball.
+The probability table for this example is in Table~\ref{tab:joint-prob-independence}.
+
+% ```{r flipdrawprobabilities-independent, echo = F}
+% knitr::kable(
+%   tibble(
+%     " " = c("black", "white", "$\\Sigma$ columns"),
+%     "heads" = c("$0.8 \\mult 0.3 = 0.24$", "$0.8 \\mult 0.7 = 0.56$", 0.8),
+%     tails = c("$0.2 \\mult 0.3 = 0.06$", "$0.2 \\mult 0.7 = 0.14$", 0.2),
+%     "$\\Sigma$ rows" = c(0.3, 0.7, 1)
+%   ),
+%   booktabs = T,
+%   caption = 'Joint probability table for a flip-and-draw scenario where the coin has a bias of $0.8$ towards heads and where each of the two urns holds $3$ black and $7$ white balls.',
+%   escape = F
+% )
+% ```
+
+\begin{table}
+  \centering
+  \begin{tabular}{lccr}
+                   &heads                    & tails                   & $\sum$ rows \\ \midrule
+    black          & $0.8 \times 0.3 = 0.24$ & $0.2 \times 0.3 = 0.06$ & 0.3\\
+    white          & $0.8 \times 0.7 = 0.56$ & $0.2 \times 0.7 = 0.14$ & 0.7 \\ \midrule
+    $\sum$ columns & $0.8$                   & $0.2$
+  \end{tabular}
+
+  \caption{Joint probability table for a flip-and-draw scenario where the coin has a bias of $0.8$ towards heads and where each of the two urns holds $3$ black and $7$ white balls.}
+  \label{tab:joint-prob-independence}
+\end{table}
+
+Independence shows in Table \@ref(tab:flipdrawprobabilities-independent) in the fact that the probability in each cell is the product of the two marginal probabilities. This is a direct consequence of stochastic independence:
+
+\begin{claim}[Probability of conjunction of stochastically independent events]
+  For any pair of events $A$ and $B$ with non-zero probability:
+  \begin{align*}
+    P(A \cap B) = P(A) \ P(B) \, \ \ \ \ \text{[if } A \text{ and } B \text{ are stoch. independent]}
+  \end{align*}
+\end{claim}
+
+\begin{proof}
+  By assumption of independence, it holds that $P(A \mid B) = P(A)$. But then:
+  \begin{align*}
+    P(A \cap B)
+    & =
+    P(A \mid B) \ P(B) && \text{[def. of conditional probability]}
+    \\
+    & =
+    P(A) \ P(B) && \text{[by ass. of independence]}
+  \end{align*}
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% exercises
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bigskip
+\noindent \colorbox{mygray}{\centering
+  \begin{minipage}{1.0\textwidth}
+
+    \begin{exercise}
+      Consider a flip-\&-draw scenario like the process in Figure~\ref{fig:flip-draw}, but with a biased coin that lands heads with probability 0.7.
+      Assume further that the ``heads-urn'' (the urn to draw from after a ``heads'' outcome) has 25 balls in total out of which 10 are black, and that the ``tails-urn'' has 30 balls in total out of which 20 are black.
+      \begin{enumerate}[(i)]
+        \item Calculate the joint probability of all elementary outcomes (pairs of flips and draws).
+        \item Compute the marginal probabilities of ``heads'' and ``tails.''
+        \item Compute the conditional probability of ``heads'' given ``black.''
+      \end{enumerate}
+    \end{exercise}
+
+
+
+  \end{minipage}
+}
+
+\newpage
 
 \section{Random variables}
 
