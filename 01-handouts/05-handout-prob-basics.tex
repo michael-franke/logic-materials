@@ -172,7 +172,7 @@ both $A$ and $B$; the disjunction $A \cup B$ is the observation that it is eithe
 the negation of $A$, $\overline{A} = \set{\omega \in \Omega \mid \omega \not \in A}$, is the
 observation that it is not $A$.
 
-\subsection{Probability distribution}
+\subsection{Probability distributions}
 
 A \markdef{probability distribution} $P$ over $\Omega$ is a function
 $P \mycolon \pow{\Omega} \rightarrow \mathds{R}$ that assigns to all events
@@ -192,6 +192,11 @@ distribution over $\Omega$.\sidenote{E.g., in physics, theoretical economics or 
   theory. Less so in psychology or statistics.} If $\omega \in \Omega$ is an elementary event,
 we often write $P(\omega)$ as a shorthand for $P(\set{\omega})$. In fact, if $\Omega$ is
 finite, it suffices to assign probabilities to elementary outcomes.
+
+It is possible for a probability distribution $P \in \Delta(\Omega)$ to assign probability zero $P(\omega) = 0$ for some $\omega \in \Omega$.
+The set of elementary outcomes to which $P$ assigns positive probability is called the \emph{support} of $P$.
+
+\subsection{Implications of the axiomatic definition}
 
 A number of useful rules follows immediately from of this definition.
 Here we prove one (see exercises for more).
@@ -683,13 +688,19 @@ This is a direct consequence of stochastic independence:
 \section{Random variables}
 
 We have so far define a probability distribution as a function that assigns a probability to
-each subset of the space $\Omega$ of elementary outcomes. A special case occurs when we are
-interested in a space of numeric outcomes.
+each subset of the space $\Omega$ of elementary outcomes.
+A special case occurs when we are interested in a space of numeric outcomes, such as the probability of observing 3 heads when throwing a coin 10 times, or of measuring a reaction time of 300\,ms in a lexical decision task.
+Probability distributions over numeric outcomes are no different from other probability distributions: in each case we set up a space of elementary outcomes as sets of possible worlds which agree on a certain criterion of relevance, which could be something non-numeric (like hair color) or numeric (like the integer or real valued reaction time in an experimental trial).
+Yet, ``probability distributions over numbers'' allow special because we often like to use mathematical operations in connection with the elementary outcomes or events.
+For instance, we might be interested in the probability of numerical observations obtained by throwing a fair dice twice in a row and adding the number shown in each.
+To express these kinds of operations and transformations, we use a special notation for ``probability distributions over numbers'' called \emph{random variables}.
+Caveat: random variables are very useful concepts and offer highly versatile notation, but both concept and notation can be elusive in the beginning.
 
 A \markdef{random variable} is a function $X \mycolon \Omega \rightarrow \mathds{R}$ that
 assigns to each elementary outcome a numerical value.
 
 \begin{example}
+  \label{example:single-coin-RV}
   For a single flip of a coin we have $\Omega_{\text{coin flip}} =
   \set{\text{heads}, \text{tails}}$. A usual way of mapping this onto numerical outcomes is to
   define $X_{\text{coin flip}} \mycolon \text{heads} \mapsto 1; \text{tails} \mapsto 0$. Less trivially, consider
@@ -709,25 +720,28 @@ assigns to each elementary outcome a numerical value.
 
 \subsection{Notation \& terminology}
 
-Traditionally random variables are represented by capital letters, like $X$. Variables for the
+Traditionally, random variables are represented by capital letters, like $X$. Variables for the
 numeric values they take on are written as small letters, like $x$.
 
 We write $P(X = x)$ as a shorthand for the probability
-$P(\set{\omega \in \Omega \mid X(\omega) = 2})$ that an event occurs that is mapped onto $x$ by
+$P(\set{\omega \in \Omega \mid X(\omega) = x})$ that an event occurs that is mapped onto $x$ by
 random variable $X$. For example, if our coin is fair, then $P(X_{\text{two flips}} = x) = 0.5$
 for $x=1$ and $0.25$ otherwise. Similarly, we can also write $P(X \le x)$ for the probability
 of observing an event that $X$ maps to a number not bigger than $x$.
 
-If the range of $X$ is countable, we say that $X$ is \markdef{discrete}. For ease of
-exposition, we may say that if the range of $X$ is an interval of real numbers, $X$ is
-called \markdef{continuous}.
+If the range of $X$ is countable (not necessarily finite), we say that $X$ is \markdef{discrete}. For ease of exposition, we may say that if the range of $X$ is an interval of real numbers, $X$ is called \markdef{continuous}.\sidenote{This introductory primer also looks at the discrete. The continuous case requires special mathematical treatment, if we want to be precise. The underlying ideas behind central definitions and behavior are, for the most part, conceptually analogous.}
 
-\subsection{Cumulative distribution functions, mass and density}
+The \emph{support} of a random variable $X$ is:
+\begin{align*}
+  \text{support}(X) = \set{x \in \text{range}(X) \mid P(X = x) \neq 0}.
+\end{align*}
+
+\subsection{Cumulative distribution \& mass of a discrete random variable}
 
 For a discrete random variable $X$, the \markdef{cumulative distribution function} $F_X$
 associated with $X$ is defined as:
 \begin{align*}
-  F_X(x) = P(X \le x) = \sum_{x' \in \set{\text{Rng}(X) \mid x' \le x}} P(X = x)
+  F_X(x) = P(X \le x) = \sum_{x' \in \set{x'' \in \text{range}(X) \mid x'' \le x}} P(X = x')
 \end{align*}
 The \markdef{probability mass function} $f_x$ associated with $X$ is defined as:
 \begin{align*}
@@ -741,13 +755,10 @@ The \markdef{probability mass function} $f_x$ associated with $X$ is defined as:
   \begin{align*}
     \text{Binom}(K = k ; n, \theta) = \binom{n}{k} \,  \theta^{k} \, (1-\theta)^{n-k}
   \end{align*}
-  Here $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient. It gives the number
-  possibilities of drawing an unordered set with $k$ elements from a set with a total of $n$
-  elements. Figure~\ref{fig:BinomialDistribution} gives an example of the Binomial
-  distribution, concretely its probability mass function, for two values of the coin's bias,
-  $\theta = 0.25$ or $\theta = 0.5$, when flipping the coin $n=24$
-  times. Figure~\ref{fig:BinomialDistributionCumulative} gives the corresponding cumulative
-  distributions.
+  Here $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient.
+  It gives the number of possibilities of drawing an unordered set with $k$ elements from a set with a total of $n$ elements.
+  Figure~\ref{fig:BinomialDistribution} gives an example of the Binomial distribution, concretely its probability mass function, for two values of the coin's bias, $\theta = 0.25$ or $\theta = 0.5$, when flipping the coin $n=24$ times.
+  Figure~\ref{fig:BinomialDistributionCumulative} gives the corresponding cumulative distributions.
   %% add some more explanation
 
 \begin{figure}
@@ -770,76 +781,80 @@ The \markdef{probability mass function} $f_x$ associated with $X$ is defined as:
 
 \end{example}
 
-For a continuous random variable $X$, the probability $P(X = x)$ will usually be zero: it is
-virtually impossible that we will see precisely the value $x$ realized in a random event that
-can realize uncountably many numerical values of $X$. However, $P(X \le x)$ does take workable
-values and so we define the \markdef{cumulative distribution function} $F_X$
-associated with $X$ as:
-\begin{align*}
-  F_X(x) = P(X \le x)
-\end{align*}
-Instead of a probability \emph{mass} function, we derive a \markdef{probability density
-  function} from the cumulative function as:
-\begin{align*}
-  f_X(x) = F'(x)
-\end{align*}
-A probability density function can take values greater than one, unlike a probability mass
-function.
+% \subsection{Cumulative distribution \& density of a continuous random variable}
 
-\begin{example}
-  The \markdef{Gaussian or Normal distribution} characterizes many natural distributions of
-  measurements which are symmetrically spread around a central tendency. It is defined as:
-  \begin{align*}
-    \mathcal{N}(X = x ; \mu, \sigma) = \frac{1}{\sqrt{2 \sigma^2 \pi}} \exp \left ( -
-      \frac{(x-\mu)^2}{2 \sigma^2} \right)
-  \end{align*}
-  where parameter $\mu$ is the \emph{mean}, the central tendency, and parameter $\sigma$ is the
-  \emph{standard deviation}. Figure~\ref{fig:NormalDistribution} gives examples of the
-  probability density function of two normal
-  distributions. Figure~\ref{fig:NormalDistributionCumulative} gives the corresponding
-  cumulative distribution functions.
+% For a continuous random variable $X$, the probability $P(X = x)$ will usually be zero: it is
+% virtually impossible that we will see precisely the value $x$ realized in a random event that
+% can realize uncountably many numerical values of $X$. However, $P(X \le x)$ does take workable
+% values and so we define the \markdef{cumulative distribution function} $F_X$
+% associated with $X$ as a primitive (i.e., as given by definition):
+% \begin{align*}
+%   F_X(x) = P(X \le x)
+% \end{align*}
+% Instead of a probability \emph{mass} function, we derive a \markdef{probability density
+%   function} from the cumulative function as:
+% \begin{align*}
+%   f_X(x) = F'(x)
+% \end{align*}
+% A probability density function can take values greater than one, unlike a probability mass
+% function.
 
-\begin{figure}
-  \centering
-  \includegraphics[width=\textwidth]{00-pics/05_01_normal-distribution.pdf}
-  \caption{Examples of the Normal distribution. In both cases $\mu = 0$, once with $\sigma = 1$
-    and once with $\sigma = 4$.}
-  \label{fig:NormalDistribution}
-\end{figure}
+% \begin{example}
+%   The \markdef{Gaussian or Normal distribution} characterizes many natural distributions of
+%   measurements which are symmetrically spread around a central tendency. It is defined as:
+%   \begin{align*}
+%     \mathcal{N}(X = x ; \mu, \sigma) = \frac{1}{\sqrt{2 \sigma^2 \pi}} \exp \left ( -
+%       \frac{(x-\mu)^2}{2 \sigma^2} \right)
+%   \end{align*}
+%   where parameter $\mu$ is the \emph{mean}, the central tendency, and parameter $\sigma$ is the
+%   \emph{standard deviation}. Figure~\ref{fig:NormalDistribution} gives examples of the
+%   probability density function of two normal
+%   distributions. Figure~\ref{fig:NormalDistributionCumulative} gives the corresponding
+%   cumulative distribution functions.
 
-\begin{figure}
-  \centering
-  \includegraphics[width=\textwidth]{00-pics/05_01_normal-distribution-cumulative.pdf}
-  \caption{Examples of the cumulative normal distribution corresponding to the previous probability
-    density functions.}
-  \label{fig:NormalDistributionCumulative}
-\end{figure}
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{00-pics/05_01_normal-distribution.pdf}
+%   \caption{Examples of the Normal distribution. In both cases $\mu = 0$, once with $\sigma = 1$
+%     and once with $\sigma = 4$.}
+%   \label{fig:NormalDistribution}
+% \end{figure}
 
-\end{example}
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{00-pics/05_01_normal-distribution-cumulative.pdf}
+%   \caption{Examples of the cumulative normal distribution corresponding to the previous probability
+%     density functions.}
+%   \label{fig:NormalDistributionCumulative}
+% \end{figure}
+
+% \end{example}
 
 \subsection{Expected value \& variance}
 
-The \markdef{expected value} of a random variable $X$ is a measure of central tendency. It
-tells us, like the name suggests, which average value of $X$ we can expect when repeatedly
-sampling from $X$. If $X$ is continuous, the expected value is:\sidenote{The expected value is
-  also frequently called the \emph{mean}.}
+The \markdef{expected value} of a random variable $X$ is a measure of central tendency.
+It tells us, like the name suggests, which average value of $X$ we can expect when repeatedly sampling from $X$.
+If $X$ is discrete, the expected value is:\sidenote{
+  The expected value is also frequently called the \emph{mean}.
+}
 \begin{align*}
   \mathds{E}_X = \sum_{x} x \mult f_X(x)
 \end{align*}
-If $X$ is continuous, it is:
-\begin{align*}
-  \mathds{E}_X = \int x \mult f_X(x) \ \text{d}x
-\end{align*}
+% If $X$ is continuous, it is:
+% \begin{align*}
+%   \mathds{E}_X = \int x \mult f_X(x) \ \text{d}x
+% \end{align*}
 
 The \markdef{variance} of a random variable $X$ is a measure of how much likely values of $X$
-are spread or clustered around the expected value. If $X$ is discrete, the variance is:
+are spread or clustered around the expected value.
+If $X$ is discrete, the variance is:
 \begin{align*}
   \text{Var}(X) = \sum_x (\mathds{E}_X - x)^2 \mult f_X(x)
 \end{align*}
-If $X$ is continuous, it is:
-\begin{align*}
-  \text{Var}(X) = \int (\mathds{E}_X - x)^2 \mult f_X(x) \ \text{d}x
-\end{align*}
+% If $X$ is continuous, it is:
+% \begin{align*}
+%   \text{Var}(X) = \int (\mathds{E}_X - x)^2 \mult f_X(x) \ \text{d}x
+% \end{align*}
 
 \begin{example}
   If we flip a coin with bias $\theta = 0.25$ a total of $n=24$, we expect on average to see
@@ -847,10 +862,41 @@ If $X$ is continuous, it is:
     obvious from our definition, but it is intuitive and you can derive it.} The variance is
   $n \mult \theta \mult (1-\theta) = 24 \mult 0.25 \mult 0.75 = \frac{24 \mult 3}{16} =
   \frac{18}{4} = 4.5$.
-
-  The expected value of a normal distribution is just its mean $\mu$ and its variance is
-  $\sigma^2$.
+  % The expected value of a normal distribution is just its mean $\mu$ and its variance is
+  % $\sigma^2$.
 \end{example}
+
+\subsection{Composite random variables}
+
+The notation in terms of random variables is particularly useful for composite random variables, when we write stuff like $Z = X + X$.
+For instance, $X$ might be the outcome of a single flip of a fair coin (as in Example~\ref{example:single-coin-RV}), so that:
+\begin{align*}
+  P(X = 0) & = 0.5 & P(X = 1) & = 0.5
+\end{align*}
+The composite variable $Z = X + X$ is built by, intuitively speaking, drawing a random element from $X$, and another one (independently) from $X$ and then adding the result.
+The resulting distribution is:
+\begin{align*}
+  P(Z = 0) & = 0.25 & P(Z = 1) & = 0.5 & P(Z = 2) & = 0.25
+\end{align*}
+
+This $Z$ from the previous example happens to be the Binomial distribution with $N=2$ and $\theta - 0.5$, but we can also use this notation to define composite random variables for which there is no commonly known and established name and probability mass function.
+
+\begin{example}
+  Let $X$ be the probability distribution of rolling a fair dice with six sides.
+  $Y$ is the probability distribution of flipping a biased coin that lands heads (represented as number 1) with probability 0.75.
+  We are interested in the composite random variable $Z = X + Y$.
+  The support of $Z$ is $\set{0, 1, \dots, 7}$.
+  The probability mass function of $Z$ is show in Figure~\ref{fig:composite-RV}.
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{00-pics/05-04-mass-composite-RV.png}
+    \caption{Probability mass function of a random variable obtained by flipping a fair coin and adding the (numerical) outcome to the outcome of throwing a fair dice.}
+    \label{fig:composite-RV}
+  \end{figure}
+\end{example}
+
+Of course, more fancy mathematical operations, beyond summation, are conceivable, e.g.: $Z = \log(\abs{X}) - \sqrt{Y}$.
+
 
 % \printbibliography
 
