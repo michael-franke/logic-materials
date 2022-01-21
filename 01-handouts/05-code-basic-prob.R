@@ -44,26 +44,36 @@ ggsave(normal.plot.cumulative,
 # pie charts
 
 # Create Data
-data <- data.frame(
-  group=factor(c('sunny', 'cloudy', 'rainy'), levels = c('sunny', 'cloudy', 'rainy')),
-  value=c(6,2,2)
-)
 
-# compute label position
-data <- data %>% 
-  arrange(desc(group)) %>%
-  mutate(prop = value / sum(data$value) *100) %>%
-  mutate(ypos = cumsum(prop)- 0.5*prop )
+make_piechart <- function(value) {
+  
+  data <- data.frame(
+    group=factor(c('sunny', 'misty', 'rainy'), levels = c('sunny', 'misty', 'rainy')),
+    value=value
+  )
+  
+  # compute label position
+  data <- data %>% 
+    arrange(desc(group)) %>%
+    mutate(prop = value / sum(data$value) *100) %>%
+    mutate(ypos = cumsum(prop)- 0.5*prop )
+  
+  # Basic piechart
+  ggplot(data, aes(x="", y=prop, fill=group)) +
+    geom_bar(stat="identity", width=1, color="white") +
+    coord_polar("y", start=0) +
+    theme_void() + 
+    theme(legend.position="none") +
+    geom_text(aes(y = ypos, x = 1.2, label = group), color = "black", size=6.5) +
+    scale_fill_manual(values=c('cornsilk2', 'cornsilk3', 'cornsilk4'))
+}
 
-# Basic piechart
-ggplot(data, aes(x="", y=prop, fill=group)) +
-  geom_bar(stat="identity", width=1, color="white") +
-  coord_polar("y", start=0) +
-  theme_void() + 
-  theme(legend.position="none") +
-  geom_text(aes(y = ypos, label = group), color = "black", size=6) +
-  scale_fill_manual(values=c('cornsilk2', 'cornsilk3', 'cornsilk4'))
+make_piechart(value = c(6,2,2))
 ggsave(
-       filename = "00-pics/05_01_normal-distribution-cumulative.pdf", 
-       width = 4, height = 4)
+filename = "00-pics/pie-chart-beliefs-Jones.pdf", 
+width = 4, height = 4)
 
+make_piechart(value = c(1,2,7))
+ggsave(
+  filename = "00-pics/pie-chart-beliefs-Smith.pdf", 
+  width = 4, height = 4)
