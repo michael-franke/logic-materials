@@ -541,19 +541,23 @@ the coin landed tails is also twice as large as that it landed heads.
 \subsection{Stochastic (in-)dependence}
 
 Event $A$ is \emph{stochastically independent} of $B$ if, intuitively speaking, learning $B$ does not change one's beliefs about $A$, i.e., $P(A \mid B) = P(A)$.
-If $A$ is stochastically independent of $B$, then $B$ is stochastically independent of $A$ because:
 
-\begin{align*}
- P(B \mid A)
- & =
- \frac{P(A \mid B) \ P(B)}{P(A)} && \text{[Bayes rule]}
- \\
- & =
- \frac{P(A) \ P(B)}{P(A)} && \text{[by ass. of independence]}
- \\
- & =
- P(B) && \text{[cancellation]}
-\end{align*}
+\begin{claim}
+  If $A$ is stochastically independent of $B$, then $B$ is stochastically independent of $A$.
+\end{claim}
+\begin{proof}
+  \begin{align*}
+    P(B \mid A)
+    & =
+      \frac{P(A \mid B) \ P(B)}{P(A)} && \text{[Bayes rule]}
+    \\
+    & =
+      \frac{P(A) \ P(B)}{P(A)} && \text{[by ass. of independence]}
+    \\
+    & =
+      P(B) && \text{[cancellation]}
+  \end{align*}
+\end{proof}
 
 For example, imagine a flip-and-draw scenario like in Figure~\ref{fig:flip-draw} where the initial coin flip has a bias of $0.8$ towards heads, but each of the two urns has the same number of black balls, namely $3$ black and $7$ white balls.
 Intuitively and formally, the probability of drawing a black ball is then \emph{independent} of the outcome of the coin flip; learning that the coin landed heads, does not change our beliefs about how likely the subsequent draw will result in a black ball.
@@ -586,7 +590,8 @@ The probability table for this example is in Table~\ref{tab:joint-prob-independe
   \label{tab:joint-prob-independence}
 \end{table}
 
-Independence shows in Table \@ref(tab:flipdrawprobabilities-independent) in the fact that the probability in each cell is the product of the two marginal probabilities. This is a direct consequence of stochastic independence:
+Independence shows in Table~\ref{tab:joint-prob-independence} in the fact that the probability in each cell is the product of the two marginal probabilities.
+This is a direct consequence of stochastic independence:
 
 \begin{claim}[Probability of conjunction of stochastically independent events]
   For any pair of events $A$ and $B$ with non-zero probability:
@@ -625,8 +630,51 @@ Independence shows in Table \@ref(tab:flipdrawprobabilities-independent) in the 
       \end{enumerate}
     \end{exercise}
 
+    \begin{exercise}
+      Consider the following (fictitious) joint-probability table of hair and eye color.
 
+      \begin{tabular}{lcccc}
+                   & black hair & brown hair & blonde hair & red hair \\ \midrule
+        brown eyes & 0.4        & 0.22       & 0.05        & 0.03 \\
+        blue eyes  & 0.05       & 0.12       & 0.08        & 0.004 \\
+        green eyes & 0.001      & 0.01       & 0.005       & 0.03
+      \end{tabular}
 
+    \begin{enumerate}[(i)]
+      \item Calculate the following marginal probabilities. (NB: This exercise uses informal notation like ``non-green eyes'' instead of cumbersome set-theoretic notation.)
+
+      \begin{enumerate}[a.]
+        \item $P(\text{black hair})$
+        \item $P(\text{black hair or red hair})$
+        \item $P(\text{non-green eyes})$
+      \end{enumerate}
+
+      \item Calculate the following conditional probabilities:
+
+      \begin{enumerate}[a.]
+        \item $P(\text{blue eyes} \mid \text{black hair})$
+        \item $P(\text{brown hair} \mid \text{non-brown eyes})$
+        \item $P(\text{non-green eyes} \mid \text{brown eyes})$
+        \item $P(\text{black hair} \mid \text{blue eyes})$
+      \end{enumerate}
+
+      \item Which of the following events are stochastically independent?
+
+      \begin{enumerate}[a.]
+        \item black hair and green eyes
+        \item black hair and brown hair
+      \end{enumerate}
+
+    \end{enumerate}
+    \end{exercise}
+
+    % \begin{exercise}
+    %   Alex and Bo are Jones' children. Each child is allowed to take two sweets each day and they always do take exactly two sweets each. However, there is also a rule that says that the two sweets have to be different. Today Jones observes that three candy bars are missing and one lollipop. That means that one of the children must have taken the same sweet twice. Ha!
+
+    %   Jones decides to test them. The first child to enter the living room will have to show the content of their right pocket. It turns out that this is Alex who shows Jones a chocolate bar. Should Jones conclude from this that Alex is more or less likely to be the culprit than Bo?
+
+    %   Assume that it is, according to Jones, \emph{a priori} equally likely that either child would enter the living room first (whether they are the culprit or not). Assume also that the kids always have one sweet in one pocket, the other in the other pocket, but it is equally likely which sweet goes into which pocket. Model the situation in analogy to the flip-\&-draw scenario (children are coin flips, pockets are urns) and use Bayes rule to compute the probability that Alex is guilty given that Jones observed a chocolate bar in one of Alex's pockets.
+    % \end{exercise}
   \end{minipage}
 }
 
