@@ -896,6 +896,41 @@ This $Z$ from the previous example happens to be the Binomial distribution with 
 \end{example}
 
 Of course, more fancy mathematical operations, beyond summation, are conceivable, e.g.: $Z = \log(\abs{X}) - \sqrt{Y}$.
+Notice, however, that there are some subtle differences with normal mathematical operations.
+The variable $Y = 2 \mult X$ is not the same as $Z = X + X$ (see exercises below).
+
+\bigskip
+\noindent \colorbox{mygray}{\centering
+  \begin{minipage}{1.0\textwidth}
+
+    \begin{exercise}
+      Let $X_{\text{dice}}$ be the random variable that maps each roll of a fair six-sided dice onto its numerical outcome.
+      \begin{enumerate}
+        \item What is the support of $X_{\text{dice}}$?
+        \item Write down, for each $n$ in the support of $X_{\text{dice}}$, the probability $P(X_{\text{dice}}=n)$.
+      \end{enumerate}
+    \end{exercise}
+
+    \begin{exercise}
+      Let $Z = X_{\text{dice}} + X_{\text{dice}}$ be the composite random variable obtained by adding the number of two (independent) rolls of a fair six-sided dice.
+      \begin{enumerate}
+        \item What is the support of $Z$?
+        \item Write down, for each $n$ in the support of $Z$, the probability $P(Z=n)$.
+        \item What is/are the most likely outcome(s)? What is/are the least likely?
+      \end{enumerate}
+    \end{exercise}
+
+    \begin{exercise}
+      Let $Y = 2 \mult X_{\text{dice}}$ be the composite random variable obtained by throwing a fair six-sided dice once and multiplying the outcome by 2.
+      \begin{enumerate}
+        \item What is the support of $Y$?
+        \item Write down, for each $n$ in the support of $Y$, the probability $P(Y=n)$.
+        \item What is/are the most likely outcome(s)? What is/are the least likely?
+      \end{enumerate}
+    \end{exercise}
+
+  \end{minipage}
+}
 
 
 % \printbibliography
