@@ -21,3 +21,6 @@ auto
 *.md5
 *.auxlock
 *.Rhistory
+/02-slides/06-probability-theory/06-probability-overview-slides.fls
+*.fdb_latexmk
+*.fls
