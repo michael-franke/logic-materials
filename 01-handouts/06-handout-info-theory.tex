@@ -170,7 +170,7 @@ Rather than appealing to deeper mathematical results (such as related to noisy c
 \section{Information content (surprisal)}
 
 Let $P\in \Delta(X)$ be a probability distribution over (finite) set $X$.
-For event $x \in \mathcal{X}$, the \emph{information content} $I_{X}(x)$ of $x$ (a.k.a.~\emph{surprisal} of $x$) under random variable $X$ is defined as:
+For event $x \in X$, the \emph{information content} $I_{P}(x)$ of $x$ (a.k.a.~\emph{surprisal} of $x$) under random variable $X$ is defined as:
 \begin{align*}
   I_{P}(x) = - \log_{2} P(x)
 \end{align*}
@@ -181,14 +181,44 @@ Intuitively speaking, the information content $I_{P}(x)$ is a measure of how sur
 Let $P\in \Delta(X)$ be a probability distribution over (finite) set $X$.
 The \emph{entropy} $\mathcal{H}(P)$ of probability distribution $P$ is the expected information content under the assumption that the true distribution is $P$:\sidenote{Here and below, writing ``true distribution'' or similar formulations does not necessarily entail a strong commitment to actual truth. It is shorthand for more careful but cumbersome language like ``the distribution used as a reference or baseline which we assume to be true or treat as-if true.'' }
 \begin{align*}
-  \mathcal{H}(P) & = \sum_{x \in \mathcal{X}} P(x) \ I_{P}(x) \\
-                 & = - \sum_{x \in \mathcal{X}} P(x) \ \log P(x)
+  \mathcal{H}(P) & = \sum_{x \in X} P(x) \ I_{P}(x) \\
+                 & = - \sum_{x \in X} P(x) \ \log_{2} P(x)
 \end{align*}
 Intuitively speaking, the entropy $\mathcal{H}(P)$ measures the expected (or average) surprisal of an agent whose beliefs are $P$ when the true distribution is $P$.
 
 \begin{itemize}
   \item example
-  \item joint and conditional entropy
+\end{itemize}
+
+\subsection{Joint entropy}
+
+We can generalize the notion of entropy to more than one probability distribution, via a joint probability distribution that encompasses them.
+Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} of $X$ and $Y$ respectively.
+The \emph{joint entropy} $\mathcal{H}(P,Q)$ of $P$ and $Q$ is usually defined as:
+\begin{align*}
+  \mathcal{H}(P, Q) & = - \sum_{x \in X} \sum_{y\in Y} R(x,y) \log_{2} R(x,y)
+\end{align*}
+which is just the entropy of the joint probability distribution $R$:
+\begin{align*}
+  \mathcal{H}(P, Q) = \mathcal{H}(R) = - \sum_{z \in X \times Y} R(z) \log_{2} R(z)
+\end{align*}
+
+\subsection{Conditional entropy}
+
+Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} of $X$ and $Y$ respectively.
+The conditional entropy of $Q$ given $P$ is the expected surprisal of observing an $y$ after having updated our beliefs with the corresponding $x$:
+
+\begin{align*}
+  \mathcal{H}(Q \mid P) & = - \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} R(y \mid x) \\
+                        & = - \sum_{\tuple{x,y} \in X \times Y} R(y \mid x) P(x) \log_{2} R(y \mid x) \\
+                        & = - \underbrace{\sum_{x \in X} P(x)}_{\text{prob.~of $x$}}
+                          \underbrace{\sum_{y \in Y} R(y \mid x) \log_{2} R(y \mid x)}_{\text{entropy of $R(\cdot \mid x)$}}
+\end{align*}
+
+The conditional entropy therefore measures how surprised, on average, an agent with veridical beliefs $R$ is about observations of $y$ after having updated their beliefs already based on an observation of the corresponding $x$.
+
+\begin{itemize}
+  \item example
 \end{itemize}
 
 \section{Cross entropy}
@@ -196,8 +226,8 @@ Intuitively speaking, the entropy $\mathcal{H}(P)$ measures the expected (or ave
 Let $P, Q \in \Delta(X)$ be probability distributions over (finite) set $X$.
 The \emph{cross entropy} $\mathcal{H}(P,Q)$ of probability distributions $P$ and $Q$ measures the expectation of information content given $Q$ from the point of view of (assumed true) distribution $P$:
 \begin{align*}
-  \mathcal{H}(P,Y) & = \sum_{x \in \mathcal{X}} P(x) \ I_{Q}(x) \\
-                   & = - \sum_{x \in \mathcal{X}} P(x) \ \log Q(x)
+  \mathcal{H}(P,Y) & = \sum_{x \in X} P(x) \ I_{Q}(x) \\
+                   & = - \sum_{x \in X} P(x) \ \log Q(x)
 \end{align*}
 Intuitively speaking, the cross entropy $\mathcal{H}(P,Q)$ measures the expected (or average) surprisal of an agent whose beliefs are $Q$ when the true distribution is $P$.
 
