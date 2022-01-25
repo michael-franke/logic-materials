@@ -438,16 +438,12 @@ as a joint probability distribution over $n$ subspaces.
 
 \subsection{Marginalization}
 
-If $P$ is a joint-probability distribution over event space $\Omega = \Omega_1 \times \dots
-\Omega_n$, the \markdef{marginal distribution} over subspace  $\Omega_i$, $1 \le
-i \le n$ is the probability distribution that assigns to all $A_i \subseteq \Omega_i$ the probability:\sidenote{This
-  notation, using $\sum$, assumes that subspaces are countable. In other cases, a parallel
-  definition with integrals can be used.}
+If $P$ is a joint probability distribution over event space $\Omega = \Omega_1 \times \dots \Omega_n$, the \emph{marginal distribution} over subspace  $\Omega_i$, $1 \le i \le n$, is the probability distribution that assigns to all $A_i \subseteq \Omega_i$ the probability (where notation $P(\dots, \omega, \dots )$ is shorthand for $P(\dots, \{\omega \}, \dots)$):\sidenote{This notation, using $\sum$, assumes that subspaces are countable. In other cases, a parallel definition with integrals can be used.}
+
 \begin{align*}
-  P(A_i) = \sum_{A_1 \subseteq \Omega_{1}, \dots , A_{i-1} \subseteq \Omega_{i-1}, A_{i+1} \subseteq \Omega_{i+1}, \dots, A_n \subseteq \Omega_n} P(A_1, \dots, A_{i-1}, A_{i}, A_{i+1}, \dots A_n)
-  % P(A_i) = \sum_{A_1 \subseteq \Omega_{1}, \dots , A_{i-1} \subseteq \Omega_{i-1}, A_{i+1} \subseteq \Omega_{i+1}, \dots, A_n \subseteq
-  %   \Omega_n} P(A_1, \dots, A_{i-1}, A_{i}, A_{i+1}, \dots A_n)
+P(A_i) & = \sum_{\omega_1 \in \Omega_{1}} \sum_{\omega_2 \in \Omega_{2}} \dots  \sum_{\omega_{i-1} \in \Omega_{i-1}} \sum_{\omega_{i+1} \in \Omega_{i+1}} \dots \sum_{\omega_n \in \Omega_n} P(\omega_1, \dots, \omega_{i-1}, A_{i}, \omega_{i+1}, \dots \omega_n)
 \end{align*}
+
 For example, the marginal distribution over coin flips derivable from the joint probability
 distribution in Table~\ref{tab:flip-and-draw:probabilities} gives $P(\text{heads}) = P(\text{tails}) =
 0.5$, since the sum of each row is exactly $0.5$. The marginal distribution over flips
