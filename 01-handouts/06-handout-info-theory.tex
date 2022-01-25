@@ -87,7 +87,7 @@
 
 
 
-\title{Basics of information theory}
+\title{A primer on information theory (for the subjectively perplexed) }
 
 \author[M.~Franke]{Michael Franke}
 
@@ -99,49 +99,97 @@
 
 \begin{abstract}
 \noindent
-Surprisal, entropy, Kullback-Leibler divergence, mutual information.
+Surprisal, entropy (joint, conditional, cross), Kullback-Leibler divergence, mutual information.
 \end{abstract}
 
-The goal of this primer on information theory is to introduce the most salient notions of information theory relevant to common applications in fields like machine learning, computational linguistics or theoretical linguistics.
+\noindent The goal of this primer on information theory is to introduce the most salient notions of information theory relevant to common applications in fields like machine learning, computational linguistics or theoretical linguistics.
 Rather than appealing to deeper mathematical results (such as related to noisy communication channels and efficient coding), this primer explains and motivates the relevant notions from the perspective of (subjective) beliefs.
+
+\section{A measure of information gained}
+
+At the heart of information theory lies a numerical measure of the amount of information learned, so-called \emph{information content} or \emph{surprisal}.
+Let us motivate this measure based on three intuitive desiderata.
+
+\subsection{Motivation}
+
+Suppose that Jones and Smith are uncertain about the weather tomorrow at noon.
+There are only three possible states of the weather $X = \set{\text{sunny}, \text{misty}, \text{rainy}}$.
+Jones' and Smith's subjective beliefs are given in Table~\ref{tab:beliefs-weather}.
+
+\begin{table}
+  \centering
+  \begin{tabular}{lccc}
+    & sunny & cloudy & rainy \\ \midrule
+    Jones' beliefs  & 0.6   & 0.2    & 0.2   \\
+    Smith's beliefs & 0.1   & 0.2    & 0.7   \\
+  \end{tabular}
+
+  \caption{Subjective beliefs about the weather.}
+  \label{tab:beliefs-weather}
+\end{table}
+
+The next day, Jones and Smith both observe that it is in fact sunny.
+Who learns more? Who is more surprised by this turn of events? ---
+Intuitively, since Jones had expected sunny weather, he gains less information than Smith, who had though that this event is rather unlikely.
+In sum, a measure of the ``information learned'' should be sensitive to an agent's prior expectations $P \in D(X)$.
+We therefore aim to define a numerical measure $I_{P}(x)$, which assigns a number representing the information gained by observing $x \ in X$, given prior beliefs $P \in \Delta(X)$.
+
+There are three further desiderata on the measure $I_{P}(x)$:
+\begin{enumerate}
+  \item \textbf{Lower bound.} If an agent is already maximally certain that $x$ would occur, so that $P(x) = 0$, the agent learns nothing from observing $x$, so that $I_{P}(x)=0$.
+  \item \textbf{Monotonicity.} The lower the prior probability of $P(x)$ the more information is gained from (the more surprised the agent is by) observing an event $x \in X$.
+  \item \textbf{Additivity.} If an agent observes two independent events $x_{1}, x_{2} \in X$, the total information gained should be the sum of the information gained from each individual information: $I_{P}(x_{1} \& x_{2}) = I_{P}(x_{1}) I_{P}(x_{2})$.
+\end{enumerate}
+The family of functions that satisfies these desiderata is that of negative logarithms (up to a scaling factor).
+Most frequently, the logarithm to base 2 is used.
+
+\subsection{Information content (surprisal)}
+
+Let $P\in \Delta(X)$ be a probability distribution over (finite) set $X$.
+For event $x \in X$, the \emph{information content} $I_{P}(x)$ of $x$ (a.k.a.~\emph{surprisal} of $x$) under random variable $X$ is defined as:
+\begin{align*}
+  I_{P}(x) = - \log_{2} P(x)
+\end{align*}
+Intuitively speaking, the information content $I_{P}(x)$ is a measure of how surprised an agent with beliefs $P$ is (alternatively: how much the agent learns) when they observe $x$.
+
 
 \begin{figure}
   \centering
-  \begin{tikzpicture}
-\begin{axis}[
-    width      = 8cm,
-    height     = 6cm,
-    axis lines = left,
-    xlabel     = \(x\),
-    ylabel     = {\(\log_{2} x\)},
-]
-%Below the red parabola is defined
-\addplot [
-    domain=-0:4,
-    samples=50,
-    very thick,
-    color=mygray2,
-    ]
-    {log2(x)};
+%   \begin{tikzpicture}
+% \begin{axis}[
+%     width      = 8cm,
+%     height     = 6cm,
+%     axis lines = left,
+%     xlabel     = \(x\),
+%     ylabel     = {\(\log_{2} x\)},
+% ]
+% %Below the red parabola is defined
+% \addplot [
+%     domain=-0:4,
+%     samples=50,
+%     very thick,
+%     color=mygray2,
+%     ]
+%     {log2(x)};
 
-\addplot[
-    mark=none,
-    dotted,
-    domain=-0:4,
-    black,
-    samples=2,
-    ] {0};
+% \addplot[
+%     mark=none,
+%     dotted,
+%     domain=-0:4,
+%     black,
+%     samples=2,
+%     ] {0};
 
-\end{axis}
-\end{tikzpicture}
-\hfill
+% \end{axis}
+% \end{tikzpicture}
+% \hfill
 \begin{tikzpicture}
 \begin{axis}[
     width      = 8cm,
     height     = 6cm,
     axis lines = left,
     xlabel = \(P(x)\),
-    ylabel = {\(\text{Surprisal}( x ) \)},
+    ylabel = {\(I_{P}(x)\)},
 ]
 %Below the red parabola is defined
 \addplot [
@@ -163,28 +211,44 @@ Rather than appealing to deeper mathematical results (such as related to noisy c
 \end{axis}
 \end{tikzpicture}
 
-\caption{Logarithm and surprisal (to base 2).}
+\caption{Information content / surprisal (to base 2) for an event $x$ as a function of its prior probability $P(x)$.}
 \label{fig:log-surprisal}
 \end{figure}
 
-\section{Information content (surprisal)}
+Notice that an agent who assigns $P(x) = 0$ to some event, and sees $x$ happening, is infinitely perplexed (has their mind blown).
 
-Let $P\in \Delta(X)$ be a probability distribution over (finite) set $X$.
-For event $x \in X$, the \emph{information content} $I_{P}(x)$ of $x$ (a.k.a.~\emph{surprisal} of $x$) under random variable $X$ is defined as:
+\section{Measures of expected information content}
+
+The basic measures used in applications of information theory fall in one of two categories.
+For one there are \emph{measures of expected information content}.
+These measures follow the general format:
 \begin{align*}
-  I_{P}(x) = - \log_{2} P(x)
+  \sum_{x \in X} \text{Probability of } x \ \times \text{Info-content of } x
 \end{align*}
-Intuitively speaking, the information content $I_{P}(x)$ is a measure of how surprised an agent with beliefs $P$ is (alternatively: how much the agent learns) when they observe $x$.
+and are discussed in this section.
+Different measures of this format differ in what kind of distributions are used to define the probability of $x$ and the information content of $x$.
 
-\section{Entropy}
+The other class of information-theoretic measures commonly used in applications are \emph{measures of expected difference in information content}.
+These measures instantiating are dealt with in Section~\ref{sec:meas-expect-diff}, and they instantiate the template:
+\begin{align*}
+  \sum_{x \in X} \text{Probability of } x \ \times (\text{ Inf.cont } x \text{ wrt. Q } - \text{ Inf.cont. } x \text{ wrt. P })
+\end{align*}
+where information content is measured based on two different distributions $P$ and $Q$.
+
+\subsection{Entropy}
 
 Let $P\in \Delta(X)$ be a probability distribution over (finite) set $X$.
-The \emph{entropy} $\mathcal{H}(P)$ of probability distribution $P$ is the expected information content under the assumption that the true distribution is $P$:\sidenote{Here and below, writing ``true distribution'' or similar formulations does not necessarily entail a strong commitment to actual truth. It is shorthand for more careful but cumbersome language like ``the distribution used as a reference or baseline which we assume to be true or treat as-if true.'' }
+The \emph{entropy} $\mathcal{H}(P)$ of probability distribution $P$ is the expected information content under the assumption that the true distribution is $P$:\sidenote{
+  Here and below, writing ``true distribution'' or similar formulations does not necessarily entail a strong commitment to actual truth.
+  It is shorthand for more careful but cumbersome language like ``the distribution used as a reference or baseline which we assume to be true or treat as-if true.'' }
+
 \begin{align*}
   \mathcal{H}(P) & = \sum_{x \in X} P(x) \ I_{P}(x) \\
                  & = - \sum_{x \in X} P(x) \ \log_{2} P(x)
 \end{align*}
 Intuitively speaking, the entropy $\mathcal{H}(P)$ measures the expected (or average) surprisal of an agent whose beliefs are $P$ when the true distribution is $P$.
+Entropy can also be interpreted as a measure of uncertainty: the higher the entropy of $P$ the more uncertain an agent an agent with beliefs $P$ is about $X$.
+
 
 \begin{itemize}
   \item example
@@ -192,9 +256,14 @@ Intuitively speaking, the entropy $\mathcal{H}(P)$ measures the expected (or ave
 
 \subsection{Joint entropy}
 
-We can generalize the notion of entropy to more than one probability distribution, via a joint probability distribution that encompasses them.
-Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} of $X$ and $Y$ respectively.
-The \emph{joint entropy} $\mathcal{H}(P,Q)$ of $P$ and $Q$ is usually defined as:
+Joint entropy is entropy for joint probability distributions.\sidenote{
+  Here, we only look at structured spaces with two dimensions. Joint entropy can be generalized to further dimensions in analogous manner.}
+Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in the structured event space $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over $X$ and $Y$ respectively.\sidenote{
+  So, $P(x) = \sum_{y \in Y} R(x,y)$ and similarly for $Q$.
+}
+The \emph{joint entropy} $\mathcal{H}(P,Q)$ of $P$ and $Q$ is defined as:\sidenote{
+  A usual definition of joint entropy is in terms of random variables $X$ and $Y$ and reads as $\mathcal{H}(X, Y) = - \sum_{x \in X} \sum_{y\in Y} P(x,y) \log_{2} P(x,y)$, where it is implicitly assumed that there is an encompassing joint probability distribution $P(x,y)$ over pairs of numbers. Giving the definition in the way we do here makes clear how joint entropy is really nothing special at all, except when you muffle the joint distribution through intransparency with random variable notation.
+}
 \begin{align*}
   \mathcal{H}(P, Q) & = - \sum_{x \in X} \sum_{y\in Y} R(x,y) \log_{2} R(x,y)
 \end{align*}
@@ -203,25 +272,27 @@ which is just the entropy of the joint probability distribution $R$:
   \mathcal{H}(P, Q) = \mathcal{H}(R) = - \sum_{z \in X \times Y} R(z) \log_{2} R(z)
 \end{align*}
 
+\begin{itemize}
+  \item example
+\end{itemize}
+
 \subsection{Conditional entropy}
 
-Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} of $X$ and $Y$ respectively.
-The conditional entropy of $Q$ given $P$ is the expected surprisal of observing an $y$ after having updated our beliefs with the corresponding $x$:
-
+Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over $X$ and $Y$ respectively.
+The conditional entropy of $Q$ given $P$ is the expected surprisal of observing $y$ after having updated beliefs with the corresponding $x$:
 \begin{align*}
   \mathcal{H}(Q \mid P) & = - \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} R(y \mid x) \\
                         & = - \sum_{\tuple{x,y} \in X \times Y} R(y \mid x) P(x) \log_{2} R(y \mid x) \\
                         & = - \underbrace{\sum_{x \in X} P(x)}_{\text{prob.~of $x$}}
                           \underbrace{\sum_{y \in Y} R(y \mid x) \log_{2} R(y \mid x)}_{\text{entropy of $R(\cdot \mid x)$}}
 \end{align*}
-
-The conditional entropy therefore measures how surprised, on average, an agent with veridical beliefs $R$ is about observations of $y$ after having updated their beliefs already based on an observation of the corresponding $x$.
+We can also think about conditional entropy as the average uncertainty of an agent about dimension $Y$ after observing dimension $X$.
 
 \begin{itemize}
   \item example
 \end{itemize}
 
-\section{Cross entropy}
+\subsection{Cross entropy}
 
 Let $P, Q \in \Delta(X)$ be probability distributions over (finite) set $X$.
 The \emph{cross entropy} $\mathcal{H}(P,Q)$ of probability distributions $P$ and $Q$ measures the expectation of information content given $Q$ from the point of view of (assumed true) distribution $P$:
@@ -231,18 +302,26 @@ The \emph{cross entropy} $\mathcal{H}(P,Q)$ of probability distributions $P$ and
 \end{align*}
 Intuitively speaking, the cross entropy $\mathcal{H}(P,Q)$ measures the expected (or average) surprisal of an agent whose beliefs are $Q$ when the true distribution is $P$.
 
-\section{Kullback-Leibler divergence (relative entropy)}
+\begin{itemize}
+  \item example
+\end{itemize}
 
-The \emph{Kullback-Leibler (KL) divergence} (also known as \emph{relative entropy}) measures the expected (or average) difference in information content between the distribution $Q \in \Delta(X)$ and the true distribution $P \in \Delta(X)$:
+\section{Measure of expected difference in information content }
+\label{sec:meas-expect-diff}
+
+
+\subsection{Kullback-Leibler divergence (relative entropy)}
+
+The \emph{Kullback-Leibler (KL) divergence} (also known as \emph{relative entropy}) measures the expected difference in information content between the distribution $Q \in \Delta(X)$ and the true distribution $P \in \Delta(X)$:
 \begin{align*}
-  D_{KL}(P || Q) & = \sum_{x \in \mathcal{X}} P(x) \ \left ( I_{Q}(x) - I_{P}(x) \right ) \\
-  & = \sum_{x \in \mathcal{X}} P(x) \ \log  \frac{P(x)}{Q(x)}
+  D_{KL}(P \,||\, Q) & = \sum_{x \in X} P(x) \ \left ( I_{Q}(x) - I_{P}(x) \right ) \\
+  & = \sum_{x \in X} P(x) \ \log  \frac{P(x)}{Q(x)}
 \end{align*}
-Intuitively speaking, the KL-divergence $D_{KL}(P || Q)$ measures how much more surprised an agent is, on average, when they hold beliefs described by $Q$ instead of the true distribution $P$.
+Intuitively speaking, the KL-divergence $D_{KL}(P \,||\, Q)$ measures how much more surprised an agent is, on average, when they hold beliefs described by $Q$ instead of the true distribution $P$.
 
-KL-divergence $D_{KL}(P || Q)$ can be equivalently written in terms of the entropy $\mathcal{H}(P)$ of $P$ and the cross entropy $\mathcal{H}(P,Q)$:
+KL-divergence $D_{KL}(P \,||\, Q)$ can be equivalently written in terms of the entropy $\mathcal{H}(P)$ of $P$ and the cross entropy $\mathcal{H}(P,Q)$:
 \begin{align*}
-  D_{KL}(P || Q) = \mathcal{H}(P,Q) - \mathcal{H}(P)
+  D_{KL}(P \,||\, Q) = \mathcal{H}(P,Q) - \mathcal{H}(P)
 \end{align*}
 % include this as exercise
 
@@ -254,9 +333,16 @@ KL-divergence $D_{KL}(P || Q)$ can be equivalently written in terms of the entro
 
 \section{Mutual information}
 
+Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over $X$ and $Y$ respectively.
+The \emph{mutual information} $I(P,Q)$ of $P$ and $Q$ is the expected excess surprisal if the dimensions $X$ and $Y$ are assumed to be stochastically independent:
 \begin{align*}
-  I(X;Y) & = \sum_{x \in \mathcal{X}} \sum_{y \in \mathcal{Y}} P(Z)
+  I(X,Y) & = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log \frac{R(x,y)}{P(x) \ Q(y)}
 \end{align*}
+We can write this more intelligibly in terms of the Kullback-Leibler divergence between true distribution $R$ and the distribution $S \in \Delta(X \times Y)$ which is derived from $P$ and $Q$ by assuming that the dimensions $X$ and $Y$ are stochastically independent, so that $S(x,y) = P(x) \ Q(x)$:
+\begin{align*}
+  I(X,Y) & =  D_{KL}(R \,||\, S) = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log \frac{R(x,y)}{S(x,y)}
+\end{align*}
+Intuitively, we may think of mutual information as a measure of how much more (needlessly) surprised an agent is who believes $X$ and $Y$ are stochastically independent (while having correct beliefs of then marginal distributions).
 
 \end{document}
 
