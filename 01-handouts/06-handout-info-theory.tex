@@ -132,7 +132,7 @@ The next day, Jones and Smith both observe that it is in fact sunny.
 Who learns more? Who is more surprised by this turn of events? ---
 Intuitively, since Jones had expected sunny weather, he gains less information than Smith, who had though that this event is rather unlikely.
 In sum, a measure of the ``information learned'' should be sensitive to an agent's prior expectations $P \in D(X)$.
-We therefore aim to define a numerical measure $I_{P}(x)$, which assigns a number representing the information gained by observing $x \ in X$, given prior beliefs $P \in \Delta(X)$.
+We therefore aim to define a numerical measure $I_{P}(x)$, which assigns a number representing the information gained by observing $x \in X$, given prior beliefs $P \in \Delta(X)$.
 
 There are three further desiderata on the measure $I_{P}(x)$:
 \begin{enumerate}
@@ -250,9 +250,45 @@ Intuitively speaking, the entropy $\mathcal{H}(P)$ measures the expected (or ave
 Entropy can also be interpreted as a measure of uncertainty: the higher the entropy of $P$ the more uncertain an agent an agent with beliefs $P$ is about $X$.
 
 
-\begin{itemize}
-  \item example
-\end{itemize}
+\begin{example}
+  The entropy of Jones' beliefs in Table~\ref{tab:beliefs-weather} is:
+  \begin{align*}
+    \mathcal{H}(P_{J})
+ & = - \sum_{x \in \set{\text{sunny}, \text{cloudy}, \text{rainy}}} P_{J}(x) \ \log_{2} P_{J}(x) \\
+ & = - (0.6 \times \log_{2} 0.6
+   +  0.2 \times \log_{2} 0.2
+   +  0.2 \times \log_{2} 0.2) \\
+ & \approx - (0.6 \times -0.74 + 0.4 \times -2.33) \\
+ & \approx 1.37
+  \end{align*}
+  A similar calculation for Smith's beliefs yields: $\mathcal{H}(P_{S}) \approx 1.16$.
+  Smith is slightly less uncertain than Jones about the state of the weather.
+\end{example}
+
+\subsection{Cross entropy}
+
+Let $P, Q \in \Delta(X)$ be probability distributions over (finite) set $X$.
+The \emph{cross entropy} $\mathcal{H}(P,Q)$ of probability distributions $P$ and $Q$ measures the expectation of information content given $Q$ from the point of view of (assumed true) distribution $P$:
+\begin{align*}
+  \mathcal{H}(P,Q) & = \sum_{x \in X} P(x) \ I_{Q}(x) \\
+                   & = - \sum_{x \in X} P(x) \ \log Q(x)
+\end{align*}
+Intuitively speaking, the cross entropy $\mathcal{H}(P,Q)$ measures the expected (or average) surprisal of an agent whose beliefs are $Q$ when the true distribution is $P$.
+
+\begin{example}
+  Suppose that Jones is exactly right.
+  The beliefs $P_{J}$ capture the precise probability of the weather in the limit (when not taking the weather conditions on the previous days into account).
+  Smith's beliefs are therefore not quite in line with reality.
+  The cross entropy $\mathcal{H}(P_{J}, P_{S})$ then measures Smith average surprisal by taking the real-world frequencies to form the expectation and by using Smith's beliefs to define the surprisal:
+  \begin{align*}
+    \mathcal{H}(P_{J}, P_{S}) & = - \sum_{x \in X} P_{J}(x) \ \log P_{S}(x) \\
+    & = -( 0.6 * \log_{2} 0.1  +
+    0.2 * \log_{2} 0.2  +
+      0.2 * \log_{2} 0.7  ) \\
+    & \approx 2.56
+  \end{align*}
+\end{example}
+
 
 \subsection{Joint entropy}
 
@@ -272,39 +308,69 @@ which is just the entropy of the joint probability distribution $R$:
   \mathcal{H}(P, Q) = \mathcal{H}(R) = - \sum_{z \in X \times Y} R(z) \log_{2} R(z)
 \end{align*}
 
-\begin{itemize}
-  \item example
-\end{itemize}
+\begin{example}
+
+Clark also has beliefs about the weather, but theirs are a joint belief $R \in \Delta(X \times Y)$ about the condition of the weather ($X \in \set{\text{sunny}, \text{cloudy}, \text{rainy}} $) and whether the swallow fly high or low in the evening ($Y \in \set{\text{high}, \text{low}}$), as shown in Table~\ref{tab:joint-prob-Clark}.
+
+  \begin{table}
+
+    \begin{tabular}{lcccr}
+           & sunny                 & cloudy                & rainy                 & $\sum$ rows \\ \midrule
+      high & $.6 \times .4 = .24$ & $.2 \times .4 = .08$ & $.2 \times .4 = .08$ & .4 \\
+      low  & $.1 \times .6 = .06$ & $.2 \times .6 = .12$ & $.7 \times .6 = .42$ & .6 \\ \midrule
+      $\sum$ columns & .3 & .2 & .6
+    \end{tabular}
+
+  \caption{Clark's joint probabilistic belief about the flying of swallows in the evening and the weather condition the next day..}
+  \label{tab:joint-prob-Clark}
+
+\end{table}
+
+\medskip
+
+  The joint entropy of Clark's beliefs can be calculated as:
+  \begin{align*}
+    \mathcal{H}(R) & = - \sum_{x \in \set{\text{sunny}, \text{cloudy}, \text{rainy}}} \sum_{y \in \set{\text{high}, \text{low}}} R(x,y) \ \log_{2} R(x,y) \\
+                   & = - (.24 \log_{2} .24  +
+                     .08 \log_{2} .08  +
+                     .08 \log_{2} .08  +
+                     .06 \log_{2} .06  +
+                     \dots
+                     ) \\
+    & \approx 2.22
+  \end{align*}
+
+
+\end{example}
 
 \subsection{Conditional entropy}
 
 Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over $X$ and $Y$ respectively.
 The conditional entropy of $Q$ given $P$ is the expected surprisal of observing $y$ after having updated beliefs with the corresponding $x$:
 \begin{align*}
-  \mathcal{H}(Q \mid P) & = - \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} R(y \mid x) \\
-                        & = - \sum_{\tuple{x,y} \in X \times Y} R(y \mid x) P(x) \log_{2} R(y \mid x) \\
-                        & = - \underbrace{\sum_{x \in X} P(x)}_{\text{prob.~of $x$}}
-                          \underbrace{\sum_{y \in Y} R(y \mid x) \log_{2} R(y \mid x)}_{\text{entropy of $R(\cdot \mid x)$}}
+  \mathcal{H}(P \mid Q) & = - \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} R(x \mid y) \\
+                        & = - \sum_{\tuple{x,y} \in X \times Y} R(x \mid y) Q(y) \log_{2} R(x \mid y) \\
+                        & = - \underbrace{\sum_{y \in Y} Q(y)}_{\text{prob.~of $y$}}
+                          \underbrace{\sum_{x \in X} R(x \mid y) \log_{2} R(x \mid y)}_{\text{entropy of $R(\cdot \mid y)$}}
 \end{align*}
 We can also think about conditional entropy as the average uncertainty of an agent about dimension $Y$ after observing dimension $X$.
 
-\begin{itemize}
-  \item example
-\end{itemize}
-
-\subsection{Cross entropy}
-
-Let $P, Q \in \Delta(X)$ be probability distributions over (finite) set $X$.
-The \emph{cross entropy} $\mathcal{H}(P,Q)$ of probability distributions $P$ and $Q$ measures the expectation of information content given $Q$ from the point of view of (assumed true) distribution $P$:
-\begin{align*}
-  \mathcal{H}(P,Y) & = \sum_{x \in X} P(x) \ I_{Q}(x) \\
-                   & = - \sum_{x \in X} P(x) \ \log Q(x)
-\end{align*}
-Intuitively speaking, the cross entropy $\mathcal{H}(P,Q)$ measures the expected (or average) surprisal of an agent whose beliefs are $Q$ when the true distribution is $P$.
-
-\begin{itemize}
-  \item example
-\end{itemize}
+\begin{example}
+  Suppose that Clark observes the swallows every night and then makes a weather prediction.
+  If $P \in X$ captures Clark's marginal beliefs about the weather and $Q \in Y$ those about the swallows flying, then, from Clark's subjective point of view, the expected surprisal of their weather predictions after having observed the swallows flying is given by the conditional entropy:
+  \begin{align*}
+    \mathcal{H}(P \mid Q) & = - \sum_{y \in Y} Q(y)
+                          \sum_{x \in X} R(x \mid y) \log_{2} R(x \mid y) \\
+                          & = Q(\text{high}) \ [ R(\text{sunny} \mid \text{high}) \ \log_{2} R(\text{sunny} \mid \text{high})  \\
+                          & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + R(\text{cloudy} \mid \text{high}) \ \log_{2} R(\text{cloudy} \mid \text{high}) \\
+                          & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + R(\text{rainy} \mid \text{high}) \ \log_{2} R(\text{rainy } \mid \text{high}) ] + \\
+                           &\ \ \  \ \ \ Q(\text{low}) \ [ R(\text{sunny} \mid \text{low}) \ \log_{2} R(\text{sunny} \mid \text{low})  \\
+                          & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + R(\text{cloudy} \mid \text{low}) \ \log_{2} R(\text{cloudy} \mid \text{low}) \\
+                          & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + R(\text{rainy} \mid \text{low}) \ \log_{2} R(\text{rainy } \mid \text{low}) ] \\
+                          & = 0.4 [0.6 \log_{2} 0.6 +  0.2 \log_{2} 0.2 + 0.2 \log_{2} 0.2] + \\
+    & \ \ \ \ 0.6 [0.1 \log_{2} 0.1 +  0.2 \log_{2} 0.2 + 0.7 \log_{2} 0.7]
+  \end{align*}
+\end{example}
 
 \section{Measure of expected difference in information content }
 \label{sec:meas-expect-diff}
@@ -343,6 +409,34 @@ We can write this more intelligibly in terms of the Kullback-Leibler divergence 
   I(X,Y) & =  D_{KL}(R \,||\, S) = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log \frac{R(x,y)}{S(x,y)}
 \end{align*}
 Intuitively, we may think of mutual information as a measure of how much more (needlessly) surprised an agent is who believes $X$ and $Y$ are stochastically independent (while having correct beliefs of then marginal distributions).
+
+\bigskip
+\noindent \colorbox{mygray}{\centering
+  \begin{minipage}{1.0\textwidth}
+
+
+    \begin{exercise}
+      Roberts and Carpenter hold the following beliefs about the weather:
+
+      \begin{center}
+        \begin{tabular}{lcccc}
+                              & sunny & cloudy & rainy & storm \\ \midrule
+          Roberts beliefs     & 0.1   & 0.6    & 0.2   & 0.1 \\
+          Carpenter's beliefs & 0.4   & 0.1    & 0.3   & 0.2 \\
+        \end{tabular}
+      \end{center}
+
+        Calculate the entropy of their beliefs. Who is more uncertain?
+    \end{exercise}
+
+    \begin{exercise}
+      Proof that indeed, as claimed above, $D_{KL}(P \,||\, Q) = \mathcal{H}(P,Q) - \mathcal{H}(P)$
+    \end{exercise}
+
+  \end{minipage}
+}
+
+
 
 \end{document}
 
