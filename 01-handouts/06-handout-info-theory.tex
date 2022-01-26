@@ -142,20 +142,26 @@ There are three further desiderata on the measure $I_{P}(x)$:
 \begin{enumerate}
   \item \textbf{Lower bound.} If an agent is already maximally certain that $x$ would occur, so that $P(x) = 0$, the agent learns nothing from observing $x$, so that $I_{P}(x)=0$.
   \item \textbf{Monotonicity.} The lower the prior probability of $P(x)$ the more information is gained from (the more surprised the agent is by) observing an event $x \in X$.
-  \item \textbf{Additivity.} If an agent observes two independent events $x_{1}, x_{2} \in X$, the total information gained should be the sum of the information gained from each individual information: $I_{P}(x_{1} \& x_{2}) = I_{P}(x_{1}) I_{P}(x_{2})$.
+  \item \textbf{Additivity.} If an agent observes two independent events $x_{1}, x_{2} \in X$, the total information gained should be the sum of the information gained from each individual information: $I_{P}(x_{1} \& x_{2}) = I_{P}(x_{1}) + I_{P}(x_{2})$.
 \end{enumerate}
-The family of functions that satisfies these desiderata is that of negative logarithms (up to a scaling factor).
-Most frequently, the logarithm to base 2 is used.
 
 \subsection{Information content (surprisal)}
 
-Let $P\in \Delta(X)$ be a probability distribution over (finite) set $X$.
+The family of functions that satisfies these desiderata is that of negative logarithms (up to a scaling factor).
+Most frequently, the logarithm to base 2 is used.
+
+Let $P\in \Delta(X)$ be a probability distribution over (finite) set $X$.\sidenote{
+  All definitions in this primer are given only for finite sets.
+  Analogous definitions exist for uncountable sets.
+  Intuitions behind concepts remain the same and are the focus at present.
+}
 For event $x \in X$, the \emph{information content} $I_{P}(x)$ of $x$ (a.k.a.~\emph{surprisal} of $x$) under random variable $X$ is defined as:
 \begin{align*}
   I_{P}(x) = - \log_{2} P(x)
 \end{align*}
 Intuitively speaking, the information content $I_{P}(x)$ is a measure of how surprised an agent with beliefs $P$ is (alternatively: how much the agent learns) when they observe $x$.
-
+Figure~\ref{fig:log-surprisal} shows the information content $I_{P}(x)$ as a function of $P(x)$.
+Notice that an agent who assigns $P(x) = 0$ to some event, and sees $x$ happening, is infinitely perplexed (has their mind blown).
 
 \begin{figure}
   \centering
@@ -219,21 +225,79 @@ Intuitively speaking, the information content $I_{P}(x)$ is a measure of how sur
 \label{fig:log-surprisal}
 \end{figure}
 
-Notice that an agent who assigns $P(x) = 0$ to some event, and sees $x$ happening, is infinitely perplexed (has their mind blown).
+\subsection{Excursion: Background on logarithms}
+
+The logarithm is the inverse function to exponentiation:
+\begin{align*}
+   x = a^{y} \ \ \ \  \Leftrightarrow  \ \ \ \  y = \log_{a} x
+\end{align*}
+Here, $a > 0$ is called the \emph{base} of the logarithm.
+Since $a^{y}$ is always positive, the logarithm takes as input only positive numbers $x$.
+Figure~\ref{fig:logarithm} shows the logarithm to base 2.
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+\begin{axis}[
+    width      = 8cm,
+    height     = 6cm,
+    axis lines = left,
+    xlabel     = \(x\),
+    ylabel     = {\(\log_{2} x\)},
+]
+%Below the red parabola is defined
+\addplot [
+    domain=-0:4,
+    samples=50,
+    very thick,
+    color=mygray2,
+    ]
+    {log2(x)};
+
+\addplot[
+    mark=none,
+    dotted,
+    domain=-0:4,
+    black,
+    samples=2,
+    ] {0};
+
+\end{axis}
+\end{tikzpicture}
+
+\caption{Logarithm to base 2.}
+\label{fig:logarithm}
+\end{figure}
+
+For present purposes, the following calculation rules are important:\sidenote{
+  The first equation is what justifies using logarithms to fulfill the desideratum ``additivity'' given above.
+  The second equation will be used in more compact formulations of Kullback-Leibler divergence and mutual information.}
+\begin{align*}
+  \log_{a}( x y ) & = \log_{a} x + \log_{a} y \\
+  \log_{a} \frac{x}{y} & = \log_{a} x - \log_{a} y
+\end{align*}
+Notice that we can also transform bases of logarithms as follows:
+\begin{align*}
+  \log_{b} x = \frac{\log_{a} x}{\log_{a} b}
+\end{align*}
+Since $\log_{a} b$ is a constant (independent of $x$), the choice of base in the definition of information content is, mathematically speaking, arbitrary.\sidenote{
+  Our choice of 2 does relate to ideas from theoretical computer science, though, namely the idea to encode information in binary code.
+  But that is not necessary to understand the rationale for the use of information theoretic notions in general.}
+
 
 \section{Measures of expected information content}
 
-The basic measures used in applications of information theory fall in one of two categories.
+The most frequently used measures of information theory fall into one of two categories.
 For one there are \emph{measures of expected information content}.
-These measures follow the general format:
+These measures are discussed in this section.
+They follow the general format:
 \begin{align*}
   \sum_{x \in X} \text{Probability of } x \ \times \text{Info-content of } x
 \end{align*}
-and are discussed in this section.
 Different measures of this format differ in what kind of distributions are used to define the probability of $x$ and the information content of $x$.
 
 The other class of information-theoretic measures commonly used in applications are \emph{measures of expected difference in information content}.
-These measures instantiating are dealt with in Section~\ref{sec:meas-expect-diff}, and they instantiate the template:
+These measures are dealt with in Section~\ref{sec:meas-expect-diff}, and they instantiate the template:
 \begin{align*}
   \sum_{x \in X} \text{Probability of } x \ \times (\text{ Inf.cont } x \text{ wrt. Q } - \text{ Inf.cont. } x \text{ wrt. P })
 \end{align*}
@@ -242,16 +306,19 @@ where information content is measured based on two different distributions $P$ a
 \subsection{Entropy}
 
 Let $P\in \Delta(X)$ be a probability distribution over (finite) set $X$.
-The \emph{entropy} $\mathcal{H}(P)$ of probability distribution $P$ is the expected information content under the assumption that the true distribution is $P$:\sidenote{
+The \emph{entropy} $\mathcal{H}(P)$ of $P$ is the expected information content under the assumption that the true distribution is $P$:\sidenote{
   Here and below, writing ``true distribution'' or similar formulations does not necessarily entail a strong commitment to actual truth.
-  It is shorthand for more careful but cumbersome language like ``the distribution used as a reference or baseline which we assume to be true or treat as-if true.'' }
+  It is shorthand for more careful but cumbersome language like ``the distribution used as a reference or baseline which we assume to be true or treat as if true.'' }\sidenote{
+  We follow common practice here and assume that $0 \log_{a} 0$ = $0$.
+  This is justified because $\lim_{x \rightarrow 0^{+}} x \log_{a} x$ = $0$.
+}
 
 \begin{align*}
   \mathcal{H}(P) & = \sum_{x \in X} P(x) \ I_{P}(x) \\
                  & = - \sum_{x \in X} P(x) \ \log_{2} P(x)
 \end{align*}
 Intuitively speaking, the entropy $\mathcal{H}(P)$ measures the expected (or average) surprisal of an agent whose beliefs are $P$ when the true distribution is $P$.
-Entropy can also be interpreted as a measure of uncertainty: the higher the entropy of $P$ the more uncertain an agent an agent with beliefs $P$ is about $X$.
+Entropy can also be interpreted as a measure of uncertainty: the higher the entropy of $P$ the more uncertain an agent with beliefs $P$ is about $X$.
 
 
 \begin{example}
@@ -259,10 +326,10 @@ Entropy can also be interpreted as a measure of uncertainty: the higher the entr
   \begin{align*}
     \mathcal{H}(P_{J})
  & = - \sum_{x \in \set{\text{sunny}, \text{cloudy}, \text{rainy}}} P_{J}(x) \ \log_{2} P_{J}(x) \\
- & = - (0.6 \times \log_{2} 0.6
-   +  0.2 \times \log_{2} 0.2
-   +  0.2 \times \log_{2} 0.2) \\
- & \approx - (0.6 \times -0.74 + 0.4 \times -2.33) \\
+ & = - (0.6  \log_{2} 0.6
+   +  0.2  \log_{2} 0.2
+   +  0.2  \log_{2} 0.2) \\
+ % & \approx - (0.6 \times -0.74 + 0.4 \times -2.33) \\
  & \approx 1.37
   \end{align*}
   A similar calculation for Smith's beliefs yields: $\mathcal{H}(P_{S}) \approx 1.16$.
@@ -283,12 +350,12 @@ Intuitively speaking, the cross entropy $\mathcal{H}(P,Q)$ measures the expected
   Suppose that Jones is exactly right.
   The beliefs $P_{J}$ capture the precise probability of the weather in the limit (when not taking the weather conditions on the previous days into account).
   Smith's beliefs are therefore not quite in line with reality.
-  The cross entropy $\mathcal{H}(P_{J}, P_{S})$ then measures Smith average surprisal by taking the real-world frequencies to form the expectation and by using Smith's beliefs to define the surprisal:
+  The cross entropy $\mathcal{H}(P_{J}, P_{S})$ then measures Smith's average surprisal by taking the real-world frequencies $P_{J}$ to form the expectation and by using Smith's beliefs $P_{S}$ to define the surprisal:
   \begin{align*}
     \mathcal{H}(P_{J}, P_{S}) & = - \sum_{x \in X} P_{J}(x) \ \log P_{S}(x) \\
-    & = -( 0.6 * \log_{2} 0.1  +
-    0.2 * \log_{2} 0.2  +
-      0.2 * \log_{2} 0.7  ) \\
+    & = -( 0.6 \log_{2} 0.1  +
+    0.2 \log_{2} 0.2  +
+      0.2 \log_{2} 0.7  ) \\
     & \approx 2.56
   \end{align*}
 \end{example}
@@ -298,11 +365,11 @@ Intuitively speaking, the cross entropy $\mathcal{H}(P,Q)$ measures the expected
 
 Joint entropy is entropy for joint probability distributions.\sidenote{
   Here, we only look at structured spaces with two dimensions. Joint entropy can be generalized to further dimensions in analogous manner.}
-Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in the structured event space $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over $X$ and $Y$ respectively.\sidenote{
-  So, $P(x) = \sum_{y \in Y} R(x,y)$ and similarly for $Q$.
+Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in the structured (finite) event space $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over $X$ and $Y$ respectively.\sidenote{
+  $P(x) = \sum_{y \in Y} R(x,y)$.
 }
 The \emph{joint entropy} $\mathcal{H}(P,Q)$ of $P$ and $Q$ is defined as:\sidenote{
-  A usual definition of joint entropy is in terms of random variables $X$ and $Y$ and reads as $\mathcal{H}(X, Y) = - \sum_{x \in X} \sum_{y\in Y} P(x,y) \log_{2} P(x,y)$, where it is implicitly assumed that there is an encompassing joint probability distribution $P(x,y)$ over pairs of numbers. Giving the definition in the way we do here makes clear how joint entropy is really nothing special at all, except when you muffle the joint distribution through intransparency with random variable notation.
+  Frequently used definitions of joint entropy use random variables $X$ and $Y$ and read as $\mathcal{H}(X, Y) $ = $ - \sum_{x \in X} \sum_{y\in Y} P(x,y) \log_{2} P(x,y)$, where it is implicitly assumed that there is an encompassing joint probability distribution $P(x,y)$ over pairs of numbers. Giving the definition in the way we do here is more general (beyond random variables), but also makes clear how joint entropy is really nothing special at all, except when you muffle the joint distribution through intransparency with random variable notation.
 }
 \begin{align*}
   \mathcal{H}(P, Q) & = - \sum_{x \in X} \sum_{y\in Y} R(x,y) \log_{2} R(x,y)
@@ -314,7 +381,7 @@ which is just the entropy of the joint probability distribution $R$:
 
 \begin{example}
 
-Clark also has beliefs about the weather, but theirs are a joint belief $R \in \Delta(X \times Y)$ about the condition of the weather ($X \in \set{\text{sunny}, \text{cloudy}, \text{rainy}} $) and whether the swallow fly high or low in the evening ($Y \in \set{\text{high}, \text{low}}$), as shown in Table~\ref{tab:joint-prob-Clark}.
+Clark also has beliefs about the weather, but theirs are a joint belief $R \in \Delta(X \times Y)$ about the condition of the weather ($X \in \set{\text{sunny}, \text{cloudy}, \text{rainy}} $) and whether the swallows fly high or low in the evening ($Y \in \set{\text{high}, \text{low}}$), as shown in Table~\ref{tab:joint-prob-Clark}.
 
   \begin{table}
 
@@ -349,8 +416,8 @@ Clark also has beliefs about the weather, but theirs are a joint belief $R \in \
 
 \subsection{Conditional entropy}
 
-Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over $X$ and $Y$ respectively.
-The conditional entropy of $Q$ given $P$ is the expected surprisal of observing $y$ after having updated beliefs with the corresponding $x$:
+Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over (finite) $X$ and $Y$ respectively.
+The conditional entropy of $Q$ given $P$ is the expected surprisal of observing $y$ after having already observed (and processed) a corresponding $x$:
 \begin{align*}
   \mathcal{H}(P \mid Q) & = - \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} R(x \mid y) \\
                         & = - \sum_{\tuple{x,y} \in X \times Y} R(x \mid y) Q(y) \log_{2} R(x \mid y) \\
@@ -361,7 +428,7 @@ We can also think about conditional entropy as the average uncertainty of an age
 
 \begin{example}
   Suppose that Clark observes the swallows every night and then makes a weather prediction.
-  If $P \in X$ captures Clark's marginal beliefs about the weather and $Q \in Y$ those about the swallows flying, then, from Clark's subjective point of view, the expected surprisal of their weather predictions after having observed the swallows flying is given by the conditional entropy:
+  If $P \in \Delta(X)$ captures Clark's marginal beliefs about the weather and $Q \in \Delta(Y)$ those about the swallows flying, then, from Clark's subjective point of view, the expected surprisal of their weather predictions after having observed the swallows is given by the conditional entropy:
   \begin{align*}
     \mathcal{H}(P \mid Q) & = - \sum_{y \in Y} Q(y)
                           \sum_{x \in X} R(x \mid y) \log_{2} R(x \mid y) \\
@@ -372,11 +439,12 @@ We can also think about conditional entropy as the average uncertainty of an age
                           & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + R(\text{cloudy} \mid \text{low}) \ \log_{2} R(\text{cloudy} \mid \text{low}) \\
                           & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + R(\text{rainy} \mid \text{low}) \ \log_{2} R(\text{rainy } \mid \text{low}) ] \\
                           & = 0.4 [0.6 \log_{2} 0.6 +  0.2 \log_{2} 0.2 + 0.2 \log_{2} 0.2] + \\
-    & \ \ \ \ 0.6 [0.1 \log_{2} 0.1 +  0.2 \log_{2} 0.2 + 0.7 \log_{2} 0.7]
+                          & \ \ \ \ 0.6 [0.1 \log_{2} 0.1 +  0.2 \log_{2} 0.2 + 0.7 \log_{2} 0.7] \\
+     & \approx \textcolor{red}{???}
   \end{align*}
 \end{example}
 
-\section{Measure of expected difference in information content }
+\section{Measures of expected difference in information content }
 \label{sec:meas-expect-diff}
 
 
