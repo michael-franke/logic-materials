@@ -86,8 +86,7 @@
 % \linespread{1.05}
 
 
-
-\title{A primer on information theory (for the subjectively perplexed) }
+\title{A primer on information theory}
 
 \author[M.~Franke]{Michael Franke}
 
@@ -104,8 +103,8 @@ Notions covered: information content / surprisal, entropy (joint, conditional, c
 
 \noindent
 Information-theoretic notions ---like entropy, Kullback-Leibler divergence or mutual information--- have many useful applications in fields like statistics, machine learning or computational linguistics.
-These notions are anchored in mathematical results related to efficient coding of information and communication via noisy channels.
-However, in order to understand which notion to use when and why in concrete applications, this theoretical grounding in deep and important, but abstract mathematical results is not always relevant, sometimes possibly even a distraction.
+These notions are anchored in important mathematical results related to efficient coding of information and communication via noisy channels.
+However, in order to understand which notion to use when and why in concrete applications, this theoretical grounding in deep and important, but abstract mathematical theory is not always relevant, sometimes possibly even a distraction.
 For the student interested in applications, explanations in terms of ``minimal number of questions asked'' or similar can be needlessly confusing at first.
 This primer therefore attempts to give a systematic overview of the most salient notions of information theory in terms of what is arguably the pre-theoretically most intuitive perspective: vocabulary about the subjective beliefs of agents.
 
@@ -389,7 +388,7 @@ Clark also has beliefs about the weather, but theirs are a joint belief $R \in \
            & sunny                 & cloudy                & rainy                 & $\sum$ rows \\ \midrule
       high & $.6 \times .4 = .24$ & $.2 \times .4 = .08$ & $.2 \times .4 = .08$ & .4 \\
       low  & $.1 \times .6 = .06$ & $.2 \times .6 = .12$ & $.7 \times .6 = .42$ & .6 \\ \midrule
-      $\sum$ columns & .3 & .2 & .6
+      $\sum$ columns & .3 & .2 & .5
     \end{tabular}
 
   \caption{Clark's joint probabilistic belief about the flying of swallows in the evening and the weather condition the next day..}
@@ -440,13 +439,18 @@ We can also think about conditional entropy as the average uncertainty of an age
                           & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + R(\text{rainy} \mid \text{low}) \ \log_{2} R(\text{rainy } \mid \text{low}) ] \\
                           & = 0.4 [0.6 \log_{2} 0.6 +  0.2 \log_{2} 0.2 + 0.2 \log_{2} 0.2] + \\
                           & \ \ \ \ 0.6 [0.1 \log_{2} 0.1 +  0.2 \log_{2} 0.2 + 0.7 \log_{2} 0.7] \\
-     & \approx \textcolor{red}{???}
+     & \approx 1.01
   \end{align*}
 \end{example}
 
 \section{Measures of expected difference in information content }
 \label{sec:meas-expect-diff}
 
+Measures of expected difference in information content essentially compare two probability distributions $P$ and $Q$ following the pattern:
+\begin{align*}
+  \sum_{x \in X} \text{Probability of } x \ \times (\text{ Inf.cont } x \text{ wrt. Q } - \text{ Inf.cont. } x \text{ wrt. P })
+\end{align*}
+In general, these measures can be thought of answers to a question like: ``how much more, on average, would an agent using $Q$ be (needlessly) surprised if the true distribution is $P$?''
 
 \subsection{Kullback-Leibler divergence (relative entropy)}
 
@@ -457,21 +461,42 @@ The \emph{Kullback-Leibler (KL) divergence} (also known as \emph{relative entrop
 \end{align*}
 Intuitively speaking, the KL-divergence $D_{KL}(P \,||\, Q)$ measures how much more surprised an agent is, on average, when they hold beliefs described by $Q$ instead of the true distribution $P$.
 
-KL-divergence $D_{KL}(P \,||\, Q)$ can be equivalently written in terms of the entropy $\mathcal{H}(P)$ of $P$ and the cross entropy $\mathcal{H}(P,Q)$:
+KL-divergence $D_{KL}(P \,||\, Q)$ can be equivalently written in terms of the entropy $\mathcal{H}(P)$ of $P$ and the cross entropy $\mathcal{H}(P,Q)$:\sidenote{
+  This reformulation shows that KL-divergence and cross-entropy are exchangeable when the task is to find a distribution $Q$ that approximates a true distribution $P$ (e.g., in machine learning).
+  KL-divergence and cross-entropy are exchangeable in such an optimization context since the only difference is a constant additive term $\mathcal{H}(P)$ which does not depend on the to-be-optimized $Q$.
+}
 \begin{align*}
   D_{KL}(P \,||\, Q) = \mathcal{H}(P,Q) - \mathcal{H}(P)
 \end{align*}
 % include this as exercise
 
-\begin{itemize}
-  \item examples
-  \item not a metric
-\end{itemize}
+\begin{example}
+  Let's assume, again, that Jones' beliefs $P_{J}$ are the true distribution.
+  We want to compute the divergence of Smith's $P_{S}$ beliefs from those of Jones'.
+  \begin{align*}
+    D_{KL}(P_{J} \,||\, P_{S}) & = \sum_{x \in X} P_{J}(x) \log  \frac{P_{J}(x)}{P_{S}(x)} \\
+                               & = 0.6 \log \frac{0.6}{0.1} +
+                                 0.2 \log \frac{0.2}{0.2} +
+                                 0.2 \log \frac{0.2}{0.7} \\
+    & \approx 1.19
+  \end{align*}
+  If, reversely, we assume that Smith's beliefs are the ground-truth, and compute the divergence of Jones' beliefs from Smith's the result is:
+  \begin{align*}
+    D_{KL}(P_{S} \,||\, P_{J}) & = \sum_{x \in X} P_{S}(x) \log  \frac{P_{S}(x)}{P_{J}(x)} \\
+                               & = 0.1 \log \frac{0.1}{0.6} +
+                                   0.2 \log \frac{0.2}{0.2} +
+                                   0.7 \log \frac{0.7}{0.2} \\
+    & \approx 1.01
+  \end{align*}
+  This shows that KL-divergence is not a symmetric measure.\sidenote{
+    KL-divergence is therefore not a distance metric (like geometrical distance).
+  }
+\end{example}
 
 
 \section{Mutual information}
 
-Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over $X$ and $Y$ respectively.
+Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over (finite) $X$ and $Y$ respectively.
 The \emph{mutual information} $I(P,Q)$ of $P$ and $Q$ is the expected excess surprisal if the dimensions $X$ and $Y$ are assumed to be stochastically independent:
 \begin{align*}
   I(X,Y) & = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log \frac{R(x,y)}{P(x) \ Q(y)}
@@ -480,7 +505,44 @@ We can write this more intelligibly in terms of the Kullback-Leibler divergence 
 \begin{align*}
   I(X,Y) & =  D_{KL}(R \,||\, S) = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log \frac{R(x,y)}{S(x,y)}
 \end{align*}
-Intuitively, we may think of mutual information as a measure of how much more (needlessly) surprised an agent is who believes $X$ and $Y$ are stochastically independent (while having correct beliefs of then marginal distributions).
+Intuitively, we may think of mutual information as a measure of how much more (needlessly) surprised an agent is who believes $X$ and $Y$ are stochastically independent (while having correct beliefs about the marginal distributions).
+
+\begin{example}
+  Clark has the joint probability distribution $R \in \Delta(X \times Y)$ in Table~\ref{tab:joint-prob-Clark}, whose marginal distributions are $P \in \Delta(X)$ (beliefs about the weather) and $Q \in \Delta(Y)$ (beliefs about the swallows).
+  Clark's beliefs are repeated here from above:
+  \begin{center}
+    \begin{tabular}{lcccr}
+                     & sunny & cloudy & rainy & $\sum$ rows \\ \midrule
+      high           & $.24$ & $.08$  & $.08$ & .4 \\
+      low            & $.06$ & $.12$  & $.42$ & .6 \\ \midrule
+      $\sum$ columns & .3    & .2     & .5
+    \end{tabular}
+
+  \end{center}
+  Jackson has a joint probability distribution $S \in \Delta(X \times Y)$ which assigns the same probabilities to the (marginal) events ``weather condition'' and ``swallows' flying height,'' but which assumes that these dimensions are independent, so that $S(x,y) = P(x) \ Q(y)$.
+  This means that Jackson's beliefs are these:
+  \begin{center}
+    \begin{tabular}{lcccr}
+                     & sunny & cloudy & rainy & $\sum$ rows \\ \midrule
+      high           & $.12$ & $.08$  & $.20$ & .4 \\
+      low            & $.18$ & $.12$  & $.30$ & .6 \\ \midrule
+      $\sum$ columns & .3    & .2     & .5
+    \end{tabular}
+  \end{center}
+  If Clark's beliefs are the reference distribution, how much more surprised will Clark be about the occurrence of pairs $\tuple{x,y}$ on average?
+  \begin{align*}
+    I(X,Y) & =  D_{KL}(R \,||\, S) = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log \frac{R(x,y)}{S(x,y)} \\
+           & = R(\text{sunny} , \text{high}) \ \log_{2} \frac{R(\text{sunny} , \text{high})}{Q(\text{sunny} , \text{high})}  \\
+           & \ \ \ \ \ \ \ \ \ \ \ + R(\text{cloudy} , \text{high}) \ \log_{2} \frac{R(\text{cloudy} , \text{high})}{Q(\text{cloudy} , \text{high})} \\
+           & \ \ \ \ \ \ \ \ \ \ \ + R(\text{rainy} , \text{high}) \ \log_{2} \frac{R(\text{rainy } , \text{high})}{Q(\text{rainy } , \text{high})} \\
+           & \ \ \ \ +  R(\text{sunny} , \text{low}) \ \log_{2} \frac{R(\text{sunny} , \text{low})}{Q(\text{sunny} , \text{low})}  \\
+           & \ \ \ \ \ \ \ \ \ \ \ + R(\text{cloudy} , \text{low}) \ \log_{2} \frac{R(\text{cloudy} , \text{low})}{Q(\text{cloudy} , \text{low})} \\
+           & \ \ \ \ \ \ \ \ \ \ \ + R(\text{rainy} , \text{low}) \ \log_{2} \frac{R(\text{rainy } , \text{low})}{Q(\text{rainy } , \text{low})} \\
+    & \approx 0.24
+  \end{align*}
+\end{example}
+
+\newpage
 
 \bigskip
 \noindent \colorbox{mygray}{\centering
@@ -493,7 +555,7 @@ Intuitively, we may think of mutual information as a measure of how much more (n
       \begin{center}
         \begin{tabular}{lcccc}
                               & sunny & cloudy & rainy & storm \\ \midrule
-          Roberts beliefs     & 0.1   & 0.6    & 0.2   & 0.1 \\
+          Roberts' beliefs     & 0.1   & 0.6    & 0.2   & 0.1 \\
           Carpenter's beliefs & 0.4   & 0.1    & 0.3   & 0.2 \\
         \end{tabular}
       \end{center}
@@ -502,7 +564,39 @@ Intuitively, we may think of mutual information as a measure of how much more (n
     \end{exercise}
 
     \begin{exercise}
+      Let the true distribution over weather conditions (ignoring dependencies between consecutive days) be:
+
+      \begin{center}
+        \begin{tabular}{lcccc}
+                       & sunny & cloudy & rainy & storm \\ \midrule
+          ground truth & 0.7   & 0.1    & 0   & 0.2 \\
+        \end{tabular}
+      \end{center}
+
+      Calculate the cross-entropy of Robert's and Carpenter's belief with respect to this reference distribution.
+      Can you guess who will be more suprised on average?
+
+    \end{exercise}
+
+    \begin{exercise}
+
+      Calculate the KL-divergence between the reference distribution from the previous exercise and Robert's and Carpenter's beliefs (each). (Hint: you might be able to use some results from other exercises.)
+
+    \end{exercise}
+
+    \begin{exercise}
       Proof that indeed, as claimed above, $D_{KL}(P \,||\, Q) = \mathcal{H}(P,Q) - \mathcal{H}(P)$
+    \end{exercise}
+
+    \begin{exercise}
+      Decide for each of the following claims whether it is true or false?
+      \begin{enumerate}[(i)]
+        \item Kullback-Leibler divergence is a special case of mutual information.
+        \item Kullback-Leibler divergence is a measure of expected information content of the reference distribution.
+        \item Joint entropy measures the entropy of joint probability distributions.
+        \item Entropy is a measure of the information gained from a single observation.
+        \item Mutual information could be used to measure the extent to which making an assumption of stochastic independence is severe.
+      \end{enumerate}
     \end{exercise}
 
   \end{minipage}
