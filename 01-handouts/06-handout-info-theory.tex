@@ -99,16 +99,19 @@
 
 \begin{abstract}
 \noindent
-Surprisal, entropy (joint, conditional, cross), Kullback-Leibler divergence, mutual information.
+Notions covered: information content / surprisal, entropy (joint, conditional, cross), Kullback-Leibler divergence, mutual information.
 \end{abstract}
 
-\noindent The goal of this primer on information theory is to introduce the most salient notions of information theory relevant to common applications in fields like machine learning, computational linguistics or theoretical linguistics.
-Rather than appealing to deeper mathematical results (such as related to noisy communication channels and efficient coding), this primer explains and motivates the relevant notions from the perspective of (subjective) beliefs.
+\noindent
+Information-theoretic notions ---like entropy, Kullback-Leibler divergence or mutual information--- have many useful applications in fields like statistics, machine learning or computational linguistics.
+These notions are anchored in mathematical results related to efficient coding of information and communication via noisy channels.
+However, in order to understand which notion to use when and why in concrete applications, this theoretical grounding in deep and important, but abstract mathematical results is not always relevant, sometimes possibly even a distraction.
+For the student interested in applications, explanations in terms of ``minimal number of questions asked'' or similar can be needlessly confusing at first.
+This primer therefore attempts to give a systematic overview of the most salient notions of information theory in terms of what is arguably the pre-theoretically most intuitive perspective: vocabulary about the subjective beliefs of agents.
 
 \section{A measure of information gained}
 
-At the heart of information theory lies a numerical measure of the amount of information learned, so-called \emph{information content} or \emph{surprisal}.
-Let us motivate this measure based on three intuitive desiderata.
+The centerpiece of information theory is a numerical measure of the amount of information gained, so-called \emph{information content} or \emph{surprisal}.
 
 \subsection{Motivation}
 
@@ -130,8 +133,9 @@ Jones' and Smith's subjective beliefs are given in Table~\ref{tab:beliefs-weathe
 
 The next day, Jones and Smith both observe that it is in fact sunny.
 Who learns more? Who is more surprised by this turn of events? ---
-Intuitively, since Jones had expected sunny weather, he gains less information than Smith, who had though that this event is rather unlikely.
-In sum, a measure of the ``information learned'' should be sensitive to an agent's prior expectations $P \in D(X)$.
+Intuitively, Smith learns more from the observation of sunny weather (is more surprised by it) than Jones, because Jones had deemed sunny weather rather likely, while Smith had though that this event is rather unlikely.
+
+This example demonstrates that a measure of the ``information gained'' from the observation of an even $x \in X$ should be sensitive to a baseline probability distribution $P \in \Delta(X)$ such as an agent's prior expectations.
 We therefore aim to define a numerical measure $I_{P}(x)$, which assigns a number representing the information gained by observing $x \in X$, given prior beliefs $P \in \Delta(X)$.
 
 There are three further desiderata on the measure $I_{P}(x)$:
