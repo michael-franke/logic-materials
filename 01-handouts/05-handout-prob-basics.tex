@@ -19,7 +19,7 @@
 % \usepgfplotslibrary{external}
 % \tikzexternalize
 
-% \titleformat{\section}
+% \titleformat{\sectionj}
 % {\large\bfshape}{\thesection}{1em}{}
 
 \setcounter{secnumdepth}{5}
@@ -788,7 +788,7 @@ When the context is clear enough, we might also just write $P(x)$ as a shorthand
     \tuple{\text{tails}, \text{heads}}, \tuple{\text{tails}, \text{tails}}}
   \end{align*}
   Consider the random variable $X_{\text{2flips}}^{\theta}$ that counts the total number of heads.
-  Crucially, we assign the same numerical value to different elementary outcomes, because $X_{\text{2flips}}^{\theta}(\tuple{\text{heads}, \text{tails}}) = 1 = X_{\text{two       flips}}(\tuple{\text{tails}, \text{heads}})$.
+  Crucially, we assign the same numerical value to different elementary outcomes, because $X_{\text{2flips}}^{\theta}(\tuple{\text{heads}, \text{tails}}) = 1 = X_{\text{2flips}}^{\theta}(\tuple{\text{tails}, \text{heads}})$.
   Figure~\ref{fig:two-flips} shows examples for a fair ($\theta = 0.5$) and a biased coin which ($\theta=0.75$).
   The support of $X_{\text{2flips}}^{\theta}$ is $\set{0,1,2}$ whenever $0 < \theta < 1$.
 
@@ -918,7 +918,7 @@ If $X$ is discrete, the expected value is:
 
 The \markdef{expected value of function} $f \mycolon \mathbb{R} \rightarrow \mathbb{R}$ under $X$ is:\sidenote{This will be useful for the definition of information-theoretic notions, such as \emph{entropy}.}
 \begin{align*}
-  \mathds{E}_X = \sum_{x \in \text{support}(X)} f(x) \mult P(X = x)
+  \mathds{E}_X f = \sum_{x \in \text{support}(X)} f(x) \mult P(X = x)
 \end{align*}
 
 
@@ -1014,7 +1014,6 @@ The variable $Y = 2 \mult X$ is not the same as $Z = X + X$ (see exercises below
 
   \end{minipage}
 }
-
 
 % \printbibliography
 
