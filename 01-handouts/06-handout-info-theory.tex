@@ -86,9 +86,9 @@
 % \linespread{1.05}
 
 
-\title{A primer on information theory}
+\title{A primer on information theory \\ \normalsize{(for the subjectively perplexed)}}
 
-\author[M.~Franke]{Michael Franke}
+\author[M.~Franke]{Michael Franke \hfill \normalsize{January 2022}}
 
 \date{} % without \date command, current date is supplied
 
@@ -105,7 +105,7 @@ Notions covered: information content / surprisal, entropy (joint, conditional, c
 Information-theoretic notions ---like entropy, Kullback-Leibler divergence or mutual information--- have many useful applications in fields like statistics, machine learning or computational linguistics.
 These notions are anchored in important mathematical results related to efficient coding of information and communication via noisy channels.
 However, in order to understand which notion to use when and why in concrete applications, this theoretical grounding in deep and important, but abstract mathematical theory is not always relevant, sometimes possibly even a distraction.
-For the student interested in applications, explanations in terms of ``minimal number of questions asked'' or similar can be needlessly confusing at first.
+For the student interested in applications, explanations in terms of ``minimal coding length'' or similar can be needlessly confusing at first.
 This primer therefore attempts to give a systematic overview of the most salient notions of information theory in terms of what is arguably the pre-theoretically most intuitive perspective: vocabulary about the subjective beliefs of agents.
 
 \section{A measure of information gained}
@@ -132,22 +132,24 @@ Jones' and Smith's subjective beliefs are given in Table~\ref{tab:beliefs-weathe
 
 The next day, Jones and Smith both observe that it is in fact sunny.
 Who learns more? Who is more surprised by this turn of events? ---
-Intuitively, Smith learns more from the observation of sunny weather (is more surprised by it) than Jones, because Jones had deemed sunny weather rather likely, while Smith had though that this event is rather unlikely.
+Intuitively, Smith learns more from the observation of sunny weather (is more surprised by it) than Jones, because Jones had deemed sunny weather rather likely, while Smith had thought that this event is rather unlikely.
 
 This example demonstrates that a measure of the ``information gained'' from the observation of an even $x \in X$ should be sensitive to a baseline probability distribution $P \in \Delta(X)$ such as an agent's prior expectations.
 We therefore aim to define a numerical measure $I_{P}(x)$, which assigns a number representing the information gained by observing $x \in X$, given prior beliefs $P \in \Delta(X)$.
 
 There are three further desiderata on the measure $I_{P}(x)$:
 \begin{enumerate}
-  \item \textbf{Lower bound.} If an agent is already maximally certain that $x$ would occur, so that $P(x) = 0$, the agent learns nothing from observing $x$, so that $I_{P}(x)=0$.
+  \item \textbf{Lower bound.} If an agent is already maximally certain that $x$ would occur, $P(x) = 0$, the agent learns nothing from observing $x$, so that $I_{P}(x)=0$.
   \item \textbf{Monotonicity.} The lower the prior probability of $P(x)$ the more information is gained from (the more surprised the agent is by) observing an event $x \in X$.
   \item \textbf{Additivity.} If an agent observes two independent events $x_{1}, x_{2} \in X$, the total information gained should be the sum of the information gained from each individual information: $I_{P}(x_{1} \& x_{2}) = I_{P}(x_{1}) + I_{P}(x_{2})$.
 \end{enumerate}
 
 \subsection{Information content (surprisal)}
 
-The family of functions that satisfies these desiderata is that of negative logarithms (up to a scaling factor).
-Most frequently, the logarithm to base 2 is used.
+A family of functions that satisfies these desiderata is that of negative logarithms (up to a scaling factor).
+Most frequently, the logarithm to base 2 is used.\sidenote{
+  The choice of 2 relates to encode information in binary code, but that is not necessary for a first understanding of the information theoretic notions introduced here.}
+
 
 Let $P\in \Delta(X)$ be a probability distribution over (finite) set $X$.\sidenote{
   All definitions in this primer are given only for finite sets.
@@ -279,10 +281,7 @@ Notice that we can also transform bases of logarithms as follows:
 \begin{align*}
   \log_{b} x = \frac{\log_{a} x}{\log_{a} b}
 \end{align*}
-Since $\log_{a} b$ is a constant (independent of $x$), the choice of base in the definition of information content is, mathematically speaking, arbitrary.\sidenote{
-  Our choice of 2 does relate to ideas from theoretical computer science, though, namely the idea to encode information in binary code.
-  But that is not necessary to understand the rationale for the use of information theoretic notions in general.}
-
+Since $\log_{a} b$ is a constant (independent of $x$), the choice of base in the definition of information content is, mathematically speaking, arbitrary.
 
 \section{Measures of expected information content}
 
@@ -307,7 +306,7 @@ where information content is measured based on two different distributions $P$ a
 Let $P\in \Delta(X)$ be a probability distribution over (finite) set $X$.
 The \emph{entropy} $\mathcal{H}(P)$ of $P$ is the expected information content under the assumption that the true distribution is $P$:\sidenote{
   Here and below, writing ``true distribution'' or similar formulations does not necessarily entail a strong commitment to actual truth.
-  It is shorthand for more careful but cumbersome language like ``the distribution used as a reference or baseline which we assume to be true or treat as if true.'' }\sidenote{
+  It is shorthand for more careful but cumbersome language like ``the distribution used as a reference or baseline which we assume to be true or treat as if true in order to calculate an expectation.'' }\sidenote{
   We follow common practice here and assume that $0 \log_{a} 0$ = $0$.
   This is justified because $\lim_{x \rightarrow 0^{+}} x \log_{a} x$ = $0$.
 }
@@ -363,7 +362,7 @@ Intuitively speaking, the cross entropy $\mathcal{H}(P,Q)$ measures the expected
 \subsection{Joint entropy}
 
 Joint entropy is entropy for joint probability distributions.\sidenote{
-  Here, we only look at structured spaces with two dimensions. Joint entropy can be generalized to further dimensions in analogous manner.}
+  Here, we only look at structured spaces with two dimensions. Joint entropy can be generalized to further dimensions in an analogous manner.}
 Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in the structured (finite) event space $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over $X$ and $Y$ respectively.\sidenote{
   $P(x) = \sum_{y \in Y} R(x,y)$.
 }
@@ -391,7 +390,7 @@ Clark also has beliefs about the weather, but theirs are a joint belief $R \in \
       $\sum$ columns & .3 & .2 & .5
     \end{tabular}
 
-  \caption{Clark's joint probabilistic belief about the flying of swallows in the evening and the weather condition the next day..}
+  \caption{Clark's joint probabilistic belief about the flying of swallows in the evening and the weather condition the next day.}
   \label{tab:joint-prob-Clark}
 
 \end{table}
@@ -472,7 +471,7 @@ KL-divergence $D_{KL}(P \,||\, Q)$ can be equivalently written in terms of the e
 
 \begin{example}
   Let's assume, again, that Jones' beliefs $P_{J}$ are the true distribution.
-  We want to compute the divergence of Smith's $P_{S}$ beliefs from those of Jones'.
+  We want to compute the divergence of Smith's beliefs $P_{S}$ from those of Jones'.
   \begin{align*}
     D_{KL}(P_{J} \,||\, P_{S}) & = \sum_{x \in X} P_{J}(x) \log  \frac{P_{J}(x)}{P_{S}(x)} \\
                                & = 0.6 \log \frac{0.6}{0.1} +
@@ -480,7 +479,7 @@ KL-divergence $D_{KL}(P \,||\, Q)$ can be equivalently written in terms of the e
                                  0.2 \log \frac{0.2}{0.7} \\
     & \approx 1.19
   \end{align*}
-  If, reversely, we assume that Smith's beliefs are the ground-truth, and compute the divergence of Jones' beliefs from Smith's the result is:
+  If, reversely, we assume that Smith's beliefs are the ground-truth, and compute the divergence of Jones' beliefs from Smith's, then the result is:
   \begin{align*}
     D_{KL}(P_{S} \,||\, P_{J}) & = \sum_{x \in X} P_{S}(x) \log  \frac{P_{S}(x)}{P_{J}(x)} \\
                                & = 0.1 \log \frac{0.1}{0.6} +
