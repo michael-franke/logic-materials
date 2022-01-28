@@ -13,6 +13,8 @@
 \usepackage[absolute,overlay]{textpos}
 \usepackage{ulem}
 
+\usepackage{pgfplots}
+
 %========================================
 % More Layout (Beamer Special)
 %========================================
@@ -127,7 +129,7 @@
 %========================================
 
 \newcommand{\mycol}[1]{{\textcolor{mycol}{#1}}}
-\renewcommand{\markdef}[1]{\mycol{#1}}
+\renewcommand{\markdef}[1]{\textcolor{themecolor}{\textbf{#1}}}
 \newcommand{\mygray}[1]{\textcolor{gray}{#1}}
 \definecolor{darkgray}{rgb}{0.66, 0.66, 0.66}
 
@@ -139,6 +141,7 @@
 \newcommand{\proplog}{\acro{PropLog}}
 \newcommand{\predlog}{\acro{PredLog}}
 
+\newcommand{\mult}{\ensuremath{\cdot}}
 \def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
 
 %========================================
@@ -166,6 +169,208 @@
 
 \begin{frame}
   \maketitle
+\end{frame}
+
+\begin{frame}
+
+  \pgfplotstableread[row sep=\\,col sep=&]{
+    xval & commute & wait \\
+    0    & 0.0  & 0.1 \\
+    1    & 0.0  & 0.4 \\
+    2    & 0.0  & 0.2 \\
+    3    & 0.0  & 0.1 \\
+    4    & 0.0  & 0.1 \\
+    5    & 0.1  & 0.0 \\
+    6    & 0.2  & 0.0 \\
+    7    & 0.4  & 0.0 \\
+    8    & 0.2  & 0.0 \\
+    9    & 0.1  & 0.0 \\
+    10   & 0.0  & 0.0 \\
+    11   & 0.0  & 0.0 \\
+    12   & 0.0  & 0.0 \\
+  }\data
+
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \textcolor{themecolor}{\textbf{Beliefs about commute duration}} \\
+    \begin{tikzpicture}
+      \begin{axis}[
+        ybar,
+        bar width=.3cm,
+        width=7cm,
+        height=4cm,
+        % legend style={at={(0.5,1)},
+        % anchor=north,legend columns=-1},
+        % symbolic x coords={0,1},
+        xtick=data,
+        % nodes near coords,
+        % nodes near coords align={vertical},
+        xmin=-0.5,xmax=12.5,
+        ymin=-0,ymax=1,
+        % title={$P(C = c)$},
+        xlabel={$c$}
+        ]
+        \addplot[fill=signal1] table[x=xval,y=commute]{\data};
+      \end{axis}
+    \end{tikzpicture}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \textcolor{themecolor}{\textbf{Beliefs about waiting duration}} \\
+    \begin{tikzpicture}
+      \begin{axis}[
+        ybar,
+        bar width=.3cm,
+        width=7cm,
+        height=4cm,
+        % legend style={at={(0.5,1)},
+        % anchor=north,legend columns=-1},
+        % symbolic x coords={0,1},
+        xtick=data,
+        % nodes near coords,
+        % nodes near coords align={vertical},
+        xmin=-0.5,xmax=12.5,
+        ymin=-0,ymax=1,
+        % title={$P(W = w)$},
+        xlabel={$w$}
+        ]
+        \addplot[fill=signal2] table[x=xval,y=wait]{\data};
+      \end{axis}
+    \end{tikzpicture}
+  \end{minipage}
+
+  \bigskip \pause
+
+  \begin{center}
+    \large
+    \textcolor{themecolor}{\textbf{Random variable notation}} \\
+    $P(T \le 15) \approx 0.48$\\
+    where $ T = {\textcolor{signal1}{C}} + {\textcolor{signal2}{W}} + {\textcolor{signal1}{C}}$
+  \end{center}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Random variable}
+
+  A \markdef{random variable} is a function $X \mycolon \Omega \rightarrow \mathds{R}$
+
+\bigskip
+\bigskip
+
+  Notation:
+  \begin{itemize}
+    \item $P(X = x) = P(\set{\omega \in \Omega \mid X(\omega) = x})$
+    \item $P(X \le x) = P(\set{\omega \in \Omega \mid X(\omega) \le x})$
+    \item $P(C + W + C  \le 15) = P(\set{\omega \in \Omega \mid C_{1}(\omega) + W(\omega) + C_{2}(\omega) \le 15})$
+  \end{itemize}
+
+
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example}
+
+  \begin{itemize}
+    \item flip coin with bias $\theta$ twice (independent outcomes)
+    \item set of elementary outcomes:
+    \begin{align*}
+      \Omega_{\text{2flips}} = \set{\tuple{\text{heads}, \text{heads}}, \tuple{\text{heads}, \text{tails}},
+      \tuple{\text{tails}, \text{heads}}, \tuple{\text{tails}, \text{tails}}}
+    \end{align*}
+    \item random variable:
+    \begin{align*}
+      X_{\text{2flips}}^{\theta}(\tuple{\text{tails}, \text{tails}}) & = 0 & X_{\text{2flips}}^{\theta}(\tuple{\text{heads}, \text{tails}}) & = 1 \\
+      X_{\text{2flips}}^{\theta}(\tuple{\text{tails}, \text{heads}}) & = 1 &
+      X_{\text{2flips}}^{\theta}(\tuple{\text{heads}, \text{heads}}) & = 2
+    \end{align*}
+    \item Probabilities:
+    \begin{align*}
+      P(X_{\text{2flips}}^{\theta} = 0) & = (1-\theta)^{2} \\
+      P(X_{\text{2flips}}^{\theta} = 1) & = (1-\theta) \theta \\
+      P(X_{\text{2flips}}^{\theta} = 2) & = \theta^{2} \\
+    \end{align*}
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example}
+
+\centering
+  \pgfplotstableread[row sep=\\,col sep=&]{
+    xval                              & fair & biased \\
+    0                                 & 0.25  & 0.0625 \\
+    1                                 & 0.5   & 0.375 \\
+    2                                 & 0.25  & 0.5625 \\
+  }\twoFlips
+
+  \begin{tikzpicture}
+    \begin{axis}[
+      ybar,
+      bar width=.5cm,
+      width=7cm,
+      height=4cm,
+      % legend style={at={(0.5,1)},
+      % anchor=north,legend columns=-1},
+      % symbolic x coords={0,1},
+      xtick=data,
+      nodes near coords,
+      % nodes near coords align={vertical},
+      xmin=-0.5,xmax=2.5,
+      ymin=-0,ymax=1,
+      title={$P(X_{\text{2flips}}^{0.5} = x)$},
+      xlabel={$x$}
+      ]
+      \addplot[fill=themecolor] table[x=xval,y=fair]{\twoFlips};
+    \end{axis}
+  \end{tikzpicture}
+  \hfill
+  \begin{tikzpicture}
+    \begin{axis}[
+      ybar,
+      bar width=.5cm,
+      width=7cm,
+      height=4cm,
+      % legend style={at={(0.5,1)},
+      % anchor=north,legend columns=-1},
+      % symbolic x coords={0,1},
+      xtick=data,
+      nodes near coords,
+      % nodes near coords align={vertical},
+      xmin=-0.5,xmax=2.5,
+      ymin=-0,ymax=1,
+      title={$P(X_{\text{2flips}}^{0.75} = x)$},
+      xlabel={$x$}
+      ]
+      \addplot[fill=themecolor] table[x=xval,y=biased]{\twoFlips};
+    \end{axis}
+  \end{tikzpicture}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Expected value}
+
+\markdef{Expected value of a random variable}
+\begin{align*}
+  \mathds{E}_X = \sum_{x} x \mult P(X = x) &&& \text{e.g., } \mathds{E}_{T} \approx 15.67
+\end{align*}
+
+\bigskip
+\bigskip
+\bigskip
+
+\markdef{Expected value of a function}
+\begin{align*}
+  \mathds{E}_X f = \sum_{x} f(x) \mult P(X = x) &&& \text{e.g., with } f(x) = x^{2}, \text{ we have } \mathds{E}_{T} f \approx 250
+\end{align*}
+
+
+
 \end{frame}
 
 \end{document}
