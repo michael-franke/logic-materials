@@ -1,0 +1,15 @@
+var commute = Categorical({
+  vs: _.range(13),
+  ps: [0,0,0,0,0,0.1,0.2,0.4,0.2,0.1,0,0,0]})
+var wait = Categorical({
+  vs: _.range(13),
+  ps: [0.1,0.4,0.2,0.1,0.1,0,0,0,0,0,0,0,0]})
+
+var model = function() {
+  var c1 = sample(commute)
+  var c2 = sample(commute)
+  var w  = sample(wait)
+  return (c1+c2+w <= 15)
+}
+
+viz.table(Infer({model: model}))
