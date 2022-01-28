@@ -139,7 +139,7 @@ We therefore aim to define a numerical measure $I_{P}(x)$, which assigns a numbe
 
 There are three further desiderata on the measure $I_{P}(x)$:
 \begin{enumerate}
-  \item \textbf{Lower bound.} If an agent is already maximally certain that $x$ would occur, $P(x) = 0$, the agent learns nothing from observing $x$, so that $I_{P}(x)=0$.
+  \item \textbf{Lower bound.} If an agent is already maximally certain that $x$ would occur, $P(x) = 1$, the agent learns nothing from observing $x$, so that $I_{P}(x)=0$.
   \item \textbf{Monotonicity.} The lower the prior probability of $P(x)$ the more information is gained from (the more surprised the agent is by) observing an event $x \in X$.
   \item \textbf{Additivity.} If an agent observes two independent events $x_{1}, x_{2} \in X$, the total information gained should be the sum of the information gained from each individual information: $I_{P}(x_{1} \& x_{2}) = I_{P}(x_{1}) + I_{P}(x_{2})$.
 \end{enumerate}
@@ -414,7 +414,7 @@ Clark also has beliefs about the weather, but theirs are a joint belief $R \in \
 
 \subsection{Conditional entropy}
 
-Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over (finite) $X$ and $Y$ respectively.
+Let $R \in \Delta(X \times Y)$ be a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over (finite) $X$ and $Y$ respectively.
 The conditional entropy of $Q$ given $P$ is the expected surprisal of observing $y$ after having already observed (and processed) a corresponding $x$:
 \begin{align*}
   \mathcal{H}(P \mid Q) & = - \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} R(x \mid y) \\
@@ -495,7 +495,7 @@ KL-divergence $D_{KL}(P \,||\, Q)$ can be equivalently written in terms of the e
 
 \section{Mutual information}
 
-Let $R \in \Delta(X \times Y)$ by a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over (finite) $X$ and $Y$ respectively.
+Let $R \in \Delta(X \times Y)$ be a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over (finite) $X$ and $Y$ respectively.
 The \emph{mutual information} $I(P,Q)$ of $P$ and $Q$ is the expected excess surprisal if the dimensions $X$ and $Y$ are assumed to be stochastically independent:
 \begin{align*}
   I(X,Y) & = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log \frac{R(x,y)}{P(x) \ Q(y)}
