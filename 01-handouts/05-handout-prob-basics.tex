@@ -683,96 +683,168 @@ This is a direct consequence of stochastic independence:
 
 \section{Random variables}
 
-We have so far define a probability distribution as a function that assigns a probability to
+We have so far defined a probability distribution as a function that assigns a probability to
 each subset of the space $\Omega$ of elementary outcomes.
 A special case occurs when we are interested in a space of numeric outcomes, such as the probability of observing 3 heads when throwing a coin 10 times, or of measuring a reaction time of 300\,ms in a lexical decision task.
-Probability distributions over numeric outcomes are no different from other probability distributions: in each case we set up a space of elementary outcomes as sets of possible worlds which agree on a certain criterion of relevance, which could be something non-numeric (like hair color) or numeric (like the integer or real valued reaction time in an experimental trial).
-Yet, ``probability distributions over numbers'' allow special because we often like to use mathematical operations in connection with the elementary outcomes or events.
+Probability distributions over numeric outcomes are conceptually no different from other probability distributions: in each case we set up a space of elementary outcomes as sets of possible worlds which agree on a certain criterion of relevance, which could be something non-numeric (like hair color) or numeric (like the integer or real valued reaction time in an experimental trial).
+Yet, ``probability distributions over numbers'' are special because we often like to use mathematical operations in connection with the elementary outcomes or events.
 For instance, we might be interested in the probability of numerical observations obtained by throwing a fair dice twice in a row and adding the number shown in each.
 To express these kinds of operations and transformations, we use a special notation for ``probability distributions over numbers'' called \emph{random variables}.
-Caveat: random variables are very useful concepts and offer highly versatile notation, but both concept and notation can be elusive in the beginning.
+\subsection{Definition, notation \& terminology}
 
 A \markdef{random variable} is a function $X \mycolon \Omega \rightarrow \mathds{R}$ that
 assigns to each elementary outcome a numerical value.
-
-\begin{example}
-  \label{example:single-coin-RV}
-  For a single flip of a coin we have $\Omega_{\text{coin flip}} =
-  \set{\text{heads}, \text{tails}}$. A usual way of mapping this onto numerical outcomes is to
-  define $X_{\text{coin flip}} \mycolon \text{heads} \mapsto 1; \text{tails} \mapsto 0$. Less trivially, consider
-  flipping a coin two times. Elementary outcomes should be individuated by the outcome of the
-  first flip and the outcome of the second flip, so that we get:
-  \begin{align*}
-    \Omega_{\text{two flips}} = \set{\tuple{\text{heads}, \text{heads}}, \tuple{\text{heads}, \text{tails}},
-    \tuple{\text{tails}, \text{heads}}, \tuple{\text{tails}, \text{tails}}}
-  \end{align*}
-  Consider the random variable $X_{\text{two flips}}$ that counts the
-  total number of heads. Crucially,
-  $X_{\text{two flips}}(\tuple{\text{heads}, \text{tails}}) = 1 = X_{\text{two
-      flips}}(\tuple{\text{tails}, \text{heads}})$. We assign the same numerical value to
-  different elementary outcomes.
-\end{example}
-
-
-\subsection{Notation \& terminology}
-
 Traditionally, random variables are represented by capital letters, like $X$. Variables for the
 numeric values they take on are written as small letters, like $x$.
-
 We write $P(X = x)$ as a shorthand for the probability
 $P(\set{\omega \in \Omega \mid X(\omega) = x})$ that an event occurs that is mapped onto $x$ by
-random variable $X$. For example, if our coin is fair, then $P(X_{\text{two flips}} = x) = 0.5$
-for $x=1$ and $0.25$ otherwise. Similarly, we can also write $P(X \le x)$ for the probability
+random variable $X$. Similarly, we can also write $P(X \le x)$ for the probability
 of observing an event that $X$ maps to a number not bigger than $x$.
 
-If the range of $X$ is countable (not necessarily finite), we say that $X$ is \markdef{discrete}. For ease of exposition, we may say that if the range of $X$ is an interval of real numbers, $X$ is called \markdef{continuous}.\sidenote{This introductory primer also looks at the discrete. The continuous case requires special mathematical treatment, if we want to be precise. The underlying ideas behind central definitions and behavior are, for the most part, conceptually analogous.}
+If the range of $X$ is countable (not necessarily finite), we say that $X$ is \markdef{discrete}. For ease of exposition, we may say that if the range of $X$ is an interval of real numbers, $X$ is called \markdef{continuous}.\sidenote{
+  This introductory primer only looks at the discrete case. The continuous case requires special mathematical treatment, but the underlying ideas behind central definitions and behavior are, for the most part, conceptually analogous.}
 
 The \emph{support} of a random variable $X$ is:
 \begin{align*}
   \text{support}(X) = \set{x \in \text{range}(X) \mid P(X = x) \neq 0}.
 \end{align*}
 
-\subsection{Cumulative distribution \& mass of a discrete random variable}
-
-For a discrete random variable $X$, the \markdef{cumulative distribution function} $F_X$
-associated with $X$ is defined as:
-\begin{align*}
-  F_X(x) = P(X \le x) = \sum_{x' \in \set{x'' \in \text{range}(X) \mid x'' \le x}} P(X = x')
-\end{align*}
-The \markdef{probability mass function} $f_x$ associated with $X$ is defined as:
-\begin{align*}
-  f_X(x) = P(X = x)
-\end{align*}
+When the context is clear enough, we might also just write $P(x)$ as a shorthand for $P(X = x)$.
 
 \begin{example}
-  Suppose we flip a coin with a bias of $\theta$ $n$ times. What is the probability that we
-  will see heads $k$ times? If we map the outcome of heads to 1 and tails to 0, this
-  probability is given by the \markdef{Binomial distribution}, as follows:
+  \label{example:single-coin-RV}
+
+  For a single flip of a coin we have $\Omega_{\text{coin flip}} = \set{\text{heads}, \text{tails}}$.
+  A usual way of mapping outcomes of coin flips to numbers is to say that ``heads'' is 1 and ``tails'' is 0.
+  The probability of an outcome depends on the bias $\theta$ which the coin has towards landing heads up.
+  Therefore we define $X_{\text{flip}}^{\theta} \mycolon \text{heads} \mapsto 1; \text{tails} \mapsto 0$ and obtain that:
   \begin{align*}
-    \text{Binom}(K = k ; n, \theta) = \binom{n}{k} \,  \theta^{k} \, (1-\theta)^{n-k}
+    P(X_{\text{flip}}^{\theta} = 1) = \theta \ \ \ \ P(X_{\text{flip}}^{\theta} = 0) = 1-\theta
   \end{align*}
-  Here $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient.
-  It gives the number of possibilities of drawing an unordered set with $k$ elements from a set with a total of $n$ elements.
-  Figure~\ref{fig:BinomialDistribution} gives an example of the Binomial distribution, concretely its probability mass function, for two values of the coin's bias, $\theta = 0.25$ or $\theta = 0.5$, when flipping the coin $n=24$ times.
-  Figure~\ref{fig:BinomialDistributionCumulative} gives the corresponding cumulative distributions.
-  %% add some more explanation
+  Figure~\ref{fig:single-flip} shows examples of the probability distributions of single flips of a fair ($\theta = 0.5$) and a biased coin which lands heads three times more often than tails ($\theta=0.75$).
+  The support of $X_{\text{flip}}^{\theta}$ is $\set{0,1}$ whenever $0 < \theta < 1$.
 
-\begin{figure}
-  \centering
-  \includegraphics[width=\textwidth]{00-pics/05_00_binomial-distribution.pdf}
-  \caption{Examples of the Binomial distribution. The $y$-axis give the probability of seeing
-    $k$ heads when flipping a coin $n=24$ times with a bias of either $\theta = 0.25$ or
-    $\theta = 0.5$.}
-  \label{fig:BinomialDistribution}
-\end{figure}
+  \begin{figure}
+    \centering
+    \pgfplotstableread[row sep=\\,col sep=&]{
+      xval                              & fair & biased \\
+      0                                 & 0.5  & 0.25 \\
+      1                                 & 0.5  & 0.75 \\
+    }\singleCoinFlips
 
-\begin{figure}
+    \begin{tikzpicture}
+      \begin{axis}[
+        ybar,
+        bar width=.5cm,
+        width=4cm,
+        height=4cm,
+        % legend style={at={(0.5,1)},
+        % anchor=north,legend columns=-1},
+        % symbolic x coords={0,1},
+        xtick=data,
+        nodes near coords,
+        % nodes near coords align={vertical},
+        xmin=-0.5,xmax=1.5,
+        ymin=-0,ymax=1,
+        title={$P(X_{\text{flip}}^{0.5} = x)$},
+        xlabel={$x$}
+        ]
+        \addplot[fill=mygray2] table[x=xval,y=fair]{\singleCoinFlips};
+      \end{axis}
+    \end{tikzpicture}
+    \ \ \ \ \ \ \ \
+    \begin{tikzpicture}
+      \begin{axis}[
+        ybar,
+        bar width=.5cm,
+        width=4cm,
+        height=4cm,
+        % legend style={at={(0.5,1)},
+        % anchor=north,legend columns=-1},
+        % symbolic x coords={0,1},
+        xtick=data,
+        nodes near coords,
+        % nodes near coords align={vertical},
+        xmin=-0.5,xmax=1.5,
+        ymin=-0,ymax=1,
+        title={$P(X_{\text{flip}}^{0.75} = x)$},
+        xlabel={$x$}
+        ]
+        \addplot[fill=mygray2] table[x=xval,y=biased]{\singleCoinFlips};
+      \end{axis}
+    \end{tikzpicture}
+
+    \caption{Probability distribution for random variables $X_{\text{flip}}^{0.5}$ (fair coin) and $X_{\text{flip}}^{0.75}$ (biased coin).}
+    \label{fig:single-flip}
+  \end{figure}
+
+
+\end{example}
+
+\begin{example}
+  Less trivially, imagine flipping a coin two times. Elementary outcomes should be individuated by the outcome of the first flip and the outcome of the second flip, so that we get:
+  \begin{align*}
+    \Omega_{\text{2flips}} = \set{\tuple{\text{heads}, \text{heads}}, \tuple{\text{heads}, \text{tails}},
+    \tuple{\text{tails}, \text{heads}}, \tuple{\text{tails}, \text{tails}}}
+  \end{align*}
+  Consider the random variable $X_{\text{2flips}}^{\theta}$ that counts the total number of heads.
+  Crucially, we assign the same numerical value to different elementary outcomes, because $X_{\text{2flips}}^{\theta}(\tuple{\text{heads}, \text{tails}}) = 1 = X_{\text{two       flips}}(\tuple{\text{tails}, \text{heads}})$.
+  Figure~\ref{fig:two-flips} shows examples for a fair ($\theta = 0.5$) and a biased coin which ($\theta=0.75$).
+  The support of $X_{\text{2flips}}^{\theta}$ is $\set{0,1,2}$ whenever $0 < \theta < 1$.
+
+  \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{00-pics/05_00_binomial-distribution-cumulative.pdf}
-  \caption{Examples of the cumulative distribution of the Binomial. The $y$-axis gives the
-    probability of seeing $k$ or less outcomes of heads when flipping a coin $n=24$ times with
-    a bias of either $\theta = 0.25$ or $\theta = 0.5$.}
-  \label{fig:BinomialDistributionCumulative}
+  \pgfplotstableread[row sep=\\,col sep=&]{
+    xval                              & fair & biased \\
+    0                                 & 0.25  & 0.0625 \\
+    1                                 & 0.5   & 0.375 \\
+    2                                 & 0.25  & 0.5625 \\
+  }\twoFlips
+
+  \begin{tikzpicture}
+    \begin{axis}[
+      ybar,
+      bar width=.5cm,
+      width=6cm,
+      height=4cm,
+      % legend style={at={(0.5,1)},
+      % anchor=north,legend columns=-1},
+      % symbolic x coords={0,1},
+      xtick=data,
+      nodes near coords,
+      % nodes near coords align={vertical},
+      xmin=-0.5,xmax=2.5,
+      ymin=-0,ymax=1,
+      title={$P(X_{\text{2flips}}^{0.5} = x)$},
+      xlabel={$x$}
+      ]
+      \addplot[fill=mygray2] table[x=xval,y=fair]{\twoFlips};
+    \end{axis}
+  \end{tikzpicture}
+  \hfill
+  \begin{tikzpicture}
+    \begin{axis}[
+      ybar,
+      bar width=.5cm,
+      width=6cm,
+      height=4cm,
+      % legend style={at={(0.5,1)},
+      % anchor=north,legend columns=-1},
+      % symbolic x coords={0,1},
+      xtick=data,
+      nodes near coords,
+      % nodes near coords align={vertical},
+      xmin=-0.5,xmax=2.5,
+      ymin=-0,ymax=1,
+      title={$P(X_{\text{2flips}}^{0.75} = x)$},
+      xlabel={$x$}
+      ]
+      \addplot[fill=mygray2] table[x=xval,y=biased]{\twoFlips};
+    \end{axis}
+  \end{tikzpicture}
+
+  \caption{Probability distribution for random variables $X_{\text{2flips}}^{0.5}$ (fair coin flipped twice, count number of heads) and $X_{\text{2flips}}^{0.75}$ (same for biased coin landing ``heads'' three times more often than ``tails'').}
+  \label{fig:two-flips}
 \end{figure}
 
 \end{example}
@@ -826,57 +898,69 @@ The \markdef{probability mass function} $f_x$ associated with $X$ is defined as:
 
 % \end{example}
 
-\subsection{Expected value \& variance}
+\subsection{Expected value}
 
-The \markdef{expected value} of a random variable $X$ is a measure of central tendency.
+The \markdef{expected value of random variable} $X$ (a.k.a.~the \emph{mean} of $X$) is a measure of central tendency.
 It tells us, like the name suggests, which average value of $X$ we can expect when repeatedly sampling from $X$.
-If $X$ is discrete, the expected value is:\sidenote{
-  The expected value is also frequently called the \emph{mean}.
-}
+If $X$ is discrete, the expected value is:
 \begin{align*}
-  \mathds{E}_X = \sum_{x} x \mult f_X(x)
+  \mathds{E}_X = \sum_{x \in \text{support}(X)} x \mult P(X = x)
 \end{align*}
-% If $X$ is continuous, it is:
-% \begin{align*}
-%   \mathds{E}_X = \int x \mult f_X(x) \ \text{d}x
-% \end{align*}
-
-The \markdef{variance} of a random variable $X$ is a measure of how much likely values of $X$
-are spread or clustered around the expected value.
-If $X$ is discrete, the variance is:
-\begin{align*}
-  \text{Var}(X) = \sum_x (\mathds{E}_X - x)^2 \mult f_X(x)
-\end{align*}
-% If $X$ is continuous, it is:
-% \begin{align*}
-%   \text{Var}(X) = \int (\mathds{E}_X - x)^2 \mult f_X(x) \ \text{d}x
-% \end{align*}
 
 \begin{example}
-  If we flip a coin with bias $\theta = 0.25$ a total of $n=24$, we expect on average to see
-  $n \mult \theta = 24 \mult 0.25 = 6$ outcomes showing heads.\sidenote{This is not immediately
-    obvious from our definition, but it is intuitive and you can derive it.} The variance is
-  $n \mult \theta \mult (1-\theta) = 24 \mult 0.25 \mult 0.75 = \frac{24 \mult 3}{16} =
-  \frac{18}{4} = 4.5$.
-  % The expected value of a normal distribution is just its mean $\mu$ and its variance is
-  % $\sigma^2$.
+  The expected values of $X_{\text{flip}}^{\theta}$ is:
+  \begin{align*}
+    \mathds{E}_{X_{\text{flip}}^{\theta}} = \sum_{x \in \text{support}(X_{\text{flip}}^{\theta})} x \mult P(X = x) = (1- \theta) \mult 0 + \theta \mult 1 = \theta
+  \end{align*}
+  So, concretely, for a fair coin we have $\mathds{E}_{X_{\text{flip}}^{0.5}} = 0.5$.
+  This show that the expected value is not (necessarily) the same as the most likely value.
 \end{example}
+
+The \markdef{expected value of function} $f \mycolon \mathbb{R} \rightarrow \mathbb{R}$ under $X$ is:\sidenote{This will be useful for the definition of information-theoretic notions, such as \emph{entropy}.}
+\begin{align*}
+  \mathds{E}_X = \sum_{x \in \text{support}(X)} f(x) \mult P(X = x)
+\end{align*}
+
 
 \subsection{Composite random variables}
 
-The notation in terms of random variables is particularly useful for composite random variables, when we write stuff like $Z = X + X$.
-For instance, $X$ might be the outcome of a single flip of a fair coin (as in Example~\ref{example:single-coin-RV}), so that:
+The notation in terms of random variables is particularly useful for composite random variables, when we write expressions like $Z = 2X + Y$.
+For instance, $X_{\text{flip}^{\theta}}$ might be the outcome of a single flip of a coin with bias $\theta$ (as in Example~\ref{example:single-coin-RV}).
+The composite variable $Z = X_{\text{flip}^{\theta}} + X_{\text{flip}^{\theta}}$ is built by, intuitively speaking, repeatedly generating random number from $X_{\text{flip}^{\theta}}$, and another one (independently) from $X_{\text{flip}^{\theta}}$ again and then adding the two numbers.
+Indeed, the resulting composite random variable is what we already saw above:
 \begin{align*}
-  P(X = 0) & = 0.5 & P(X = 1) & = 0.5
-\end{align*}
-The composite variable $Z = X + X$ is built by, intuitively speaking, drawing a random element from $X$, and another one (independently) from $X$ and then adding the result.
-The resulting distribution is:
-\begin{align*}
-  P(Z = 0) & = 0.25 & P(Z = 1) & = 0.5 & P(Z = 2) & = 0.25
+  X_{\text{2flips}^{\theta}} = X_{\text{flip}^{\theta}} + X_{\text{flip}^{\theta}}
 \end{align*}
 
-This $Z$ from the previous example happens to be the Binomial distribution with $N=2$ and $\theta - 0.5$, but we can also use this notation to define composite random variables for which there is no commonly known and established name and probability mass function.
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{00-pics/05_00_binomial-distribution.pdf}
+  \caption{Examples of the Binomial distribution. The $y$-axis give the probability of seeing
+    $k$ heads when flipping a coin $n=24$ times with a bias of either $\theta = 0.25$ or
+    $\theta = 0.5$.}
+  \label{fig:BinomialDistribution}
+\end{figure}
 
+\begin{example}
+  Let us generalize flipping coins and counting heads to more than 2 flips.
+  The composite random variable $K^{n,\theta}$, with:
+  \begin{align*}
+    K^{n,\theta} = \underbrace{X_{\text{flip}^{\theta}} + \dots + X_{\text{flip}^{\theta}}}_{n \text{ times}}
+  \end{align*}
+  captures the total number of heads obtained from $n$ independent flips of a coin with bias $\theta$.
+  The resulting probability distribution $P(K^{n,\theta}=k)$ is well-known and is called the \markdef{Binomial distribution}.
+  We can express it with an elegant formula:\sidenote{
+    Here $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient.
+    It gives the number of possibilities of drawing an unordered set with $k$ elements from a set with a total of $n$ elements.
+  }
+  \begin{align*}
+    P(K^{n,\theta}=k) = \text{Binom}(K = k ; n, \theta) = \binom{n}{k} \,  \theta^{k} \, (1-\theta)^{n-k}
+  \end{align*}
+  Figure~\ref{fig:BinomialDistribution} gives an example of the Binomial distribution for two values of the coin's bias, $\theta = 0.25$ or $\theta = 0.5$, when flipping the coin $n=24$ times.
+
+
+\end{example}
+Composite random variables need not just iterate the same random process.
 \begin{example}
   Let $X$ be the probability distribution of rolling a fair dice with six sides.
   $Y$ is the probability distribution of flipping a biased coin that lands heads (represented as number 1) with probability 0.75.
@@ -904,7 +988,7 @@ The variable $Y = 2 \mult X$ is not the same as $Z = X + X$ (see exercises below
       \begin{enumerate}
         \item What is the support of $X_{\text{dice}}$?
         \item Write down, for each $n$ in the support of $X_{\text{dice}}$, the probability $P(X_{\text{dice}}=n)$.
-        \item What is the expected value of $X_{\text{dice}}$ and what is its variance?
+        \item What is the expected value of $X_{\text{dice}}$?
       \end{enumerate}
     \end{exercise}
 
@@ -914,7 +998,7 @@ The variable $Y = 2 \mult X$ is not the same as $Z = X + X$ (see exercises below
         \item What is the support of $Z$?
         \item Write down, for each $n$ in the support of $Z$, the probability $P(Z=n)$.
         \item What is/are the most likely outcome(s)? What is/are the least likely?
-        \item What is the expected value of $Z$ and what is its variance?
+        \item What is the expected value of $Z$?
       \end{enumerate}
     \end{exercise}
 
@@ -924,7 +1008,7 @@ The variable $Y = 2 \mult X$ is not the same as $Z = X + X$ (see exercises below
         \item What is the support of $Y$?
         \item Write down, for each $n$ in the support of $Y$, the probability $P(Y=n)$.
         \item What is/are the most likely outcome(s)? What is/are the least likely?
-        \item What is the expected value of $Y$ and what is its variance?
+        \item What is the expected value of $Y$?
       \end{enumerate}
     \end{exercise}
 
