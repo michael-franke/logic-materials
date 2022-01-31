@@ -340,7 +340,7 @@ Let $P, Q \in \Delta(X)$ be probability distributions over (finite) set $X$.
 The \emph{cross entropy} $\mathcal{H}(P,Q)$ of probability distributions $P$ and $Q$ measures the expectation of information content given $Q$ from the point of view of (assumed true) distribution $P$:
 \begin{align*}
   \mathcal{H}(P,Q) & = \sum_{x \in X} P(x) \ I_{Q}(x) \\
-                   & = - \sum_{x \in X} P(x) \ \log Q(x)
+                   & = - \sum_{x \in X} P(x) \ \log_{2} Q(x)
 \end{align*}
 Intuitively speaking, the cross entropy $\mathcal{H}(P,Q)$ measures the expected (or average) surprisal of an agent whose beliefs are $Q$ when the true distribution is $P$.
 
@@ -350,7 +350,7 @@ Intuitively speaking, the cross entropy $\mathcal{H}(P,Q)$ measures the expected
   Smith's beliefs are therefore not quite in line with reality.
   The cross entropy $\mathcal{H}(P_{J}, P_{S})$ then measures Smith's average surprisal by taking the real-world frequencies $P_{J}$ to form the expectation and by using Smith's beliefs $P_{S}$ to define the surprisal:
   \begin{align*}
-    \mathcal{H}(P_{J}, P_{S}) & = - \sum_{x \in X} P_{J}(x) \ \log P_{S}(x) \\
+    \mathcal{H}(P_{J}, P_{S}) & = - \sum_{x \in X} P_{J}(x) \ \log_{2} P_{S}(x) \\
     & = -( 0.6 \log_{2} 0.1  +
     0.2 \log_{2} 0.2  +
       0.2 \log_{2} 0.7  ) \\
@@ -456,7 +456,7 @@ In general, these measures can be thought of answers to a question like: ``how m
 The \emph{Kullback-Leibler (KL) divergence} (also known as \emph{relative entropy}) measures the expected difference in information content between the distribution $Q \in \Delta(X)$ and the true distribution $P \in \Delta(X)$:
 \begin{align*}
   D_{KL}(P \,||\, Q) & = \sum_{x \in X} P(x) \ \left ( I_{Q}(x) - I_{P}(x) \right ) \\
-  & = \sum_{x \in X} P(x) \ \log  \frac{P(x)}{Q(x)}
+  & = \sum_{x \in X} P(x) \ \log_{2}  \frac{P(x)}{Q(x)}
 \end{align*}
 Intuitively speaking, the KL-divergence $D_{KL}(P \,||\, Q)$ measures how much more surprised an agent is, on average, when they hold beliefs described by $Q$ instead of the true distribution $P$.
 
@@ -473,18 +473,18 @@ KL-divergence $D_{KL}(P \,||\, Q)$ can be equivalently written in terms of the e
   Let's assume, again, that Jones' beliefs $P_{J}$ are the true distribution.
   We want to compute the divergence of Smith's beliefs $P_{S}$ from those of Jones'.
   \begin{align*}
-    D_{KL}(P_{J} \,||\, P_{S}) & = \sum_{x \in X} P_{J}(x) \log  \frac{P_{J}(x)}{P_{S}(x)} \\
-                               & = 0.6 \log \frac{0.6}{0.1} +
-                                 0.2 \log \frac{0.2}{0.2} +
-                                 0.2 \log \frac{0.2}{0.7} \\
+    D_{KL}(P_{J} \,||\, P_{S}) & = \sum_{x \in X} P_{J}(x) \log_{2}  \frac{P_{J}(x)}{P_{S}(x)} \\
+                               & = 0.6 \log_{2} \frac{0.6}{0.1} +
+                                 0.2 \log_{2} \frac{0.2}{0.2} +
+                                 0.2 \log_{2} \frac{0.2}{0.7} \\
     & \approx 1.19
   \end{align*}
   If, reversely, we assume that Smith's beliefs are the ground-truth, and compute the divergence of Jones' beliefs from Smith's, then the result is:
   \begin{align*}
-    D_{KL}(P_{S} \,||\, P_{J}) & = \sum_{x \in X} P_{S}(x) \log  \frac{P_{S}(x)}{P_{J}(x)} \\
-                               & = 0.1 \log \frac{0.1}{0.6} +
-                                   0.2 \log \frac{0.2}{0.2} +
-                                   0.7 \log \frac{0.7}{0.2} \\
+    D_{KL}(P_{S} \,||\, P_{J}) & = \sum_{x \in X} P_{S}(x) \log_{2}  \frac{P_{S}(x)}{P_{J}(x)} \\
+                               & = 0.1 \log_{2} \frac{0.1}{0.6} +
+                                   0.2 \log_{2} \frac{0.2}{0.2} +
+                                   0.7 \log_{2} \frac{0.7}{0.2} \\
     & \approx 1.01
   \end{align*}
   This shows that KL-divergence is not a symmetric measure.\sidenote{
@@ -498,11 +498,11 @@ KL-divergence $D_{KL}(P \,||\, Q)$ can be equivalently written in terms of the e
 Let $R \in \Delta(X \times Y)$ be a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over (finite) $X$ and $Y$ respectively.
 The \emph{mutual information} $I(P,Q)$ of $P$ and $Q$ is the expected excess surprisal if the dimensions $X$ and $Y$ are assumed to be stochastically independent:
 \begin{align*}
-  I(X,Y) & = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log \frac{R(x,y)}{P(x) \ Q(y)}
+  I(X,Y) & = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} \frac{R(x,y)}{P(x) \ Q(y)}
 \end{align*}
 We can write this more intelligibly in terms of the Kullback-Leibler divergence between true distribution $R$ and the distribution $S \in \Delta(X \times Y)$ which is derived from $P$ and $Q$ by assuming that the dimensions $X$ and $Y$ are stochastically independent, so that $S(x,y) = P(x) \ Q(x)$:
 \begin{align*}
-  I(X,Y) & =  D_{KL}(R \,||\, S) = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log \frac{R(x,y)}{S(x,y)}
+  I(X,Y) & =  D_{KL}(R \,||\, S) = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} \frac{R(x,y)}{S(x,y)}
 \end{align*}
 Intuitively, we may think of mutual information as a measure of how much more (needlessly) surprised an agent is who believes $X$ and $Y$ are stochastically independent (while having correct beliefs about the marginal distributions).
 
@@ -530,7 +530,7 @@ Intuitively, we may think of mutual information as a measure of how much more (n
   \end{center}
   If Clark's beliefs are the reference distribution, how much more surprised will Jackson be about the occurrence of pairs $\tuple{x,y}$ on average?
   \begin{align*}
-    I(X,Y) & =  D_{KL}(R \,||\, S) = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log \frac{R(x,y)}{S(x,y)} \\
+    I(X,Y) & =  D_{KL}(R \,||\, S) = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} \frac{R(x,y)}{S(x,y)} \\
            & = R(\text{sunny} , \text{high}) \ \log_{2} \frac{R(\text{sunny} , \text{high})}{Q(\text{sunny} , \text{high})}  \\
            & \ \ \ \ \ \ \ \ \ \ \ + R(\text{cloudy} , \text{high}) \ \log_{2} \frac{R(\text{cloudy} , \text{high})}{Q(\text{cloudy} , \text{high})} \\
            & \ \ \ \ \ \ \ \ \ \ \ + R(\text{rainy} , \text{high}) \ \log_{2} \frac{R(\text{rainy } , \text{high})}{Q(\text{rainy } , \text{high})} \\
