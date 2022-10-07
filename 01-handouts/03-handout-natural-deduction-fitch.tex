@@ -1,0 +1,617 @@
+\PassOptionsToPackage{table}{xcolor}
+\documentclass[nobib,nofonts]{tufte-handout}
+
+%\geometry{showframe} % display margins for debugging page layout
+
+%%% MF additions
+% \usepackage[table]{xcolor}
+\usepackage[nographicx, nohyperref, nosubcaption, nogb4e, nobiblatex]{../99-auxiliary-files/00-mypackages}
+\usepackage{../99-auxiliary-files/00-mycommands}
+\usepackage{../99-auxiliary-files/00-myenvironments}
+\usepackage{../99-auxiliary-files/fitch}
+
+\usepackage{titlesec}
+\usepackage{etoolbox}
+\usepackage{tikz-qtree}
+\usepackage{subcaption}
+
+% \titleformat{\section}
+% {\large\bfshape}{\thesection}{1em}{}
+
+\setcounter{secnumdepth}{5}
+\renewcommand\thesection{\arabic{section}}
+
+% this length controls tha hanging indent for titles
+% change the value according to your needs
+\newlength\titleindent
+\setlength\titleindent{0.7cm}
+
+\pretocmd{\paragraph}{\stepcounter{subsection}}{}{}
+\pretocmd{\subparagraph}{\stepcounter{subsubsection}}{}{}
+
+\titleformat{\chapter}[block]
+  {\normalfont\huge\bfseries}{}{0pt}{\hspace*{-\titleindent}}
+
+\titleformat{\section}
+  {\normalfont\Large\itshape}{\llap{\parbox{\titleindent}{\thesection\hfill}}}{0em}{}
+
+\titleformat{\subsection}
+  {\normalfont\itshape}{\llap{\parbox{\titleindent}{\thesubsection\hfill}}}{0em}{}
+
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\itshape}{\llap{\parbox{\titleindent}{\thesubsubsection}}}{0em}{}
+
+\titleformat{\paragraph}[runin]
+  {\normalfont\normalsize\itshape}{}{-0.7cm}{}[\xspace \ \ \ \ ]
+
+\titleformat{\subparagraph}[runin]
+  {\normalfont\normalsize}{\llap{\parbox{\titleindent}{\thesubsubsection\hfill}}}{0em}{}
+
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+\titlespacing*{\subsubsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{0em}
+\titlespacing*{\subparagraph}{0pt}{3.25ex plus 1ex minus .2ex}{0em}
+
+\DefineNamedColor{named}{mygray2}{cmyk}{0.55,0.25,0.25,0.25}
+\newcommand{\mygray}[1]{\textcolor{mygray2}{#1}}
+
+%%% Tufte style
+\usepackage{graphicx} % allow embedded images
+  \setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+  \graphicspath{{graphics/}} % set of paths to search for images
+
+\usepackage{fancyvrb} % extended verbatim environments
+  \fvset{fontsize=\normalsize}% default font size for fancy-verbatim environments
+
+% Standardize command font styles and environments
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+
+\newcommand{\proplog}{\acro{PropLog}}
+\newcommand{\EFSQ}{\ensuremath{\mathit{EFSQ}}\xspace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \usepackage[sc,osf]{mathpazo}
+% \linespread{1.05}
+
+
+
+\title{Natural deduction for propositional logic}
+
+\author[M.~Franke]{Michael Franke}
+
+\date{} % without \date command, current date is supplied
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent
+Semantic vs. syntactic approach to logical inference; derivation; derivation rule; soundness \& completeness; natural deduction system.
+\end{abstract}
+
+\section{Semantic vs.~syntactic approach to logical inference}
+
+% A logic usually consists of three major ingredients:
+% \begin{enumerate}[(i)]
+%   \item a \emph{syntax} defining the formulas of the language,
+%   \item a \emph{semantics} that assigns a meaning to each formula, and
+%   \item an \emph{axiomatic proof system}.
+% \end{enumerate}
+% We have already seen (i) and (ii) for \proplog.
+% Now we are going to look at the final ingredient: an axiomatic proof system.
+% There are many different kinds of proof systems for \proplog.
+% The specific one we consider here is called \emph{natural deduction}.
+
+The most central goal of logic is to capture which inferences are correct and which are not.
+Given premises $\varphi_{1}, \dots, \varphi_{n}$ and conclusion $\psi$ we want to know whether the argument schema $\varphi_{1}, \dots, \varphi_{n} / \psi$ is an instance of ``good'' logical reasoning.
+
+The notion of logical validity is one way of addressing this issue.
+We said that the argument schema $\varphi_{1}, \dots, \varphi_{n} / \psi$ is logically valid (notation: $\varphi_{1}, \dots, \varphi_{n} \models \psi$) iff any valuation function $V$ that makes all premisses $\varphi_{1}, \dots, \varphi_{n}$ true also makes the conclusion $\psi$ true.
+The definition of logical validity takes a \emph{semantic approach} to logical inference in the sense that it uses the semantic notion of \emph{valuation functions}, i.e., constructions that are meant to capture the \emph{meaning} of formulas.
+
+We can also take a \emph{syntactic approach} to delineating what is ``good'' logical reasoning and what is not.
+In this approach we would characterize the argument schema $\varphi_{1}, \dots, \varphi_{n} / \psi$ as an instance of good logical reasoning iff there exists a derivation\sidenote{In the following use the terms derivation and (formal) proof interchangeably.} which, intuitively speaking, starts with the premisses as assumptions and then leads to $\psi$, following only acceptable rules of inference.
+This approach is syntactic in the sense that the rules used in the derivation are in a sense blind to the semantic meaning of formulas.
+They are simple rewrite-rules that do not depend on the meaning (truth or falsity) of the formulas involved but only look at their syntactic form.\sidenote{They are rules that a computer could carry out, say, also on a fragment of natural language sentences without having to have any idea of what these sentences mean.}
+
+
+
+Figure~\ref{fig:deduction-schema} gives a sketch of a natural deduction derivation for argument schema $p \vee (q \wedge \neg q)$, $p \rightarrow r$ / $r$.
+Starting with the premisses as assumptions, we use a finite set of derivation steps to end up with the desired conclusion $r$.
+Generally speaking, a \emph{derivation} of natural deduction is a finite sequence of formulas such that every formula is either
+\begin{enumerate}[(i)]
+  \item an assumption,
+  \item an additional assumption, or
+  \item it is introduced by a legitimate \emph{derivation rule} based on previous formulas in the sequence.
+\end{enumerate}
+If a derivation of $\psi$ from premisses $\varphi_{1}, \dots, \varphi_{n}$ exists, we write $\varphi_{1}, \dots, \varphi_{n} \vdash \psi$.
+We will introduce the set of derivation rules for our system of natural deduction presently. But first we want to concentrate on the conceptual motivation for having such a system in the first place.
+
+\begin{figure}
+  \centering
+  \begin{tabular}{clcl}
+  1. & $p \vee (q \wedge \neg q)$ & & ass. \\
+  2. & $p \rightarrow r$ & & ass. \\
+  $\vdots$ & \mygray{[ \dots derivation steps \dots]} & &   \\
+  n. & $r$ & &   \\
+\end{tabular}
+\caption{Sketch of a natural deduction derivation for argument schema $p \vee (q \wedge \neg q)$, $p \rightarrow r$ / $r$.}
+\label{fig:deduction-schema}
+\end{figure}
+
+\section{Soundness \& completeness}
+
+Ideally, the semantic definition of ``good inference'' (in terms of valuation functions) and the syntactic definition of it (in terms of derivations) coincide.
+In other words, we would really like to have a theorem that tells us that, for any argument schema $\varphi_{1}, \dots, \varphi_{n} / \psi$ it holds that:
+
+\begin{align*}
+  \varphi_{1}, \dots, \varphi_{n} \vdash \psi \ \ \ \
+  \text{iff} \ \ \ \
+  \varphi_{1}, \dots, \varphi_{n} \models \psi
+\end{align*}
+
+The left-to-right direction (``if $\vdash$, then $\models$'') is called \emph{soundness} of the derivation system.
+Soundness requires that whatever can be syntactically derived (what can be proved in the system) is actually logically valid.
+In other words, soundness requires that \emph{only} logically valid conclusions can be derived.
+Proving soundness is usually easy: we just need to make sure that each derivation rule is ``correct.''
+
+The right-to-left direction (``if $\models$, then $\vdash$'') is called \emph{completeness} of the derivation system.
+Completeness requires that we have enough derivation rules to make sure that we can provide a derivation for all logically valid argument schemas.
+In other words, completeness requires that \emph{all} logically valid conclusions can be derived.
+Proving completeness is usually much more difficult than proving soundness.
+
+The system of natural deduction introduced in the following is both sound and complete.
+A proof of either is beyond the scope of this introductory course.
+
+\section{Symbiosis of semantic \& syntactic approach}
+
+Why would we want to have two tools that do the same thing? ---
+Good question.
+Several reasons.
+
+First, the definitions of $\models$ and $\vdash$ are nicely complementary: one is a universal statement (all valuations \dots), the other is an existential statement (there exists a derivation \dots):
+
+\begin{center}
+  \begin{tabular}{ccc}
+    $\varphi_{1}, \dots, \varphi_{n} \vdash \psi$ &
+    iff &
+    $\varphi_{1}, \dots, \varphi_{n} \models \psi$ \\
+    $\Updownarrow$ & & $\Updownarrow$ \\
+    there is a derivation \dots && for all valuations \dots
+  \end{tabular}
+\end{center}
+
+\noindent If $\psi$ is not a good inference from $\varphi_{1}, \dots, \varphi_{n}$, it suffices to give a counterexample in terms of a single valuation function which makes all premises true and the conclusion false.
+We do not need to argue why there is \emph{no} derivation.
+If $\psi$ is a good inference from $\varphi_{1}, \dots, \varphi_{n}$, we do not need to reason about all valuation functions, but can simply produce a single derivation.
+
+Second, characterizing a logical system as a set of derivation rules provides a different and highly useful perspective.
+We can explore alternative systems by just omitting one or several derivation rules.\sidenote{This is important for the foundational question in the Philosophy of Mathematics regarding which kinds of proof strategies should be accepted to base our mathematical knowledge on.}
+In the natural deduction system to be introduced below, dropping the controversial derivation rules \EFSQ and $E_{\neg\neg}$ gives a system called \emph{minimal logic}.
+Adding just \EFSQ but not $E_{\neg\neg}$ gives \emph{intuitionistic logic}.
+
+Third, a proof or derivation system opens doors for a computational, algorithmic approach to logical inference.
+Finding a derivation is essentially a search problem is a large but well-defined search space.
+Classical Artificial Intelligence therefore was inspired, if not enabled, by modern logic because the latter provided a way to capture the basic workings of the rational mind ---drawing correct inferences from a given body of knowledge--- based on the syntactic manipulation of symbolic representations.\sidenote{The computability of logical inference with syntactic rewrite rules is, admittedly, less impressive for \proplog where we can also use truth tables. But for other more complex logics, like predicate logic, this is a non-trivial asset.}
+
+
+\section{Derivation rules of natural deduction}
+
+The derivation rules for natural deduction correspond ---for the most part--- to rules either introducing or eliminating a sentential connective.
+The following exposition moves from easier to more difficult derivation rules.
+
+\subsection{Introduction rule for conjunction $\land$I}
+
+We may introduce the conjunction $\varphi \wedge \psi$ whenever both the conjuncts $\varphi$ and $\psi$ are available at previous lines $m_{1}$ and $m_{2}$. It does not matter whether $m_{1}$ occurs before $m_{2}$ or the other way around.\sidenote{We adopt the same convention of omitting the outermost parentheses. Strictly speaking, we should write $(\varphi \wedge \psi)$ in line n. of this derivation.}
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Conjunction Intro $\land$I}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    $\begin{nd}
+      \have [\vdots] {1} {\vdots}
+      \have [m_1]    {2} {\varphi}
+      \have [\vdots] {3} {\vdots}
+      \have [m_2]    {4} {\psi}
+      \have [\vdots] {5} {\vdots}
+      \have [n]      {6} {\varphi \lor \psi} \ai{2, 4}
+    \end{nd}$
+  \end{minipage}
+}
+\bigskip
+
+We can use this rule to show that $p, q, r \vdash (r \wedge p) \wedge q$ like so:
+
+$\begin{nd}
+  \hypo  {1} {p}
+  \hypo  {2} {q}
+  \hypo  {3} {r}
+  \have  {4} {r \land p}            \ai{3, 1}
+  \have  {5} {(r \land p) \land q}  \ai{4, 2}
+\end{nd}$
+
+\subsection{Elimination rule for conjunction $\land$E}
+
+If we have the conjunction $\varphi \wedge \psi$, we are allowed to also derive each conjunct.\sidenote{It is not necessary to derive both, we can also derive only one of the conjuncts.}
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Conjunction Elim $\land$E}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m]       {2}  {\varphi \land \psi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [n_1]     {4}  {\varphi}  \ae{2}
+      \have  [n_2]     {4}  {\psi}     \ae{2}
+    \end{nd}$
+  \end{minipage}
+}
+\bigskip
+
+We can use this new rule to show that $p \wedge q \vdash q \wedge p$ like so:
+
+$\begin{nd}
+  \hypo  {1}  {p \land q}
+  \have  {2}  {p}          \ae{1}
+  \have  {3}  {q}          \ae{1}
+  \have  {4}  {q \land p}  \ai{3, 2}
+\end{nd}$
+
+\subsection{Elimination rule for implication $\rightarrow$E}
+
+If we have $\varphi \rightarrow \psi$ and $\varphi$ somewhere in our derivation (no matter which one comes first), we can derive $\psi$.
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Implication Elim $\rightarrow$E}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m_1]     {2}  {\varphi \rightarrow \psi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [m_2]     {4}  {\varphi}
+      \have  [\vdots]  {5}  {\vdots}
+      \have  [n]       {6}  {\psi}  \ie{2, 4}
+    \end{nd}$
+  \end{minipage}
+}
+\bigskip
+
+Using this rule, we can show that $p \wedge r, r \rightarrow q \vdash p \wedge q$:
+
+$\begin{nd}
+  \hypo  {1}  {p \land r}
+  \hypo  {2}  {r \rightarrow q}
+  \have  {3}  {p}  \ae{1}
+  \have  {4}  {r}  \ae{1}
+  \have  {5}  {q}  \ie{2, 4}
+  \have  {6}  {p \land q}  \ai{3, 5}
+\end{nd}$
+
+\subsection{Introduction rule for implication $\rightarrow$I}
+
+The introduction rule for implication is slightly more complex.
+The idea is this.
+We can introduce $\varphi \rightarrow \psi$ if it is possible to derive $\psi$ from the additional assumption that $\varphi$.
+We therefore allow \emph{additional, temporary assumptions} to be introduced in order to make ``thought experiments'' like imagining that some formula was given as well.
+We use special notation to note where such an additional assumption was made and where this assumption is dropped again.\sidenote{Notice that we do not need to write down which previous lines this rule operates on as this is implicit in the notation used for marking the ``thought experiment'' or better put: the scope of the additional assumption.}
+We are \emph{not} allowed to use any of the formulas derived in lines $m$ to $n-1$ after dismissing the additional assumption in line $n$.
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Implication Intro $\rightarrow$I}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \open
+      \hypo  [m]       {2}  {\varphi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [n][-1]   {4}  {\phi}
+      \close
+      \have  [n]       {5}  {\varphi \rightarrow \psi}  \ii{}
+    \end{nd}$
+  \end{minipage}
+}
+\bigskip
+
+We can use this rule to show that $\vdash (p \wedge q) \rightarrow q$:\sidenote{Notice that we do not have any premisses here. It can be shown that $\vdash \psi$ iff $\psi$ is a tautology (see exercises below).}
+
+$\begin{nd}
+  \open
+  \hypo  {1}  {p \land q}
+  \have  {2}  {q}  \ae{1}
+  \close
+  \have  {3}  {(p \land q) \rightarrow q}  \ii{}
+\end{nd}$
+
+Another example, with explicit assumptions is the following derivation showing that  $(p \wedge q) \rightarrow r \vdash (q \wedge p) \rightarrow r$:
+
+$\begin{nd}
+  \hypo  {1}  {(p \land q) \rightarrow r}
+  \open
+  \hypo  {2}  {q \land p}
+  \have  {3}  {q}  \ae{2}
+  \have  {4}  {p}  \ae{2}
+  \have  {5}  {p \land q}
+  \have  {6}  {r}  \ie{1, 5}
+  \close
+  \have  {7}  {(q \land p) \rightarrow r}  \ii{}
+\end{nd}$
+
+\subsection{Introduction rule for disjunction $\lor$I}
+
+A disjunction $\varphi \vee \psi$ can be introduced whenever at least one disjunct is available in the derivation.
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Disjunction Intro $\lor$I}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m]       {2}  {\varphi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [n_1]     {4}  {\varphi \lor \psi}  \oi{2}
+      \have  [n_2]     {5}  {\psi \lor \varphi}  \oi{2}
+    \end{nd}$
+  \end{minipage}
+}
+\bigskip
+
+
+\subsection{Eliminiation rule for disjunction $\lor$E}
+
+Intuitively, we can conclude $\chi$ from a disjunction $\varphi \vee \psi$ when $\chi$ follows from $\varphi$ and then $\chi$ also follows from $\psi$.
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Disjunction Elim $\lor$E}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m_1]     {2}  {\varphi \lor \psi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [m_2]     {4}  {\varphi \rightarrow \chi}
+      \have  [\vdots]  {5}  {\vdots}
+      \have  [m_3]     {6}  {\psi \rightarrow \chi}
+      \have  [\vdots]  {7}  {\vdots}
+      \have  [n]       {n}  {\chi}  \oe{2, 4, 6}
+    \end{nd}$
+  \end{minipage}
+}
+\bigskip
+
+Here is an example derivation using $E_{\vee}$ showing that $p \vee q \vdash q \vee p$:
+
+$\begin{nd}
+  \hypo  {1}  {p \lor q}
+  \open
+  \hypo  {2}  {p}
+  \have  {3}  {q \lor p}  \oi{2}
+  \close
+  \have  {4}  {p \rightarrow (q \lor p)}  \ii{}
+  \open
+  \hypo  {5}  {q}
+  \have  {6}  {q \lor p}  \oi{5}
+  \close
+  \have  {7}  {q \rightarrow (q \lor p)}  \ii{}
+  \have  {8}  {q \lor p}  \oe{1, 4, 7}
+\end{nd}$
+
+\subsection{Elimination rule for negation $\neg$E}
+
+Negation is tricky in natural deduction.
+Though we will speak of an elimination rule for negation, strictly speaking we cannot just eliminate negation if we have a formula $\neg \varphi$.
+But we can draw inferences from the negation $\neg \varphi$ which are ``reductive'' in a sense: if we have derived both $\neg \varphi$ and $\varphi$ we have derived a contradiction, which can be very informative.\sidenote{Remember that the strategy of an indirect proof is to make a certain assumption in order to show that this will result in a contradiction.}
+So, the elimination rule for negation can best be thought of as an introduction rule for the sign $\bot$ which we use as a special symbol for a contradiction.\sidenote{Strictly speaking, we should introduce $\bot$ into the language of \proplog as a special formula, which can be used exactly like a proposition letter. We should then say that for all $V$ it holds that $V(\bot) = 0$.}
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Negation Elim $\neg$E}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m_1]     {2}  {\neg \varphi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [m_2]     {4}  {\varphi}
+      \have  [\vdots]  {5}  {\vdots}
+      \have  [n]       {6}  {\bot}  \ne{2, 4}
+    \end{nd}$
+  \end{minipage}
+}
+\bigskip
+
+\subsection{Introduction rule for negation $\neg$I}
+
+The rule for introducing a negation follows the idea of an indirect proof.
+We make an additional assumption that $\varphi$.
+If we manage to derive from this assumption a contradiction (denoted as $\bot$), we derive $\neg \varphi$.\sidenote{Negation introduction is essentially a derivation of $\varphi \rightarrow \bot$ which is logically equivalent to $\neg \varphi$.}
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Negation Intro $\neg$I}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \open
+      \hypo  [m]       {2}  {\varphi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [n][-1]   {4}  {\bot}
+      \close
+      \have  [n]       {5}  {\neg \varphi}  \ni{}
+    \end{nd}$
+  \end{minipage}
+}
+\bigskip
+
+Here is an example derivation using $E_{\neg}$ and $I_{\neg}$ showing that $\vdash \neg(p \wedge \neg p)$:
+
+\bigskip
+
+$\begin{nd}
+  \open
+  \hypo  {1}  {p \land \neg p}
+  \have  {2}  {p}       \ae{1}
+  \have  {3}  {\neg p}  \ae{1}
+  \have  {4}  {\bot}    \ne{2, 3}
+  \close
+  \have  {5}  {\neg (p \land \neg p)}  \ni{}
+\end{nd}$
+
+\subsection{Repetition rule $R$}
+
+We allow to just repeat any previously derived formula.
+This is really just for readability of a derivation.
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Repetition}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m]       {2}  {\phi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [n]       {4}  {\bot}  \r{2}
+    \end{nd}$
+  \end{minipage}
+}
+\bigskip
+
+\subsection{Ex Falso Sequitor Quodlibet Rule $\bot$E}
+
+The derivation rules introduced so far are still not enough to produce a derivation for every valid argument schema.
+One example is the logically valid argument schema $p \vee q$, $\neg p$ / $q$.
+In order to obtain a system in which $p \vee q, \neg p \vdash q$, we need to introduce another rule, such as the (in)famous \emph{ex falso sequitur quodlibet} ($\bot$E) rule.\sidenote{It is rather difficult to prove that there cannot be a derivation without this (or an equivalent rule). For our purposes, let's just accept that this is so.}
+The $\bot$E rule allows for the derivation of \emph{any} formula if a contradiction has been derived.
+This is useful, of course, particularly when the contradiction is derived from an additional assumption, as in the introduction of implication (see example below).
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{$\bot$E}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m]       {2}  {\bot}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [n]       {4}  {\varphi}  \be{2}
+    \end{nd}$
+  \end{minipage}
+}
+\bigskip
+
+Here is a derivation showing that $p \vee q, \neg p \vdash q$:
+
+$\begin{nd}
+  \hypo  {1}  {p \lor q}
+  \hypo  {2}  {\neg p}
+  \open
+  \hypo  {3}  {p}
+  \have  {4}  {\bot}  \ne{2, 3}
+  \have  {5}  {q}    \be{4}
+  \close
+  \have  {6}  {p \rightarrow q}  \ii{} 
+  \open
+  \hypo  {7}  {q}
+  \have  {8}  {q}     \r{7}
+  \close
+  \have  {9}  {q \rightarrow q}  \ii{}
+  \have  {10} {q}     \oe{1, 6, 9}
+\end{nd}$
+
+\subsection{Double-negation elimination rule $\neg\neg$E}
+
+While it may seem innocuous to conclude $\varphi$ from a doubly negated statement like $\neg\neg\varphi$, from the point of view of derivations (think: proofs), this is not so.
+In fact, the rules introduced so far do not allow for the elimination of double negation.
+We have to introduce a separate rule for this.
+
+\bigskip
+\noindent \colorbox{mygray!60}{\centering
+  \begin{minipage}[t]{0.35\linewidth}
+    \textbf{Double-Neg Elim $\neg \neg$E}
+  \end{minipage}
+  \begin{minipage}[t]{0.55\linewidth}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m]       {2}  {\neg \neg \varphi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [n]       {4}  {\varphi}  \nne{2}
+    \end{nd}$
+  \end{minipage}
+}
+\bigskip
+
+Using double-negation elimination we can show that $\vdash p \vee \neg p$:\bigskip
+
+$\begin{nd}
+  \open
+  \hypo  {1}  {\neg (p \lor \neg p)}
+  \open
+  \hypo  {2}  {p}
+  \have  {3}  {p \lor \neg p}  \oi{2}
+  \have  {4}  {\bot}           \ne{1, 3}
+  \close
+  \have  {5}  {\neg p}         \ni{}
+  \have  {6}  {p \lor \neg p}  \oi{5}
+  \have  {7}  {\bot}           \ne{1, 6}
+  \close
+  \have  {8}  {\neg \neg (p \lor \neg p)}  \ni{}
+  \have  {9}  {p \lor \neg p}  \nne{8}
+\end{nd}$
+
+\bigskip
+\noindent \colorbox{mygray}{\centering
+  \begin{minipage}{1.0\textwidth}
+
+    \begin{exercise}
+      Give a derivation in natural deduction for each of the following argument schemas.
+      \begin{enumerate}[(i)]
+        \item $p, q, r \vdash (p \wedge q) \wedge r$
+        \item $\vdash p \rightarrow p$
+        \item $p \rightarrow (q \rightarrow r), p, q \vdash r$
+        \item $p \vee (p \wedge q) \vdash p$
+      \end{enumerate}
+    \end{exercise}
+
+    \begin{exercise}
+      Assuming soundness and completeness of natural deduction, prove the following claims:
+      \begin{enumerate}[(i)]
+        \item $\vdash \psi$ iff $\psi$ is a tautology
+        \item $\varphi \vdash \bot$ iff $\varphi$ is a contradiction
+      \end{enumerate}
+    \end{exercise}
+  \end{minipage}
+
+}
+
+
+\end{document}
+
