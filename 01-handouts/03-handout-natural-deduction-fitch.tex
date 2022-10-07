@@ -234,9 +234,9 @@ We may introduce the conjunction $\varphi \wedge \psi$ whenever both the conjunc
 We can use this rule to show that $p, q, r \vdash (r \wedge p) \wedge q$ like so:
 
 $\begin{nd}
-  \hypo  {1} {p}
-  \hypo  {2} {q}
-  \hypo  {3} {r}
+  \hypo  {1} {p}                    \ass{}
+  \hypo  {2} {q}                    \ass{}
+  \hypo  {3} {r}                    \ass{}
   \have  {4} {r \land p}            \ai{3, 1}
   \have  {5} {(r \land p) \land q}  \ai{4, 2}
 \end{nd}$
@@ -265,7 +265,7 @@ If we have the conjunction $\varphi \wedge \psi$, we are allowed to also derive 
 We can use this new rule to show that $p \wedge q \vdash q \wedge p$ like so:
 
 $\begin{nd}
-  \hypo  {1}  {p \land q}
+  \hypo  {1}  {p \land q}  \ass{}
   \have  {2}  {p}          \ae{1}
   \have  {3}  {q}          \ae{1}
   \have  {4}  {q \land p}  \ai{3, 2}
@@ -296,8 +296,8 @@ If we have $\varphi \rightarrow \psi$ and $\varphi$ somewhere in our derivation 
 Using this rule, we can show that $p \wedge r, r \rightarrow q \vdash p \wedge q$:
 
 $\begin{nd}
-  \hypo  {1}  {p \land r}
-  \hypo  {2}  {r \rightarrow q}
+  \hypo  {1}  {p \land r}  \ass{}
+  \hypo  {2}  {r \rightarrow q}  \ass{}
   \have  {3}  {p}  \ae{1}
   \have  {4}  {r}  \ae{1}
   \have  {5}  {q}  \ie{2, 4}
@@ -322,7 +322,7 @@ We are \emph{not} allowed to use any of the formulas derived in lines $m$ to $n-
     $\begin{nd}
       \have  [\vdots]  {1}  {\vdots}
       \open
-      \hypo  [m]       {2}  {\varphi}
+      \hypo  [m]       {2}  {\varphi}  \add{}
       \have  [\vdots]  {3}  {\vdots}
       \have  [n][-1]   {4}  {\phi}
       \close
@@ -336,7 +336,7 @@ We can use this rule to show that $\vdash (p \wedge q) \rightarrow q$:\sidenote{
 
 $\begin{nd}
   \open
-  \hypo  {1}  {p \land q}
+  \hypo  {1}  {p \land q}  \add{}
   \have  {2}  {q}  \ae{1}
   \close
   \have  {3}  {(p \land q) \rightarrow q}  \ii{}
@@ -345,9 +345,9 @@ $\begin{nd}
 Another example, with explicit assumptions is the following derivation showing that  $(p \wedge q) \rightarrow r \vdash (q \wedge p) \rightarrow r$:
 
 $\begin{nd}
-  \hypo  {1}  {(p \land q) \rightarrow r}
+  \hypo  {1}  {(p \land q) \rightarrow r}  \ass{}
   \open
-  \hypo  {2}  {q \land p}
+  \hypo  {2}  {q \land p}  \add{}
   \have  {3}  {q}  \ae{2}
   \have  {4}  {p}  \ae{2}
   \have  {5}  {p \land q}
@@ -405,14 +405,14 @@ Intuitively, we can conclude $\chi$ from a disjunction $\varphi \vee \psi$ when 
 Here is an example derivation using $E_{\vee}$ showing that $p \vee q \vdash q \vee p$:
 
 $\begin{nd}
-  \hypo  {1}  {p \lor q}
+  \hypo  {1}  {p \lor q}  \ass{}
   \open
-  \hypo  {2}  {p}
+  \hypo  {2}  {p}         \add{}
   \have  {3}  {q \lor p}  \oi{2}
   \close
   \have  {4}  {p \rightarrow (q \lor p)}  \ii{}
   \open
-  \hypo  {5}  {q}
+  \hypo  {5}  {q}         \add{}
   \have  {6}  {q \lor p}  \oi{5}
   \close
   \have  {7}  {q \rightarrow (q \lor p)}  \ii{}
@@ -459,7 +459,7 @@ If we manage to derive from this assumption a contradiction (denoted as $\bot$),
     $\begin{nd}
       \have  [\vdots]  {1}  {\vdots}
       \open
-      \hypo  [m]       {2}  {\varphi}
+      \hypo  [m]       {2}  {\varphi}       \add{}
       \have  [\vdots]  {3}  {\vdots}
       \have  [n][-1]   {4}  {\bot}
       \close
@@ -475,7 +475,7 @@ Here is an example derivation using $E_{\neg}$ and $I_{\neg}$ showing that $\vda
 
 $\begin{nd}
   \open
-  \hypo  {1}  {p \land \neg p}
+  \hypo  {1}  {p \land \neg p}         \add{}
   \have  {2}  {p}       \ae{1}
   \have  {3}  {\neg p}  \ae{1}
   \have  {4}  {\bot}    \ne{2, 3}
@@ -531,20 +531,20 @@ This is useful, of course, particularly when the contradiction is derived from a
 Here is a derivation showing that $p \vee q, \neg p \vdash q$:
 
 $\begin{nd}
-  \hypo  {1}  {p \lor q}
-  \hypo  {2}  {\neg p}
+  \hypo  {1}  {p \lor q}  \ass{}
+  \hypo  {2}  {\neg p}    \ass{}
   \open
-  \hypo  {3}  {p}
-  \have  {4}  {\bot}  \ne{2, 3}
-  \have  {5}  {q}    \be{4}
+  \hypo  {3}  {p}         \add{}
+  \have  {4}  {\bot}      \ne{2, 3}
+  \have  {5}  {q}         \be{4}
   \close
   \have  {6}  {p \rightarrow q}  \ii{} 
   \open
-  \hypo  {7}  {q}
-  \have  {8}  {q}     \r{7}
+  \hypo  {7}  {q}         \add{}
+  \have  {8}  {q}         \r{7}
   \close
   \have  {9}  {q \rightarrow q}  \ii{}
-  \have  {10} {q}     \oe{1, 6, 9}
+  \have  {10} {q}         \oe{1, 6, 9}
 \end{nd}$
 
 \subsection{Double-negation elimination rule $\neg\neg$E}
@@ -573,9 +573,9 @@ Using double-negation elimination we can show that $\vdash p \vee \neg p$:\bigsk
 
 $\begin{nd}
   \open
-  \hypo  {1}  {\neg (p \lor \neg p)}
+  \hypo  {1}  {\neg (p \lor \neg p)}  \add{}
   \open
-  \hypo  {2}  {p}
+  \hypo  {2}  {p}              \add{}
   \have  {3}  {p \lor \neg p}  \oi{2}
   \have  {4}  {\bot}           \ne{1, 3}
   \close
