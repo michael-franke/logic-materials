@@ -196,8 +196,8 @@ If $\psi$ is a good inference from $\varphi_{1}, \dots, \varphi_{n}$, we do not 
 
 Second, characterizing a logical system as a set of derivation rules provides a different and highly useful perspective.
 We can explore alternative systems by just omitting one or several derivation rules.\sidenote{This is important for the foundational question in the Philosophy of Mathematics regarding which kinds of proof strategies should be accepted to base our mathematical knowledge on.}
-In the natural deduction system to be introduced below, dropping the controversial derivation rules \EFSQ and $\neg \neg$E gives a system called \emph{minimal logic}.
-Adding just \EFSQ but not $\neg \neg$E gives \emph{intuitionistic logic}.
+In the natural deduction system to be introduced below, dropping the controversial derivation rules $\bot$E and $\neg \neg$E gives a system called \emph{minimal logic}.
+Adding just $\bot$E but not $\neg \neg$E gives \emph{intuitionistic logic}.
 
 Third, a proof or derivation system opens doors for a computational, algorithmic approach to logical inference.
 Finding a derivation is essentially a search problem is a large but well-defined search space.
@@ -402,7 +402,7 @@ Intuitively, we can conclude $\chi$ from a disjunction $\varphi \vee \psi$ when 
 }
 \bigskip
 
-Here is an example derivation using $E_{\vee}$ showing that $p \vee q \vdash q \vee p$:
+Here is an example derivation using $\lor$E showing that $p \vee q \vdash q \vee p$:
 
 $\begin{nd}
   \hypo  {1}  {p \lor q}  \ass{}
@@ -469,7 +469,7 @@ If we manage to derive from this assumption a contradiction (denoted as $\bot$),
 }
 \bigskip
 
-Here is an example derivation using $E_{\neg}$ and $I_{\neg}$ showing that $\vdash \neg(p \wedge \neg p)$:
+Here is an example derivation using $\neg$E and $\neg$I showing that $\vdash \neg(p \wedge \neg p)$:
 
 \bigskip
 
@@ -504,7 +504,7 @@ This is really just for readability of a derivation.
 }
 \bigskip
 
-\subsection{Ex Falso Sequitor Quodlibet Rule $\bot$E}
+\subsection{Falsum elimination rule $\bot$E}
 
 The derivation rules introduced so far are still not enough to produce a derivation for every valid argument schema.
 One example is the logically valid argument schema $p \vee q$, $\neg p$ / $q$.
