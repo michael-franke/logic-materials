@@ -209,14 +209,14 @@ Classical Artificial Intelligence therefore was inspired, if not enabled, by mod
 The derivation rules for natural deduction correspond ---for the most part--- to rules either introducing or eliminating a sentential connective.
 The following exposition moves from easier to more difficult derivation rules.
 
-\subsection{Introduction rule for conjunction $\land$I}
+\subsection{Introduction rule for conjunction $\wedge$I}
 
 We may introduce the conjunction $\varphi \wedge \psi$ whenever both the conjuncts $\varphi$ and $\psi$ are available at previous lines $m_{1}$ and $m_{2}$. It does not matter whether $m_{1}$ occurs before $m_{2}$ or the other way around.\sidenote{We adopt the same convention of omitting the outermost parentheses. Strictly speaking, we should write $(\varphi \wedge \psi)$ in line n. of this derivation.}
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Conjunction Intro $\land$I}
+    \textbf{Conjunction Intro $\wedge$I}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
     $\begin{nd}
@@ -225,7 +225,7 @@ We may introduce the conjunction $\varphi \wedge \psi$ whenever both the conjunc
       \have [\vdots] {3} {\vdots}
       \have [m_2]    {4} {\psi}
       \have [\vdots] {5} {\vdots}
-      \have [n]      {6} {\varphi \lor \psi} \ai{2, 4}
+      \have [n]      {6} {\varphi \vee \psi} \ai{2, 4}
     \end{nd}$
   \end{minipage}
 }
@@ -237,23 +237,23 @@ $\begin{nd}
   \hypo  {1} {p}                    \ass{}
   \hypo  {2} {q}                    \ass{}
   \hypo  {3} {r}                    \ass{}
-  \have  {4} {r \land p}            \ai{3, 1}
-  \have  {5} {(r \land p) \land q}  \ai{4, 2}
+  \have  {4} {r \wedge p}            \ai{3, 1}
+  \have  {5} {(r \wedge p) \wedge q}  \ai{4, 2}
 \end{nd}$
 
-\subsection{Elimination rule for conjunction $\land$E}
+\subsection{Elimination rule for conjunction $\wedge$E}
 
 If we have the conjunction $\varphi \wedge \psi$, we are allowed to also derive each conjunct.\sidenote{It is not necessary to derive both, we can also derive only one of the conjuncts.}
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Conjunction Elim $\land$E}
+    \textbf{Conjunction Elim $\wedge$E}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
     $\begin{nd}
       \have  [\vdots]  {1}  {\vdots}
-      \have  [m]       {2}  {\varphi \land \psi}
+      \have  [m]       {2}  {\varphi \wedge \psi}
       \have  [\vdots]  {3}  {\vdots}
       \have  [n_1]     {4}  {\varphi}  \ae{2}
       \have  [n_2]     {4}  {\psi}     \ae{2}
@@ -265,10 +265,10 @@ If we have the conjunction $\varphi \wedge \psi$, we are allowed to also derive 
 We can use this new rule to show that $p \wedge q \vdash q \wedge p$ like so:
 
 $\begin{nd}
-  \hypo  {1}  {p \land q}  \ass{}
+  \hypo  {1}  {p \wedge q}  \ass{}
   \have  {2}  {p}          \ae{1}
   \have  {3}  {q}          \ae{1}
-  \have  {4}  {q \land p}  \ai{3, 2}
+  \have  {4}  {q \wedge p}  \ai{3, 2}
 \end{nd}$
 
 \subsection{Elimination rule for implication $\rightarrow$E}
@@ -296,12 +296,12 @@ If we have $\varphi \rightarrow \psi$ and $\varphi$ somewhere in our derivation 
 Using this rule, we can show that $p \wedge r, r \rightarrow q \vdash p \wedge q$:
 
 $\begin{nd}
-  \hypo  {1}  {p \land r}  \ass{}
+  \hypo  {1}  {p \wedge r}  \ass{}
   \hypo  {2}  {r \rightarrow q}  \ass{}
   \have  {3}  {p}  \ae{1}
   \have  {4}  {r}  \ae{1}
   \have  {5}  {q}  \ie{2, 4}
-  \have  {6}  {p \land q}  \ai{3, 5}
+  \have  {6}  {p \wedge q}  \ai{3, 5}
 \end{nd}$
 
 \subsection{Introduction rule for implication $\rightarrow$I}
@@ -336,61 +336,61 @@ We can use this rule to show that $\vdash (p \wedge q) \rightarrow q$:\sidenote{
 
 $\begin{nd}
   \open
-  \hypo  {1}  {p \land q}  \add{}
+  \hypo  {1}  {p \wedge q}  \add{}
   \have  {2}  {q}  \ae{1}
   \close
-  \have  {3}  {(p \land q) \rightarrow q}  \ii{}
+  \have  {3}  {(p \wedge q) \rightarrow q}  \ii{}
 \end{nd}$
 
 Another example, with explicit assumptions is the following derivation showing that  $(p \wedge q) \rightarrow r \vdash (q \wedge p) \rightarrow r$:
 
 $\begin{nd}
-  \hypo  {1}  {(p \land q) \rightarrow r}  \ass{}
+  \hypo  {1}  {(p \wedge q) \rightarrow r}  \ass{}
   \open
-  \hypo  {2}  {q \land p}  \add{}
+  \hypo  {2}  {q \wedge p}  \add{}
   \have  {3}  {q}  \ae{2}
   \have  {4}  {p}  \ae{2}
-  \have  {5}  {p \land q}
+  \have  {5}  {p \wedge q}
   \have  {6}  {r}  \ie{1, 5}
   \close
-  \have  {7}  {(q \land p) \rightarrow r}  \ii{}
+  \have  {7}  {(q \wedge p) \rightarrow r}  \ii{}
 \end{nd}$
 
-\subsection{Introduction rule for disjunction $\lor$I}
+\subsection{Introduction rule for disjunction $\vee$I}
 
 A disjunction $\varphi \vee \psi$ can be introduced whenever at least one disjunct is available in the derivation.
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Disjunction Intro $\lor$I}
+    \textbf{Disjunction Intro $\vee$I}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
     $\begin{nd}
       \have  [\vdots]  {1}  {\vdots}
       \have  [m]       {2}  {\varphi}
       \have  [\vdots]  {3}  {\vdots}
-      \have  [n_1]     {4}  {\varphi \lor \psi}  \oi{2}
-      \have  [n_2]     {5}  {\psi \lor \varphi}  \oi{2}
+      \have  [n_1]     {4}  {\varphi \vee \psi}  \oi{2}
+      \have  [n_2]     {5}  {\psi \vee \varphi}  \oi{2}
     \end{nd}$
   \end{minipage}
 }
 \bigskip
 
 
-\subsection{Eliminiation rule for disjunction $\lor$E}
+\subsection{Eliminiation rule for disjunction $\vee$E}
 
 Intuitively, we can conclude $\chi$ from a disjunction $\varphi \vee \psi$ when $\chi$ follows from $\varphi$ and then $\chi$ also follows from $\psi$.
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Disjunction Elim $\lor$E}
+    \textbf{Disjunction Elim $\vee$E}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
     $\begin{nd}
       \have  [\vdots]  {1}  {\vdots}
-      \have  [m_1]     {2}  {\varphi \lor \psi}
+      \have  [m_1]     {2}  {\varphi \vee \psi}
       \have  [\vdots]  {3}  {\vdots}
       \have  [m_2]     {4}  {\varphi \rightarrow \chi}
       \have  [\vdots]  {5}  {\vdots}
@@ -402,21 +402,21 @@ Intuitively, we can conclude $\chi$ from a disjunction $\varphi \vee \psi$ when 
 }
 \bigskip
 
-Here is an example derivation using $\lor$E showing that $p \vee q \vdash q \vee p$:
+Here is an example derivation using $\vee$E showing that $p \vee q \vdash q \vee p$:
 
 $\begin{nd}
-  \hypo  {1}  {p \lor q}  \ass{}
+  \hypo  {1}  {p \vee q}  \ass{}
   \open
   \hypo  {2}  {p}         \add{}
-  \have  {3}  {q \lor p}  \oi{2}
+  \have  {3}  {q \vee p}  \oi{2}
   \close
-  \have  {4}  {p \rightarrow (q \lor p)}  \ii{}
+  \have  {4}  {p \rightarrow (q \vee p)}  \ii{}
   \open
   \hypo  {5}  {q}         \add{}
-  \have  {6}  {q \lor p}  \oi{5}
+  \have  {6}  {q \vee p}  \oi{5}
   \close
-  \have  {7}  {q \rightarrow (q \lor p)}  \ii{}
-  \have  {8}  {q \lor p}  \oe{1, 4, 7}
+  \have  {7}  {q \rightarrow (q \vee p)}  \ii{}
+  \have  {8}  {q \vee p}  \oe{1, 4, 7}
 \end{nd}$
 
 \subsection{Elimination rule for negation $\neg$E}
@@ -475,12 +475,12 @@ Here is an example derivation using $\neg$E and $\neg$I showing that $\vdash \ne
 
 $\begin{nd}
   \open
-  \hypo  {1}  {p \land \neg p}         \add{}
+  \hypo  {1}  {p \wedge \neg p}         \add{}
   \have  {2}  {p}       \ae{1}
   \have  {3}  {\neg p}  \ae{1}
   \have  {4}  {\bot}    \ne{2, 3}
   \close
-  \have  {5}  {\neg (p \land \neg p)}  \ni{}
+  \have  {5}  {\neg (p \wedge \neg p)}  \ni{}
 \end{nd}$
 
 \subsection{Repetition rule $R$}
@@ -531,7 +531,7 @@ This is useful, of course, particularly when the contradiction is derived from a
 Here is a derivation showing that $p \vee q, \neg p \vdash q$:
 
 $\begin{nd}
-  \hypo  {1}  {p \lor q}  \ass{}
+  \hypo  {1}  {p \vee q}  \ass{}
   \hypo  {2}  {\neg p}    \ass{}
   \open
   \hypo  {3}  {p}         \add{}
@@ -573,18 +573,18 @@ Using double-negation elimination we can show that $\vdash p \vee \neg p$:\bigsk
 
 $\begin{nd}
   \open
-  \hypo  {1}  {\neg (p \lor \neg p)}  \add{}
+  \hypo  {1}  {\neg (p \vee \neg p)}  \add{}
   \open
   \hypo  {2}  {p}              \add{}
-  \have  {3}  {p \lor \neg p}  \oi{2}
+  \have  {3}  {p \vee \neg p}  \oi{2}
   \have  {4}  {\bot}           \ne{1, 3}
   \close
   \have  {5}  {\neg p}         \ni{}
-  \have  {6}  {p \lor \neg p}  \oi{5}
+  \have  {6}  {p \vee \neg p}  \oi{5}
   \have  {7}  {\bot}           \ne{1, 6}
   \close
-  \have  {8}  {\neg \neg (p \lor \neg p)}  \ni{}
-  \have  {9}  {p \lor \neg p}  \nne{8}
+  \have  {8}  {\neg \neg (p \vee \neg p)}  \ni{}
+  \have  {9}  {p \vee \neg p}  \nne{8}
 \end{nd}$
 
 \bigskip
