@@ -430,15 +430,15 @@ We can also think about conditional entropy as the average uncertainty of an age
   \begin{align*}
     \mathcal{H}(P \mid Q) & = - \sum_{y \in Y} Q(y)
                           \sum_{x \in X} R(x \mid y) \log_{2} R(x \mid y) \\
-                          & = Q(\text{high}) \ [ R(\text{sunny} \mid \text{high}) \ \log_{2} R(\text{sunny} \mid \text{high})  \\
+                          & = - Q(\text{high}) \ [ R(\text{sunny} \mid \text{high}) \ \log_{2} R(\text{sunny} \mid \text{high})  \\
                           & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + R(\text{cloudy} \mid \text{high}) \ \log_{2} R(\text{cloudy} \mid \text{high}) \\
                           & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + R(\text{rainy} \mid \text{high}) \ \log_{2} R(\text{rainy } \mid \text{high}) ] + \\
-                           &\ \ \  \ \ \ Q(\text{low}) \ [ R(\text{sunny} \mid \text{low}) \ \log_{2} R(\text{sunny} \mid \text{low})  \\
+                           &\ \ \  \ \ \ - Q(\text{low}) \ [ R(\text{sunny} \mid \text{low}) \ \log_{2} R(\text{sunny} \mid \text{low})  \\
                           & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + R(\text{cloudy} \mid \text{low}) \ \log_{2} R(\text{cloudy} \mid \text{low}) \\
                           & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + R(\text{rainy} \mid \text{low}) \ \log_{2} R(\text{rainy } \mid \text{low}) ] \\
-                          & = 0.4 [0.6 \log_{2} 0.6 +  0.2 \log_{2} 0.2 + 0.2 \log_{2} 0.2] + \\
-                          & \ \ \ \ 0.6 [0.1 \log_{2} 0.1 +  0.2 \log_{2} 0.2 + 0.7 \log_{2} 0.7] \\
-     & \approx 1.01
+                          & = - 0.4 [0.6 \log_{2} 0.6 +  0.2 \log_{2} 0.2 + 0.2 \log_{2} 0.2] + \\
+                          & \ \ \ \ - 0.6 [0.1 \log_{2} 0.1 +  0.2 \log_{2} 0.2 + 0.7 \log_{2} 0.7] \\
+     & \approx 1.242
   \end{align*}
 \end{example}
 
@@ -498,11 +498,11 @@ KL-divergence $D_{KL}(P \,||\, Q)$ can be equivalently written in terms of the e
 Let $R \in \Delta(X \times Y)$ be a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over (finite) $X$ and $Y$ respectively.
 The \emph{mutual information} $I(P,Q)$ of $P$ and $Q$ is the expected excess surprisal if the dimensions $X$ and $Y$ are assumed to be stochastically independent:
 \begin{align*}
-  I(X,Y) & = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} \frac{R(x,y)}{P(x) \ Q(y)}
+  I(P,Q) & = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} \frac{R(x,y)}{P(x) \ Q(y)}
 \end{align*}
 We can write this more intelligibly in terms of the Kullback-Leibler divergence between true distribution $R$ and the distribution $S \in \Delta(X \times Y)$ which is derived from $P$ and $Q$ by assuming that the dimensions $X$ and $Y$ are stochastically independent, so that $S(x,y) = P(x) \ Q(x)$:
 \begin{align*}
-  I(X,Y) & =  D_{KL}(R \,||\, S) = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} \frac{R(x,y)}{S(x,y)}
+  I(P,Q) & =  D_{KL}(R \,||\, S) = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} \frac{R(x,y)}{S(x,y)}
 \end{align*}
 Intuitively, we may think of mutual information as a measure of how much more (needlessly) surprised an agent is who believes $X$ and $Y$ are stochastically independent (while having correct beliefs about the marginal distributions).
 
@@ -554,8 +554,8 @@ Intuitively, we may think of mutual information as a measure of how much more (n
       \begin{center}
         \begin{tabular}{lcccc}
                               & sunny & cloudy & rainy & storm \\ \midrule
-          Roberts' beliefs     & 0.1   & 0.6    & 0.2   & 0.1 \\
-          Carpenter's beliefs & 0.4   & 0.1    & 0.3   & 0.2 \\
+          roberts' beliefs     & 0.1   & 0.6    & 0.2   & 0.1 \\
+          carpenter's beliefs & 0.4   & 0.1    & 0.3   & 0.2 \\
         \end{tabular}
       \end{center}
 
@@ -600,8 +600,6 @@ Intuitively, we may think of mutual information as a measure of how much more (n
 
   \end{minipage}
 }
-
-
 
 \end{document}
 
