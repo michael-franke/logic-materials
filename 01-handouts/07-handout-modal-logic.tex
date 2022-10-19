@@ -1,0 +1,382 @@
+\PassOptionsToPackage{table}{xcolor}
+\documentclass[nobib,nofonts]{tufte-handout}
+
+%\geometry{showframe} % display margins for debugging page layout
+
+%%% MF additions
+% \usepackage[table]{xcolor}
+\usepackage[nographicx, nohyperref, nosubcaption, nogb4e, nobiblatex]{../99-auxiliary-files/00-mypackages}
+\usepackage{../99-auxiliary-files/00-mycommands}
+\usepackage{../99-auxiliary-files/00-myenvironments}
+
+\usepackage{titlesec}
+\usepackage{etoolbox}
+\usepackage{tikz-qtree}
+\usepackage{subcaption}
+
+\usepackage{pgfplots}
+% externalize PGF plots
+% \usepgfplotslibrary{external}
+% \tikzexternalize
+
+% \titleformat{\section}
+% {\large\bfshape}{\thesection}{1em}{}
+
+\setcounter{secnumdepth}{5}
+\renewcommand\thesection{\arabic{section}}
+
+% this length controls tha hanging indent for titles
+% change the value according to your needs
+\newlength\titleindent
+\setlength\titleindent{0.7cm}
+
+\pretocmd{\paragraph}{\stepcounter{subsection}}{}{}
+\pretocmd{\subparagraph}{\stepcounter{subsubsection}}{}{}
+
+\titleformat{\chapter}[block]
+  {\normalfont\huge\bfseries}{}{0pt}{\hspace*{-\titleindent}}
+
+\titleformat{\section}
+  {\normalfont\Large\itshape}{\llap{\parbox{\titleindent}{\thesection\hfill}}}{0em}{}
+
+\titleformat{\subsection}
+  {\normalfont\itshape}{\llap{\parbox{\titleindent}{\thesubsection\hfill}}}{0em}{}
+
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\itshape}{\llap{\parbox{\titleindent}{\thesubsubsection}}}{0em}{}
+
+\titleformat{\paragraph}[runin]
+  {\normalfont\normalsize\itshape}{}{-0.7cm}{}[\xspace \ \ \ \ ]
+
+\titleformat{\subparagraph}[runin]
+  {\normalfont\normalsize}{\llap{\parbox{\titleindent}{\thesubsubsection\hfill}}}{0em}{}
+
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+\titlespacing*{\subsubsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{0em}
+\titlespacing*{\subparagraph}{0pt}{3.25ex plus 1ex minus .2ex}{0em}
+
+\DefineNamedColor{named}{mygray2}{cmyk}{0.55,0.25,0.25,0.25}
+\newcommand{\mygray}[1]{\textcolor{mygray2}{#1}}
+
+%%% Tufte style
+\usepackage{graphicx} % allow embedded images
+  \setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+  \graphicspath{{graphics/}} % set of paths to search for images
+
+\usepackage{fancyvrb} % extended verbatim environments
+  \fvset{fontsize=\normalsize}% default font size for fancy-verbatim environments
+
+% Standardize command font styles and environments
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+
+\newcommand{\proplog}{\acro{PropLog}}
+\newcommand{\EFSQ}{\ensuremath{\mathit{EFSQ}}\xspace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \usepackage[sc,osf]{mathpazo}
+% \linespread{1.05}
+
+\usepackage{turnstile}
+\usetikzlibrary{patterns}
+\usetikzlibrary{calc}
+
+% TODO sort out what's needed there;
+% TODO make consistent with notation in other handouts
+
+\newcommand{\Props}{\ensuremath{\Phi}}
+\newcommand{\Lang}{\ensuremath{\mathfrak{L}}}
+
+\newcommand{\ts}{\ensuremath{\thinspace}}
+
+\newcommand{\mybar}{\ensuremath{\ | \ }}
+
+\renewcommand{\phi}{\ensuremath{\varphi}}
+
+\newcommand{\ra}{\ensuremath{\rightarrow}}
+
+\newcommand{\Bel}{\ensuremath{B}}
+\newcommand{\CB}{\ensuremath{CB}}
+\newcommand{\Poss}{\ensuremath{P}}
+
+\newcommand{\Model}{\ensuremath{\mathcal{M}}}
+\newcommand{\Models}{\ensuremath{\mathfrak{M}_{\Props,i}}}
+\newcommand{\AS}{\ensuremath{\mathcal{A}}}
+\newcommand{\ASs}{\ensuremath{\mathfrak{A}_{\Props,i}}}
+\renewcommand{\SS}{\ensuremath{\mathcal{S}}}
+\newcommand{\SSs}{\ensuremath{\mathfrak{S}_{\Props,i}}}
+\newcommand{\MSS}{\ensuremath{\mathcal{S}^{l}}}
+\newcommand{\MSSs}{\ensuremath{\mathfrak{S}^{l}_{\Props,i}}}
+
+
+\newcommand{\Aware}{\ensuremath{\mathrm{A}}}
+
+% \newcommand{\Coloneqq}{\ensuremath{\mathrel{\mathop:}\mathrel{\mathop:}=}}
+% \newcommand{\modelsweak}{\ensuremath{\sdtstile{}{*}}}
+% \newcommand{\modelsweak}{\ensuremath{\mathrel{\mathop{\models^{*}}}}}
+\newcommand{\modelsweak}{\ensuremath{\mathrel{\mathop{|\hspace{-0.4em}\approx}}}}
+\newcommand{\modelsthree}{\ensuremath{\sttstile{}{}}}
+
+
+\newcommand{\lga}{\acro{lga}}
+\newcommand{\sss}{\acro{sss}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Modal logic }
+
+\author[M.~Franke]{Michael Franke \hfill \normalsize{October 2022}}
+
+\date{} % without \date command, current date is supplied
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent
+Notions covered: \dots
+\end{abstract}
+
+{\color{red}{to be cleaned up and completed}}
+
+\noindent \section{Basics of Modal Logic}
+\label{sec:basic-modal-logic}
+
+\subsection{Language}
+\label{sec:language}
+
+
+\begin{definition}[Syntax]
+  \label{def:Syntax_modal_logic}
+  Let $\Props = \set{p, q, r, \dots}$ be a set of proposition
+  letters. The \textbf{language} $\Lang_{\Props,i}$ of basic modal logic based
+  on $\Props$ for $i$ agents is:
+  \begin{align*}
+    \varphi \ \  \Coloneqq \ \ & % \bot \mybar \top \mybar
+    p \mybar \neg
+    \varphi \mybar \varphi \wedge \psi % \mybar \varphi \vee \psi \mybar
+    % \varphi \ra \psi \mybar \phi \leftrightarrow \psi
+    \mybar  \Bel_i  \phi\,.
+  \end{align*}
+  % \begin{align*}
+  %   \varphi \ \  \Coloneqq \ \ &  p \mybar \neg
+  %   \varphi \mybar \varphi \vee \psi \mybar \varphi \wedge \psi \mybar
+  %   \varphi \ra \psi \mybar \phi \leftrightarrow \psi \mybar  \Bel_i
+  %   \phi \mybar \Poss_i \phi
+  % \end{align*}
+  Additionally, we allow the following notational variants:
+  \begin{align*}
+    \varphi \vee \psi & \ts \equiv \ts \neg (\neg\varphi \wedge
+    \neg\psi) &    \phi \leftrightarrow \psi & \ts \equiv \ts (\phi \ra \psi) \wedge (\psi \ra \phi) \\
+    \varphi \ra \psi & \ts \equiv \ts \neg \varphi \vee \psi &
+    \Poss_i \phi & \ts \equiv \ts \neg \Bel_i \neg \phi\,.
+  \end{align*}
+
+
+\end{definition}
+
+\subsection{Semantics}
+\label{sec:semantics}
+
+\begin{definition}[Model]
+  \label{def:Semantics_modal_logic}
+  A \textbf{modal model} (aka.~\textbf{Kripke structure}) for the language $\Lang_{\Props,i}$ is a
+  triple $\Model = \tuple{W,V,(R_j)_{j \le i}}$ such that:
+  \begin{itemize}
+  \item $W$ is a set of \textbf{worlds},
+  \item $V \ts \colon \ts W \times \Props  \ra \set{0,1}$
+    is a \textbf{valuation function},
+  \item for each agent $i$ $R_i \subseteq W
+    \times W$ is an \textbf{accessibility relation}.
+  \end{itemize}
+
+\end{definition}
+
+
+\textbf{Notation and terminology:}
+
+\begin{itemize}
+\item write $wR_iv$ for $\tuple{w,v} \in R_i$
+\item write $R_i(w) = \set{v
+    \in W \mybar wR_iv}$
+\item implicitly restrict attention to \textbf{serial models} where
+  $R_i(w) \neq \emptyset$ for all $w$ and $i$
+\item if $\Model = \tuple{W,V,(R_j)_{j \le i}}$ and $w \in W$, we call
+  the pair $\Model$, $w$ a \textbf{pointed model}
+\item we say that a model is reflexive (transitive, Euclidean) if all
+  of its relations $R_i$ are reflexive (transitive, Euclidean)
+\item for $C \subseteq \set{r,t,e}$ let $\Models^C$ be the class of
+  all models $\Model_{\Props,i}$ that have the properties selected in
+  $C$
+  \begin{itemize}
+  \item $\Models^{\set{t,e}}$ is the class of \textbf{belief models}
+  \item $\Models^{\set{r,t,e}}$ is the class of \textbf{knowledge
+      models}
+  \end{itemize}
+
+\end{itemize}
+
+
+
+
+
+\begin{definition}[Truth \& Validity]
+  Fix $\Model = \tuple{W,V,(R_j)_{j \le i}}$ and $w \in W$ and define \textbf{truth in
+  pointed models} inductively:
+
+\vspace{-1em}
+\begin{minipage}{0.45\linewidth}
+  \begin{align*}
+    % \Model, w \models \bot & \text{ \  never}\\
+    % \Model, w \models \top & \text{ \ always}\\
+    \Model, w \models p & \text{ \ iff \  } V(w,p) = 1\\
+    \Model, w \models \neg \phi & \text{ \ iff \ } \Model, w \not \models \phi
+  \end{align*}
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+  \begin{align*}
+    % \Model, w \models \phi \wedge \psi & \text{ \ iff \ } \Model, w
+    % \models \phi \text{ \ and \ } \Model, w \models \psi \\
+    \Model, w \models \phi \wedge \psi & \text{ \ iff \ } \Model, w
+    \models \phi \text{ \ and \ } \Model, w \models \psi \\
+    % \Model, w \models \phi \ra \psi & \text{ \ iff \ if \ } \Model,
+    % w
+    % \models \phi \text{ \ then \ } \Model, w \models \psi \\
+    % \Model, w \models \phi \leftrightarrow \psi & \text{ \ iff \ }
+    % \Model, w
+    % \models \phi \text{ \ if and only if \ } \Model, w \models \psi
+    % \\
+    \Model, w \models \Bel_i \phi & \text{ \ iff \ } \Model, v \models
+    \phi \text{ \ for all $v \in R_i(w)$}
+    % \Model, w \models \Poss_i \phi & \text{ \ iff \ } \Model, v
+    % \models \phi \text{ \ for some $v \in R_i(w)$}
+  \end{align*}
+\end{minipage}
+\medskip \medskip
+
+ We say that a formula $\phi$ is \textbf{valid in a model} $\Model$,
+  $\Model \models \phi$, if for all $w \in W$ of that model $\Model, w
+  \models \phi$. We say that a formula $\phi$ is \textbf{valid in a
+    class of models} $\mathcal{N}$, $\mathcal{N} \models \phi$, if
+  $\phi$ is valid on every model in $\mathcal{N}$.
+\end{definition}
+
+
+\begin{example}[Modal Model]
+  \label{example:simple_modal_modal}
+  We consider a simple modal model for $\Props = \set{p,q}$ and two
+  agents $i$ and $j$. The following formulas are true at world $w$:
+
+  \begin{minipage}[t]{0.4\linewidth}
+    \vspace{0em}
+    \begin{itemize}
+    \item $\Bel_j (\neg p \wedge \neg q)$  \\ ``$j$ believes that $p$ and $q$ are false''
+    \item $\neg p \wedge \Bel_i p$  \\ ``$i$ falsely believes that $p$ is true''
+    \item $\neg \Bel_i q \wedge \neg \Bel_i \neg q$ \\ ``$i$ is uncertain about $q$''
+    \item $\neg \Bel_j p \wedge \Bel_i \Bel_j p$ \\ ``$i$ falsely believes that $j$ believes $p$''
+    \item $\neg \Bel_i \Bel_j q \wedge \neg \Bel_i \neg \Bel_j q$ \\ ``$i$ is uncertain whether $j$ believes $q$''
+    \item $\Bel_i (q \ra \Bel_j q \wedge \neg q \ra \Bel_j \neg q)$ \\ ``$i$ believes that $j$ knows whether $q$''
+    \end{itemize}
+  \end{minipage}
+  \begin{minipage}[t]{0.6\linewidth}
+    \vspace{0em}
+    \begin{center}
+      \begin{tikzpicture}
+        \tikzset{breakable/.code=\ifpgfmatrix\else\tikzset{matrix of
+            nodes}\fi}
+
+        \draw [every
+        label/.style={breakable},state/.style={thick,rounded
+          corners,rectangle split, rectangle split parts=2,
+          draw=black}] (0,0) node[state] (w) {$w$ \nodepart{second} $V
+          \colon \emptyset$} (5,0) node[state] (v) {$v$
+          \nodepart{second} $V \colon p,q$} (2.5,-3.3) node[state] (u)
+        {$u$ \nodepart{second} $V \colon p$};
+
+        \draw[->,every node/.style={sloped,above},thick] (w) edge node
+        {$i$} (v);
+
+        \draw[->,every node/.style={left},thick] (w) edge[loop left]
+        node {$j$} ();
+
+        \draw[<->,every node/.style={sloped,above},thick] (v) edge
+        node {$i$} (u);
+
+        \draw[->,every node/.style={right},thick] (v) edge[loop right]
+        node {$i,j$} ();
+
+        \draw[->,every node/.style={sloped,above},thick] (w) edge node
+        {$i$} (u);
+
+        \draw[->,every node/.style={below},thick] (u) edge[loop below]
+        node {$i,j$} ();
+
+      \end{tikzpicture}
+    \end{center}
+  \end{minipage}
+
+\end{example}
+
+
+\subsection{Proof System}
+\label{sec:proof-system}
+
+\begin{definition}[Proof System for Modal Logics]
+  A proof system for a modal logical language is given by a set of $I$
+  \textbf{inference rules} and a set $A$ of \textbf{axiom
+    schemas}. Let $I$ contain the rules:
+  \begin{itemize}
+  \item[\textbf{MP}:] from $\phi$ and $\phi \ra \psi$ infer $\psi$ \hfill (\textbf{modus ponens})
+  \item[\textbf{Nec}:] from $\phi$ infer $\Bel_i \phi$ \hfill (\textbf{necessitation})
+  \end{itemize}
+  and let $A$ always contain the \textbf{normal axiom schemata}:
+  \begin{itemize}
+  \item[\textbf{Prop}:] all substitution instances of tautologies of propositional logic
+  \item[\textbf{K}:] $(\Bel_i \phi \wedge \Bel_i (\phi \ra \psi)) \ra
+    \Bel_i \psi$
+  \end{itemize}
+  and additionally any (possibly empty) subset of the following \textbf{additional axiom schemata}:
+  \begin{itemize}
+  \item[\textbf{T}:] $\Bel_i \phi \ra \phi$ \hfill (\textbf{truth})
+  \item[\textbf{4}:] $\Bel_i \phi \ra \Bel_i \Bel_i \phi$ \hfill
+    (\textbf{positive introspection})
+  \item[\textbf{5}:] $\neg \Bel_i \phi \ra \Bel_i \neg \Bel_i \phi$ \hfill
+    (\textbf{negative introspection})
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Proof System, Proof]
+  A \textbf{proof} is a sequence of formulas each of which is either
+  an axiom or derived from previous formulas in the sequence by
+  application of an inference rule. For any (possibly empty)
+  subset $D$ of the additional axioms $\set{\mathbf{T},
+    \mathbf{4},\mathbf{5}}$ we write $D \vdash \phi$ if a proof exists
+  for $\phi$ in the corresponding proof system.
+\end{definition}
+
+\paragraph{Soundness \& Completeness}
+\label{sec:soundn-compl}
+
+\begin{theorem}[Soundness \& Completeness]
+  Let $C$ be a (possibly empty) subset of $\set{r,t,e}$ and let $D$ the
+  `corresponding' subset of $\set{\mathbf{T},
+    \mathbf{4},\mathbf{5}}$. Then:
+  \begin{align*}
+    \Models^C \models \phi \ \ \text{iff} \ \ D \vdash \phi\,.
+  \end{align*}
+  The ``left-to-right'' part is \textbf{completeness}, the ``right-to-left''
+  part is \textbf{soundness}.
+\end{theorem}
+
+
+\end{document}
+
