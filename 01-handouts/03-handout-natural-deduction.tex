@@ -8,6 +8,7 @@
 \usepackage[nographicx, nohyperref, nosubcaption, nogb4e, nobiblatex]{../99-auxiliary-files/00-mypackages}
 \usepackage{../99-auxiliary-files/00-mycommands}
 \usepackage{../99-auxiliary-files/00-myenvironments}
+\usepackage{../99-auxiliary-files/fitch}
 
 \usepackage{titlesec}
 \usepackage{etoolbox}
@@ -195,8 +196,8 @@ If $\psi$ is a good inference from $\varphi_{1}, \dots, \varphi_{n}$, we do not 
 
 Second, characterizing a logical system as a set of derivation rules provides a different and highly useful perspective.
 We can explore alternative systems by just omitting one or several derivation rules.\sidenote{This is important for the foundational question in the Philosophy of Mathematics regarding which kinds of proof strategies should be accepted to base our mathematical knowledge on.}
-In the natural deduction system to be introduced below, dropping the controversial derivation rules \EFSQ and $E_{\neg\neg}$ gives a system called \emph{minimal logic}.
-Adding just \EFSQ but not $E_{\neg\neg}$ gives \emph{intuitionistic logic}.
+In the natural deduction system to be introduced below, dropping the controversial derivation rules $\bot$E and $\neg \neg$E gives a system called \emph{minimal logic}.
+Adding just $\bot$E but not $\neg \neg$E gives \emph{intuitionistic logic}.
 
 Third, a proof or derivation system opens doors for a computational, algorithmic approach to logical inference.
 Finding a derivation is essentially a search problem is a large but well-defined search space.
@@ -208,104 +209,102 @@ Classical Artificial Intelligence therefore was inspired, if not enabled, by mod
 The derivation rules for natural deduction correspond ---for the most part--- to rules either introducing or eliminating a sentential connective.
 The following exposition moves from easier to more difficult derivation rules.
 
-\subsection{Introduction rule for conjunction $I_{\wedge}$}
+\subsection{Introduction rule for conjunction $\wedge$I}
 
 We may introduce the conjunction $\varphi \wedge \psi$ whenever both the conjuncts $\varphi$ and $\psi$ are available at previous lines $m_{1}$ and $m_{2}$. It does not matter whether $m_{1}$ occurs before $m_{2}$ or the other way around.\sidenote{We adopt the same convention of omitting the outermost parentheses. Strictly speaking, we should write $(\varphi \wedge \psi)$ in line n. of this derivation.}
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Conjunction Intro $I_{\wedge}$}
+    \textbf{Conjunction Intro $\wedge$I}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
-    \begin{tabular}{clcl}
-      $\vdots$ & $\vdots$              & \\
-      m$_{1}$  & $\varphi$             &  \\
-      $\vdots$ & $\vdots$              & \\
-      m$_{2}$  & $\psi$                & \\
-      $\vdots$ & $\vdots$              & \\
-      n.       & $\varphi \wedge \psi$ & & $I_{\wedge}$, m$_{1}$, m$_{2}$
-    \end{tabular}
+    $\begin{nd}
+      \have [\vdots] {1} {\vdots}
+      \have [m_1]    {2} {\varphi}
+      \have [\vdots] {3} {\vdots}
+      \have [m_2]    {4} {\psi}
+      \have [\vdots] {5} {\vdots}
+      \have [n]      {6} {\varphi \vee \psi} \ai{2, 4}
+    \end{nd}$
   \end{minipage}
 }
 \bigskip
 
 We can use this rule to show that $p, q, r \vdash (r \wedge p) \wedge q$ like so:
 
-\begin{tabular}{clcl}
-  1. & $p$ & & ass. \\
-  2. & $q$ & & ass. \\
-  3. & $r$ & & ass. \\
-  4. & $r \wedge p$ & & $I_{\wedge}$, 3, 1  \\
-  5. & $(r \wedge p) \wedge q$ & & $I_{\wedge}$, 4, 2  \\
-\end{tabular}
+$\begin{nd}
+  \hypo  {1} {p}                    \ass{}
+  \hypo  {2} {q}                    \ass{}
+  \hypo  {3} {r}                    \ass{}
+  \have  {4} {r \wedge p}            \ai{3, 1}
+  \have  {5} {(r \wedge p) \wedge q}  \ai{4, 2}
+\end{nd}$
 
-
-\subsection{Elimination rule for conjunction $E_{\wedge}$}
+\subsection{Elimination rule for conjunction $\wedge$E}
 
 If we have the conjunction $\varphi \wedge \psi$, we are allowed to also derive each conjunct.\sidenote{It is not necessary to derive both, we can also derive only one of the conjuncts.}
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Conjunction Elim $E_{\wedge}$}
+    \textbf{Conjunction Elim $\wedge$E}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
-    \begin{tabular}{clcl}
-      $\vdots$ & $\vdots$              & \\
-      m        & $\varphi \wedge \psi$ &  \\
-      $\vdots$ & $\vdots$              & \\
-      n$_{1}$  & $\varphi$             & & $E_{\wedge}$, m \\
-      n$_{2}$  & $\psi$                & & $E_{\wedge}$, m
-    \end{tabular}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m]       {2}  {\varphi \wedge \psi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [n_1]     {4}  {\varphi}  \ae{2}
+      \have  [n_2]     {4}  {\psi}     \ae{2}
+    \end{nd}$
   \end{minipage}
 }
 \bigskip
 
 We can use this new rule to show that $p \wedge q \vdash q \wedge p$ like so:
 
-\begin{tabular}{clcl}
-  1. & $p \wedge q$ & & ass. \\
-  2. & $p$          & & $E_{\wedge}$, 1 \\
-  3. & $q$          & & $E_{\wedge}$, 1 \\
-  4. & $q \wedge p$ & & $I_{\wedge}$, 3, 2
-\end{tabular}
+$\begin{nd}
+  \hypo  {1}  {p \wedge q}  \ass{}
+  \have  {2}  {p}          \ae{1}
+  \have  {3}  {q}          \ae{1}
+  \have  {4}  {q \wedge p}  \ai{3, 2}
+\end{nd}$
 
-
-\subsection{Elimination rule for implication $E_{\rightarrow}$}
+\subsection{Elimination rule for implication $\rightarrow$E}
 
 If we have $\varphi \rightarrow \psi$ and $\varphi$ somewhere in our derivation (no matter which one comes first), we can derive $\psi$.
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Implication Elim $E_{\rightarrow}$}
+    \textbf{Implication Elim $\rightarrow$E}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
-    \begin{tabular}{clcl}
-      $\vdots$ & $\vdots$                   & \\
-      m$_{1}$  & $\varphi \rightarrow \psi$ &  \\
-      $\vdots$ & $\vdots$                   & \\
-      m$_{2}$  & $\varphi$                  &  \\
-      $\vdots$ & $\vdots$                   & \\
-      n        & $\psi$                     & & $E_{\rightarrow}$, m$_{1}$, m$_{2}$
-    \end{tabular}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m_1]     {2}  {\varphi \rightarrow \psi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [m_2]     {4}  {\varphi}
+      \have  [\vdots]  {5}  {\vdots}
+      \have  [n]       {6}  {\psi}  \ie{2, 4}
+    \end{nd}$
   \end{minipage}
 }
 \bigskip
 
 Using this rule, we can show that $p \wedge r, r \rightarrow q \vdash p \wedge q$:
 
-\begin{tabular}{clcl}
-  1. & $p \wedge r$      & & ass. \\
-  2. & $r \rightarrow q$ & & ass.  \\
-  3. & $p$               & & $E_{\wedge}$, 1  \\
-  4. & $r$               & & $E_{\wedge}$, 1  \\
-  5. & $q$               & & $E_{\rightarrow}$, 2, 4 \\
-  6. & $p \wedge q$      & & $I_{\wedge}$, 3, 5
-\end{tabular}
+$\begin{nd}
+  \hypo  {1}  {p \wedge r}  \ass{}
+  \hypo  {2}  {r \rightarrow q}  \ass{}
+  \have  {3}  {p}  \ae{1}
+  \have  {4}  {r}  \ae{1}
+  \have  {5}  {q}  \ie{2, 4}
+  \have  {6}  {p \wedge q}  \ai{3, 5}
+\end{nd}$
 
-\subsection{Introduction rule for implication $I_{\rightarrow}$}
+\subsection{Introduction rule for implication $\rightarrow$I}
 
 The introduction rule for implication is slightly more complex.
 The idea is this.
@@ -317,100 +316,110 @@ We are \emph{not} allowed to use any of the formulas derived in lines $m$ to $n-
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Implication Intro $I_{\rightarrow}$}
+    \textbf{Implication Intro $\rightarrow$I}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
-    \begin{tabular}{cclcl}
-                         & $\vdots$  & $\vdots$                   & \\
-      \cline{1-2} \vline & m         & $\varphi$                  & & add. ass.  \\
-      \vline             & $ \vdots$ & $\vdots$                   & \\
-      \vline             & n-1       & $\psi$                     & & \\ \hline
-                         & n         & $\varphi \rightarrow \psi$ & & $I_{\rightarrow}$
-    \end{tabular}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \open
+      \hypo  [m]       {2}  {\varphi}  \add{}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [n][-1]   {4}  {\phi}
+      \close
+      \have  [n]       {5}  {\varphi \rightarrow \psi}  \ii{}
+    \end{nd}$
   \end{minipage}
 }
 \bigskip
 
 We can use this rule to show that $\vdash (p \wedge q) \rightarrow q$:\sidenote{Notice that we do not have any premisses here. It can be shown that $\vdash \psi$ iff $\psi$ is a tautology (see exercises below).}
 
-\begin{tabular}{cclcl}
-   \cline{1-2} \vline & 1. & $p \wedge q$                        & & add. ass.  \\
-   \vline             & 2. & $q$                                 & & $E_{\wedge}$, 1 \\ \hline
-                      & 3. & $\vdash (p \wedge q) \rightarrow q$ & & $I_{\rightarrow}$ \\
-\end{tabular}
+$\begin{nd}
+  \open
+  \hypo  {1}  {p \wedge q}  \add{}
+  \have  {2}  {q}  \ae{1}
+  \close
+  \have  {3}  {(p \wedge q) \rightarrow q}  \ii{}
+\end{nd}$
 
 Another example, with explicit assumptions is the following derivation showing that  $(p \wedge q) \rightarrow r \vdash (q \wedge p) \rightarrow r$:
 
-\begin{tabular}{cclcl}
-                     & 1. & $(p \wedge q) \rightarrow r$ & & ass. \\
-  \cline{1-2} \vline & 2. & $q \wedge p$                 & & add. ass. \\
-  \vline             & 3. & $q$                          & & $E_{\wedge}$, 2  \\
-  \vline             & 4. & $p$                          & & $E_{\wedge}$, 3  \\
-  \vline             & 5. & $p \wedge q$                 & & $I_{\wedge}$, 4, 3  \\
-  \vline             & 6. & $r$                          & & $E_{\rightarrow}$, 1, 5  \\ \hline
-                     & 7. & $(q \wedge p) \rightarrow r$ & & $I_{\rightarrow}$
-\end{tabular}
+$\begin{nd}
+  \hypo  {1}  {(p \wedge q) \rightarrow r}  \ass{}
+  \open
+  \hypo  {2}  {q \wedge p}  \add{}
+  \have  {3}  {q}  \ae{2}
+  \have  {4}  {p}  \ae{2}
+  \have  {5}  {p \wedge q}
+  \have  {6}  {r}  \ie{1, 5}
+  \close
+  \have  {7}  {(q \wedge p) \rightarrow r}  \ii{}
+\end{nd}$
 
-\subsection{Introduction rule for disjunction $I_{\vee}$}
+\subsection{Introduction rule for disjunction $\vee$I}
 
 A disjunction $\varphi \vee \psi$ can be introduced whenever at least one disjunct is available in the derivation.
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Disjunction Intro $I_{\vee}$}
+    \textbf{Disjunction Intro $\vee$I}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
-    \begin{tabular}{clcl}
-      $\vdots$ & $\vdots$                   & \\
-      m & $\varphi$  &  \\
-      $\vdots$ & $\vdots$                   & \\
-      n$_{1}$ & $\varphi \vee \psi$ & & $I_{\vee}$, m \\
-      n$_{2}$ & $\psi \vee \varphi$ & & $I_{\vee}$, m
-    \end{tabular}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m]       {2}  {\varphi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [n_1]     {4}  {\varphi \vee \psi}  \oi{2}
+      \have  [n_2]     {5}  {\psi \vee \varphi}  \oi{2}
+    \end{nd}$
   \end{minipage}
 }
 \bigskip
 
 
-\subsection{Eliminiation rule for disjunction $E_{\vee}$}
+\subsection{Eliminiation rule for disjunction $\vee$E}
 
 Intuitively, we can conclude $\chi$ from a disjunction $\varphi \vee \psi$ when $\chi$ follows from $\varphi$ and then $\chi$ also follows from $\psi$.
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Disjunction Elim $E_{\vee}$}
+    \textbf{Disjunction Elim $\vee$E}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
-    \begin{tabular}{clcl}
-            $\vdots$ & $\vdots$                   & \\
-      m$_{1}$        & $\varphi \vee \psi$        &  \\
-            $\vdots$ & $\vdots$                   & \\
-      m$_{2}$        & $\varphi \rightarrow \chi$ &  \\
-            $\vdots$ & $\vdots$                   & \\
-      m$_{3}$        & $\psi  \rightarrow \chi$   &  \\
-            $\vdots$ & $\vdots$                   & \\
-      n             & $\chi$                     & & $E_{\vee}$, m$_{1}$, m$_{2}$, m$_{3}$
-    \end{tabular}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m_1]     {2}  {\varphi \vee \psi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [m_2]     {4}  {\varphi \rightarrow \chi}
+      \have  [\vdots]  {5}  {\vdots}
+      \have  [m_3]     {6}  {\psi \rightarrow \chi}
+      \have  [\vdots]  {7}  {\vdots}
+      \have  [n]       {n}  {\chi}  \oe{2, 4, 6}
+    \end{nd}$
   \end{minipage}
 }
 \bigskip
 
-Here is an example derivation using $E_{\vee}$ showing that $p \vee q \vdash q \vee p$:
+Here is an example derivation using $\vee$E showing that $p \vee q \vdash q \vee p$:
 
-\begin{tabular}{cclcl}
-                     & 1. & $p \vee q$                  & & ass. \\
-  \cline{1-2} \vline & 2. & $p$                         & & add. ass. \\
-  \vline             & 3. & $q \vee p$                  & & $I_{\vee}$, 2  \\ \hline
-                     & 4. & $p \rightarrow (q \vee p)$  & & $I_{\rightarrow}$  \\
-  \cline{1-2} \vline & 5. & $q$                         & & add. ass. \\
-  \vline             & 6. & $q \vee p$                  & & $I_{\vee}$, 5  \\ \hline
-                     & 7. & $q \rightarrow (q \vee p) $ & & $I_{\rightarrow}$  \\
-  & 8. & $q \vee p $ & & $E_{\vee}, 1, 4, 7$  \\
-\end{tabular}
+$\begin{nd}
+  \hypo  {1}  {p \vee q}  \ass{}
+  \open
+  \hypo  {2}  {p}         \add{}
+  \have  {3}  {q \vee p}  \oi{2}
+  \close
+  \have  {4}  {p \rightarrow (q \vee p)}  \ii{}
+  \open
+  \hypo  {5}  {q}         \add{}
+  \have  {6}  {q \vee p}  \oi{5}
+  \close
+  \have  {7}  {q \rightarrow (q \vee p)}  \ii{}
+  \have  {8}  {q \vee p}  \oe{1, 4, 7}
+\end{nd}$
 
-\subsection{Elimination rule for negation $E_{\neg}$}
+\subsection{Elimination rule for negation $\neg$E}
 
 Negation is tricky in natural deduction.
 Though we will speak of an elimination rule for negation, strictly speaking we cannot just eliminate negation if we have a formula $\neg \varphi$.
@@ -420,22 +429,22 @@ So, the elimination rule for negation can best be thought of as an introduction 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Negation Elim $E_{\neg}$}
+    \textbf{Negation Elim $\neg$E}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
-    \begin{tabular}{clcl}
-            $\vdots$ & $\vdots$       & \\
-      m$_{1}$        & $\neg \varphi$ &  \\
-            $\vdots$ & $\vdots$       & \\
-      m$_{2}$        & $\varphi$      &  \\
-            $\vdots$ & $\vdots$       & \\
-      n             & $\bot$         & & $E_{\neg}$, m$_{1}$, m$_{2}$
-    \end{tabular}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m_1]     {2}  {\neg \varphi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [m_2]     {4}  {\varphi}
+      \have  [\vdots]  {5}  {\vdots}
+      \have  [n]       {6}  {\bot}  \ne{2, 4}
+    \end{nd}$
   \end{minipage}
 }
 \bigskip
 
-\subsection{Introduction rule for negation $I_{\neg}$}
+\subsection{Introduction rule for negation $\neg$I}
 
 The rule for introducing a negation follows the idea of an indirect proof.
 We make an additional assumption that $\varphi$.
@@ -444,32 +453,35 @@ If we manage to derive from this assumption a contradiction (denoted as $\bot$),
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Negation Intro $I_{\neg}$}
+    \textbf{Negation Intro $\neg$I}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
-    \begin{tabular}{cclcl}
-                         &                   $\vdots$ & $\vdots$       & \\
-      \cline{1-2} \vline & m                          & $\varphi$      & & add. ass.  \\
-      \vline             &                   $\vdots$ & $\vdots$       & \\
-      \vline             & n-1                        & $\bot$         & & \\ \hline
-                         & n.                         & $\neg \varphi$ & & $I_{\neg}$
-    \end{tabular}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \open
+      \hypo  [m]       {2}  {\varphi}       \add{}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [n][-1]   {4}  {\bot}
+      \close
+      \have  [n]       {5}  {\neg \varphi}  \ni{}
+    \end{nd}$
   \end{minipage}
 }
 \bigskip
 
-Here is an example derivation using $E_{\neg}$ and $I_{\neg}$ showing that $\vdash \neg(p \wedge \neg p)$:
+Here is an example derivation using $\neg$E and $\neg$I showing that $\vdash \neg(p \wedge \neg p)$:
 
 \bigskip
 
-\begin{tabular}{cclcl}
-  \cline{1-2} \vline & 1. & $p \wedge \neg p$       & & add. ass. \\
-  \vline             & 2. & $p$                     & & $E_{\wedge}$, 1  \\
-  \vline             & 3. & $\neg p$                & & $E_{\wedge}$, 1  \\
-  \vline             & 4. & $\bot$                  & & $E_{\neg}$, 2,3  \\ \hline
-                     & 5. & $\neg(p \wedge \neg p)$ & & $I_{\neg}$   \\
-\end{tabular}
-
+$\begin{nd}
+  \open
+  \hypo  {1}  {p \wedge \neg p}         \add{}
+  \have  {2}  {p}       \ae{1}
+  \have  {3}  {\neg p}  \ae{1}
+  \have  {4}  {\bot}    \ne{2, 3}
+  \close
+  \have  {5}  {\neg (p \wedge \neg p)}  \ni{}
+\end{nd}$
 
 \subsection{Repetition rule $R$}
 
@@ -482,57 +494,60 @@ This is really just for readability of a derivation.
     \textbf{Repetition}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
-    \begin{tabular}{clcl}
-            $\vdots$ & $\vdots$  & \\
-      m              & $\varphi$ &  \\
-            $\vdots$ & $\vdots$  & \\
-      n              & $\bot$    & & $R$, m
-    \end{tabular}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m]       {2}  {\phi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [n]       {4}  {\bot}  \r{2}
+    \end{nd}$
   \end{minipage}
 }
 \bigskip
 
-\subsection{Ex Falso Sequitor Quodlibet Rule $\EFSQ$}
+\subsection{Falsum elimination rule $\bot$E}
 
 The derivation rules introduced so far are still not enough to produce a derivation for every valid argument schema.
 One example is the logically valid argument schema $p \vee q$, $\neg p$ / $q$.
-In order to obtain a system in which $p \vee q, \neg p \vdash q$, we need to introduce another rule, such as the (in)famous \emph{ex falso sequitur quodlibet} (\EFSQ) rule.\sidenote{It is rather difficult to prove that there cannot be a derivation without this (or an equivalent rule). For our purposes, let's just accept that this is so.}
-The \EFSQ rule allows for the derivation of \emph{any} formula if a contradiction has been derived.
+In order to obtain a system in which $p \vee q, \neg p \vdash q$, we need to introduce another rule, such as the (in)famous \emph{ex falso sequitur quodlibet} ($\bot$E) rule.\sidenote{It is rather difficult to prove that there cannot be a derivation without this (or an equivalent rule). For our purposes, let's just accept that this is so.}
+The $\bot$E rule allows for the derivation of \emph{any} formula if a contradiction has been derived.
 This is useful, of course, particularly when the contradiction is derived from an additional assumption, as in the introduction of implication (see example below).
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{EFSQ}
+    \textbf{$\bot$E}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
-    \begin{tabular}{clcl}
-            $\vdots$ & $\vdots$  & \\
-      m              & $\bot$ &  \\
-            $\vdots$ & $\vdots$  & \\
-      n              & $\varphi$    & & $\EFSQ$, m
-    \end{tabular}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m]       {2}  {\bot}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [n]       {4}  {\varphi}  \be{2}
+    \end{nd}$
   \end{minipage}
 }
 \bigskip
 
 Here is a derivation showing that $p \vee q, \neg p \vdash q$:
 
-\begin{tabular}{cclcl}
-                     & 1. & $p \vee   q$                        & & ass.  \\
-                     & 2. & $\neg p$                            & & ass.  \\
-  \cline{1-2} \vline & 3. & $p$                                 & & add. ass.  \\
-  \vline             & 4. & $\bot$                              & & $E_{\neg}$, 2,3 \\
-  \vline             & 5. & $q$                                 & & $\EFSQ$, 4\\ \hline
-                     & 6. & $p \rightarrow q $ & & $I_{\rightarrow}$ \\
-  \cline{1-2} \vline & 7. & $q$                                 & & add. ass.  \\
-  \vline             & 8. & $q$                                 & & $R$, 7\\ \hline
-                     & 9. & $q \rightarrow q $ & & $I_{\rightarrow}$ \\
-                     & 10. & $q$ & & $E_{\vee}, 1,6,9$ \\
-\end{tabular}
+$\begin{nd}
+  \hypo  {1}  {p \vee q}  \ass{}
+  \hypo  {2}  {\neg p}    \ass{}
+  \open
+  \hypo  {3}  {p}         \add{}
+  \have  {4}  {\bot}      \ne{2, 3}
+  \have  {5}  {q}         \be{4}
+  \close
+  \have  {6}  {p \rightarrow q}  \ii{} 
+  \open
+  \hypo  {7}  {q}         \add{}
+  \have  {8}  {q}         \r{7}
+  \close
+  \have  {9}  {q \rightarrow q}  \ii{}
+  \have  {10} {q}         \oe{1, 6, 9}
+\end{nd}$
 
-
-\subsection{Double-negation elimination rule $E_{\neg\neg}$}
+\subsection{Double-negation elimination rule $\neg\neg$E}
 
 While it may seem innocuous to conclude $\varphi$ from a doubly negated statement like $\neg\neg\varphi$, from the point of view of derivations (think: proofs), this is not so.
 In fact, the rules introduced so far do not allow for the elimination of double negation.
@@ -541,33 +556,36 @@ We have to introduce a separate rule for this.
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
   \begin{minipage}[t]{0.35\linewidth}
-    \textbf{Double-Neg Elim $E_{\neg\neg}$}
+    \textbf{Double-Neg Elim $\neg \neg$E}
   \end{minipage}
   \begin{minipage}[t]{0.55\linewidth}
-    \begin{tabular}{clcl}
-            $\vdots$ & $\vdots$  & \\
-      m              & $\neg \neg \varphi$ &  \\
-            $\vdots$ & $\vdots$  & \\
-      n              & $\varphi$    & & $E_{\neg \neg}$, m
-    \end{tabular}
+    $\begin{nd}
+      \have  [\vdots]  {1}  {\vdots}
+      \have  [m]       {2}  {\neg \neg \varphi}
+      \have  [\vdots]  {3}  {\vdots}
+      \have  [n]       {4}  {\varphi}  \nne{2}
+    \end{nd}$
   \end{minipage}
 }
 \bigskip
 
 Using double-negation elimination we can show that $\vdash p \vee \neg p$:\bigskip
 
-\begin{tabular}{ccclcl}
- \cline{1-3}\vline  &         & 1. & $\neg (p \vee \neg p)$      & & add. ass.  \\
- \cline{2-3}\vline             & \vline        & 2. & $p$                         & & add. ass.  \\
-  \vline &  \vline & 3. & $p \vee \neg p$             & & $I_{\vee}$, 2  \\
- \vline             &  \vline & 4. & $\bot$                      & & $E_{\neg}$, 1,3 \\
- \cline{2-6} \vline &         & 5. & $\neg p$                    & & $I_{\neg}$\\
- \vline             &         & 6. & $p \vee \neg p $            & & $I_{\vee}$, 5 \\
- \vline             &         & 7. & $\bot$                      & & $E_{\neg}, 1, 6$  \\ \hline
-                    &         & 8. & $\neg \neg (p \vee \neg p)$ & & $I_{\neg}$\\
-                    &         & 9. & $p \vee \neg p$             & & $E_{\neg\neg}$, 8 \\
-\end{tabular}
-
+$\begin{nd}
+  \open
+  \hypo  {1}  {\neg (p \vee \neg p)}  \add{}
+  \open
+  \hypo  {2}  {p}              \add{}
+  \have  {3}  {p \vee \neg p}  \oi{2}
+  \have  {4}  {\bot}           \ne{1, 3}
+  \close
+  \have  {5}  {\neg p}         \ni{}
+  \have  {6}  {p \vee \neg p}  \oi{5}
+  \have  {7}  {\bot}           \ne{1, 6}
+  \close
+  \have  {8}  {\neg \neg (p \vee \neg p)}  \ni{}
+  \have  {9}  {p \vee \neg p}  \nne{8}
+\end{nd}$
 
 \bigskip
 \noindent \colorbox{mygray}{\centering

@@ -1,0 +1,125 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{datetime}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fitch}
+
+\newdateformat{monthyeardate}{
+    \monthname[\THEMONTH], \THEYEAR
+}
+
+\newcounter{subsolution_count}
+\setcounter{subsolution_count}{0}
+\newcommand{\subsolution}{
+    \stepcounter{subsolution_count}
+    \subsection*{\alph{subsolution_count})}
+}
+
+\newcounter{solution_count}
+\setcounter{solution_count}{0}
+\newenvironment{solution}[1][]{
+    \stepcounter{solution_count}
+    \setcounter{subsolution_count}{0}
+    \section*{Exercise \arabic{solution_count}: #1}
+}{}
+
+\newcommand{\header}{
+    \fbox{
+        \parbox{316pt}{
+            \textbf{\course}                \hfill \term \\
+            \textbf{Student: \studentname}  \hfill \monthyeardate\today \\
+            Matriculation No.: \matriculationno \\
+            \\
+            \begin{Large}
+                \centerline{\textbf{Assignment \assignmentno}}
+            \end{Large}
+        }
+    }
+}
+
+\newcommand{\course}{Mathematical Methods I: Logic}
+\newcommand{\term}{Winter}
+\newcommand{\studentname}{Jane Doe}         % Enter you name here
+\newcommand{\matriculationno }{XXXXXXXX}    % Enter your matriculation number here
+\newcommand{\assignmentno}{1}               % Enter the assignment number here
+
+\begin{document}
+
+\header
+
+% Some useful commands
+\section*{Useful commands:}
+\begin{centering}
+\begin{tabular}{cc}
+    Command & Symbol \\
+    \hline
+    \verb|\land| & $\land$ \\
+    \verb|\lor| & $\lor$ \\
+    \verb|\neg| & $\neg$ \\
+    \verb|\vdash| & $\vdash$ \\
+    \verb|\vDash|, \verb|\models| & $\vDash$ \\
+    \verb|\therefore| & $\therefore$ \\
+    \verb|\cap| & $\cap$ \\
+    \verb|\cup| & $\cup$ \\
+    \verb|\setminus| & $\setminus$ \\
+    \verb|\in| & $\in$ \\
+    \verb|\subseteq| & $\subseteq$ \\
+    \verb|\subset| & $\subset$ \\
+    \verb|\emptyset| & $\emptyset$ \\
+    \verb|\overline{x}| & $\overline{x}$ \\
+    \verb|x^{n}| & $x^{n}$ \\
+    \verb|x_{n}| & $x_{n}$ \\
+    \verb|\mathbb{N}| & $\mathbb{N}$ \\
+    \verb|\sum_{i = n_0}^{N}| & $\sum_{i = n_0}^{N}$ \\
+    \verb|\frac{x}{y}| & $\frac{x}{y}$ \\
+    \verb|\varphi| & $\varphi$ \\
+    \verb|\psi| & $\psi$ \\
+    \verb|\wp| & $\wp$ \\
+\end{tabular}
+
+\end{centering}
+
+% You can add a solution using the 'solution' environment
+\begin{solution}[Natural deduction] % You can add a heading py passing it as an argument
+\subsolution
+$\vdash p \lor \neg p:$
+$$\begin{nd}
+    \open
+    \hypo  {1}  {\neg (p \lor \neg p)}  \add{}
+    \open
+    \hypo  {2}  {p}              \add{}
+    \have  {3}  {p \lor \neg p}  \oi{2}
+    \have  {4}  {\bot}           \ne{1, 3}
+    \close
+    \have  {5}  {\neg p}         \ni{}
+    \have  {6}  {p \lor \neg p}  \oi{5}
+    \have  {7}  {\bot}           \ne{1, 6}
+    \close
+    \have  {8}  {\neg \neg (p \lor \neg p)}  \ni{}
+    \have  {9}  {p \lor \neg p}  \nne{8}
+\end{nd}$$
+
+\subsolution
+$p \lor q, \neg p \vdash q:$
+$$\begin{nd}
+    \hypo  {1}  {p \lor q}  \ass{}
+    \hypo  {2}  {\neg p}    \ass{}
+    \open
+    \hypo  {3}  {p}         \add{}
+    \have  {4}  {\bot}      \ne{2, 3}
+    \have  {5}  {q}         \be{4}
+    \close
+    \have  {6}  {p \rightarrow q}  \ii{} 
+    \open
+    \hypo  {7}  {q}         \add{}
+    \have  {8}  {q}         \r{7}
+    \close
+    \have  {9}  {q \rightarrow q}  \ii{}
+    \have  {10} {q}         \oe{1, 6, 9}
+\end{nd}$$
+
+\end{solution}
+
+\end{document}
