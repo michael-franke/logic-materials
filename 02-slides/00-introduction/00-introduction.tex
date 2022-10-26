@@ -171,6 +171,13 @@
   \maketitle
 \end{frame}
 
+\begin{frame}
+  \begin{center}
+    \begin{Huge}
+      Why are you here?
+    \end{Huge}
+  \end{center}
+\end{frame}
 
 \begin{frame}
   \frametitle{Logic puzzle}
@@ -199,17 +206,20 @@
 
 \end{frame}
 
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
 \begin{frame}
   \frametitle{What is logic?}
 
   \begin{center}
     \begin{Large}
-      \begin{tabular}{p{2cm}p{4cm}p{2cm}}
+      \begin{tabular}{C{2cm}C{4cm}C{2cm}}
         proof & entailment & meaning
       \end{tabular}
     \end{Large}
   \end{center}
 
+  \pause
   \bigskip
 
   \begin{center}
@@ -217,6 +227,28 @@
     All humans are mortal\\
     Therefore, all Europeans are mortal.
   \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Modeling}
+
+  \includegraphics[width=0.9\textwidth]{00-introduction-pics/model-planes.png}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Normative model: how it \textit{should} be}
+
+ \begin{center}
+    \begin{Large}
+      \begin{tabular}{C{4cm}C{4cm}C{4cm}}
+        proof & entailment & meaning \\
+        & \\
+        argumentation & inference & precision of expression
+      \end{tabular}
+    \end{Large}
+  \end{center}
+
 \end{frame}
 
 \begin{frame}
@@ -238,27 +270,45 @@
 \begin{frame}
   \frametitle{Course content}
 
-  set theory
+  \begin{minipage}{0.32\linewidth}
 
-  3 logics
-
-  probability
-
-  information theory
-
+    \begin{itemize}
+      \item set theory
+      \item (informal) proofs
+      \item propositional logic
+      \item predicate logic
+      \item natural deduction
+      \item modal (epistemic) logic
+      \item probability theory
+      \item information theory
+    \end{itemize}
+  \end{minipage}
+  %
+  \hfill
+  %
+  \begin{minipage}{0.67\linewidth}
+    \begin{tabular}{rll}
+         & date & topic\\ \midrule
+      1  & 2022-10-27 & Course overview \& introduction\\
+      2  & 2022-11-03 & Basics of (naive) set theory\\
+      3  & 2022-11-10 & Proofs\\
+      4  & 2022-11-17 & Relations \& functions\\
+      5  & 2022-11-24 & PropLog: Syntax \& truth tables\\
+      6  & 2022-12-01 & PropLog: Translations \& logical validity\\
+      7  & 2022-12-08 & PropLog: Natural Deduction\\
+      8  & 2022-12-15 & PredLog: Syntax \& Translations\\
+      9  & 2022-12-22 & PredLog: Semantics \& Identity\\ \midrule
+      10 & 2023-01-12 & Modal logic\\
+      11 & 2023-01-19 & Probability theory\\
+      12 & 2023-01-26 & Information theory\\
+      13 & 2023-02-02 & Recap\\
+      14 & 2023-02-09 & no class\\
+      15 & 2023-02-16 & final exam\\
+    \end{tabular}
+  \end{minipage}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Modeling}
 
-insert model plane picture
-
-\end{frame}
-
-\begin{frame}
-  \frametitle{Normative models}
-
-\end{frame}
 
 \begin{frame}
   \frametitle{Practicalities}
@@ -306,12 +356,30 @@ insert model plane picture
 \end{frame}
 
 \begin{frame}
+  \frametitle{How to get answers}
+  \begin{itemize}
+    \item tutorials: \hfill \mycom{tutorials start in the week of Nov 7}
+    \begin{enumerate}
+      \item \makebox[11.5em][l]{Aydemir Shamsutdinov: } Monday 12   :00 (room TBA)
+      \item \makebox[11.5em][l]{Benedict Konhäuser: }   Tuesday 12  :00 (Zoom), Tuesday 16:00 (room TBA)
+      \item \makebox[11.5em][l]{Fanyi Meng: }           Wednesday 12:00 (room TBA)
+    \end{enumerate}
+    \item moodle
+    \item dischord: https://discord.gg/fJ7ZmZHw \\
+    \includegraphics[width=0.25\textwidth]{00-introduction-pics/qr-code.png}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
   \frametitle{Homework}
   \begin{itemize}
     \item \textbf{no copying from others} \hfill \mycom{plagiarism will lead to failure}
-    \item submission: {\textcolor{red}{fill me}}
+    \item release: Thursday after lecture
+    \item submission:
     \begin{itemize}
-      \item where, when, how to submit?
+      \item Friday 18:00 (one week after release)
+      \item electronically via moodle as PDF
+      \item handwritten (legible) or typeset (as PDF)
     \end{itemize}
   \end{itemize}
 \end{frame}
