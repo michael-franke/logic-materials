@@ -212,18 +212,18 @@ previous example, we here define a set of symbols:\sidenote{Examples
 
 Important sets to be familiar with are:\sidenote{Notice the commonly used ``double-stroke notation'' for the capital letters used to refer to these special sets.}
 \begin{enumerate}[]
-\item $\mathbb{N} = \set{0, 1,2,3, \dots}$ \hfill \mygray{[set of natural numbers]}
-\item $\mathbb{Z} = \set{\dots, -2, -1, 0, 1, 2, \dots}$ \hfill \mygray{[set of integers]}
-\item $\mathbb{Q} = \set{\nicefrac{p}{q} \setbar p \in \mathbb{Z}, q \in \mathbb{N} \setminus \set{0}}$ \hfill \mygray{[set of rational
+\item $\mathds{N} = \set{0, 1,2,3, \dots}$ \hfill \mygray{[set of natural numbers]}
+\item $\mathds{Z} = \set{\dots, -2, -1, 0, 1, 2, \dots}$ \hfill \mygray{[set of integers]}
+\item $\mathds{Q} = \set{\nicefrac{p}{q} \setbar p \in \mathds{Z}, q \in \mathds{N} \setminus \set{0}}$ \hfill \mygray{[set of rational
     numbers]}
-\item $\mathbb{R} = \set{\pi, 0, e, \dots}$ \hfill \mygray{[set of real numbers]}
+\item $\mathds{R} = \set{\pi, 0, e, \dots}$ \hfill \mygray{[set of real numbers]}
 \end{enumerate}
 
 \subsection{Cardinality}
 
 The number of elements in a set is called its \emph{cardinality}.
 We write $\card{X}$ for the cardinality of $X$. The cardinality of $X$ can be infinite.
-We then write $\card{X} = \infty$ and say that $X$ is an infinite set.\sidenote{Actually, infinite sets can have different cardinalities, so that writing $\card{X} = \infty$ could be misleading. For example, $\card{\mathbb{N}} = \card{\mathbb{Q}} < \card{\mathbb{R}}$. But this is not important for us at the moment.}
+We then write $\card{X} = \infty$ and say that $X$ is an infinite set.\sidenote{Actually, infinite sets can have different cardinalities, so that writing $\card{X} = \infty$ could be misleading. For example, $\card{\mathds{N}} = \card{\mathds{Q}} < \card{\mathds{R}}$. But this is not important for us at the moment.}
 If $X$ is not an infinite set, it is called a \emph{finite set}.
 Examples:
 \begin{align*}
@@ -324,9 +324,9 @@ To conclusively show that something follows from a definition, we need the conce
       Provide a natural language paraphrase for each of the following sets:
       \begin{enumerate}[a.]
         \item $A = \set{5, 7, 9, 11, 13, \dots}$
-        \item $B = \mathbb{N} \setminus A$
-        \item $C = \set{c \in \mathbb{Z} \mid -2 \le c \le 2}$
-        \item $D = \mathbb{N} \cap \overline{C}$
+        \item $B = \mathds{N} \setminus A$
+        \item $C = \set{c \in \mathds{Z} \mid -2 \le c \le 2}$
+        \item $D = \mathds{N} \cap \overline{C}$
       \end{enumerate}
     \end{exercise}
 
@@ -511,7 +511,7 @@ We use the following recursive definition of a set $\mathcal{F}$ of (flowery) st
 
 \begin{enumerate}
   \item \textbf{anchor:} the symbol ``*'' is part of $\mathcal{F}$
-  \item \textbf{step:} if $f \in \mathcal{F}$, then so is ``(f)''
+  \item \textbf{step:} if $f \in \mathcal{F}$, then so is ``($f$)''
   \item \textbf{exhaustion:} nothing else is in $\mathcal{F}$
 \end{enumerate}
 
@@ -597,7 +597,7 @@ In particular $\set{x,y} = \set{y,x}$.
 An \emph{ordered pair}, written as $\tuple{x,y}$, is sensitive to ordering information, so that:
 $\tuple{x,y} \neq \tuple{y,x}$.
 We generalize the notion of an ordered pair to an \emph{$n$-tuple}, written as $\tuple{x_1, x_2, \dots, x_n}$.\sidenote{We can allow for $1$-tuples as well and think of them as just the element itself, i.e., $\tuple{a} = a$.}\sidenote{$3$-tuples are also called triples; $4$-tuples quadruples; $5$-tuples quintuples \dots}
-An $n$-tuple contains more information than the set of elements in that $n$-tuple. For example, we might be interested in the unordered set of cities that Hans visited last summer:
+An $n$-tuple contains more information than the set of elements which occur in that $n$-tuple. For example, we might be interested in the unordered set of cities that Hans visited last summer:
 \begin{align*}
   \set{x \setbar \text{$x$ is a city Hans
       visited last summer}} = \set{\text{London}, \text{Paris}, \text{Berlin}}
@@ -723,9 +723,9 @@ The \emph{negation} of $n$-place relation $R \subseteq X_1 \times \dots \times X
 \begin{align*}
   \overline{R} = (X_1 \times \dots \times X_n) \setminus R
 \end{align*}
-The \emph{convervse} of $n$-place relation $R \subseteq X_1 \times \dots \times X_n$ is
+The \emph{converse} of $2$-place relation $R \subseteq X \times Y$ is
 \begin{align*}
-  R^{-1} = \set{\tuple{y,x} \setbar Rxy}
+  R^{-1} = \set{\tuple{y,x} \setbar Rxy} \subseteq Y \times X
 \end{align*}
 
 \begin{claim}
@@ -867,7 +867,7 @@ are examples of equivalence relations:
 \end{marginfigure}
 
 Intuitively, a function maps each element from set $X$ to exactly one element from some set $Y$
-(where $X = Y$ is a possibility). Functions capture uniquely referring expressions
+(where it is also possible that $X = Y$). Functions capture uniquely referring expressions
 such as ``the head of state $x$'' or ``the first name of $x$'' or ``the height of $x$'' (see
 Figure~\ref{fig:function_ex}).
 
@@ -908,7 +908,7 @@ $Y$ are arbitrary sets, we define:
   \rightarrow Y$ but no surjection $g \mycolon X \rightarrow Y$
 \end{enumerate}
 We can now prove that there are ``different infinities''. In particular,
-$\card{N} \not < \card{Q}$, but that $\card{N} < \card{R}$.
+$\card{\mathds{N}} \not < \card{\mathds{Q}}$, but $\card{\mathds{N}} < \card{\mathds{R}}$.
 
 \bigskip
 \noindent \colorbox{mygray}{\centering
