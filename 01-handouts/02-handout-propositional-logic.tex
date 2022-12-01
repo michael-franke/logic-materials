@@ -206,7 +206,7 @@ This is illustrated by the minimal pair in Figure~\ref{fig:syntactic-trees}.\sid
 
 \subsection{Terminology}
 
-A formula of \proplog which consist of a single proposition letter is called \emph{atomic formula.}
+A formula of \proplog which consists of a single proposition letter is called \emph{atomic formula.}
 Any formula of \proplog which is not atomic is called a \emph{complex formula}.
 
 Each complex formula has a \emph{main connective}.
@@ -276,7 +276,7 @@ To give a truth-conditional meaning to the operator $\neg$ we need to define whe
 The truth table that defines the meaning of negation is given in Table~\ref{tab:semantics-binary-connectives}(a).\sidenote{We here write 1 for the truth value ``true'' and 0 for ``false.'' It is also common to use letters $T$ and $F$, or yet other symbols in truth tables. }
 \proplog treats negation like a switch: take a formula $\varphi$ as input, look at its truth value, and swap it for the other (since there are only two truth values).
 
-Other sentential connectives than negation take two formulas as input, so to speak, and may therefore be conceived of as functions that take a pair of truth values as input to return a single truth-value.
+Other sentential connectives than negation take two formulas as input, so to speak, and may therefore be conceived of as functions that take a pair of truth values as input to return a single truth value.
 The semantics of the binary connectives is given in Table~\ref{tab:semantics-binary-connectives}(b):
 
 \begin{table}
@@ -311,9 +311,9 @@ The semantics of the binary connectives is given in Table~\ref{tab:semantics-bin
 Truth tables are useful for systematically working out the conditions under which complex formulas are true.
 Consider the complex formula $(\varphi \wedge \psi) \rightarrow \neg \chi$.
 We do not know whether the subformula $\varphi$, $\psi$ and $\chi$ are atomic or themselves complex.
-But we want to know under which truth value assignments to $\varphi$, $\psi$ and $\chi$ the formula $(\varphi \wedge \psi) \rightarrow \neg \chi$ is true or false.
+But we want to know under which truth-value assignments to $\varphi$, $\psi$ and $\chi$ the formula $(\varphi \wedge \psi) \rightarrow \neg \chi$ is true or false.
 In order to find out, we can construct a truth table that starts by enumerating all logical possibilities of truth-value assignments for the formulas $\varphi$, $\psi$ and $\chi$ (the first three columns in the table below).
-We then work towards the ``goal formula'' $(\varphi \wedge \psi) \rightarrow \neg \chi$ by following the recursive definition of formulas of \proplog.
+We then work towards the ``goal formula'' $(\varphi \wedge \psi) \rightarrow \neg \chi$ by following the recursive definition of formulas of \mbox{\proplog}.
 At each step we apply the definition of the semantics of the relevant sentential connective until we arrive at the ``goal formula''.
 Following this method, we construct the truth table in Table~\ref{tab:truth-table-contingency}, which shows that the formula $(\varphi \wedge \psi) \rightarrow \neg \chi$ is always true, except when all three subformulas, $\varphi$, $\psi$ and $\chi$ are all true at the same time.
 
@@ -659,18 +659,24 @@ We say that $\varphi$ is a contingency iff there is at least one valuation funct
 We say that $\varphi$ and \(\psi\) are logically equivalent, iff for all valuation functions $V(\varphi) = V(\psi)$.
 
 
-\subsection{Logical entailment \& informativity}
+\subsection{Logical entailment, informativity, \& independence}
 
 We can now also give a definition of logical entailment.
 Formula $\varphi$ logically entails $\psi$ iff for all valuation functions $V$, if $V(\varphi)=1$, then $V(\psi)=1$.
 An alternative formulation is this: $\varphi$ logically entails $\psi$ iff $\den{\varphi} \subseteq \den{\psi}$.
 
 Based on the notion of logical meaning in terms of sets of possible worlds, we can also tackle another otherwise extremely elusive concept, namely that of \emph{informativity}, i.e., the amount of information given.
-We say that $\varphi$ is at least as informative as $\psi$ iff $\den{\varphi} \subseteq \den{\psi}$, and that $\varphi$ is strictly more informative than $\psi$ iff $\den{\varphi} \subset \den{\psi}$.
+We say that a contingency $\varphi$ is at least as informative as $\psi$ iff $\den{\varphi} \subseteq \den{\psi}$, and that $\varphi$ is strictly more informative than $\psi$ iff $\den{\varphi} \subset \den{\psi}$.
 
 This notion of logical informativity is a relative one.
 It does not give an absolute measure of information for each formula, but only compares two formulas in terms of their relative informativity.
 It also only compares some formulas; in fact, the ordering induced by this definition of logical informativity is a \emph{partial order}.\sidenote{Probabilistic notions of information, e.g., as given by information theory extend the notion of logical information to an absolute measure of information which yields a total order.}
+
+Formulas $\varphi$ and $\psi$ are \emph{logically independent} iff $\den{\varphi} \not \subseteq \den{\psi}$ and $\den{\psi} \not \subseteq \den{\varphi}$.
+Intuitively, logical independence means that for every possible truth-value assignment to both $\varphi$ and $\psi$ there exists at least one valuation function that gives these formulas this pair of truth values.
+In other words, the truth value of $\varphi$ does not determine the truth value of $\psi$ and vice versa.
+Just learning the truth value of one formula does not reveal the truth value of the other.
+
 
 \subsection{Argument schemas \& validity}
 
