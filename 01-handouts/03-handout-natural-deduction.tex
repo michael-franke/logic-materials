@@ -225,7 +225,7 @@ We may introduce the conjunction $\varphi \wedge \psi$ whenever both the conjunc
       \have [\vdots] {3} {\vdots}
       \have [m_2]    {4} {\psi}
       \have [\vdots] {5} {\vdots}
-      \have [n]      {6} {\varphi \vee \psi} \ai{2, 4}
+      \have [n]      {6} {\varphi \wedge \psi} \ai{2, 4}
     \end{nd}$
   \end{minipage}
 }
@@ -324,7 +324,7 @@ We are \emph{not} allowed to use any of the formulas derived in lines $m$ to $n-
       \open
       \hypo  [m]       {2}  {\varphi}  \add{}
       \have  [\vdots]  {3}  {\vdots}
-      \have  [n][-1]   {4}  {\phi}
+      \have  [n][-1]   {4}  {\psi}
       \close
       \have  [n]       {5}  {\varphi \rightarrow \psi}  \ii{}
     \end{nd}$
@@ -498,7 +498,7 @@ This is really just for readability of a derivation.
       \have  [\vdots]  {1}  {\vdots}
       \have  [m]       {2}  {\phi}
       \have  [\vdots]  {3}  {\vdots}
-      \have  [n]       {4}  {\bot}  \r{2}
+      \have  [n]       {4}  {\phi}  \r{2}
     \end{nd}$
   \end{minipage}
 }
