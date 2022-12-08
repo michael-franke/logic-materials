@@ -152,7 +152,6 @@ We will introduce the set of derivation rules for our system of natural deductio
 
 Ideally, the semantic definition of ``good inference'' (in terms of valuation functions) and the syntactic definition of it (in terms of derivations) coincide.
 In other words, we would really like to have a theorem that tells us that, for any argument schema $\varphi_{1}, \dots, \varphi_{n} / \psi$ it holds that:
-
 \begin{align*}
   \varphi_{1}, \dots, \varphi_{n} \vdash \psi \ \ \ \
   \text{iff} \ \ \ \
@@ -200,8 +199,8 @@ In the natural deduction system to be introduced below, dropping the controversi
 Adding just $\bot$E but not $\neg \neg$E gives \emph{intuitionistic logic}.
 
 Third, a proof or derivation system opens doors for a computational, algorithmic approach to logical inference.
-Finding a derivation is essentially a search problem is a large but well-defined search space.
-Classical Artificial Intelligence therefore was inspired, if not enabled, by modern logic because the latter provided a way to capture the basic workings of the rational mind ---drawing correct inferences from a given body of knowledge--- based on the syntactic manipulation of symbolic representations.\sidenote{The computability of logical inference with syntactic rewrite rules is, admittedly, less impressive for \proplog where we can also use truth tables. But for other more complex logics, like predicate logic, this is a non-trivial asset.}
+Finding a derivation is essentially a search problem in a large but well-defined search space.
+Classical Artificial Intelligence therefore was inspired, if not enabled, by modern logic because the latter provided a way to capture the basic workings of the rational mind ---drawing correct inferences from a given body of knowledge--- based on the syntactic manipulation of symbolic representations.\sidenote{The computability of logical inference with syntactic rewrite rules is, admittedly, less impressive for \proplog where we can also use truth tables. But for more complex logics, like predicate logic, this is a non-trivial asset.}
 
 
 \section{Derivation rules of natural deduction}
@@ -423,7 +422,7 @@ $\begin{nd}
 
 Negation is tricky in natural deduction.
 Though we will speak of an elimination rule for negation, strictly speaking we cannot just eliminate negation if we have a formula $\neg \varphi$.
-But we can draw inferences from the negation $\neg \varphi$ which are ``reductive'' in a sense: if we have derived both $\neg \varphi$ and $\varphi$ we have derived a contradiction, which can be very informative.\sidenote{Remember that the strategy of an indirect proof is to make a certain assumption in order to show that this will result in a contradiction.}
+But we can draw inferences from the negation $\neg \varphi$ which are ``reductive'' in a sense: if we have derived both $\neg \varphi$ and $\varphi$ we have derived a contradiction, which can be very informative.\sidenote{Remember that part of the strategy of an indirect proof is to make a certain assumption in order to show that this will result in a contradiction.}
 So, the elimination rule for negation can best be thought of as an introduction rule for the sign $\bot$ which we use as a special symbol for a contradiction.\sidenote{Strictly speaking, we should introduce $\bot$ into the language of \proplog as a special formula, which can be used exactly like a proposition letter. We should then say that for all $V$ it holds that $V(\bot) = 0$.}
 
 \bigskip
@@ -446,9 +445,10 @@ So, the elimination rule for negation can best be thought of as an introduction 
 
 \subsection{Introduction rule for negation $\neg$I}
 
-The rule for introducing a negation follows the idea of an indirect proof.
+The rule for introducing a negation is similar to the first steps an indirect proof.\sidenote[][-5\baselineskip]{It is not the exact same as an indirect proof. An indirect proof assumes the negation of what needs to be shown, so some $\neg \varphi$. Using the rule $\neg$I, we might be able to conclude that $\neg \neg \varphi$. But, to complete the indirect proof, we would also need another application of the rule $\neg \neg$E, which is introduced below.}
 We make an additional assumption that $\varphi$.
 If we manage to derive from this assumption a contradiction (denoted as $\bot$), we derive $\neg \varphi$.\sidenote{Negation introduction is essentially a derivation of $\varphi \rightarrow \bot$ which is logically equivalent to $\neg \varphi$.}
+
 
 \bigskip
 \noindent \colorbox{mygray!60}{\centering
