@@ -131,19 +131,19 @@ For example, we could have a (two-place) predicate $T$ meaning (``being as tall 
 We can then translate the sentence ``Alex is as tall as Bo'' into the formula $Tab$, which is a minimal truth-evaluable unit, but does have internal structure.
 Similarly, the sentence ``Bo is as tall as Alex'' would translate into $Tba$.
 
-Secondly, \predlog allows to capture \emph{quantification}, which is extremely important in order to capture general rules, generalizations and key aspects of our semantic and world knowledge.\sidenote{Semantic knowledge is what we know about the meaning of words and expressions. For example, semantic knowledge tells us that ``being taller than'' is a transitive relation, and that ``being as tall as'' is an equivalence relation. World knowledge is what we know about the world. For example, we know that Berlin is the capital of Germany.}
+Secondly, \predlog allows to express \emph{quantification}, which is extremely important in order to represent general rules, generalizations and key aspects of our semantic and world knowledge.\sidenote{Semantic knowledge is what we know about the meaning of words and expressions. For example, semantic knowledge tells us that ``being taller than'' is a transitive relation, and that ``being as tall as'' is an equivalence relation. World knowledge is what we know about the world. For example, we know that Berlin is the capital of Germany.}
 Imagine that you have a reasoning machine (computer, robot, friend \dots) able to compute logical inferences in predicate logic.
 Even though we have not introduced any of the formal machinery (syntax, semantics, definition of validity, deduction system) necessary to make such formal reasoning precise, imagine you give this machine the information $Tab$.
 You want it to represent ``Alex is as tall as Bo,'' but the machine only has the string of symbols to work with.
 Would that machine be able to conclude that $Tba$?
 No, it wouldn't because it doesn't know that you want the symbol $T$ to mean ``being as tall as'' and not ``being taller than'' or anything else.
 But, using predicate logic, you \emph{can} tell the system about the fundamental structural properties of the relation ``being as tall as,'' such as that it is reflexive.
-In other words, you can express that ``being as tall as'' is a symmetric predict directly in \predlog with the formula:
+In other words, you can express that ``being as tall as'' is a symmetric predicate in with the \predlog formula:
 \begin{align*}
  \forall x \myts \forall y \myts (Txy \rightarrow Tyx)
 \end{align*}
 which can be read as ``for all objects $x$ and $y$, if $x$ stands in relation $T$ to $y$, then so does $y$ to $x$.''
-This formulas uses the quantifier \(\forall\) to express a generalization: something that holds of any pair of objects.
+This formula uses the quantifier \(\forall\) to express a generalization: something that holds of any pair of objects.
 Generalizations of this kind are essential for human reasoning and \predlog captures the most basic aspects of quantification in a system of logical reasoning.
 To be clear, the inference schema:
 \begin{align*}
@@ -264,7 +264,7 @@ Here are two candidate formulas, of which the left one is correct, the right one
 \begin{align*}
  & \exists x \myts (Bx \wedge Oax) && \exists x \myts Bx \wedge Oax
 \end{align*}
-A paraphrase of the second (incorrect) formula is, roughly: ``There is a book and Alex owns them, him, her, it.''
+A paraphrase of the second (incorrect) formula is, roughly: ``There is a book and Alex owns them/ him/ her/ it/ you/ me/ us.''
 The point is that in the second formula the $x$ might but need not refer to the book, because it is not part of the formula ``dominated by \(\exists\),'' so to speak.
 This shows in the different syntactic trees.
 
@@ -295,7 +295,7 @@ Atomic sentences are minimal truth-evaluable units of the language of \predlog, 
 
 Not every well-formed formula of \predlog is interpretable.
 Consider the formula $Lax$.
-We might paraphrase this as ``Alex likes them, us, him, her or it.''
+We might paraphrase this as ``Alex likes them/ him/ her/ it/ you/ me/ us.''
 Without knowing what $x$ refers to, this formula ---though a formula of \predlog--- is not interpretable.
 We therefore introduce terminology to speak about which occurrences of variables are interpretable, which are not, and how a variable that is interpretable is to be interpreted.
 The relevant technical terms are \emph{scope}, as well as \emph{bound} and \emph{free} occurrences of a variable.
