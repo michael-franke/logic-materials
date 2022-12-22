@@ -449,7 +449,7 @@ Here is a list with  sentences and potential translations into \predlog.\sidenot
 \label{sec:semant-pred-logic}
 
 The semantics of propositional logic was formulated in terms of valuation functions, which mapped each formula to a truth value, true or false.
-We thought of these are possible worlds, or possible states the world could be in.
+We thought of these as possible worlds, or possible states the world could be in.
 The semantics of \predlog is slightly more complicated because in order to say which formulas are true or false, we need to interpret not just atomic propositions, but their internal structure, so to speak; we need to interpret all terms (individual constants and variables) and the predicate letters.
 This is done in a so-called \emph{model}, which can similarly be thought of as a possible world.
 Given a model, we can derive a valuation function.
@@ -458,7 +458,7 @@ The model fixes the domain (which individuals are there) and the meaning of the 
 \subsection{Model, domain \& interpretation function}
 \label{sec:model}
 
-A \emph{model} $M = \tuple{D,I}$ for $\mathfrak{L}$ consists of:
+A \emph{model} $M = \tuple{D,I}$ for language $\mathfrak{L}$ consists of:
 \begin{multicols}{2}
   \begin{itemize}
     \item[] a \emph{domain} $D \neq \emptyset$, and
@@ -466,7 +466,7 @@ A \emph{model} $M = \tuple{D,I}$ for $\mathfrak{L}$ consists of:
   \end{itemize}
 \end{multicols}
 \noindent The domain $D$ is a set of entities.\sidenote{We will always assume that the domain has at least one element.}
-The interpretation function $I$ maps each element of $C$ and $\mathcal{P}$ to a suitable relation on $D$:
+The interpretation function $I$ maps each element of $C$ (the set of constants of language $\mathfrak{L}$) and $\mathcal{P}$ (the set of all predicate letters of $\mathfrak{L}$) to a suitable relation on $D$:
 \begin{itemize}
   \item[] if $c$ is an individual constant, then $I(c) \in D$, and
   \item[] if $P$ is an $n$-ary predicate letter, then $I(P) \subseteq D^n$.\sidenote{$D^n$ is the set of all $n$-tuples with elements from $D$.}
@@ -487,7 +487,7 @@ Assignment functions and the interpretation function together allow us to interp
 
 An \emph{assignment function} $g$ for model $M = \tuple{D,I}$ and language $\mathfrak{L}$ maps all variables in $\mathfrak{L}$ to elements in $D$.
 We write $g_{[x/d]}$ and read ``$g$ with $x$ mapped to $d$'', for the assignment function which is like $g$ except that $x$ is mapped to $d \in D$.
-We will use this latter construct, $g_{[x/d]}$ to define the semantics of existential and universal formulas (see below).\sidenote{If needed, this notation can also be extended to cover more than one variable, like so: $g_{[x/d_{1}, y/d_{2}, y/d_{3}]}$.}
+We will use this latter construct, $g_{[x/d]}$ to define the semantics of existential and universal formulas (see below).\sidenote{If needed, this notation can also be extended to cover more than one variable, like so: $g_{[x/d_{1}, y/d_{2}, z/d_{3}]}$.}
 
 If $t$ is a term of $\mathfrak{L}$, then $\den{t}_{M,g}$ is the \emph{term interpretation} relative to $M = \tuple{D,I}$ and $g$:
 \begin{multicols}{2}
@@ -557,7 +557,7 @@ Assignment functions are just auxiliary constructs.
 At the end of the day, we are interested in whether a formula is true in a possible world, i.e., a model $M = \tuple{D,I}$, no matter what assignment function is used.
 
 If $V_{M,g}(\varphi) = 1$ for all $g$, we write $V_{M}(\varphi) = 1$ and say ``$\varphi$ is true in $M$.''
-If $V_{M,g}(\varphi) = o$ for all $g$, we write $V_{M}(\varphi) = 0$ and say ``$\varphi$ is false in $M$.''
+If $V_{M,g}(\varphi) = 0$ for all $g$, we write $V_{M}(\varphi) = 0$ and say ``$\varphi$ is false in $M$.''
 
 Notice that any \emph{sentence} of \predlog (i.e., any formula without free variables) is either true or false in any given model $M$.
 In other words, formulas without free occurrences of variables are interpretable just with respect to a model, and these formulas are ---usually--- what we care about.
@@ -616,7 +616,7 @@ The following gives examples for each.
 \label{sec:demonstr-inval-with}
 
 \begin{claim}
- $\exists x \myts Px  \not \models \ \forall x \myts Px$\sidenote{Intuitively, just because there is a tall person, we cannot conclude that everybody is tall.}
+ $\exists x \myts Px  \not \models \ \forall x \myts Px$\sidenote{Intuitively, just because someone is a pilot, doesn't mean that everybody is a pilot.}
 \end{claim}
 \begin{proof}
 A minimal counterexample for this case is a model $M$ with domain $D = \set{1,2}$ and interpretation function $I(P) = \set{1}$.
@@ -630,7 +630,7 @@ But there is also an element $d \in D$, namely 2, such that $V_{M, g[x/2]} Px$ i
 Here are two examples for informal proofs demonstrating validity of an argument schema.
 
 \begin{claim}
-  $\forall x \myts Px \ \models \ \neg \exists x \myts \neg Px$
+  $\forall x \myts Px \ \models \ \neg \exists x \myts \neg Px$\sidenote{Intuitively, if everybody is a pilot, there cannot be anyone who is not a pilot.}
 \end{claim}
 
 \begin{proof}
@@ -645,18 +645,18 @@ Here are two examples for informal proofs demonstrating validity of an argument 
 \end{proof}
 
 \begin{claim}
-  $\neg \forall x \ (Ax \rightarrow Bx) \models \exists x \ Ax$
+  $\neg \forall x \ (Px \rightarrow Fx) \models \exists x \ Px$\sidenote{Intuitively, if it is not the case that every pilot is friendly, there has to be at least one pilot.}
 \end{claim}
 
 \begin{proof}
-  Assume that the $\neg \forall x \ (Ax \rightarrow Bx)$ is true in a model $M = \langle D, I \rangle$.
-  From $V_M(\neg \forall x \ (Ax \rightarrow Bx))=1$ we know that $V_M(\forall x \ (Ax \rightarrow Bx))=0$.
-  But if $\forall x \ (Ax \rightarrow Bx)$ is false in $M$, it follows that there is least
-  one element $d \in D$ such that $V_{M, g_{[x/d]}} (Ax \rightarrow Bx) = 0$, for arbitrary $g$.
+  Assume that the premise $\neg \forall x \ (Px \rightarrow Fx)$ is true in a model $M = \langle D, I \rangle$.
+  From $V_M(\neg \forall x \ (Px \rightarrow Fx))=1$ we know that $V_M(\forall x \ (Px \rightarrow Fx))=0$.
+  But if $\forall x \ (Px \rightarrow Fx)$ is false in $M$, it follows that there is at least
+  one element $d \in D$ such that $V_{M, g_{[x/d]}} (Px \rightarrow Fx) = 0$, for arbitrary $g$.
   We know that an implication is only false if the antecedent is true and the consequent is false (from propositional logic, definition of $\rightarrow$).
-  That means that it must be the case that $V_{M, g_{[x/d]}}( Ax ) = 1$.
-  This entails that $V_{M, g} (\exists x \myts Ax)=1$, by definition of truth of existential statements.
-  But since $g$ was completely arbitrary and nothing hinges on any specifics of $g$, we have actually shown that $V_M(\exists x \ Ax) =1$.
+  That means that it must be the case that $V_{M, g_{[x/d]}}( Px ) = 1$.
+  This entails that $V_{M, g} (\exists x \myts Px)=1$, by definition of truth of existential statements.
+  But since $g$ was completely arbitrary and nothing hinges on any specifics of $g$, we have actually shown that $V_M(\exists x \ Px) =1$.
 \end{proof}
 
 \section{Equivalences, tautologies and contradictions}
@@ -774,7 +774,7 @@ These are special symbols also in the semantics, because they are interpreted in
   Identity is the same concept in all possible worlds.
   It is a logical concept that has a fixed meaning in all (logically) possible worlds.
 }
-Concretely, we just add the following clause to the definition of the semantics or predicate logic:\sidenote{
+Concretely, we just add the following clause to the definition of the semantics of predicate logic:\sidenote{
   Notice that there are three occurrences of the symbol ``='' in the first line of this definition.
   The first occurrence refers to the two-place predicate letter of \predlog with identity.
   The latter two refer to our usual understanding of ``='' as identity.
@@ -826,13 +826,14 @@ Here are further examples for translations, making use of identity:\sidenote{Tra
 \label{sec:transl-modif-numer}
 
 Translations of quantified expressions like ``at most two people,'' as in the last example, can be difficult.
-Is this translation also adequate for the last example of ``Bo likes at most two people?''
+For example, ask yourself: Is the following translation adequate for the last example of ``Bo likes at most two people?''
 \begin{enumerate}[(v)]
   \item Bo likes at most two people. \\
   \hfill {\mygray{$\forall x \forall y \, ((Lbx \wedge Lby)
   \rightarrow \forall z \, (Lbz \rightarrow (z = x \vee z = y)))$}}
 \end{enumerate}
-No, because that one is false in a world in which Bo loves two people.
+No it is not.
+This is because that last formula is false in a world in which Bo loves two people.
 Suppose Bo loves Alex and Charley, and that Alex, Bo and Charley are three different people.
 Let $x$ and $y$ refer to Alex.
 Then the antecedent $(Lbx \wedge Lby)$ becomes true.
@@ -841,7 +842,7 @@ Bo loves Charley, but Charley is not identical to Alex (by assumption).
 
 Expressions like ``at most two'' or ``exactly one'' are called \emph{modified numerals}.
 Here are some templates for translating these kinds of expressions into predicate logic with identity.
-The following are example translation for modified numerals applied to a unary predicate $P$.
+The following are example translations for modified numerals applied to a unary predicate $P$.
 \begin{align*}
   \text{at least one} &&& \exists x \myts Px \\
   \text{at least two} &&& \exists x \myts  \exists y \myts (Px \wedge Py \wedge x \neq y) \\
