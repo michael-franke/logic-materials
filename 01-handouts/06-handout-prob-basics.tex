@@ -13,6 +13,7 @@
 \usepackage{etoolbox}
 \usepackage{tikz-qtree}
 \usepackage{subcaption}
+\usepackage{CSPstyles}
 
 \usepackage{pgfplots}
 % externalize PGF plots
@@ -118,7 +119,6 @@ Random variables \& expected values.
 
 \noindent Classical logic explores which conclusions follow from a set of premises.
 The conclusion must follow necessarily from the premises, based on the logical structure of the premises and the conclusions, not based on additional knowledge about the actual world, not on things that could (logically) have been different.
-
 In contrast, much of human knowledge and reasoning revolves around \emph{statistical knowledge}: since most birds can fly, if I learn that Tweety is a bird, it is reasonable to conclude that Tweety is \emph{likely} to fly (unless I have more information about Tweety that might provide evidence against this uncertain inference).
 Probability theory is a formal framework to capture such \emph{reasoning under uncertainty}.
 
@@ -127,6 +127,12 @@ Some alternative systems are argued to be more empirically adequate for capturin
 However, what singles out probability theory is that it strikes a good balance between simplicity, adequacy and applicability.
 As such, it lies at the heart of much of modern statistics and machine learning, with a plethora of mathematical results and algorithms supporting its wide-spread applications in all areas of science.
 % add some historical notes maybe in the margin?
+
+Besides talking about reasoning, another way of motivating why we should look at probability theory is to take the perspective of a single agent's beliefs.
+Modal logics of belief allow an agent to be in three states with respect to any proposition $p$: they believe $p$ is true, are uncertain about it, or they believe that $p$ is false.
+But there can be more gradation.
+Jones and Smith might both be uncertain about $p$, but while Jones believes that $p$ is probable, Smith considers it rather unlikely.
+Probability theory gives us formal tools to model \emph{(subjective) degrees of credence} in a proposition (as the philosophers like to say).
 
 \section{Probability}
 
@@ -137,17 +143,18 @@ This number indicates how likely the event is supposed to be (relative to others
 
 \subsection{Outcomes, events, observations}
 
-We are interested in the space $\Omega$ of all \markdef{elementary outcomes} $\omega_1,
-\omega_2, \dots$ of a process or event whose execution is (partially) random or
-unknown. Elementary outcomes are mutually exclusive. The set $\Omega$ exhausts all
-possibilities.\sidenote{For simplicity of exposure, we gloss over subtleties arising when
-  dealing with infinite sets $\Omega$.}
+We are interested in the space $\Omega$ of all \markdef{elementary outcomes} $\omega_1, \omega_2, \dots$ of a process or event whose execution is (partially) random or unknown.\sidenote{
+  \acc[]{relate to modal logic}
+}
+Elementary outcomes are mutually exclusive.
+The set $\Omega$ exhausts all possibilities.\sidenote[][]{
+  For simplicity of exposure, we gloss over subtleties arising when dealing with infinite sets $\Omega$.}
 
 \begin{example}
   The set of elementary outcomes of a single coin flip is $\Omega_{\text{coin flip}} =
   \set{\text{heads}, \text{tails}}$. The elementary outcomes of tossing a six-sided die is
   $\Omega_{\text{standard die}} = \set{\epsdice{1}, \epsdice{2}, \epsdice{3}, \epsdice{4},
-    \epsdice{5}, \epsdice{6}}$.\sidenote{
+    \epsdice{5}, \epsdice{6}}$.\sidenote[][]{
     Think of $\Omega$ as a partition of the space of all possible worlds, i.e., ways in which the world could be, where we lump together into one partition cell all ways in which the world could be that are equivalent regarding those aspects of reality that we are interested in.
     We do not care whether the coin lands in the mud or in the sand.
     It only matters whether it came up heads or tails.
