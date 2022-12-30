@@ -238,14 +238,14 @@ Here are examples of well-formed formulas of our multi-agent epistemic logic wit
   \begin{tabular}{lp{7cm}}
     \vspace{0.3cm}
     $\Box_{a} (p \rightarrow q)$
-    & Alex believes that if $p$, then $q$.
+    & \mygray{Alex believes that if $p$, then $q$.}
     \\
     \vspace{0.3cm}
     $p \rightarrow \Diamond_{a} \Box_{b} q$
-    & If $p$ is true, then Alex considers it possible that Bo believes that $q$.
+    & \mygray{If $p$ is true, then Alex considers it possible that Bo believes that $q$.}
     \\
     $\Box_{a} p \wedge \Box_{b} p \wedge \neg \Box_{a} \Box_{b} p$
-    & Both Alex and Bo believe that $p$, but Alex doesn't believe that Bo believes it.
+    & \mygray{Both Alex and Bo believe that $p$, but Alex doesn't believe that Bo believes it.}
 
   \end{tabular}
 \end{center}
@@ -278,9 +278,10 @@ For a simple example, let us just consider a case with a single agent first, whi
 We are interested in Alex's beliefs about tomorrow's weather.
 For simplicity, we consider three possible states of the weather: it's either rainy, cloudy or sunny.
 We can model this in terms of three proposition letters: $\mathcal{P} = \set{r, c, s}$.
-For the sake of a simple example, let's consider three possible worlds, $W = \set{w_{r}, w_{c}, w_{s}}$.
+For simplicity, let's consider just four possible worlds, $W = \set{w_{1}, w_{2}, w_{3}, w_{4}}$.
 We need to define a valuation function that maps every pair consisting of a possible world and a proposition letter onto a truth value.
-Here is (a compact representation of) the valuation function we will use:\sidenote{
+This could be written like so: $V(w_{1},r) =$, $V(w_{1},c) = 0$ and so on.
+Here is more compact representation of the valuation function we will use:\sidenote{
   This looks suspiciously like a truth-table, but it is not.
   Not all logically possible worlds are listed (because we do not need them in this example).
   Also, there are rows ($w_1$ and $w_4$) with exactly the same truth-value assignments (we need them to model different beliefs, see below).
@@ -338,127 +339,300 @@ Since we only consider a single agent, all arrows are (superfluously) labelled w
         \draw[->,every node/.style={right},thick] (4) edge[loop right] node {$a$} ();
 
       \end{tikzpicture}
-  \caption{Example of a modal model for Alex's beliefs about tomorrow's weather. In world $w_{r}$ Alex (falsely) believes that is will not rain.}
+  \caption{Example of a modal model for Alex's beliefs about tomorrow's weather. In world $w_{1}$ Alex (falsely) believes that it will not rain. In world $w_{4}$, Alex believes (correctly) that it will rain.}
   \label{fig:modal-model-single-agent}
 \end{figure}
 
 What beliefs does Alex hold according to the model in Figure~\ref{fig:modal-model-single-agent}? ---
 Actually, that depends on which of the four worlds we consider to be the \emph{reference world}, i.e., the world we consider to be actual for the purpose of analysis.
-If $w_{1}$ is the reference world (we can also say: ``in world $w_{1}$''), Alex believes that it might be cloudy and that it might be sunny, but it will not rain.
+If $w_{1}$ is the reference world (we can also say: ``in world $w_{1}$''), Alex believes that it might be cloudy and that it might be sunny, but that it will not rain.
+This is because the worlds accessible from $w_{1}$, according to Alex's accessibility relation, include only the two worlds $w_{2}$ and $w_{3}$ where it is cloudy and sunny respectively: $R_{a}(w_{1}) = \set{w_{2}, w_{3}}$.
+So, in world $w_{1}$ Alex \emph{rules out} the possibility of rain (even though that is  the true weather for tomorrow, unbeknownst to Alex); Alex \emph{rules in} the possibilities of cloudy and sunny weather, so that Alex is, after all, not entirely sure about the weather.
+
 In worlds $w_{2}$ and $w_{3}$, Alex holds the exact same beliefs as in $w_{1}$.
 This is because we have the same set of accessible worlds for the first three worlds:
 \begin{align*}
   R_{a}(w_{r}) = R_{a}(w_{c}) = R_{a}(w_{s}) = \set{w_{c}, w_{s}}
 \end{align*}
-So, in these worlds, Alex considers two worlds to be possibly true (namely $w_{2}$ and $w_{3}$), thus considering cloudy and sunny weather live possibilities but not rain.
-In $w_{1}$ these beliefs are false, in $w_{2}$ and $w_{3}$ they are not.
+In $w_{1}$ these beliefs are false ($w_{1}$ is a rain-world, but Alex excludes rain), in $w_{2}$ and $w_{3}$ they are not (e.g., $w_{2}$ is a cloudy world and Alex considers cloudy weather to be possible).
+
 Finally, in world $w_{4}$ Alex's accessible worlds are $R_{a}(w_{4}) = \set{w_{4}}$.
-So, in $w_{4}$, Alex believes truthfully (we might say: ``Alex knows'') that is will rain.
-
-\bigskip
-
-
-\paragraph{Notation and terminology.}
-
-In everything that follows, we implicitly restrict attention to what are called \emph{serial models}, where $R_i(w) \neq \emptyset$ for all $w$ and $i$.
-We say that a model is reflexive ($r$), transitive ($t$) or Euclidean ($e$) if all of its relations $R_i$ are reflexive, transitive or Euclidean.
-For $C \subseteq \set{r,t,e}$ a set of properties, let $\Models^C$ refer to the collection of all models $\Model_{\mathcal{P},\mathcal{A}}$ that have the properties selected in $C$.
-Specifically:
-\begin{itemize}[]
-  \item $\Models^{\set{t,e}}$ are \emph{belief models}, and
-  \item $\Models^{\set{r,t,e}}$ are \emph{knowledge models}.
-\end{itemize}
-
-% Exercise: write down the whole model in mathematical notation
-% Exercise: draw a model for a given definition
-
+So, in $w_{4}$, Alex entertains only one relevant possibility.
+Alex is maximally opinionated, i.e., not uncertain at all.
+Alex believes (truthfully) that it will rain.
 
 \paragraph{Truth conditions for \modlog.}
 Truth conditions for formulas of \modlog are defined relative to \emph{pointed models}.
 If $\Model = \tuple{W,V,(R_a)_{a \in \mathcal{A}}}$ and $w \in W$, the pair $\Model$, $w$ is a pointed model.
-Truth of a formula in a pointed model $\Model,w$ is defines as follows.
-For proposition letters $p \in \mathcal{P}$, the valuation function for world $w$ decides on truth or falsity:
+A valuation function $V_{\Model, w}$ for a pointed model, assigns truth values to each formula of \modlog as follows:
+For proposition letters $p \in \mathcal{P}$, the model's internal valuation function $V$ decides on truth or falsity:\sidenote[][-2cm]{Notice that the function $V_{\Model, w}$ on the left-hand side is the ``global'' valuation function that builds on the pointed model to assign truth values to \emph{all} formulas, while the valuation function $V$ on the right-hand side is the valuation function \emph{inside} of model $\Model$ gives truth values to \emph{only} proposition letters (for a given world).}
 %
 \begin{align*}
-  \Model, w \models p & \text{ \ iff \  } V(w,p) = 1
+  V_{\Model, w}(p) & \text{ \ iff \  } V(w,p) = 1
 \end{align*}
 %
 Formulas with main operators from propositional logic are treated as before:
 %
 \begin{align*}
-  &\Model, w \models \neg \phi && \text{ \ iff \ } \Model, w \not \models \phi \\
-  &\Model, w \models \phi \wedge \psi && \text{ \ iff \ } \Model, w \models \phi \text{ \ and \ } \Model, w \models \psi \\
-  & \ \ \ \ \  \vdots && \ \ \ \ \ \vdots
+ & V_{\Model,w}(\neg \phi) = 1                 & & \text{ \ iff \ } V_{\Model,w}(\phi) =0\\
+ & V_{\Model,w}(\phi \wedge \psi) = 1          & & \text{ \ iff \ } V_{\Model,w}(\phi) =1 \text{ and }  V_{\Model,w}(\psi) = 1\\
+ & V_{\Model,w}(\phi \vee \psi) = 1            & & \text{ \ iff \ } V_{\Model,w}(\phi) =1 \text{ or  }  V_{\Model,w}(\psi) = 1\\
+ & V_{\Model,w}(\phi \rightarrow \psi) = 0     & & \text{ \ iff \ } V_{\Model,w}(\phi) =1 \text{ and }  V_{\Model,w}(\psi) = 0\\
+ & V_{\Model,w}(\phi \leftrightarrow \psi) = 1 & & \text{ \ iff \ } V_{\Model,w}(\phi) = V_{\Model,w}(\psi)
 \end{align*}
-%
-What is new is the treatment of modal operators.
+
+\noindent What is new is the treatment of modal operators.
 For these, the accessibility relations are important.\sidenote{
   Essentially, modal operators are like quantifiers from predicate logic, but quantifying over ``accessible worlds.''
 }
 %
 \begin{align*}
-    & \Model, w \models \Box_i \phi & & \text{ \ iff \ } \Model, v \models
-    \phi \text{ for all $v \in R_i(w)$} \\
-    & \Model, w \models \Diamond_i \phi & & \text{ \ iff \ } \Model, v
-    \models \phi \text{ \ for some $v \in R_i(w)$}
+    & V_{\Model, w}(\Box_i \phi) & & \text{ \ iff \ } V_{\Model, v}(\phi) \text{ for all $v \in R_i(w)$} \\
+    & V_{\Model, w}(\Diamond_i \phi) & & \text{ \ iff \ } V_{\Model, v}(\phi) \text{ for some $v \in R_i(w)$}
+\end{align*}
+%
+Crucially, the semantics for modal operators shifts the reference world, so to speak, switching from pointed model $\Model, w$ to $\Model, v$ for some accessible world $v \in R_{i}(w)$.
+In this way, we can also give a meaning to nested modal operators, as the following example demonstrates.
+
+\paragraph{A more complex example.}
+Figure~\ref{fig:modal-model} shows an example of a modal model for two agents ($\mathcal{A} = \set{a,b}$, Alex and Bo) and just two propositions letters ($\mathcal{P} = \set{p, q}$).
+This model only has three possible worlds $W = \set{w,u,v}$.
+The diagram shows, the set of all proposition letters that are true in each world.
+Labelled arrows are used to represent the accessibility relation for each agent.
+
+\begin{figure*}
+  % \centering
+  \begin{minipage}{0.4\linewidth}
+    \begin{itemize}[]
+      \item $\Bel_b (\neg p \wedge \neg q)$  \\ \mygray{``Bo believes that $p$ and $q$ are false''}
+      \item $\neg p \wedge \Bel_a p$  \\ \mygray{``Alex falsely believes that $p$ is true''}
+      \item $\neg \Bel_a q \wedge \neg \Bel_a \neg q$ \\ \mygray{``Alex is uncertain about $q$''}
+      \item $\neg \Bel_b p \wedge \Bel_a \Bel_b p$ \\ \mygray{``Alex falsely believes that Bo believes $p$''}
+      \item $\neg \Bel_a \Bel_b q \wedge \neg \Bel_a \neg \Bel_b q$ \\ \mygray{``Alex is uncertain whether Bo believes $q$''}
+      \item $\Bel_a (q \ra \Bel_b q \wedge \neg q \ra \Bel_b \neg q)$ \\ \mygray{``Alex believes that Bo knows whether $q$''}
+    \end{itemize}
+  \end{minipage}
+  \begin{minipage}{0.4\linewidth}
+    \begin{tikzpicture}
+      \tikzset{breakable/.code=\ifpgfmatrix\else\tikzset{matrix of
+          nodes}\fi}
+
+      \draw [every
+      label/.style={breakable},state/.style={thick,rounded
+        corners,rectangle split, rectangle split parts=2,
+        draw=black}] (0,0) node[state] (w) {$w$ \nodepart{second} $V
+        \colon \emptyset$} (5,0) node[state] (v) {$v$
+        \nodepart{second} $V \colon p,q$} (2.5,-3.3) node[state] (u)
+      {$u$ \nodepart{second} $V \colon p$};
+
+      \draw[->,every node/.style={sloped,above},thick] (w) edge node
+      {$a$} (v);
+
+      \draw[->,every node/.style={left},thick] (w) edge[loop left]
+      node {$b$} ();
+
+      \draw[<->,every node/.style={sloped,above},thick] (v) edge
+      node {$a$} (u);
+
+      \draw[->,every node/.style={right},thick] (v) edge[loop right]
+      node {$a,b$} ();
+
+      \draw[->,every node/.style={sloped,above},thick] (w) edge node
+      {$a$} (u);
+
+      \draw[->,every node/.style={below},thick] (u) edge[loop below]
+      node {$a,b$} ();
+
+    \end{tikzpicture}
+  \end{minipage}
+  \caption{
+    Example of a modal model with three worlds ($w$, $v$ and $u$) for two agents ($a$ and $b$) and two proposition letters ($p$ and $q$).
+    }
+  \label{fig:modal-model}
+\end{figure*}
+
+The formulas on the left-hand side are all true in world $w$.
+To check that, for example, $V_{\Model, w}(\neg \Bel_a \Bel_b q \wedge \neg \Bel_a \neg \Bel_b q) = 1$, we can reason as follows:
+\begin{align*}
+  & V_{\Model, w}(\neg \Bel_a \Bel_b q \wedge \neg \Bel_a \neg \Bel_b q) = 1 \\
+  \text{ iff \ \ \ } & V_{\Model, w}(\neg \Bel_a \Bel_b q) = 1 \text {\ \ \  and \ \ \ }
+                       V_{\Model, w}(\neg \Bel_a \neg \Bel_b q) = 1
+\end{align*}
+Consider the first conjunct:
+\begin{align*}
+  & V_{\Model, w}(\neg \Bel_a \Bel_b q) = 1 \\
+  \text{ iff \ \ \ } & \text{for some } w' \in R_{a}(w) \  V_{\Model, w'}(\Bel_b q) = 0 \\
+  \text{ iff \ \ \ } & \text{for some } w' \in R_{a}(w') \ \text{for some } w'' \in R_{b}(w') \  V_{\Model, w''}(q) = 1 \\
+  & \text{which is true if we set $w' = w'' = v$}
+\end{align*}
+Consider the second conjunct:
+\begin{align*}
+  & V_{\Model, w}(\neg \Bel_a \neg \Bel_b q) = 1 \\
+  \text{ iff \ \ \ } & \text { for some } w' \in R_{a}(w)\  V_{\Model, w'}(\neg \Bel_b q) = 0 \\
+  \text{ iff \ \ \ } & \text { for some } w' \in R_{a}(w)\  V_{\Model, w'}(\Bel_b q) = 1 \\
+  \text{ iff \ \ \ } & \text { for some } w' \in R_{a}(w)\ \text{for all } w'' \in R_{b}(w') \  V_{\Model, w'}(q) = 1 \\
+  & \text{which is true if $w' = u$, since $R_{b}(u) = \set{u}$ and $q$ is false in $u$}
 \end{align*}
 
-For example, the model shown in Figure~\ref{fig:modal-model} makes the following formulas true:
+\subsection{Validity, entailment etc.}
+
+The notions of validity, entailment, tautology, contradiction and contingency are defined essentially in the same way as for \proplog and \predlog.
+We only need to talk about truth at a pointed model.
+For example, we say that $\varphi$ is a tautology of \modlog whenever $V_{\Model, w}(\varphi)=1$ for all pointed models $\Model, w$.
+
+\section{The logic of rational belief}
+
+So far, we have not put any constraints on the accessibility relations in our modal models.
+But, in order to represent beliefs that are ``rational'' in a crucial sense, we should.
+For example, we should rule out that $R_{i}(w) = \emptyset$ for some agent $i$ and world $w$, because that would mean that this agents believes \emph{anything} at this world, including logical contradictions (which isn't very rational, right?).
+This is to say that we would require rational agents to hold \emph{consistent beliefs} that are contradiction-free.
+We can ensure contradiction-freedom by a constraint on admissible modal models, called \emph{seriality}:
 \begin{itemize}[]
-  \item $\Bel_j (\neg p \wedge \neg q)$  \\ ``$j$ believes that $p$ and $q$ are false''
-  \item $\neg p \wedge \Bel_i p$  \\ ``$i$ falsely believes that $p$ is true''
-  \item $\neg \Bel_i q \wedge \neg \Bel_i \neg q$ \\ ``$i$ is uncertain about $q$''
-  \item $\neg \Bel_j p \wedge \Bel_i \Bel_j p$ \\ ``$i$ falsely believes that $j$ believes $p$''
-  \item $\neg \Bel_i \Bel_j q \wedge \neg \Bel_i \neg \Bel_j q$ \\ ``$i$ is uncertain whether $j$ believes $q$''
-  \item $\Bel_i (q \ra \Bel_j q \wedge \neg q \ra \Bel_j \neg q)$ \\ ``$i$ believes that $j$ knows whether $q$''
+  \item \textbf{Seriality:} \ \  for all $i$ and $w$: \ $R_{i}(w) \neq \emptyset$
 \end{itemize}
+or, in other words, there is always at least one accessible world.
+We can then prove the following:
 
-Figure~\ref{fig:modal-model} below shows an example of a modal model for two agents ($\mathcal{A} = \set{a,b}$) and just two propositions letters ($\mathcal{P} = \set{p, q}$).
-This model only has three possible worlds.
-The diagram shows, for each possible world, the set of all proposition letters that are true in this world.
-Labelled arrows are used to represent the accessibility relation for each agent.
-Concretely, agent $a$ ``sees'' worlds $v$ and $u$ in $w$ (formally: $R_{a}(w) = \set{u,v}$), which is shown in the diagram in exactly two arrows with label $a$ ``leaving'' world $w$.
+\begin{claim}
+  If a modal model's accessibility relation is serial, no agent can believe in a contradiction.
+\end{claim}
+\begin{proof}
+  Let $\Model, w$ be a pointed model with $R_{i}(w)$ the accessible words for agent $i$ at $w$.
+  Take an arbitrary contradiction $\varphi$.
+  Being a contradiction entails that $V_{\Models', v}(\varphi) = 0$ for all $\Models'$ and worlds $v$.
+  Now assume that $i$ believes in $\varphi$ at $w$ in $\Model$, which means that $V_{\Models, w}(\Box_{i}\varphi)=1$.
+  This entails that for all $v \in R_{a}(w)$ we have $V_{\Models, v}(\varphi) = 1$.
+  But that cannot be if there is at least one world in $R_{a}(w)$ (by seriality) and if $\varphi$ is a contradiction.
+\end{proof}
 
+Moreover, we might want to put additional constraints on higher-order beliefs of an agent.
+A higher-order belief of agent $i$ is a belief of $i$ about their own beliefs, e.g., that Alex believes that Alex considers it possible that $\varphi$ ($\Box_{a}\Box_{a}\varphi$).
+A common requirement for rational higher-order beliefs is \emph{positive introspection}: if Alex believes that $\varphi$, then Alex believes that they believe $\varphi$.
+Positive introspection is guaranteed by transitive accessibility relations.
+\begin{itemize}[]
+  \item \textbf{Positive Introspection:} \ \  for all $i$: \ $R_{i}$ is transitive
+\end{itemize}
+\begin{claim}
+ If an agent $i$'s accessibility relation is transitive in model $\Model$, then $V_{\Model,w}(\Box_{i}\varphi \rightarrow \Box_{i}\Box_{i}\varphi) = 1$ for all $w$ in that model.
+\end{claim}
+\begin{proof}
+  Let $\Model$ have a transitive accessibility relation $R_{i}$.
+  Suppose towards contradiction that $V_{\Model,w}(\Box_{i}\varphi \rightarrow \Box_{i}\Box_{i}\varphi) = 0$ at some world $w$.
+  That can only be the case if $V_{\Model,w}(\Box_{i}\varphi) = 1$ and $V_{\Model,w}(\Box_{i}\Box_{i}\varphi) = 0$.
+  From $V_{\Model,w}(\Box_{i}\Box_{i}\varphi) = 0$ we infer that there is a $w' \in R_{i}(w)$ such that there is some $w'' \in R_{i}(w')$ such that $V_{\Model, w''}(\varphi) = 0$.
+  Since, by $R_{i}$ is assumed to be transitive, we derive that $w'' \in R_{i}(w)$.
+  But that contradicts $V_{\Model,w}(\Box_{i}\varphi) = 1$, which we have derived previously.
+\end{proof}
 
-\begin{figure}
-  \centering
-  \begin{tikzpicture}
-        \tikzset{breakable/.code=\ifpgfmatrix\else\tikzset{matrix of
-            nodes}\fi}
+A final requirement on rational higher-order beliefs, which is often made but more controversial, is that rational agents should also have \emph{negative introspection}: if Alex does not believe that $\varphi$, then Alex believes that they don't believe $\varphi$.
+Negative introspection is guaranteed by Euclidean accessibility relations.
+A relation $R \subseteq W \times W$ is Euclidean iff for all $w,u,v \in W$: if $wRu$ and $wRv$, then $uRv$.
+\begin{itemize}[]
+  \item \textbf{Negative Introspection:} \ \  for all $i$: \ $R_{i}$ is Euclidean
+\end{itemize}
+\begin{claim}
+ If an agent $i$'s accessibility relation is Euclidean in model $\Model$, then $V_{\Model,w}(\neg \Box_{i}\varphi \rightarrow \Box_{i} \neg \Box_{i}\varphi) = 1$ for all $w$ in that model.
+\end{claim}
+\begin{proof}
+  Let $\Model$ have a Euclidean accessibility relation $R_{i}$.
+  Suppose towards contradiction that $V_{\Model,w}(\neg \Box_{i}\varphi \rightarrow \Box_{i} \neg \Box_{i}\varphi) = 0$ at some world $w$.
+  That can only be the case if $V_{\Model,w}( \neg \Box_{i}\varphi) = 1$ and $V_{\Model,w}( \neg \Box_{i}\Box_{i}\varphi) = 0$.
+  From the former we learn that there is a world $w^{*} \in R_{i}(w)$ such that $V_{\Model, w^{*}}(\varphi)=0$.
+  From the latter we learn that for all world $w' \in R_{i}(w)$ it holds that $V_{\Model,w'}(\Box_{i}\varphi) = 1$.
+  But if the relation is Euclidean, then any world $w' \in R_{i}(w)$ must also ``see'' $w^{*}$, so that is a contradiction.
+\end{proof}
 
-        \draw [every
-        label/.style={breakable},state/.style={thick,rounded
-          corners,rectangle split, rectangle split parts=2,
-          draw=black}] (0,0) node[state] (w) {$w$ \nodepart{second} $V
-          \colon \emptyset$} (5,0) node[state] (v) {$v$
-          \nodepart{second} $V \colon p,q$} (2.5,-3.3) node[state] (u)
-        {$u$ \nodepart{second} $V \colon p$};
+\bigskip
+\noindent \colorbox{mygray}{\centering
+  \begin{minipage}{1.0\textwidth}
 
-        \draw[->,every node/.style={sloped,above},thick] (w) edge node
-        {$a$} (v);
+    \begin{exercise}
+      Translate the following sentences into epistemic modal logic.
+      Use as your translation key: $p$ ``the earth is round'', $q$ ``the moon is made of cheese'', ``a'' Alex, and $b$ ``Bo.''
+      \begin{enumerate}[(i)]
+        \item If Alex believes that the moon is made of cheese, then Alex also believes that the earth is not round.
+        \item Bo believes that Alex thinks it's possible that Bo believes that the moon is made of cheese.
+        \item Alex considers it possible that, if the moon is made of cheese, then Bo believes it.
+        \item Whatever Bo believes about whether the earth is round, Alex believes the same.
+        \item Alex is uncertain about whether Bo believes that Alex believes that the moon is made of cheese.
+      \end{enumerate}
+    \end{exercise}
 
-        \draw[->,every node/.style={left},thick] (w) edge[loop left]
-        node {$b$} ();
+    \begin{exercise}
+      Here is a full mathematical specification of a modal logical language and a modal model $\Model$:
 
-        \draw[<->,every node/.style={sloped,above},thick] (v) edge
-        node {$a$} (u);
+      \begin{itemize}[]
+        \item $\mathcal{P} = \set{p,q}$, \ \ $\mathcal{A} = \set{a, b}$, \ \  $W = \set{w_1, w_{2}, w_{3}, w_{4}}$
+        \item $V(w_{1},p) = V(w_{1},q) = 1$, \ \ $V(w_{2},p) =1,  V(w_{2},q) = 0$
+        \item  $V(w_{3},p) =0,  V(w_{3},q) = 1$, \ \ $V(w_{4},p) =1,  V(w_{4},q) = 1$
+        \item $R_{a} = \set{
+        \tuple{w_{1}, w_{2}},
+        \tuple{w_{2}, w_{w_{3}}},
+        \tuple{w_{4}, w_{3}}
+        }$
+        \item $R_{b} = \set{
+        \tuple{w_{1},w_{4}},
+        \tuple{w_{2}, w_{4}},
+        \tuple{w_{3}, w_{w_{4}}},
+        \tuple{w_{4},w_{1}}, \tuple{w_{4},w_{4}}
+        }$
+      \end{itemize}
+      \begin{enumerate}
+        \item Draw the model as a diagram like in Figure~\ref{fig:modal-model}.
+        \item Determine the truth value for the following:
+        \vspace{-0.3cm}
+        \begin{multicols}{2}
+          \begin{enumerate}[a]
+            \item $V_{\Model, w_{1}}(\Box_{a} p)$
+            \item $V_{\Model, w_{1}}(\Box_{a} p \wedge \Box_{a} \Diamond_{a} \neg p)$
+            \item $V_{\Model, w_{3}}(\Box_{a} (p \wedge \neg p))$
+            \item $V_{\Model, w_{4}}(p \rightarrow \Box_{b} p )$
+          \end{enumerate}
+        \end{multicols}
+        \item Does this model satisfy the constraints on rational (higher-order) beliefs?
+        What minimal changes to the accessibility relations would make it satisfy these constraints?
+        Which of the previous truth-values in pointed models change when you look at rational beliefs?
+      \end{enumerate}
+    \end{exercise}
 
-        \draw[->,every node/.style={right},thick] (v) edge[loop right]
-        node {$a,b$} ();
+  \end{minipage}
+}
 
-        \draw[->,every node/.style={sloped,above},thick] (w) edge node
-        {$a$} (u);
-
-        \draw[->,every node/.style={below},thick] (u) edge[loop below]
-        node {$a,b$} ();
-
-      \end{tikzpicture}
-  \caption{Example of a modal model with three worlds ($w$, $v$ and $u$) for two agents ($a$ and $b$) and two proposition letters ($p$ and $q$).}
-  \label{fig:modal-model}
-\end{figure}
-
-  
 \newpage
+
+\section{Excursion: Applications of modal logic in linguistics and beyond}
+
+Beyond a formalization of (rational) beliefs and means to fix the truth-conditions for statements about them, epistemic modal logics have many other applications for linguistics and other neighboring fields.
+
+\subsection{Strict conditionals}
+
+The truth-conditional semantics for the material conditional $p \rightarrow q$ does not square very well with common intuitions about the meaning of natural language ``if \dots, then \dots'' sentences.
+If Jones says ``It's false that if $p$, then $q$,'' they are not saying that $p$ is true and $q$ is false, but that is exactly what the truth-table for $p \rightarrow q$ would give us.
+
+An alternative analysis for natural language conditionals, which is maybe better (but still not unproblematic), is that of the \emph{strict conditional}.
+According to a strict conditional analysis, we would translate ``if $p$, then $q$'' to something like $\Box_{i}(p \rightarrow q)$, where $i$ is the speaker.
+So, we would treat a conditional sentence as (possibly: implicitly) modalized; a statement about the ways the wold could be that the speaker considers possible.
+If Jones says ``It's false that if $p$, then $q$,'' this would be translated as $\neg \Box_{j}(p \rightarrow q)$, which is much weaker than before, as it only requires that Jones thinks that it is conceivable that $p$ is true but $q$ is false.
+
+\subsection{Common ground}
+
+In communication, we must keep track of who knows what.
+Otherwise, we risk redundancy and boredom or miscommunication and frustration.
+Leading theories of pragmatic language use therefore assume that interlocutors keep track of a \emph{common ground} which (among other things) contains the shared beliefs of all participants in a conversation.
+Modal logics of belief help define such inter-personal notions like \emph{mutual belief} or \emph{common belief}.
+
+
+% \paragraph{Notation and terminology.}
+
+% In everything that follows, we implicitly restrict attention to what are called \emph{serial models}, where $R_i(w) \neq \emptyset$ for all $w$ and $i$.
+% We say that a model is reflexive ($r$), transitive ($t$) or Euclidean ($e$) if all of its relations $R_i$ are reflexive, transitive or Euclidean.
+% For $C \subseteq \set{r,t,e}$ a set of properties, let $\Models^C$ refer to the collection of all models $\Model_{\mathcal{P},\mathcal{A}}$ that have the properties selected in $C$.
+% Specifically:
+% \begin{itemize}[]
+%   \item $\Models^{\set{t,e}}$ are \emph{belief models}, and
+%   \item $\Models^{\set{r,t,e}}$ are \emph{knowledge models}.
+% \end{itemize}
+
 
 % \subsection{Semantics}
 % \label{sec:semantics}
