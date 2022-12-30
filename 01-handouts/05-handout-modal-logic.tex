@@ -79,6 +79,7 @@
 \newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
 
 \newcommand{\proplog}{\acro{PropLog}}
+\newcommand{\predlog}{\acro{PredLog}}
 \newcommand{\EFSQ}{\ensuremath{\mathit{EFSQ}}\xspace}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -146,32 +147,41 @@
 \begin{abstract}
 \noindent
 Notions covered:
-language and semantics of modal propositional logic,
-modal models
-.
+language of modal logic,
+(pointed) modal models,
+truth in pointed models,
+belief and knowledge models.
 \end{abstract}
 
-Propositional logic and predicate logic give us formulas to talk about the \emph{here and now} (the \emph{hic et nunc}): they are to be interpreted as descriptions of how the actual world is.
+\noindent Propositional logic and predicate logic give us formulas to talk about the \emph{here and now}.
 For example, the sentence:
 %
 \begin{align*}
-  \underbrace{\text{The earth is round.}}_{p}
+  \underbrace{\text{The earth is round}}_{p}
 \end{align*}
 %
 is to be understood as a claim about how the world is like.
-If we wanted to check whether it is true or false, we would have to go search \emph{this} world, the \emph{actual world} that we live in.
+If we wanted to check whether this sentence is true or false, we would have to go search \emph{this} world, the \emph{actual world} that we live in.
 
-Modal logics are different.
-They introduce a formal language with which we can also talk about other \emph{possible worlds}.
-Modal logics let us express that something \emph{should} be the case, or \emph{must} be the case or \emph{cannot possibly} be the case.
-For example, in order to evaluate whether this sentence is true:
+Yet, much of human language involves imaginary circumstances, ways in which the world could have been but isn't.
+For example, in order to evaluate whether the following sentences are true:
 \begin{align*}
-  \underbrace{\text{ It is necessary that }}_{\Box}
-  \underbrace{\text{ the earth is round. }}_{p}
+  \underbrace{\text{ It is logically necessary that }}_{\Box}
+  \underbrace{\text{ the earth is round }}_{p}
 \end{align*}
-it does not suffice to check the actual shape of the earth; we need to consider different possibilities of how the world could have been.
+\begin{align*}
+  \underbrace{\text{ Alex believes that }}_{\Box_{a}}
+  \underbrace{\text{ the earth is round }}_{p}
+\end{align*}
+it does not suffice to just check the actual shape of the earth.
+We need to consider different (imaginary) possibilities of how the world could have been.
+We call these ways the world could have been \emph{possible worlds}.
+To determine the truth or falsity of sentences like the above, we need to determine whether certain possible worlds (here: worlds in which the earth is not round) have certain properties, such as whether they are compatible with the rules of logic or with what Alex considers possible.
 
-Modal logics usually have (at least) these two \emph{modal operators}:
+Many natural language expressions carry a modal meaning component.
+In English, there are words like \emph{should}, \emph{could}, \emph{possibly}, \emph{need to}, \emph{be required} and many more.
+In order to capture such modal meaning, modal logics provide a formal language with which we can express what is true in the actual world and what is true in other possible worlds.
+To do so, modal logics usually have (at least) these two \emph{modal operators}:
 \begin{center}
   \begin{tabular}{cll}
     operator   & neutral paraphrase & natural language cues \\ \hline
@@ -179,23 +189,27 @@ Modal logics usually have (at least) these two \emph{modal operators}:
     $\Box$     & It is necessary that ... & \emph{must}, \emph{have to}, \emph{necessarily}, \dots \\
   \end{tabular}
 \end{center}
-There are many different kinds of \emph{modalities}, or, as some linguists like to say: \emph{modal flavors}.
-The necessity operator $\Box$ can be interpreted to be about:
+
+There are different kinds of modal logic, depending on the kind of modal meaning we would like to capture.
+Indeed, there are many different kinds of \emph{modalities}, also referred to as \emph{modal flavors}:
 \begin{enumerate}[(i)]
-  \item what one ought to do given one's parents rules and regulations;
-  \item what one ought to do given a countries law;
+  \item what one ought to do given one's parents' rules and regulations;
+  \item what one ought to do given a country's law;
   \item what is logically necessary;
-  \item what is believed or known to be true;
-  \item \dots
+  \item what an agent believes to be true or possible;
+  \item[\dots] and more.
 \end{enumerate}
-Here, we will have a look at the last mentioned modality to study a modal propositional logic for talking about beliefs and knowledge, a so-called \emph{epistemic modal logic}.
+Different types of modality require different assumptions about the logical properties of the modal operators.
+In this way, we can think of modal logic as a tool for \emph{conceptual analysis} of the logical properties that characterize concepts like \emph{belief}, \emph{logical necessity}, \emph{obligation} etc.
+Here, we will have a look at a modal propositional logic for talking about beliefs and knowledge, a so-called \emph{epistemic modal logic}.
 
-
-\section{The language of modal logic}
+\section{The language of epistemic modal logic}
 
 Modal propositional logic (\modlog) extends propositional logic by including the new operators $\Diamond$ and $\Box$.
-In simple terms, whenever $\varphi$ is a formula of \proplog, then $\varphi$, $\Box \varphi$ and $\Diamond \varphi$ are formulas of \modlog.
 To make things more interesting, we will have one pair of operators $\Diamond_{i}$ and $\Box_{i}$ where $i$ is a variable for one of several \emph{agents}.
+We will interpret a formula $\Diamond_{i} \varphi$ as: ``agent $i$ considers $\varphi$ to be possible;''
+and $\Box_{i}\varphi$ as: ``agent $i$ believes that $\varphi$ is true.''
+In this way, we will be able to formally express sentences like ``Alex believes that Bo considers it possible that the earth is not round'' as $\Box_{a} \Diamond_{b} \neg p$.
 
 \subsection{Formulas}
 
@@ -221,10 +235,12 @@ The language $\mathfrak{L}_{\mathcal{P},\mathcal{A}}$ of \modlog is the set of a
 
 Here are examples of well-formed formulas of our multi-agent epistemic logic with paraphrases (where agent $a$ is Alex, and $b$ is Bo):
 \begin{center}
-  \begin{tabular}{ll}
+  \begin{tabular}{lp{7cm}}
+    \vspace{0.3cm}
     $\Box_{a} (p \rightarrow q)$
     & Alex believes that if $p$, then $q$.
     \\
+    \vspace{0.3cm}
     $p \rightarrow \Diamond_{a} \Box_{b} q$
     & If $p$ is true, then Alex considers it possible that Bo believes that $q$.
     \\
@@ -237,36 +253,61 @@ Here are examples of well-formed formulas of our multi-agent epistemic logic wit
 \subsection{Semantics of modal logic}
 
 The semantics of \modlog is defined in terms of so-called \emph{modal models}.
-Similar to \proplog a model will tell us whether any given formula is true or false.
-But while models in \proplog were simple valuation functions (where we interpreted a single valuation function as something like a possible world), modal models comprise (possibly: infinitely) many possible worlds.
+Similar to \proplog and \predlog, a modal model will tell us whether any given formula is true or false.
+But while models in \proplog and \predlog were representations of just one possible world, modal models comprise (possibly: infinitely) many possible worlds all at once.
 
 \paragraph{Modal models.} A \emph{modal model} for the language $\mathfrak{L}_{\mathcal{P}, \mathcal{A}}$ is a triple $\Model = \tuple{W,V,(R_i)_{i \in \mathcal{A}}}$ such that:\sidenote{
   Modal models are also often called \emph{Kripke structures}, named after the logician and philosopher of language Saul Kripke.
 }
 \begin{itemize}[]
   \item $W$ is a set of \emph{(possible) worlds},
-  \item $V \ts \colon \ts W \times \Props  \ra \set{0,1}$
-  is a \emph{valuation function}, and
+  \item $V \ts \colon \ts W \times \mathcal{P}  \ra \set{0,1}$
+  is a \emph{valuation function} assigning a unique truth value to every proposition letter for every possible world, and
   \item for each agent $i \in \mathcal{A}$, $R_i \subseteq W
-  \times W$ is an \emph{accessibility relation}.
+  \times W$ is an \emph{accessibility relation} between possible worlds.
 \end{itemize}
-For each possible world $w$, a modal model defines $w$'s own valuation function.\sidenote{
-  There can be several worlds sharing the same valuation function.
-}
-For each agent, there is moreover an accessibility relation $R_{i}$.
-We interpret this as follows: if the actual world is $w$, then agent $i$ considers as live possibilities all the words that can be ``accessed'' or ``seen'' via relation $R_{i}$ from $w$.
+Accessibility relations are interpreted as follows: if the actual world is $w$, then agent $i$ considers as live possibilities all the words that can be ``accessed'' or ``seen'' via relation $R_{i}$ from $w$.
 We write $wR_iv$ for $\tuple{w,v} \in R_i$ and introduce the notation:
 \begin{align*}
 R_i(w) = \set{v \in W \mid wR_iv}
 \end{align*}
 to refer to the set of \emph{accessible worlds} for agent $i$ from world $w$.
 
-Figure~\ref{fig:modal-model} below shows an example of a modal model for two agents ($\mathcal{A} = \set{a,b}$) and just two propositions letters ($\mathcal{P} = \set{p, q}$).
-This model only has three possible worlds.
+\paragraph{Single-agent example.}
+For a simple example, let us just consider a case with a single agent first, which is Alex: $\mathcal{A} = \set{a}$.
+We are interested in Alex's beliefs about tomorrow's weather.
+For simplicity, we consider three possible states of the weather: it's either rainy, cloudy or sunny.
+We can model this in terms of three proposition letters: $\mathcal{P} = \set{r, c, s}$.
+For the sake of a simple example, let's consider three possible worlds, $W = \set{w_{r}, w_{c}, w_{s}}$.
+We need to define a valuation function that maps every pair consisting of a possible world and a proposition letter onto a truth value.
+Here is (a compact representation of) the valuation function we will use:\sidenote{
+  This looks suspiciously like a truth-table, but it is not.
+  Not all logically possible worlds are listed (because we do not need them in this example).
+  Also, there are rows ($w_1$ and $w_4$) with exactly the same truth-value assignments (we need them to model different beliefs, see below).
+}
+\begin{center}
+  \begin{tabular}{cccc}
+    world & $r$ & $c$ & $s$ \\ \hline
+    $w_{1}$ & 1 & 0 & 0 \\
+    $w_{2}$ & 0 & 1 & 0 \\
+    $w_{3}$ & 0 & 0 & 1 \\
+    $w_{4}$ & 1 & 0 & 0 \\
+  \end{tabular}
+\end{center}
+Let's furthermore assume the following accessibility relation:
+\begin{align*}
+  R_{a} = \set{
+  \tuple{w_{1}, w_{2}}, \tuple{w_{1}, w_{3}},
+  \tuple{w_{2}, w_{2}}, \tuple{w_{2}, w_{3}},
+  \tuple{w_{3}, w_{2}}, \tuple{w_{3}, w_{3}},
+  \tuple{w_{4}, w_{4}}
+  }
+\end{align*}
+
+Figure~\ref{fig:modal-model-single-agent} represents the whole modal model in a much more intelligible way.
 The diagram shows, for each possible world, the set of all proposition letters that are true in this world.
 Labelled arrows are used to represent the accessibility relation for each agent.
-Concretely, agent $a$ ``sees'' worlds $v$ and $u$ in $w$ (formally: $R_{a}(w) = \set{u,v}$), which is shown in the diagram in exactly two arrows with label $a$ ``leaving'' world $w$.
-
+Since we only consider a single agent, all arrows are (superfluously) labelled with $a$.
 
 \begin{figure}
   \centering
@@ -275,35 +316,47 @@ Concretely, agent $a$ ``sees'' worlds $v$ and $u$ in $w$ (formally: $R_{a}(w) = 
             nodes}\fi}
 
         \draw [every
-        label/.style={breakable},state/.style={thick,rounded
-          corners,rectangle split, rectangle split parts=2,
-          draw=black}] (0,0) node[state] (w) {$w$ \nodepart{second} $V
-          \colon \emptyset$} (5,0) node[state] (v) {$v$
-          \nodepart{second} $V \colon p,q$} (2.5,-3.3) node[state] (u)
-        {$u$ \nodepart{second} $V \colon p$};
+        label/.style={breakable},state/.style={thick,rounded corners,rectangle split,
+          rectangle split parts=2, draw=black}]
+        (0,0) node[state] (1) {$w_{1}$ \nodepart{second} $V \colon r$}
+        (5,0) node[state] (2) {$w_{2}$ \nodepart{second} $V \colon c$}
+        (0,-3) node[state] (3) {$w_{3}$ \nodepart{second} $V \colon s$}
+        (5,-3) node[state] (4) {$w_{4}$ \nodepart{second} $V \colon r$};
 
-        \draw[->,every node/.style={sloped,above},thick] (w) edge node
-        {$a$} (v);
+        \draw[->,every node/.style={sloped,above},thick] (1) edge node {$a$} (2);
 
-        \draw[->,every node/.style={left},thick] (w) edge[loop left]
-        node {$b$} ();
+        % \draw[->,every node/.style={left},thick] (1) edge[loop left] node {$a$} ();
 
-        \draw[<->,every node/.style={sloped,above},thick] (v) edge
-        node {$a$} (u);
+        \draw[->,every node/.style={sloped,above},thick] (1) edge node {$a$} (3);
 
-        \draw[->,every node/.style={right},thick] (v) edge[loop right]
-        node {$a,b$} ();
+        \draw[<->,every node/.style={sloped,above},thick] (2) edge node {$a$} (3);
 
-        \draw[->,every node/.style={sloped,above},thick] (w) edge node
-        {$a$} (u);
+        \draw[->,every node/.style={right},thick] (2) edge[loop right] node {$a$} ();
 
-        \draw[->,every node/.style={below},thick] (u) edge[loop below]
-        node {$a,b$} ();
+        \draw[->,every node/.style={below},thick] (3) edge[loop left] node {$a$} ();
+
+        \draw[->,every node/.style={right},thick] (4) edge[loop right] node {$a$} ();
 
       \end{tikzpicture}
-  \caption{Example of a modal model with three worlds ($w$, $v$ and $u$) for two agents ($a$ and $b$) and two proposition letters ($p$ and $q$).}
-  \label{fig:modal-model}
+  \caption{Example of a modal model for Alex's beliefs about tomorrow's weather. In world $w_{r}$ Alex (falsely) believes that is will not rain.}
+  \label{fig:modal-model-single-agent}
 \end{figure}
+
+What beliefs does Alex hold according to the model in Figure~\ref{fig:modal-model-single-agent}? ---
+Actually, that depends on which of the four worlds we consider to be the \emph{reference world}, i.e., the world we consider to be actual for the purpose of analysis.
+If $w_{1}$ is the reference world (we can also say: ``in world $w_{1}$''), Alex believes that it might be cloudy and that it might be sunny, but it will not rain.
+In worlds $w_{2}$ and $w_{3}$, Alex holds the exact same beliefs as in $w_{1}$.
+This is because we have the same set of accessible worlds for the first three worlds:
+\begin{align*}
+  R_{a}(w_{r}) = R_{a}(w_{c}) = R_{a}(w_{s}) = \set{w_{c}, w_{s}}
+\end{align*}
+So, in these worlds, Alex considers two worlds to be possibly true (namely $w_{2}$ and $w_{3}$), thus considering cloudy and sunny weather live possibilities but not rain.
+In $w_{1}$ these beliefs are false, in $w_{2}$ and $w_{3}$ they are not.
+Finally, in world $w_{4}$ Alex's accessible worlds are $R_{a}(w_{4}) = \set{w_{4}}$.
+So, in $w_{4}$, Alex believes truthfully (we might say: ``Alex knows'') that is will rain.
+
+\bigskip
+
 
 \paragraph{Notation and terminology.}
 
@@ -360,6 +413,49 @@ For example, the model shown in Figure~\ref{fig:modal-model} makes the following
   \item $\Bel_i (q \ra \Bel_j q \wedge \neg q \ra \Bel_j \neg q)$ \\ ``$i$ believes that $j$ knows whether $q$''
 \end{itemize}
 
+Figure~\ref{fig:modal-model} below shows an example of a modal model for two agents ($\mathcal{A} = \set{a,b}$) and just two propositions letters ($\mathcal{P} = \set{p, q}$).
+This model only has three possible worlds.
+The diagram shows, for each possible world, the set of all proposition letters that are true in this world.
+Labelled arrows are used to represent the accessibility relation for each agent.
+Concretely, agent $a$ ``sees'' worlds $v$ and $u$ in $w$ (formally: $R_{a}(w) = \set{u,v}$), which is shown in the diagram in exactly two arrows with label $a$ ``leaving'' world $w$.
+
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+        \tikzset{breakable/.code=\ifpgfmatrix\else\tikzset{matrix of
+            nodes}\fi}
+
+        \draw [every
+        label/.style={breakable},state/.style={thick,rounded
+          corners,rectangle split, rectangle split parts=2,
+          draw=black}] (0,0) node[state] (w) {$w$ \nodepart{second} $V
+          \colon \emptyset$} (5,0) node[state] (v) {$v$
+          \nodepart{second} $V \colon p,q$} (2.5,-3.3) node[state] (u)
+        {$u$ \nodepart{second} $V \colon p$};
+
+        \draw[->,every node/.style={sloped,above},thick] (w) edge node
+        {$a$} (v);
+
+        \draw[->,every node/.style={left},thick] (w) edge[loop left]
+        node {$b$} ();
+
+        \draw[<->,every node/.style={sloped,above},thick] (v) edge
+        node {$a$} (u);
+
+        \draw[->,every node/.style={right},thick] (v) edge[loop right]
+        node {$a,b$} ();
+
+        \draw[->,every node/.style={sloped,above},thick] (w) edge node
+        {$a$} (u);
+
+        \draw[->,every node/.style={below},thick] (u) edge[loop below]
+        node {$a,b$} ();
+
+      \end{tikzpicture}
+  \caption{Example of a modal model with three worlds ($w$, $v$ and $u$) for two agents ($a$ and $b$) and two proposition letters ($p$ and $q$).}
+  \label{fig:modal-model}
+\end{figure}
 
   
 \newpage
