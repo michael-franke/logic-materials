@@ -266,7 +266,7 @@ But while models in \proplog and \predlog were representations of just one possi
   \item for each agent $i \in \mathcal{A}$, $R_i \subseteq W
   \times W$ is an \emph{accessibility relation} between possible worlds.
 \end{itemize}
-Accessibility relations are interpreted as follows: if the actual world is $w$, then agent $i$ considers as live possibilities all the words that can be ``accessed'' or ``seen'' via relation $R_{i}$ from $w$.
+Accessibility relations are interpreted as follows: if the actual world is $w$, then agent $i$ considers possible all the worlds that can be ``accessed'' or ``seen'' via relation $R_{i}$ from $w$.
 We write $wR_iv$ for $\tuple{w,v} \in R_i$ and introduce the notation:
 \begin{align*}
 R_i(w) = \set{v \in W \mid wR_iv}
@@ -280,7 +280,7 @@ For simplicity, we consider three possible states of the weather: it's either ra
 We can model this in terms of three proposition letters: $\mathcal{P} = \set{r, c, s}$.
 For simplicity, let's consider just four possible worlds, $W = \set{w_{1}, w_{2}, w_{3}, w_{4}}$.
 We need to define a valuation function that maps every pair consisting of a possible world and a proposition letter onto a truth value.
-This could be written like so: $V(w_{1},r) =$, $V(w_{1},c) = 0$ and so on.
+This could be written like so: $V(w_{1},r) = 1$, $V(w_{1},c) = 0$ and so on.
 Here is more compact representation of the valuation function we will use:\sidenote{
   This looks suspiciously like a truth-table, but it is not.
   Not all logically possible worlds are listed (because we do not need them in this example).
@@ -352,7 +352,7 @@ So, in world $w_{1}$ Alex \emph{rules out} the possibility of rain (even though 
 In worlds $w_{2}$ and $w_{3}$, Alex holds the exact same beliefs as in $w_{1}$.
 This is because we have the same set of accessible worlds for the first three worlds:
 \begin{align*}
-  R_{a}(w_{r}) = R_{a}(w_{c}) = R_{a}(w_{s}) = \set{w_{c}, w_{s}}
+  R_{a}(w_{1}) = R_{a}(w_{2}) = R_{a}(w_{3}) = \set{w_{2}, w_{3}}
 \end{align*}
 In $w_{1}$ these beliefs are false ($w_{1}$ is a rain-world, but Alex excludes rain), in $w_{2}$ and $w_{3}$ they are not (e.g., $w_{2}$ is a cloudy world and Alex considers cloudy weather to be possible).
 
@@ -368,7 +368,7 @@ A valuation function $V_{\Model, w}$ for a pointed model, assigns truth values t
 For proposition letters $p \in \mathcal{P}$, the model's internal valuation function $V$ decides on truth or falsity:\sidenote[][-2cm]{Notice that the function $V_{\Model, w}$ on the left-hand side is the ``global'' valuation function that builds on the pointed model to assign truth values to \emph{all} formulas, while the valuation function $V$ on the right-hand side is the valuation function \emph{inside} of model $\Model$ gives truth values to \emph{only} proposition letters (for a given world).}
 %
 \begin{align*}
-  V_{\Model, w}(p) & \text{ \ iff \  } V(w,p) = 1
+  V_{\Model, w}(p) = 1 & \text{ \ iff \  } V(w,p) = 1
 \end{align*}
 %
 Formulas with main operators from propositional logic are treated as before:
@@ -387,8 +387,8 @@ For these, the accessibility relations are important.\sidenote{
 }
 %
 \begin{align*}
-    & V_{\Model, w}(\Box_i \phi) & & \text{ \ iff \ } V_{\Model, v}(\phi) \text{ for all $v \in R_i(w)$} \\
-    & V_{\Model, w}(\Diamond_i \phi) & & \text{ \ iff \ } V_{\Model, v}(\phi) \text{ for some $v \in R_i(w)$}
+    & V_{\Model, w}(\Box_i \phi) = 1 & & \text{ \ iff \ } V_{\Model, v}(\phi) \text{ for all $v \in R_i(w)$} \\
+    & V_{\Model, w}(\Diamond_i \phi) = 1 & & \text{ \ iff \ } V_{\Model, v}(\phi) \text{ for some $v \in R_i(w)$}
 \end{align*}
 %
 Crucially, the semantics for modal operators shifts the reference world, so to speak, switching from pointed model $\Model, w$ to $\Model, v$ for some accessible world $v \in R_{i}(w)$.
@@ -409,7 +409,7 @@ Labelled arrows are used to represent the accessibility relation for each agent.
       \item $\neg \Bel_a q \wedge \neg \Bel_a \neg q$ \\ \mygray{``Alex is uncertain about $q$''}
       \item $\neg \Bel_b p \wedge \Bel_a \Bel_b p$ \\ \mygray{``Alex falsely believes that Bo believes $p$''}
       \item $\neg \Bel_a \Bel_b q \wedge \neg \Bel_a \neg \Bel_b q$ \\ \mygray{``Alex is uncertain whether Bo believes $q$''}
-      \item $\Bel_a (q \ra \Bel_b q \wedge \neg q \ra \Bel_b \neg q)$ \\ \mygray{``Alex believes that Bo knows whether $q$''}
+      \item $\Bel_a ((q \ra \Bel_b q) \wedge ( \neg q \ra \Bel_b \neg q ))$ \\ \mygray{``Alex believes that Bo knows whether $q$''}
     \end{itemize}
   \end{minipage}
   \begin{minipage}{0.4\linewidth}
@@ -484,7 +484,7 @@ For example, we say that $\varphi$ is a tautology of \modlog whenever $V_{\Model
 
 So far, we have not put any constraints on the accessibility relations in our modal models.
 But, in order to represent beliefs that are ``rational'' in a crucial sense, we should.
-For example, we should rule out that $R_{i}(w) = \emptyset$ for some agent $i$ and world $w$, because that would mean that this agents believes \emph{anything} at this world, including logical contradictions (which isn't very rational, right?).
+For example, we should rule out that $R_{i}(w) = \emptyset$ for some agent $i$ and world $w$, because that would mean that agent $i$ believes \emph{anything} at this world, including logical contradictions (which isn't very rational, right?).
 This is to say that we would require rational agents to hold \emph{consistent beliefs} that are contradiction-free.
 We can ensure contradiction-freedom by a constraint on admissible modal models, called \emph{seriality}:
 \begin{itemize}[]
@@ -497,7 +497,7 @@ We can then prove the following:
   If a modal model's accessibility relation is serial, no agent can believe in a contradiction.
 \end{claim}
 \begin{proof}
-  Let $\Model, w$ be a pointed model with $R_{i}(w)$ the accessible words for agent $i$ at $w$.
+  Let $\Model, w$ be a pointed model with $R_{i}(w)$ the accessible worlds for agent $i$ at $w$.
   Take an arbitrary contradiction $\varphi$.
   Being a contradiction entails that $V_{\Models', v}(\varphi) = 0$ for all $\Models'$ and worlds $v$.
   Now assume that $i$ believes in $\varphi$ at $w$ in $\Model$, which means that $V_{\Models, w}(\Box_{i}\varphi)=1$.
@@ -506,7 +506,7 @@ We can then prove the following:
 \end{proof}
 
 Moreover, we might want to put additional constraints on higher-order beliefs of an agent.
-A higher-order belief of agent $i$ is a belief of $i$ about their own beliefs, e.g., that Alex believes that Alex considers it possible that $\varphi$ ($\Box_{a}\Box_{a}\varphi$).
+A higher-order belief of agent $i$ is a belief of $i$ about their own beliefs, e.g., that Alex believes that Alex considers it possible that $\varphi$ ($\Box_{a}\Diamond_{a}\varphi$).
 A common requirement for rational higher-order beliefs is \emph{positive introspection}: if Alex believes that $\varphi$, then Alex believes that they believe $\varphi$.
 Positive introspection is guaranteed by transitive accessibility relations.
 \begin{itemize}[]
@@ -567,13 +567,13 @@ A relation $R \subseteq W \times W$ is Euclidean iff for all $w,u,v \in W$: if $
         \item  $V(w_{3},p) =0,  V(w_{3},q) = 1$, \ \ $V(w_{4},p) =1,  V(w_{4},q) = 1$
         \item $R_{a} = \set{
         \tuple{w_{1}, w_{2}},
-        \tuple{w_{2}, w_{w_{3}}},
+        \tuple{w_{2}, w_{3}},
         \tuple{w_{4}, w_{3}}
         }$
         \item $R_{b} = \set{
         \tuple{w_{1},w_{4}},
         \tuple{w_{2}, w_{4}},
-        \tuple{w_{3}, w_{w_{4}}},
+        \tuple{w_{3}, w_{4}},
         \tuple{w_{4},w_{1}}, \tuple{w_{4},w_{4}}
         }$
       \end{itemize}
@@ -611,7 +611,7 @@ If Jones says ``It's false that if $p$, then $q$,'' they are not saying that $p$
 
 An alternative analysis for natural language conditionals, which is maybe better (but still not unproblematic), is that of the \emph{strict conditional}.
 According to a strict conditional analysis, we would translate ``if $p$, then $q$'' to something like $\Box_{i}(p \rightarrow q)$, where $i$ is the speaker.
-So, we would treat a conditional sentence as (possibly: implicitly) modalized; a statement about the ways the wold could be that the speaker considers possible.
+So, we would treat a conditional sentence as (possibly: implicitly) modalized; a statement about the ways the would could be that the speaker considers possible.
 If Jones says ``It's false that if $p$, then $q$,'' this would be translated as $\neg \Box_{j}(p \rightarrow q)$, which is much weaker than before, as it only requires that Jones thinks that it is conceivable that $p$ is true but $q$ is false.
 
 \subsection{Common ground}
