@@ -387,8 +387,8 @@ For these, the accessibility relations are important.\sidenote{
 }
 %
 \begin{align*}
-    & V_{\Model, w}(\Box_i \phi) = 1 & & \text{ \ iff \ } V_{\Model, v}(\phi) \text{ for all $v \in R_i(w)$} \\
-    & V_{\Model, w}(\Diamond_i \phi) = 1 & & \text{ \ iff \ } V_{\Model, v}(\phi) \text{ for some $v \in R_i(w)$}
+    & V_{\Model, w}(\Box_i \phi) = 1 & & \text{ \ iff \ } V_{\Model, v}(\phi) = 1 \text{ for all $v \in R_i(w)$} \\
+    & V_{\Model, w}(\Diamond_i \phi) = 1 & & \text{ \ iff \ } V_{\Model, v}(\ phi) = 1 \text{ for some $v \in R_i(w)$}
 \end{align*}
 %
 Crucially, the semantics for modal operators shifts the reference world, so to speak, switching from pointed model $\Model, w$ to $\Model, v$ for some accessible world $v \in R_{i}(w)$.
@@ -611,7 +611,7 @@ If Jones says ``It's false that if $p$, then $q$,'' they are not saying that $p$
 
 An alternative analysis for natural language conditionals, which is maybe better (but still not unproblematic), is that of the \emph{strict conditional}.
 According to a strict conditional analysis, we would translate ``if $p$, then $q$'' to something like $\Box_{i}(p \rightarrow q)$, where $i$ is the speaker.
-So, we would treat a conditional sentence as (possibly: implicitly) modalized; a statement about the ways the would could be that the speaker considers possible.
+So, we would treat a conditional sentence as (possibly: implicitly) modalized; a statement about the ways the world could be that the speaker considers possible.
 If Jones says ``It's false that if $p$, then $q$,'' this would be translated as $\neg \Box_{j}(p \rightarrow q)$, which is much weaker than before, as it only requires that Jones thinks that it is conceivable that $p$ is true but $q$ is false.
 
 \subsection{Common ground}
