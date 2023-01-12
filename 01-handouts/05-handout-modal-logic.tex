@@ -200,7 +200,7 @@ Indeed, there are many different kinds of \emph{modalities}, also referred to as
   \item[\dots] and more.
 \end{enumerate}
 Different types of modality require different assumptions about the logical properties of the modal operators.
-In this way, we can think of modal logic as a tool for \emph{conceptual analysis} of the logical properties that characterize concepts like \emph{belief}, \emph{logical necessity}, \emph{obligation} etc.
+In this way, we can think of modal logics as tools for \emph{conceptual analysis} of the logical properties that characterize concepts like \emph{belief}, \emph{logical necessity}, \emph{obligation} etc.\sidenote{Saying that modal logics are \emph{tools} for investigating such notions, does not mean that it is uncontroversial that they are the \emph{only} or the \emph{right} tool for this purpose. From a linguistic point of view, formal analyses of the meaning of modal meaning ---like in deontic or epistemic modals, conditionals or imperatives--- builds on ideas from (vanilla) modal logic, as introduced here, but may add more complexity, e.g., \emph{ordering on possible worlds}.}
 Here, we will have a look at a modal propositional logic for talking about beliefs and knowledge, a so-called \emph{epistemic modal logic}.
 
 \section{The language of epistemic modal logic}
@@ -281,7 +281,7 @@ We can model this in terms of three proposition letters: $\mathcal{P} = \set{r, 
 For simplicity, let's consider just four possible worlds, $W = \set{w_{1}, w_{2}, w_{3}, w_{4}}$.
 We need to define a valuation function that maps every pair consisting of a possible world and a proposition letter onto a truth value.
 This could be written like so: $V(w_{1},r) = 1$, $V(w_{1},c) = 0$ and so on.
-Here is more compact representation of the valuation function we will use:\sidenote{
+Here is more a compact representation of the valuation function for this model:\sidenote{
   This looks suspiciously like a truth-table, but it is not.
   Not all logically possible worlds are listed (because we do not need them in this example).
   Also, there are rows ($w_1$ and $w_4$) with exactly the same truth-value assignments (we need them to model different beliefs, see below).
@@ -339,7 +339,7 @@ Since we only consider a single agent, all arrows are (superfluously) labelled w
         \draw[->,every node/.style={right},thick] (4) edge[loop right] node {$a$} ();
 
       \end{tikzpicture}
-  \caption{Example of a modal model for Alex's beliefs about tomorrow's weather. In world $w_{1}$ Alex (falsely) believes that it will not rain. In world $w_{4}$, Alex believes (correctly) that it will rain.}
+  \caption{Example of a modal model for Alex's beliefs about tomorrow's weather.}
   \label{fig:modal-model-single-agent}
 \end{figure}
 
@@ -388,7 +388,7 @@ For these, the accessibility relations are important.\sidenote{
 %
 \begin{align*}
     & V_{\Model, w}(\Box_i \phi) = 1 & & \text{ \ iff \ } V_{\Model, v}(\phi) = 1 \text{ for all $v \in R_i(w)$} \\
-    & V_{\Model, w}(\Diamond_i \phi) = 1 & & \text{ \ iff \ } V_{\Model, v}(\ phi) = 1 \text{ for some $v \in R_i(w)$}
+    & V_{\Model, w}(\Diamond_i \phi) = 1 & & \text{ \ iff \ } V_{\Model, v}(\phi) = 1 \text{ for some $v \in R_i(w)$}
 \end{align*}
 %
 Crucially, the semantics for modal operators shifts the reference world, so to speak, switching from pointed model $\Model, w$ to $\Model, v$ for some accessible world $v \in R_{i}(w)$.
@@ -397,7 +397,7 @@ In this way, we can also give a meaning to nested modal operators, as the follow
 \paragraph{A more complex example.}
 Figure~\ref{fig:modal-model} shows an example of a modal model for two agents ($\mathcal{A} = \set{a,b}$, Alex and Bo) and just two propositions letters ($\mathcal{P} = \set{p, q}$).
 This model only has three possible worlds $W = \set{w,u,v}$.
-The diagram shows, the set of all proposition letters that are true in each world.
+The diagram shows the set of all proposition letters that are true in each world.
 Labelled arrows are used to represent the accessibility relation for each agent.
 
 \begin{figure*}
@@ -410,6 +410,7 @@ Labelled arrows are used to represent the accessibility relation for each agent.
       \item $\neg \Bel_b p \wedge \Bel_a \Bel_b p$ \\ \mygray{``Alex falsely believes that Bo believes $p$''}
       \item $\neg \Bel_a \Bel_b q \wedge \neg \Bel_a \neg \Bel_b q$ \\ \mygray{``Alex is uncertain whether Bo believes $q$''}
       \item $\Bel_a ((q \ra \Bel_b q) \wedge ( \neg q \ra \Bel_b \neg q ))$ \\ \mygray{``Alex believes that Bo knows whether $q$''}
+      \item[]
     \end{itemize}
   \end{minipage}
   \begin{minipage}{0.4\linewidth}
@@ -446,12 +447,12 @@ Labelled arrows are used to represent the accessibility relation for each agent.
     \end{tikzpicture}
   \end{minipage}
   \caption{
-    Example of a modal model with three worlds ($w$, $v$ and $u$) for two agents ($a$ and $b$) and two proposition letters ($p$ and $q$).
+    Example of a modal model for two agents.
     }
   \label{fig:modal-model}
 \end{figure*}
 
-The formulas on the left-hand side are all true in world $w$.
+The formulas on the left-hand side of Figure~\ref{fig:modal-model} are all true in world $w$.
 To check that, for example, $V_{\Model, w}(\neg \Bel_a \Bel_b q \wedge \neg \Bel_a \neg \Bel_b q) = 1$, we can reason as follows:
 \begin{align*}
   & V_{\Model, w}(\neg \Bel_a \Bel_b q \wedge \neg \Bel_a \neg \Bel_b q) = 1 \\
@@ -480,6 +481,12 @@ The notions of validity, entailment, tautology, contradiction and contingency ar
 We only need to talk about truth at a pointed model.
 For example, we say that $\varphi$ is a tautology of \modlog whenever $V_{\Model, w}(\varphi)=1$ for all pointed models $\Model, w$.
 
+However, depending on the kind of modal concept we would like to capture, different modal logics might want to place additional restrictions on which pointed models they consider to begin with.
+Especially, it is common to impose additional constraints on the nature of the accessibility relation.
+This is the topic of the next section, which investigates constraints on the accessibility relation for consistent and introspective beliefs.
+As a result, we actually have multiple notions of validity, entailment and so on.
+For example, we would say that $\varphi$ is a tautology in the \modlog of consistent and introspective beliefs (see next section) whenever $V_{\Model, w}(\varphi)=1$ for all pointed models $\Model, w$ which satisfies the additional requirements we impose to guarantee consistent and introspective beliefs.
+
 \section{The logic of rational belief}
 
 So far, we have not put any constraints on the accessibility relations in our modal models.
@@ -499,10 +506,12 @@ We can then prove the following:
 \begin{proof}
   Let $\Model, w$ be a pointed model with $R_{i}(w)$ the accessible worlds for agent $i$ at $w$.
   Take an arbitrary contradiction $\varphi$.
-  Being a contradiction entails that $V_{\Models', v}(\varphi) = 0$ for all $\Models'$ and worlds $v$.
-  Now assume that $i$ believes in $\varphi$ at $w$ in $\Model$, which means that $V_{\Models, w}(\Box_{i}\varphi)=1$.
-  This entails that for all $v \in R_{a}(w)$ we have $V_{\Models, v}(\varphi) = 1$.
-  But that cannot be if there is at least one world in $R_{a}(w)$ (by seriality) and if $\varphi$ is a contradiction.
+  Being a contradiction entails that $V_{\Model', v}(\varphi) = 0$ for all $\Model'$ and worlds $v$.
+  Now assume towards contradiction that $i$ believes $\varphi$ in $w$ for $\Model$, which means that $V_{\Model, w}(\Box_{i}\varphi)=1$.
+  This entails that for all $v \in R_{a}(w)$ we have $V_{\Model, v}(\varphi) = 1$.
+  By seriality, there must therefore be at least one world $v \in R_{a}(w)$ with $V_{\Model, v}(\varphi) = 1$.
+  But there cannot be any world that makes $\varphi$ true, with $\varphi$ being a contradiction.
+  Thus, our assumption that $i$ believes $\varphi$ in $w$ for $\Model$ cannot be true.
 \end{proof}
 
 Moreover, we might want to put additional constraints on higher-order beliefs of an agent.
@@ -541,6 +550,15 @@ A relation $R \subseteq W \times W$ is Euclidean iff for all $w,u,v \in W$: if $
   From the latter we learn that for all world $w' \in R_{i}(w)$ it holds that $V_{\Model,w'}(\Box_{i}\varphi) = 1$.
   But if the relation is Euclidean, then any world $w' \in R_{i}(w)$ must also ``see'' $w^{*}$, so that is a contradiction.
 \end{proof}
+
+We say that an agent's beliefs are consistent and introspective if all three conditions (seriality, positive \& negative introspection hold).
+We can summarize the requirements of ``rational'' beliefs more succinctly, because it follows from the above definitions that agent $i$'s beliefs are consistent and introspective iff for all $w \in W$:
+\begin{enumerate}[(i)]
+  \item $R_{i}(w) \neq \emptyset$
+  \item $R_{i}(w) = R_{i}(v)$ for all $v \in R_{i}(w)$.
+\end{enumerate}
+Intuitively, for all possible worlds, there is at least one world agent $i$ considers possible, and the worlds accessible by agent $i$ form a ``fully connected cloud'' in which every world has access to all and only worlds in that cloud.\sidenote{We could have given this simpler definition of ``rational'' beliefs in the first place. But this would not allow us to systematically study deviations from this norm of rationality of beliefs. Formulating constraints in terms of properties of accessibility relations give the logician more grip to tune her system of modal logic in exactly the way she wants it to be. This is similar to the granularity and variability we get for systems of logical reasoning defined in terms of natural deduction rules. Indeed, in a natural deduction system for modal logic, we would see deduction rules that correspond directly to certain properties of the accessibility relations.}
+
 
 \bigskip
 \noindent \colorbox{mygray}{\centering
