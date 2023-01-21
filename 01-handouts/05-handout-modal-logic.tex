@@ -463,8 +463,8 @@ Consider the first conjunct:
 \begin{align*}
   & V_{\Model, w}(\neg \Bel_a \Bel_b q) = 1 \\
   \text{ iff \ \ \ } & \text{for some } w' \in R_{a}(w) \  V_{\Model, w'}(\Bel_b q) = 0 \\
-  \text{ iff \ \ \ } & \text{for some } w' \in R_{a}(w') \ \text{for some } w'' \in R_{b}(w') \  V_{\Model, w''}(q) = 1 \\
-  & \text{which is true if we set $w' = w'' = v$}
+  \text{ iff \ \ \ } & \text{for some } w' \in R_{a}(w') \ \text{for some } w'' \in R_{b}(w') \  V_{\Model, w''}(q) = 0 \\
+  & \text{which is true if we set $w' = w'' = u$}
 \end{align*}
 Consider the second conjunct:
 \begin{align*}
@@ -472,7 +472,7 @@ Consider the second conjunct:
   \text{ iff \ \ \ } & \text { for some } w' \in R_{a}(w)\  V_{\Model, w'}(\neg \Bel_b q) = 0 \\
   \text{ iff \ \ \ } & \text { for some } w' \in R_{a}(w)\  V_{\Model, w'}(\Bel_b q) = 1 \\
   \text{ iff \ \ \ } & \text { for some } w' \in R_{a}(w)\ \text{for all } w'' \in R_{b}(w') \  V_{\Model, w'}(q) = 1 \\
-  & \text{which is true if $w' = u$, since $R_{b}(u) = \set{u}$ and $q$ is false in $u$}
+  & \text{which is true if $w' = v$, since $R_{b}(v) = \set{v}$ and $q$ is true in $v$}
 \end{align*}
 
 \subsection{Validity, entailment etc.}
