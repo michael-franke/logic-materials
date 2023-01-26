@@ -798,7 +798,7 @@ When the context is clear enough, we might also just write $P(x)$ as a shorthand
   \end{align*}
   Consider the random variable $X_{\text{2flips}}^{\theta}$ that counts the total number of heads.
   Crucially, we assign the same numerical value to different elementary outcomes, because $X_{\text{2flips}}^{\theta}(\tuple{\text{heads}, \text{tails}}) = 1 = X_{\text{2flips}}^{\theta}(\tuple{\text{tails}, \text{heads}})$.
-  Figure~\ref{fig:two-flips} shows examples for a fair ($\theta = 0.5$) and a biased coin which ($\theta=0.75$).
+  Figure~\ref{fig:two-flips} shows examples for a fair ($\theta = 0.5$) and a biased coin ($\theta=0.75$).
   The support of $X_{\text{2flips}}^{\theta}$ is $\set{0,1,2}$ whenever $0 < \theta < 1$.
 
   \begin{figure}
@@ -935,47 +935,48 @@ The \markdef{expected value of function} $f \mycolon \mathbb{R} \rightarrow \mat
 
 The notation in terms of random variables is particularly useful for composite random variables, when we write expressions like $Z = 2X + Y$.
 For instance, $X_{\text{flip}^{\theta}}$ might be the outcome of a single flip of a coin with bias $\theta$ (as in Example~\ref{example:single-coin-RV}).
-The composite variable $Z = X_{\text{flip}^{\theta}} + X_{\text{flip}^{\theta}}$ is built by, intuitively speaking, repeatedly generating random number from $X_{\text{flip}^{\theta}}$, and another one (independently) from $X_{\text{flip}^{\theta}}$ again and then adding the two numbers.
+The composite variable $Z = X_{\text{flip}^{\theta}} + X_{\text{flip}^{\theta}}$ is built by, intuitively speaking, repeatedly generating a random number from $X_{\text{flip}^{\theta}}$, and another one (independently) from $X_{\text{flip}^{\theta}}$ again and then adding the two numbers.
 Indeed, the resulting composite random variable is what we already saw above:
 \begin{align*}
   X_{\text{2flips}^{\theta}} = X_{\text{flip}^{\theta}} + X_{\text{flip}^{\theta}}
 \end{align*}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=\textwidth]{00-pics/05_00_binomial-distribution.pdf}
-  \caption{Examples of the Binomial distribution. The $y$-axis give the probability of seeing
-    $k$ heads when flipping a coin $n=24$ times with a bias of either $\theta = 0.25$ or
-    $\theta = 0.5$.}
-  \label{fig:BinomialDistribution}
-\end{figure}
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{00-pics/05_00_binomial-distribution.pdf}
+%   \caption{Examples of the Binomial distribution. The $y$-axis give the probability of seeing
+%     $k$ heads when flipping a coin $n=24$ times with a bias of either $\theta = 0.25$ or
+%     $\theta = 0.5$.}
+%   \label{fig:BinomialDistribution}
+% \end{figure}
 
-\begin{example}
-  Let us generalize flipping coins and counting heads to more than 2 flips.
-  The composite random variable $K^{n,\theta}$, with:
-  \begin{align*}
-    K^{n,\theta} = \underbrace{X_{\text{flip}^{\theta}} + \dots + X_{\text{flip}^{\theta}}}_{n \text{ times}}
-  \end{align*}
-  captures the total number of heads obtained from $n$ independent flips of a coin with bias $\theta$.
-  The resulting probability distribution $P(K^{n,\theta}=k)$ is well-known and is called the \markdef{Binomial distribution}.
-  We can express it with an elegant formula:\sidenote{
-    Here $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient.
-    It gives the number of possibilities of drawing an unordered set with $k$ elements from a set with a total of $n$ elements.
-  }
-  \begin{align*}
-    P(K^{n,\theta}=k) = \text{Binom}(K = k ; n, \theta) = \binom{n}{k} \,  \theta^{k} \, (1-\theta)^{n-k}
-  \end{align*}
-  Figure~\ref{fig:BinomialDistribution} gives an example of the Binomial distribution for two values of the coin's bias, $\theta = 0.25$ or $\theta = 0.5$, when flipping the coin $n=24$ times.
+% \begin{example}
+%   Let us generalize flipping coins and counting heads to more than 2 flips.
+%   The composite random variable $K^{n,\theta}$, with:
+%   \begin{align*}
+%     K^{n,\theta} = \underbrace{X_{\text{flip}^{\theta}} + \dots + X_{\text{flip}^{\theta}}}_{n \text{ times}}
+%   \end{align*}
+%   captures the total number of heads obtained from $n$ independent flips of a coin with bias $\theta$.
+%   The resulting probability distribution $P(K^{n,\theta}=k)$ is well-known and is called the \markdef{Binomial distribution}.
+%   We can express it with an elegant formula:\sidenote{
+%     Here $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient.
+%     It gives the number of possibilities of drawing an unordered set with $k$ elements from a set with a total of $n$ elements.
+%   }
+%   \begin{align*}
+%     P(K^{n,\theta}=k) = \text{Binom}(K = k ; n, \theta) = \binom{n}{k} \,  \theta^{k} \, (1-\theta)^{n-k}
+%   \end{align*}
+%   Figure~\ref{fig:BinomialDistribution} gives an example of the Binomial distribution for two values of the coin's bias, $\theta = 0.25$ or $\theta = 0.5$, when flipping the coin $n=24$ times.
 
 
-\end{example}
+% \end{example}
+
 Composite random variables need not just iterate the same random process.
 \begin{example}
   Let $X$ be the probability distribution of rolling a fair dice with six sides.
   $Y$ is the probability distribution of flipping a biased coin that lands heads (represented as number 1) with probability 0.75.
   We are interested in the composite random variable $Z = X + Y$.
   The support of $Z$ is $\set{0, 1, \dots, 7}$.
-  The probability mass function of $Z$ is show in Figure~\ref{fig:composite-RV}.
+  The probability mass function of $Z$ is shown in Figure~\ref{fig:composite-RV}.
   \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{00-pics/05-04-mass-composite-RV.png}

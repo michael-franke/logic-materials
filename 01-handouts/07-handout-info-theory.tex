@@ -122,8 +122,8 @@ Jones' and Smith's subjective beliefs are given in Table~\ref{tab:beliefs-weathe
   \centering
   \begin{tabular}{lccc}
     & sunny & cloudy & rainy \\ \midrule
-    Jones' beliefs  & 0.6   & 0.2    & 0.2   \\
-    Smith's beliefs & 0.1   & 0.2    & 0.7   \\
+    Jones' beliefs ($P_{J}$)  & 0.6   & 0.2    & 0.2   \\
+    Smith's beliefs ($P_{S}$) & 0.1   & 0.2    & 0.7   \\
   \end{tabular}
 
   \caption{Subjective beliefs about the weather.}
@@ -148,13 +148,12 @@ There are three further desiderata on the measure $I_{P}(x)$:
 
 A family of functions that satisfies these desiderata is that of negative logarithms (up to a scaling factor).
 Most frequently, the logarithm to base 2 is used.\sidenote{
-  The choice of 2 relates to encode information in binary code, but that is not necessary for a first understanding of the information theoretic notions introduced here.}
+  The choice of 2 relates to encoding information in binary code, but that is not necessary for a first understanding of the information theoretic notions introduced here.}
 
 
 Let $P\in \Delta(X)$ be a probability distribution over (finite) set $X$.\sidenote{
   All definitions in this primer are given only for finite sets.
-  Analogous definitions exist for uncountable sets.
-  Intuitions behind concepts remain the same and are the focus at present.
+  Generalizations to infinite sets preserve the main intuitions behind the concepts, but involve advanced mathematical subtleties.
 }
 For event $x \in X$, the \emph{information content} $I_{P}(x)$ of $x$ (a.k.a.~\emph{surprisal} of $x$) is defined as:
 \begin{align*}
@@ -414,15 +413,37 @@ Clark also has beliefs about the weather, but theirs are a joint belief $R \in \
 
 \subsection{Conditional entropy}
 
-Let $R \in \Delta(X \times Y)$ be a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over (finite) $X$ and $Y$ respectively.
-The conditional entropy of $Q$ given $P$ is the expected surprisal of observing $y$ after having already observed (and processed) a corresponding $x$:
+Let $R \in \Delta(X \times Y)$ be a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the marginal distributions over (finite) $X$ and $Y$ respectively.
+The conditional entropy of $P$ given $Q$ is the expected surprisal of observing $x$ after having observed some $y$:
 \begin{align*}
-  \mathcal{H}(P \mid Q) & = - \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} R(x \mid y) \\
-                        & = - \sum_{\tuple{x,y} \in X \times Y} R(x \mid y) Q(y) \log_{2} R(x \mid y) \\
+  \mathcal{H}(P \mid Q) & = - \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} R(x \mid y)
+                          \\
+                        & = - \sum_{\tuple{x,y} \in X \times Y} R(x \mid y) Q(y) \log_{2} R(x \mid y)
+                        & \mygray{[\text{Bayes rule}]}
+                          \\
+                        & = - \sum_{x \in X} \sum_{y \in Y} R(x \mid y) Q(y) \log_{2} R(x \mid y)
+                        & \mygray{[\text{split the sum}]}
+                          \\
                         & = - \underbrace{\sum_{y \in Y} Q(y)}_{\text{prob.~of $y$}}
                           \underbrace{\sum_{x \in X} R(x \mid y) \log_{2} R(x \mid y)}_{\text{entropy of $R(\cdot \mid y)$}}
+                          & \mygray{[Q(y) \text{ ind. of }x]}
 \end{align*}
 We can also think about conditional entropy as the average uncertainty of an agent about dimension $Y$ after observing dimension $X$.
+Indeed, if $P$ and $Q$ are stochastically independent, then $\mathcal{H}(P \mid Q) = \mathcal{H}(P)$:
+\begin{align*}
+  \mathcal{H}(P \mid Q)
+  & = - \sum_{y \in Y} Q(y) \sum_{x \in X} R(x \mid y) \log_{2} R(x \mid y)
+  \\
+  & = - \sum_{y \in Y} Q(y) \sum_{x \in X} P(x) \log_{2} P(x)
+  & \mygray{[\text{stoch. independence}]}
+  \\
+  & = \sum_{y \in Y} Q(y) \mathcal{H}(P)
+  & \mygray{[\text{def. entropy}]}
+  \\
+  & = \mathcal{H}(P)
+  & \mygray{\left[ \sum_{y \in Y} Q(y) = 1 \right]}
+\end{align*}
+
 
 \begin{example}
   Suppose that Clark observes the swallows every night and then makes a weather prediction.
@@ -493,9 +514,9 @@ KL-divergence $D_{KL}(P \,||\, Q)$ can be equivalently written in terms of the e
 \end{example}
 
 
-\section{Mutual information}
+\subsection{Mutual information}
 
-Let $R \in \Delta(X \times Y)$ be a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the \emph{marginal distributions} over (finite) $X$ and $Y$ respectively.
+Let $R \in \Delta(X \times Y)$ be a joint probability distribution over the set of all pairs in $X \times Y$, and let $P \in \Delta(X)$ and $Q \in \Delta(Y)$ be the marginal distributions over (finite) $X$ and $Y$ respectively.
 The \emph{mutual information} $I(P,Q)$ of $P$ and $Q$ is the expected excess surprisal if the dimensions $X$ and $Y$ are assumed to be stochastically independent:
 \begin{align*}
   I(P,Q) & = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} \frac{R(x,y)}{P(x) \ Q(y)}
@@ -505,6 +526,15 @@ We can write this more intelligibly in terms of the Kullback-Leibler divergence 
   I(P,Q) & =  D_{KL}(R \,||\, S) = \sum_{\tuple{x,y} \in X \times Y} R(x,y) \log_{2} \frac{R(x,y)}{S(x,y)}
 \end{align*}
 Intuitively, we may think of mutual information as a measure of how much more (needlessly) surprised an agent is who believes $X$ and $Y$ are stochastically independent (while having correct beliefs about the marginal distributions).
+
+Mutual information $I(P,Q)$ can be equivalently expressed in terms of entropy and conditional entropy like so:
+\begin{align*}
+  I(P,Q) = \mathcal{H}(P) - \mathcal{H}(P \mid Q)
+\end{align*}
+Based on this reformulation, we can think of mutual information as a measure of the change in uncertainty about $P$ between a state \emph{before} learning about $Q$ and \emph{after} learning about $Q$.
+In yet other terms, mutual information captures the reduction of uncertainty about the question ``which $P$?'' after receiving an answer to the question ``which $Q$?''.
+If $P$ and $Q$ are stochastically independent, then obtaining an answer to the question ``which $Q$?'' will not tell you anything about the question``which $P$?'', so that in that case $I(P,Q)$ will indeed be zero ($\mathcal{H}(P \mid Q) = \mathcal{H}(P)$ whenever $P$ and $Q$ are independent, as we saw above).
+
 
 \begin{example}
   Clark has the joint probability distribution $R \in \Delta(X \times Y)$ in Table~\ref{tab:joint-prob-Clark}, whose marginal distributions are $P \in \Delta(X)$ (beliefs about the weather) and $Q \in \Delta(Y)$ (beliefs about the swallows).
@@ -553,9 +583,9 @@ Intuitively, we may think of mutual information as a measure of how much more (n
 
       \begin{center}
         \begin{tabular}{lcccc}
-                              & sunny & cloudy & rainy & storm \\ \midrule
-          roberts' beliefs     & 0.1   & 0.6    & 0.2   & 0.1 \\
-          carpenter's beliefs & 0.4   & 0.1    & 0.3   & 0.2 \\
+                              & sunny & cloudy & rainy & stormy \\ \midrule
+          Roberts' beliefs     & 0.1   & 0.6    & 0.2   & 0.1 \\
+          Carpenter's beliefs & 0.4   & 0.1    & 0.3   & 0.2 \\
         \end{tabular}
       \end{center}
 
@@ -567,7 +597,7 @@ Intuitively, we may think of mutual information as a measure of how much more (n
 
       \begin{center}
         \begin{tabular}{lcccc}
-                       & sunny & cloudy & rainy & storm \\ \midrule
+                       & sunny & cloudy & rainy & stormy \\ \midrule
           ground truth & 0.7   & 0.1    & 0   & 0.2 \\
         \end{tabular}
       \end{center}
