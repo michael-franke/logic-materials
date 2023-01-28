@@ -229,10 +229,10 @@ Notice that an agent who assigns $P(x) = 0$ to some event, and sees $x$ happenin
 
 The logarithm is the inverse function to exponentiation:
 \begin{align*}
-   x = a^{y} \ \ \ \  \Leftrightarrow  \ \ \ \  y = \log_{a} x
+   x = b^{y} \ \ \ \  \Leftrightarrow  \ \ \ \  y = \log_{b} x
 \end{align*}
-Here, $a > 0$ is called the \emph{base} of the logarithm.
-Since $a^{y}$ is always positive, the logarithm takes as input only positive numbers $x$.
+Here, $b > 0$ is called the \emph{base} of the logarithm.
+Since $b^{y}$ is always positive, the logarithm takes as input only positive numbers $x$.
 Figure~\ref{fig:logarithm} shows the logarithm to base 2.
 
 \begin{figure}
@@ -278,9 +278,9 @@ For present purposes, the following calculation rules are important:\sidenote{
 \end{align*}
 Notice that we can also transform bases of logarithms as follows:
 \begin{align*}
-  \log_{b} x = \frac{\log_{b} x}{\log_{b} b}
+  \log_{a} x = \frac{\log_{b} x}{\log_{b} a}
 \end{align*}
-Since $\log_{b} b$ is a constant (independent of $x$), the choice of base in the definition of information content is, mathematically speaking, arbitrary.
+Since $\log_{b} a$ is a constant (independent of $x$), the choice of base in the definition of information content is, mathematically speaking, arbitrary.
 
 \section{Measures of expected information content}
 
@@ -428,7 +428,7 @@ The conditional entropy of $P$ given $Q$ is the expected surprisal of observing 
                           \underbrace{\sum_{x \in X} R(x \mid y) \log_{2} R(x \mid y)}_{\text{entropy of $R(\cdot \mid y)$}}
                           & \mygray{[Q(y) \text{ ind. of }x]}
 \end{align*}
-We can also think about conditional entropy as the average uncertainty of an agent about dimension $Y$ after observing dimension $X$.
+We can also think about conditional entropy as the average uncertainty of an agent about dimension $X$ after observing dimension $Y$.
 Indeed, if $P$ and $Q$ are stochastically independent, then $\mathcal{H}(P \mid Q) = \mathcal{H}(P)$:
 \begin{align*}
   \mathcal{H}(P \mid Q)
