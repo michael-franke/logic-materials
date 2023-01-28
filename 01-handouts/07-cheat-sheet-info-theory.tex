@@ -1,0 +1,248 @@
+\documentclass[a4paper,fleqn,reqno,12pt,landscape]{article}
+
+\usepackage{myarticlestyledefault}
+
+\usepackage{lipsum}
+\usepackage{vwcol}
+\usepackage[]{paracol}
+\usepackage[margin=1cm]{geometry}
+\usepackage{pgfplots}
+
+\setlength{\parindent}{0pt} % no indent globally
+
+\newcommand{\mygray}[1]{\textcolor{gray}{#1}}
+\newcommand{\mycomment}[1]{{\footnotesize \hfill \mygray{[#1]}}}
+\newcommand{\myremark}[1]{{\footnotesize\mygray{#1}}}
+\newcommand{\myrule}{\bigskip \hrule \bigskip \bigskip}
+
+\date{}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\noindent \textbf{A cheat sheet on information theory (for the subjectively perplexed)} \hfill \textbf{Michael Franke}
+
+\hrule
+
+\bigskip
+
+\columnratio{0.25}
+
+\begin{paracol}{2}
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % first column
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \textbf{Notation}
+
+  \medskip
+
+  $X,Y$ are finite sets
+  \\
+  $P,P' \in \Delta(X)$ \hfill \mycomment{$P,P'$ distributions on $X$}
+  \\
+  $R \in \Delta(X \times Y)$ \mycomment{joint distribution}
+  \\
+  $P(x) = \sum_{y \in Y} R(x,y)$ \mycomment{marginal on $X$}
+  \\
+  $Q(y) = \sum_{x \in X} R(x,y)$ \mycomment{marginal on $Y$}
+
+  \myrule
+
+  \textbf{Info content (subjectivist version)}
+  \medskip
+
+  Information content (``surprisal'') measures perplexity of an agent with beliefs $P \in \Delta(X)$ when observing $x \in X$.
+  \\
+  \myremark{\hfill think of: neural activity in a predictive brain}
+
+  \medskip
+
+  \textbf{Definition}: $I_{P}(x) = - \log_{b} P(x)$
+  \\
+  \myremark{\hfill base $b>1$; common choice $b=2$ (bits)}
+
+  \bigskip
+
+  \begin{tikzpicture}
+    \begin{axis}[
+      width      = 0.24 \textwidth,
+      height     = 0.18\textwidth,
+      axis lines = left,
+      xlabel = \(P(x)\),
+      ylabel = {\(I_{P}(x)\)},
+      ]
+      % Below the red parabola is defined
+      \addplot [
+      domain=-0:1,
+      samples=50,
+      very thick,
+      color=black,
+      ]
+      {-log2(x)};
+
+      \addplot[
+      mark=none,
+      dotted,
+      domain=-0:1,
+      black,
+      samples=2,
+      ] {0};
+
+    \end{axis}
+  \end{tikzpicture}
+
+  \medskip
+
+  \textbf{Justification}: Negative log ($b>1$) is the  only solution for intuitive ``axioms:''
+
+  \medskip
+
+  {\myremark{exactly as expected, zero perplexity}}
+  \\
+  If $P(x) = 1$, $I_{P}(x)=0$
+  \medskip
+  \\
+  {\myremark{less expected, more perplexing}}
+  \\
+  If $P(x_{1}) > P(x_{2})$, then $I_{P}(x_{1}) < I_{P}(x_{2})$
+  \medskip
+  \\
+  \myremark{perplexity adds up}
+  \\
+  $I_{P}(x_{1} \cap x_{2}) = I_{P}(x_{1}) + I_{P}(x_{2})$
+  \\
+  \myremark{ \hfill if $x_{1}, x_{2}$ stochastically independent}
+
+
+  \switchcolumn
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % second column
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \hfill
+  \begin{minipage}[t]{0.5\linewidth}
+    \strut\vspace*{-\baselineskip}\newline
+    \textbf{General template for all measures}
+
+    \medskip
+
+    Definitions below are all expected values of the form: \\
+    \begin{minipage}[t]{0.3\linewidth}
+      \strut\vspace*{-\baselineskip}\newline
+      % \strut\vspace*{0.2cm} \hspace*{0.2cm}
+      % \hfill $ \sum_{x \in X} P_{GT}(x) \ F(x) $ \hfill
+      \begin{equation*}
+        \sum_{x \in X} P_{GT}(x) \ F(x)
+      \end{equation*}
+    \end{minipage}
+    \hspace*{-0.5cm}
+    \begin{minipage}[t]{0.5\linewidth}
+      \strut\vspace*{-\baselineskip}\newline
+      \vspace*{-0.75cm}
+      \begin{align*}
+        & \text{\myremark{$P_{GT}$ is the assumed ground-truth}}\\
+        & \text{\myremark{$F$ is some function related to perplexity}}
+      \end{align*}
+    \end{minipage}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.23\linewidth}
+    \strut\vspace*{-\baselineskip}\newline
+    \textbf{Logarithm rules}
+
+    \medskip
+
+    \myremark{inverse function of exponential}\\
+    \hspace*{0.1em }$x = a^{y} \ \  \Leftrightarrow  \ \  y = \log_{b} x$
+    \medskip
+    \\
+    \myremark{change of base}\\
+    \medskip
+    $\log_{b} x = \frac{\log_{b} x}{\log_{b} b}$
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.2\linewidth}
+    \strut\vspace*{-\baselineskip}\newline
+    {\textcolor{white}{\textbf{Logarithm rules}}}
+
+    \medskip
+
+    \myremark{product-to-sum rule}\\
+    \medskip
+    $\log_{b}( x y ) = \log_{b} x + \log_{b} y$
+    \\
+    \myremark{division-to-subtraction rule}\\
+    \medskip
+    $\log_{b} \frac{x}{y} = \log_{b} x - \log_{b} y$
+  \end{minipage}
+
+  \myrule
+
+  \begin{center}
+    \begin{tabular}[c]{lccccr}
+      &
+      & ground-truth
+      & measure
+      & definition
+      \\ \midrule
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      \textbf{entropy}
+      & $\mathcal{H}(P)$
+      & $P$
+      & $I_{P}$
+      & $ \sum_{x \in X} P(x) \ I_{P}(x)$ % & = - \sum_{x \in X} P(x) \ \log_{2} P(x)
+      \\ \addlinespace[0.75em]
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      \textbf{cross-entropy}
+      & $\mathcal{H}(P^*,P)$
+      & $P^{*}$
+      & $I_{P}$
+      & $ \sum_{x \in X} P^{*}(x) \ I_{P}(x)$ % & = - \sum_{x \in X} P^{*}(x) \ \log_{2} P(x)
+      \\ \addlinespace[0.75em]
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      \textbf{joint entropy}
+      & $\mathcal{H}(P,Q)$
+      & $R$
+      & $I_{R'}$
+      & $ \sum_{z \in X \times Y} R(z) \ I_{R}(z)$ % & = - \sum_{z \in X \times Y} R(z) \ \log_{2} R(z)
+      \\ \addlinespace[0.75em]
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      \textbf{conditional entropy}
+      & $\mathcal{H}(P \mid Q)$
+      & $Q$
+      & $\mathcal{H}(R^{\mid y})$
+      & $ \sum_{y \in Y} Q(y) \ I_{R^{\mid y}}(x) $
+      & \myremark{ \ \ where  $R^{\mid y}(x) = R(x \mid y)$}
+      \\ \addlinespace[0.2em]
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      &
+      & $R$
+      & $I_{S}$
+      & $ \sum_{z \in X \times Y} R(z) \ I_{S}(z) $
+      & \myremark{ \ \ where  $S(\tuple{x,y}) = R(x \mid y$)}
+      \\ \addlinespace[0.75em]
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      \textbf{relative entropy}
+      & $D_{\text{KL}}(P |\!| Q)$
+      & $P$
+      & $I_{Q} - I_{P}$
+      & $ \sum_{x \in X} P(x) \ \log_{b} \frac{P(x)}{Q(x)}$
+      & \myremark{Kullback-Leibler divergence}
+      \\ \addlinespace[0.75em]
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      \textbf{mutual information}
+      & $I(P, Q)$
+      & $R$
+      & $I_{R^{\Perp}} - I_{R}$
+      & $ \sum_{\tuple{x,y} \in X \times Y} R(x,y) \ \log_{b} \frac{R(x,y)}{P(x)\ Q(x)}$
+      & \myremark{\ \ where $R^{\Perp}(x,y) = P(x) \ Q(x)$}
+      \\ \addlinespace[0.75em]
+    \end{tabular}
+  \end{center}
+\end{paracol}
+
+\end{document}
