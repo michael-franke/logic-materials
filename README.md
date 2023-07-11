@@ -1,5 +1,3 @@
-# About this material
+# Introduction to Logic, Probability & Information
 
-Course materials for course "Methods 1: Logic" as part of the BA General Linguistics and Computational Linguistics (University of Tübingen).
-
-This repository contains the course handouts and slides.
+This site contains course materials for lecture "Methods 1: Logic", which is part of the BA General Linguistics and Computational Linguistics (University of Tübingen).
