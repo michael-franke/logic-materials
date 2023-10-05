@@ -13,13 +13,14 @@
 \usepackage{etoolbox}
 \usepackage{tikz-qtree}
 \usepackage{subcaption}
+\usepackage{CSPstyles}
 
 \usepackage{pgfplots}
 % externalize PGF plots
 % \usepgfplotslibrary{external}
 % \tikzexternalize
 
-% \titleformat{\section}
+% \titleformat{\sectionj}
 % {\large\bfshape}{\thesection}{1em}{}
 
 \setcounter{secnumdepth}{5}
@@ -80,6 +81,10 @@
 \newcommand{\proplog}{\acro{PropLog}}
 \newcommand{\EFSQ}{\ensuremath{\mathit{EFSQ}}\xspace}
 
+\renewcommand{\markdef}[1]{\emph{#1}}
+
+\usepackage{pdfpages}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \usepackage[sc,osf]{mathpazo}
@@ -88,7 +93,8 @@
 
 \title{A primer on information theory \\ \normalsize{(for the subjectively perplexed)}}
 
-\author[M.~Franke]{Michael Franke \hfill \normalsize{January 2022}}
+\author[M.~Franke]{Michael Franke, University of Tübingen, July 2023}
+
 
 \date{} % without \date command, current date is supplied
 
@@ -134,13 +140,13 @@ The next day, Jones and Smith both observe that it is in fact sunny.
 Who learns more? Who is more surprised by this turn of events? ---
 Intuitively, Smith learns more from the observation of sunny weather (is more surprised by it) than Jones, because Jones had deemed sunny weather rather likely, while Smith had thought that this event is rather unlikely.
 
-This example demonstrates that a measure of the ``information gained'' from the observation of an even $x \in X$ should be sensitive to a baseline probability distribution $P \in \Delta(X)$ such as an agent's prior expectations.
+This example demonstrates that a measure of the ``information gained'' from the observation of an event $x \in X$ should be sensitive to a baseline probability distribution $P \in \Delta(X)$ such as an agent's prior expectations.
 We therefore aim to define a numerical measure $I_{P}(x)$, which assigns a number representing the information gained by observing $x \in X$, given prior beliefs $P \in \Delta(X)$.
 
 There are three further desiderata on the measure $I_{P}(x)$:
 \begin{enumerate}
   \item \textbf{Lower bound.} If an agent is already maximally certain that $x$ would occur, $P(x) = 1$, the agent learns nothing from observing $x$, so that $I_{P}(x)=0$.
-  \item \textbf{Monotonicity.} The lower the prior probability of $P(x)$ the more information is gained from (the more surprised the agent is by) observing an event $x \in X$.
+  \item \textbf{Monotonicity.} The lower the prior probability of $P(x)$ the more information is gained from (alternatively: the more surprised the agent is by) observing an event $x \in X$.
   \item \textbf{Additivity.} If an agent observes two independent events $x_{1}, x_{2} \in X$, the total information gained should be the sum of the information gained from each individual information: $I_{P}(x_{1} \& x_{2}) = I_{P}(x_{1}) + I_{P}(x_{2})$.
 \end{enumerate}
 
@@ -153,7 +159,7 @@ Most frequently, the logarithm to base 2 is used.\sidenote{
 
 Let $P\in \Delta(X)$ be a probability distribution over (finite) set $X$.\sidenote{
   All definitions in this primer are given only for finite sets.
-  Generalizations to infinite sets preserve the main intuitions behind the concepts, but involve advanced mathematical subtleties.
+  Generalizations to infinite sets preserve the main intuitions behind the concepts.
 }
 For event $x \in X$, the \emph{information content} $I_{P}(x)$ of $x$ (a.k.a.~\emph{surprisal} of $x$) is defined as:
 \begin{align*}
@@ -232,7 +238,7 @@ The logarithm is the inverse function to exponentiation:
    x = b^{y} \ \ \ \  \Leftrightarrow  \ \ \ \  y = \log_{b} x
 \end{align*}
 Here, $b > 0$ is called the \emph{base} of the logarithm.
-Since $b^{y}$ is always positive, the logarithm takes as input only positive numbers $x$.
+Since $b^{y}$ is always positive, the logarithm takes as input only positive numbers.
 Figure~\ref{fig:logarithm} shows the logarithm to base 2.
 
 \begin{figure}
@@ -271,7 +277,7 @@ Figure~\ref{fig:logarithm} shows the logarithm to base 2.
 
 For present purposes, the following calculation rules are important:\sidenote{
   The first equation is what justifies using logarithms to fulfill the desideratum ``additivity'' given above.
-  The second equation will be used in more compact formulations of Kullback-Leibler divergence and mutual information.}
+  The second equation will be used in more compact formulations of Kullback-Leibler divergence and mutual information (see below).}
 \begin{align*}
   \log_{b}( x y ) & = \log_{b} x + \log_{b} y \\
   \log_{b} \frac{x}{y} & = \log_{b} x - \log_{b} y
@@ -309,7 +315,6 @@ The \emph{entropy} $\mathcal{H}(P)$ of $P$ is the expected information content u
   We follow common practice here and assume that $0 \log_{a} 0$ = $0$.
   This is justified because $\lim_{x \rightarrow 0^{+}} x \log_{a} x$ = $0$.
 }
-
 \begin{align*}
   \mathcal{H}(P) & = \sum_{x \in X} P(x) \ I_{P}(x) \\
                  & = - \sum_{x \in X} P(x) \ \log_{2} P(x)
@@ -330,13 +335,13 @@ Entropy can also be interpreted as a measure of uncertainty: the higher the entr
  & \approx 1.37
   \end{align*}
   A similar calculation for Smith's beliefs yields: $\mathcal{H}(P_{S}) \approx 1.16$.
-  Smith is slightly less uncertain than Jones about the state of the weather.
+  Smith is slightly less uncertain (alternatively: more opinionated) than Jones about the state of the weather.
 \end{example}
 
 \subsection{Cross entropy}
 
 Let $P, Q \in \Delta(X)$ be probability distributions over (finite) set $X$.
-The \emph{cross entropy} $\mathcal{H}(P,Q)$ of probability distributions $P$ and $Q$ measures the expectation of information content given $Q$ from the point of view of (assumed true) distribution $P$:
+The \emph{cross entropy} $\mathcal{H}(P,Q)$ of probability distributions $P$ and $Q$ measures the expectation of information content given $Q$ from the point of view of the distribution $P$ (which is assumed to be true):
 \begin{align*}
   \mathcal{H}(P,Q) & = \sum_{x \in X} P(x) \ I_{Q}(x) \\
                    & = - \sum_{x \in X} P(x) \ \log_{2} Q(x)
@@ -470,7 +475,7 @@ Measures of expected difference in information content essentially compare two p
 \begin{align*}
   \sum_{x \in X} \text{Probability of } x \ \times (\text{ Inf.cont } x \text{ wrt. Q } - \text{ Inf.cont. } x \text{ wrt. P })
 \end{align*}
-In general, these measures can be thought of answers to a question like: ``how much more, on average, would an agent using $Q$ be (needlessly) surprised if the true distribution is $P$?''
+In general, these measures can be thought of as answers to a question like: ``how much more, on average, would an agent using $Q$ be (needlessly) surprised if the true distribution is $P$?''
 
 \subsection{Kullback-Leibler divergence (relative entropy)}
 
@@ -630,6 +635,10 @@ If $P$ and $Q$ are stochastically independent, then obtaining an answer to the q
 
   \end{minipage}
 }
+
+
+\includepdf[pages={-},fitpaper,rotateoversize]{07-cheat-sheet-info-theory.pdf}
+
 
 \end{document}
 
