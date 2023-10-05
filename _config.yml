@@ -21,7 +21,7 @@
 title: "Methods for Linguistics: Logic (Sets, Inference & Information)"
 email: michael.franke@uni-tuebingen.de
 description: >- # this means to ignore newlines until "baseurl:"
-  Class website for the course "Methods 1: Logic" taught by Michael Franke at the University of Tübingen.
+  Material for course "Methods 1: Logic"
 baseurl: "/logic-materials" # the subpath of your site, e.g. /blog
 url: "https://michael-franke.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  michael-franke
