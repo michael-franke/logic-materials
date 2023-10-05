@@ -1,4 +1,6 @@
 
+# Course material for "Methods 1: Logic"
+
 This website hosts the course materials for course "Methods 1: Logic".
 This course is taught as part of the BA General Linguistics and Computational Linguistics (University of Tübingen) by Michael Franke.
 
