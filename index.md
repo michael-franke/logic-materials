@@ -51,7 +51,7 @@ list_title: " "
 - soundness & completeness
 - natural deduction system
 
-### Material
+### Material:
 
 - [handout natural deduction]({{ site.baseurl }}{% link 01-handouts/03-handout-natural-deduction.pdf %})
 
@@ -71,7 +71,7 @@ list_title: " "
 - validity
 - predicate logic with identity
 
-### Material
+### Material:
 
 - [handout predicate logic]({{ site.baseurl }}{% link 01-handouts/04-handout-predicate-logic.pdf %})
 
@@ -85,7 +85,7 @@ list_title: " "
 - truth in pointed models
 - belief and knowledge models
 
-### Material
+### Material:
 
 - [handout modal logic]({{ site.baseurl }}{% link 01-handouts/05-handout-modal-logic.pdf %})
 
@@ -103,7 +103,7 @@ list_title: " "
 -  random variables & expected values
 
 
-### Material
+### Material:
 
 - [handout probability theory]({{ site.baseurl }}{% link 01-handouts/06-handout-prob-basics.pdf %})
 
@@ -117,7 +117,7 @@ list_title: " "
 - Kullback-Leibler divergence
 - mutual information
 
-### Material
+### Material:
 
 - [handout information theory]({{ site.baseurl }}{% link 01-handouts/07-handout-info-theory.pdf  %})
 - [cheat sheet information theory]({{ site.baseurl }}{% link 01-handouts/07-cheat-sheet-info-theory.pdf  %})
