@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: "Methods for Linguistics: Logic (Sets, Inference & Information)"
+title: "Methods I for Linguistics: Logic, Probability, Information"
 email: michael.franke@uni-tuebingen.de
 description: >- # this means to ignore newlines until "baseurl:"
   Material for course "Methods 1: Logic"
@@ -28,12 +28,17 @@ github_username:  michael-franke
 
 # Build settings
 theme: minima
+# theme: minimal-mistakes-jekyll
 plugins:
   - jekyll-feed
 
+# minimal_mistakes_skin: "contrast"
+
+# include: ["_pages"]
+
 # head_pages:
 #   - 01_materials.md
-#   - 00_overview.md
+  # - 00_overview.md
 
 # Exclude from processing.
 # The following items will not be processed, by default.
