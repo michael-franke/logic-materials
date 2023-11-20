@@ -310,7 +310,7 @@ The semantics of the binary connectives is given in Table~\ref{tab:semantics-bin
 
 Truth tables are useful for systematically working out the conditions under which complex formulas are true.
 Consider the complex formula $(\varphi \wedge \psi) \rightarrow \neg \chi$.
-We do not know whether the subformula $\varphi$, $\psi$ and $\chi$ are atomic or themselves complex.
+We do not know whether the subformula $\varphi$, $\psi$ and $\chi$ are atomic or complex.
 But we want to know under which truth-value assignments to $\varphi$, $\psi$ and $\chi$ the formula $(\varphi \wedge \psi) \rightarrow \neg \chi$ is true or false.
 In order to find out, we can construct a truth table that starts by enumerating all logical possibilities of truth-value assignments for the formulas $\varphi$, $\psi$ and $\chi$ (the first three columns in the table below).
 We then work towards the ``goal formula'' $(\varphi \wedge \psi) \rightarrow \neg \chi$ by following the recursive definition of formulas of \mbox{\proplog}.
@@ -442,7 +442,7 @@ This is shown in Table~\ref{tab:truth-table-}.
     \end{exercise}
 
     \begin{exercise}
-      For each of the following pairs of formulas, try to intuit whether they are logically equivalent of not. Write down you guess. Then use truth tables to determine whether they are. Highlight the relevant columns in your truth table. Mark a row as a counterexample if they are not.
+      For each of the following pairs of formulas, try to intuit whether they are logically equivalent of not. Write down your guess. Then use truth tables to determine whether your guess is correct. Highlight the relevant columns in your truth table. Mark a row as a counterexample if they are not.
       \begin{multicols}{2}
         \begin{enumerate}[a.]
           \item $\varphi$, \ $\neg \neg \varphi$
