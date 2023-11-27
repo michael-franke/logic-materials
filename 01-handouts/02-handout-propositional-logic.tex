@@ -537,7 +537,7 @@ Take the following example sentence:
 \begin{quote}
   \emph{If drawing a red card means that I lost, I lost.}
 \end{quote}
-This sentences does have a propositional-logical structure, even though it is not at all apparent from the way it is realized in natural language.
+This sentence does have a propositional-logical structure, even though it is not at all apparent from the way it is realized in natural language.
 There are two atomic (truth-evaluable) propositions involved here:
 \begin{multicols}{2}
   \begin{itemize}[]
@@ -672,8 +672,12 @@ This notion of logical informativity is a relative one.
 It does not give an absolute measure of information for each formula, but only compares two formulas in terms of their relative informativity.
 It also only compares some formulas; in fact, the ordering induced by this definition of logical informativity is a \emph{partial order}.\sidenote{Probabilistic notions of information, e.g., as given by information theory extend the notion of logical information to an absolute measure of information which yields a total order.}
 
-Formulas $\varphi$ and $\psi$ are \emph{logically independent} iff $\den{\varphi} \not \subseteq \den{\psi}$ and $\den{\psi} \not \subseteq \den{\varphi}$.
-Intuitively, logical independence means that for every possible truth-value assignment to both $\varphi$ and $\psi$ there exists at least one valuation function that gives these formulas this pair of truth values.
+Formulas $\varphi$ and $\psi$ are \emph{logically independent} iff all of the following are non-empty:
+$\den{\varphi} \cap \den{\psi}$,
+$\den{\neg \varphi} \cap \den{\psi}$,
+$\den{\varphi} \cap \den{\neg \psi}$,
+$\den{\neg \varphi} \cap \den{\neg \psi}$.
+Intuitively, logical independence means that for every possible truth-value assignment to both $\varphi$ and $\psi$ is possible: there exists at least one valuation function (possible world) for each combination of truth values for $\varphi$ and $\psi$.
 In other words, the truth value of $\varphi$ does not determine the truth value of $\psi$ and vice versa.
 Just learning the truth value of one formula does not reveal the truth value of the other.
 
@@ -742,7 +746,8 @@ The table also introduces names for each row, in terms of (types of) possible wo
 
 \subsection{Theorems of propositional logic}
 
-Based on the definitions we have seen so far, we can prove illuminating facts about \proplog.
+Based on the definitions we have seen so far, we can prove illuminating facts about \proplog.\sidenote{
+  Proving properties of a logical system is a special subfield called \emph{metalogic}}.
 Here are some examples.
 
 \begin{proposition}
@@ -761,6 +766,17 @@ Here are some examples.
   First assume that $\varphi \rightarrow \psi$ is a tautology. We need to show that it follows that $\varphi$ logically entails $\psi$. Towards contradiction, let us assume that $\varphi$ does not logically entail $\psi$. This can only be the case if there is at least one valuation function $V$ for which $V(\varphi) = 1$ and $V(\psi) = 0$. For this valuation function, by definition of the meaning of $\rightarrow$, it holds that $V(\varphi \rightarrow \psi)=0$. So, we contradict our assumption that $\varphi \rightarrow \psi$ is a tautology. \\
   Next, we assume that $\varphi$ logically entails $\psi$. We need to show that $\varphi \rightarrow \psi$ is a tautology. If $\varphi$ logically entails $\psi$, this means that there is no valuation function $V$ for which $V(\varphi)=1$ and $V(\psi)=0$. But, from the definition of the semantics of $\rightarrow$, we know that the only possibility for $\varphi \rightarrow \psi$ to be false is if $V(\varphi)=1$ and $V(\psi)=0$. Since this is ruled out by our assumption, $\varphi \rightarrow \psi$ must be a tautology.
 \end{proof}
+
+We can even generalize this last result to show that propositional logic is very well-behaved in the sense that entailment, truth of conditional statements and validity all coalesce.
+This need not be the case for any logical system, and so you might want to try to prove the following for yourself:
+
+\begin{proposition}
+  $(\varphi_{1} \wedge \dots \wedge \varphi_{n}) \rightarrow \psi$ is a tautology iff
+  $\varphi_{1} \wedge \dots \wedge \varphi_{n}$ entails $\psi$ iff
+  $\varphi_{1}, \dots, \varphi_{n} \models \psi$.
+\end{proposition}
+
+
 
 \bigskip
 \noindent \colorbox{mygray}{\centering
