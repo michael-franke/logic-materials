@@ -137,8 +137,8 @@ Even though we have not introduced any of the formal machinery (syntax, semantic
 You want it to represent ``Alex is as tall as Bo,'' but the machine only has the string of symbols to work with.
 Would that machine be able to conclude that $Tba$?
 No, it wouldn't because it doesn't know that you want the symbol $T$ to mean ``being as tall as'' and not ``being taller than'' or anything else.
-But, using predicate logic, you \emph{can} tell the system about the fundamental structural properties of the relation ``being as tall as,'' such as that it is reflexive.
-In other words, you can express that ``being as tall as'' is a symmetric predicate in with the \predlog formula:
+But, using predicate logic, you \emph{can} tell the system about the fundamental structural properties of the relation ``being as tall as,'' such as that it is symmetric.
+Concretely, you can express that ``being as tall as'' is a symmetric predicate with the \predlog formula:
 \begin{align*}
  \forall x \myts \forall y \myts (Txy \rightarrow Tyx)
 \end{align*}
@@ -147,7 +147,7 @@ This formula uses the quantifier \(\forall\) to express a generalization: someth
 Generalizations of this kind are essential for human reasoning and \predlog captures the most basic aspects of quantification in a system of logical reasoning.
 To be clear, the inference schema:
 \begin{align*}
- Tab, \forall x \myts \forall y \myts (Txy \rightarrow Tyx) / Tba
+ Tab, \ \forall x \myts \forall y \myts (Txy \rightarrow Tyx) \ \ / \ \ Tba
 \end{align*}
 is logically valid in \predlog, but the schema:
 \begin{align*}
@@ -603,8 +603,8 @@ In formal terms, we would then say that $V_{M}(Pa) = 0$, because, for any valuat
 
 Validity is defined in the same way in \predlog as it was in \proplog.
 
-If $\varphi_1, \dots, \varphi_n$ and $\psi$ are sentences of predicate logic, $\varphi_1, \dots, \varphi_n / \psi$ is an \emph{argument schema}.
-The argument schema $\varphi_1, \varphi_2, \dots, \varphi_n / \psi$ is \emph{valid} iff for all models $M$ such that $V_M(\varphi_1)=V_M(\varphi_2)= \dots = V_M(\varphi_n)=1$ it also holds that $V_M(\psi) = 1$.
+If $\varphi_1, \dots, \varphi_n$ and $\psi$ are sentences of language $\mathfrak{L}$ of predicate logic, $\varphi_1, \dots, \varphi_n / \psi$ is an \emph{argument schema}.
+The argument schema $\varphi_1, \varphi_2, \dots, \varphi_n / \psi$ is \emph{valid} iff for all models $M$ of $\mathfrak{L}$ such that $V_M(\varphi_1)=V_M(\varphi_2)= \dots = V_M(\varphi_n)=1$ it also holds that $V_M(\psi) = 1$.
 If valid, we write $\varphi_1, \varphi_2, \dots, \varphi_n \models \psi$.
 
 In order to demonstrate that an argument schema is not valid, it suffices to give a single counterexample.
