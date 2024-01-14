@@ -1,0 +1,175 @@
+\PassOptionsToPackage{table}{xcolor}
+\documentclass[nobib,nofonts]{tufte-handout}
+
+%\geometry{showframe} % display margins for debugging page layout
+
+%%% MF additions
+% \usepackage[table]{xcolor}
+\usepackage[nographicx, nohyperref, nosubcaption, nogb4e, nobiblatex]{../99-auxiliary-files/00-mypackages}
+\usepackage{../99-auxiliary-files/00-mycommands}
+\usepackage{../99-auxiliary-files/00-myenvironments}
+
+\usepackage{titlesec}
+\usepackage{etoolbox}
+\usepackage{tikz-qtree}
+\usepackage{subcaption}
+\usepackage{CSPstyles}
+
+\usepackage{pgfplots}
+% externalize PGF plots
+% \usepgfplotslibrary{external}
+% \tikzexternalize
+
+% \titleformat{\section}
+% {\large\bfshape}{\thesection}{1em}{}
+
+\setcounter{secnumdepth}{5}
+\renewcommand\thesection{\arabic{section}}
+
+% this length controls tha hanging indent for titles
+% change the value according to your needs
+\newlength\titleindent
+\setlength\titleindent{0.7cm}
+
+\pretocmd{\paragraph}{\stepcounter{subsection}}{}{}
+\pretocmd{\subparagraph}{\stepcounter{subsubsection}}{}{}
+
+\titleformat{\chapter}[block]
+  {\normalfont\huge\bfseries}{}{0pt}{\hspace*{-\titleindent}}
+
+\titleformat{\section}
+  {\normalfont\Large\itshape}{\llap{\parbox{\titleindent}{\thesection\hfill}}}{0em}{}
+
+\titleformat{\subsection}
+  {\normalfont\itshape}{\llap{\parbox{\titleindent}{\thesubsection\hfill}}}{0em}{}
+
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\itshape}{\llap{\parbox{\titleindent}{\thesubsubsection}}}{0em}{}
+
+\titleformat{\paragraph}[runin]
+  {\normalfont\normalsize\itshape}{}{-0.7cm}{}[\xspace \ \ \ \ ]
+
+\titleformat{\subparagraph}[runin]
+  {\normalfont\normalsize}{\llap{\parbox{\titleindent}{\thesubsubsection\hfill}}}{0em}{}
+
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+\titlespacing*{\subsubsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{0em}
+\titlespacing*{\subparagraph}{0pt}{3.25ex plus 1ex minus .2ex}{0em}
+
+\DefineNamedColor{named}{mygray2}{cmyk}{0.55,0.25,0.25,0.25}
+\newcommand{\mygray}[1]{\textcolor{mygray2}{#1}}
+
+%%% Tufte style
+\usepackage{graphicx} % allow embedded images
+  \setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+  \graphicspath{{graphics/}} % set of paths to search for images
+
+\usepackage{fancyvrb} % extended verbatim environments
+  \fvset{fontsize=\normalsize}% default font size for fancy-verbatim environments
+
+% Standardize command font styles and environments
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+
+\newcommand{\proplog}{\acro{PropLog}}
+\newcommand{\predlog}{\acro{PredLog}}
+\newcommand{\EFSQ}{\ensuremath{\mathit{EFSQ}}\xspace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \usepackage[sc,osf]{mathpazo}
+% \linespread{1.05}
+
+\usepackage{turnstile}
+\usetikzlibrary{patterns}
+\usetikzlibrary{calc}
+
+% TODO sort out what's needed there;
+% TODO make consistent with notation in other handouts
+
+\newcommand{\Props}{\ensuremath{\Phi}}
+\newcommand{\Lang}{\ensuremath{\mathfrak{L}}}
+
+\newcommand{\ts}{\ensuremath{\thinspace}}
+
+\newcommand{\mybar}{\ensuremath{\ | \ }}
+
+\renewcommand{\phi}{\ensuremath{\varphi}}
+
+\newcommand{\ra}{\ensuremath{\rightarrow}}
+
+\newcommand{\Bel}{\ensuremath{\Box}}
+\newcommand{\CB}{\ensuremath{CB}}
+\newcommand{\Poss}{\ensuremath{\Diamond}}
+
+\newcommand{\Model}{\ensuremath{\mathcal{M}}}
+\newcommand{\Models}{\ensuremath{\mathfrak{M}_{\mathcal{P},\mathcal{A}}}}
+\newcommand{\AS}{\ensuremath{\mathcal{A}}}
+\newcommand{\ASs}{\ensuremath{\mathfrak{A}_{\Props,i}}}
+\renewcommand{\SS}{\ensuremath{\mathcal{S}}}
+\newcommand{\SSs}{\ensuremath{\mathfrak{S}_{\Props,i}}}
+\newcommand{\MSS}{\ensuremath{\mathcal{S}^{l}}}
+\newcommand{\MSSs}{\ensuremath{\mathfrak{S}^{l}_{\Props,i}}}
+
+
+\newcommand{\Aware}{\ensuremath{\mathrm{A}}}
+
+% \newcommand{\Coloneqq}{\ensuremath{\mathrel{\mathop:}\mathrel{\mathop:}=}}
+% \newcommand{\modelsweak}{\ensuremath{\sdtstile{}{*}}}
+% \newcommand{\modelsweak}{\ensuremath{\mathrel{\mathop{\models^{*}}}}}
+\newcommand{\modelsweak}{\ensuremath{\mathrel{\mathop{|\hspace{-0.4em}\approx}}}}
+\newcommand{\modelsthree}{\ensuremath{\sttstile{}{}}}
+
+
+\newcommand{\lga}{\acro{lga}}
+\newcommand{\sss}{\acro{sss}}
+\newcommand{\modlog}{\acro{ModLog}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Modal logic - solutions}
+
+\author{Michael Franke}
+
+\date{} % without \date command, current date is supplied
+
+\begin{document}
+
+\maketitle
+
+\bigskip
+
+\section{Solutions}
+\label{sec:solutions}
+
+\subsection{Ex 1}
+
+Translate the following sentences into epistemic modal logic.
+Use as your translation key: $p$ ``the earth is round'', $q$ ``the moon is made of cheese'', ``a'' Alex, and $b$ ``Bo.''
+\begin{enumerate}[(i)]
+  \item If Alex believes that the moon is made of cheese, then Alex also believes that the earth is not round. \\
+  $\Box_{a} q \rightarrow \Box_{a} \neg p$
+  \item Bo believes that Alex thinks it's possible that Bo believes that the moon is made of cheese. \\
+  $\Box_{b} \Diamond_{a} \Box_{b} q$
+  \item Alex considers it possible that, if the moon is made of cheese, then Bo believes it. \\
+  $\Diamond_{a} (q \rightarrow \Box_{b} q)$
+  \item Whatever Bo believes about whether the earth is round, Alex believes the same. \\
+  $(\Diamond_{b} p \leftrightarrow \Diamond_{a}p) \wedge (\Box_{b} p \leftrightarrow \Box_{a}p)$
+  \item Alex is uncertain about whether Bo believes that Alex believes that the moon is made of cheese. \\
+  $\Diamond_{a} \Box_{b} q \wedge \Diamond_{a} \neg \Box_{b} q$
+\end{enumerate}
+
+\subsection{Ex 2}
+
+\includegraphics[width=0.4\textwidth]{00-pics/modal-logic-ex2-1.png}
+\includegraphics[width=0.4\textwidth]{00-pics/modal-logic-ex2-2.png}
+
+
+\end{document}
